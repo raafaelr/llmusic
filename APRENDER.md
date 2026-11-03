@@ -18,6 +18,9 @@ Este app é feito só de arquivos de texto. Não tem instalação nem programas 
 | `js/braco.js` | As contas do braço: que nota está em cada casa, sorteio e julgamento. |
 | `js/views/leitura.js` | A tela de leitura: pauta desenhada em SVG, botões, microfone e estrelas. |
 | `js/leitura.js` | As contas: sorteio das notas, posição na pauta, linhas suplementares, estrelas. |
+| `js/views/partituras.js` | O player: desenha a tablatura, toca, move o cursor, repete compasso, espera você tocar. |
+| `js/pecas.js` | As peças (todas originais) e as formas de acorde. Para criar a sua, copie uma e mude as casas. |
+| `js/violao.js` | O som de violão sintetizado (Karplus-Strong), sem arquivos de áudio. |
 | `js/db.js` | Guarda dados no celular (banco local IndexedDB). |
 | `js/pratica.js` | Conta os minutos de prática do dia. |
 | `sw.js` | O "service worker": guarda os arquivos para o app abrir sem internet. |
@@ -47,3 +50,8 @@ Experimento: em `js/pitch.js`, mude `rmsMin` para 0.05 e veja o afinador ficar "
 ## Curiosidade: o violão soa uma oitava abaixo do que está escrito
 Na partitura de violão, a 6ª corda solta aparece como Mi3, mas soa Mi2. Por isso, no modo microfone da Leitura,
 o app confere `escrito - 12` (veja `midiQueSoa` em `js/leitura.js`).
+
+## Como colocar uma peça sua
+Abra `js/pecas.js`, copie uma peça de `PECAS` e mude: `titulo`, `bpm` e os compassos. Em `melodia('C', [[corda, casa, duração], ...])`
+a duração é em tempos (1 = semínima, 0.5 = colcheia, 2 = mínima). Cada compasso precisa somar o total do compasso.
+Importante: o repositório é público. Use só músicas suas ou de domínio público.

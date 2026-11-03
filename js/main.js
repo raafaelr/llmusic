@@ -5,13 +5,15 @@ import * as metronomo from './views/metronomo.js';
 import * as afinador from './views/afinador.js';
 import * as braco from './views/braco.js';
 import * as leitura from './views/leitura.js';
+import * as partituras from './views/partituras.js';
 
 const TELAS = {
   '': home,
   'metronomo': metronomo,
   'afinador': afinador,
   'braco': braco,
-  'leitura': leitura
+  'leitura': leitura,
+  'partituras': partituras
 };
 
 const raiz = document.getElementById('app');

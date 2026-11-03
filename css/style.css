@@ -271,6 +271,40 @@ input[type=range] { width: 100%; height: 44px; accent-color: var(--destaque); ba
   .painel-fim { gap: 2px; }
   .painel-fim .botao-principal { min-height: 44px; font-size: 16px; }
 }
+
+/* ---------- Partituras ---------- */
+.partituras { display: grid; gap: 8px; grid-template-columns: 1fr; }
+.peca-titulo { font-size: 20px; font-weight: 700; }
+.cab-peca { display: flex; flex-direction: column; gap: 2px; }
+.tab-rolagem { overflow-y: auto; max-height: 52vh; border: 1px solid var(--linha); border-radius: 12px; background: var(--superficie); padding: 4px; }
+.tab-svg { width: 100%; height: auto; display: block; }
+.linha-tab { stroke: var(--suave); stroke-width: 1.5; }
+.barra-tab { stroke: var(--suave); stroke-width: 2.5; }
+.rot-tab { font-size: 18px; font-weight: 800; fill: var(--suave); font-family: var(--fonte); }
+.fundo-num { fill: var(--superficie); }
+.num-tab { font-size: 17px; font-weight: 700; fill: var(--texto); font-family: var(--mono); }
+.haste-tab, .viga { stroke: var(--suave); stroke-width: 2; }
+.haste-tab-o { fill: none; stroke: var(--suave); stroke-width: 2; }
+.num-compasso { font-size: 12px; fill: var(--suave); font-family: var(--mono); }
+.acorde { font-size: 20px; font-weight: 800; fill: var(--destaque); }
+.dedo { font-size: 14px; fill: var(--suave); font-style: italic; font-family: var(--fonte); }
+.area-compasso { fill: transparent; cursor: pointer; }
+.area-compasso.repetir { fill: color-mix(in srgb, var(--destaque) 14%, transparent); stroke: var(--destaque); stroke-width: 2; stroke-dasharray: 6 4; }
+.cursor-tab { fill: color-mix(in srgb, var(--destaque) 35%, transparent); stroke: var(--destaque); stroke-width: 2; pointer-events: none; }
+.barra-player { display: flex; flex-wrap: wrap; gap: 8px 20px; align-items: end; }
+.barra-player .botao-principal { min-height: 52px; padding: 0 24px; font-size: 18px; }
+.status-player { min-height: 1.3em; }
+@media (orientation: landscape) and (max-height: 460px) {
+  .partituras { gap: 2px; }
+  .partituras .topo, .partituras .botao-texto { min-height: 34px; }
+  .peca-titulo { font-size: 15px; }
+  .cab-peca .dica { display: none; }
+  .tab-rolagem { max-height: 168px; }
+  .partituras .rotulo-grupo { font-size: 11px; }
+  .partituras .chip { min-height: 36px; }
+  .partituras .chips { gap: 4px; }
+  .barra-player .botao-principal { min-height: 44px; font-size: 16px; padding: 0 16px; }
+}
 @media (orientation: portrait) and (min-width: 700px) {
   .grade { grid-template-columns: repeat(2, 1fr); }
 }

@@ -9,7 +9,7 @@ App web instalável (PWA) que funciona **offline** no celular. Sem anúncios, se
 - [x] Marco 2: afinador cromático e de violão (6 afinações)
 - [x] Marco 3: braço virtual e reconhecimento de notas
 - [x] Marco 4: leitura à primeira vista e pontuação (estrelas)
-- [ ] Marco 5: player de partitura e tablatura
+- [x] Marco 5: player de tablatura (3 peças originais, som sintetizado, esperar eu tocar)
 - [ ] Marco 6: pacotes, sequência de dias e calendário
 - [ ] Marco 7: APK com notificações locais
 

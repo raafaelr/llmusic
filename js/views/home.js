@@ -15,7 +15,7 @@ const MODULOS = [
   { nome: 'Afinador', desc: 'Afinação padrão e alternativas', rota: 'afinador' },
   { nome: 'Braço virtual', desc: 'Notas e casas acendendo no braço', rota: 'braco' },
   { nome: 'Leitura', desc: 'Partituras infinitas para ler à primeira vista', rota: 'leitura' },
-  { nome: 'Partituras', desc: 'Tocar lendo, com cursor e tablatura', etapa: 'Marco 5' },
+  { nome: 'Partituras', desc: 'Tocar lendo, com cursor e tablatura', rota: 'partituras' },
   { nome: 'Hábitos', desc: 'Sequência de dias e calendário de estudo', etapa: 'Marco 6' }
 ];
 
