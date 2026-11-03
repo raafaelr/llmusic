@@ -1,0 +1,47 @@
+# Gera o APK do LLMusic no GitHub (de graça). Para rodar: aba Actions > "Gerar APK" > Run workflow.
+# Quando terminar, baixe o arquivo "LLMusic-apk" na página da execução (seção Artifacts).
+name: Gerar APK
+
+on:
+  workflow_dispatch:
+  push:
+    tags: ['v*']
+
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Instalar dependências
+        run: npm install
+
+      - name: Preparar arquivos do app
+        run: sh scripts/preparar-web.sh
+
+      - name: Criar projeto Android
+        run: |
+          npx cap add android
+          sh scripts/ajustar-android.sh
+          npx cap sync android
+
+      - name: Compilar APK
+        working-directory: android
+        run: ./gradlew assembleDebug --no-daemon
+
+      - name: Guardar APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: LLMusic-apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error

@@ -323,6 +323,8 @@ input[type=range] { width: 100%; height: 44px; accent-color: var(--destaque); ba
 .cal-dia.nivel2 { background: color-mix(in srgb, var(--ok) 50%, var(--superficie)); }
 .cal-dia.nivel3 { background: var(--ok); color: var(--fundo); font-weight: 700; }
 .cal-dia.hoje { outline: 2px solid var(--destaque); outline-offset: 1px; }
+.linha-lembrete { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.campo-hora { min-height: 44px; border-radius: 12px; border: 1px solid var(--linha); background: var(--superficie); color: var(--texto); font: inherit; font-family: var(--mono); padding: 0 12px; }
 .pacotes { display: flex; flex-direction: column; gap: 12px; }
 .lista-pacotes { display: flex; flex-direction: column; gap: 8px; }
 .pacote { flex-direction: row; align-items: center; justify-content: space-between; gap: 12px; }

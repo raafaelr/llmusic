@@ -1,0 +1,13 @@
+{
+  "appId": "com.llmusic.app",
+  "appName": "LLMusic",
+  "webDir": "www",
+  "android": {
+    "allowMixedContent": false
+  },
+  "plugins": {
+    "LocalNotifications": {
+      "iconColor": "#E0A64A"
+    }
+  }
+}

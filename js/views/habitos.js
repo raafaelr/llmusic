@@ -1,6 +1,7 @@
 // Hábitos: sequência de dias, meta diária, calendário do mês e backup dos seus dados.
 import { Config, Pratica, Backup } from '../db.js';
 import { hojeISO, minutosTexto } from '../pratica.js';
+import { nativo, compartilharArquivo, Lembretes, lerHora } from '../nativo.js';
 import { sequenciaAtual, melhorSequencia, diasDoMes, semana, totalSegundos, nivelDoDia, dataDe } from '../habitos.js';
 
 function el(tag, classe, texto) {
@@ -39,6 +40,17 @@ export function montar(raiz, ir) {
   const stats = el('p', 'stats', '');
   const gMeta = el('div', 'grupo'); gMeta.append(el('h2', 'rotulo-grupo', 'Meta diária'));
   const chipsMeta = el('div', 'chips'); gMeta.append(chipsMeta);
+  const gLem = el('div', 'grupo'); gLem.append(el('h2', 'rotulo-grupo', 'Lembrete diário'));
+  const linhaLem = el('div', 'linha-lembrete');
+  const chipLem = el('button', 'chip sm', 'Ativar lembrete');
+  chipLem.setAttribute('aria-pressed', 'false');
+  const hora = document.createElement('input');
+  hora.type = 'time'; hora.value = '19:00'; hora.className = 'campo-hora';
+  hora.setAttribute('aria-label', 'Horário do lembrete');
+  linhaLem.append(chipLem, hora);
+  const msgLem = el('p', 'dica', '');
+  msgLem.setAttribute('aria-live', 'polite');
+  gLem.append(linhaLem, msgLem);
   const gBk = el('div', 'grupo'); gBk.append(el('h2', 'rotulo-grupo', 'Backup dos seus dados'));
   const linhaBk = el('div', 'acoes');
   const exp = el('button', 'botao-sec', 'Exportar');
@@ -49,7 +61,7 @@ export function montar(raiz, ir) {
   const msg = el('p', 'dica', '');
   msg.setAttribute('aria-live', 'polite');
   gBk.append(linhaBk, msg);
-  esq.append(seq, hojeBarra, hojeTxt, stats, gMeta, gBk);
+  esq.append(seq, hojeBarra, hojeTxt, stats, gMeta, gLem, gBk);
 
   const dir = el('section', 'coluna');
   const navMes = el('div', 'nav-mes');
@@ -97,6 +109,11 @@ export function montar(raiz, ir) {
 
   exp.onclick = async () => {
     const dados = await Backup.exportar();
+    if (nativo()) {
+      try { await compartilharArquivo('llmusic-backup-' + hoje + '.json', JSON.stringify(dados, null, 2)); msg.textContent = 'Escolha onde guardar o backup (Drive, e-mail, WhatsApp...).'; }
+      catch (e) { msg.textContent = 'Não consegui abrir o compartilhamento.'; }
+      return;
+    }
     const blob = new Blob([JSON.stringify(dados, null, 2)], { type: 'application/json' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
@@ -121,7 +138,33 @@ export function montar(raiz, ir) {
     arq.value = '';
   };
 
+  let lembreteAtivo = false;
+  function pintarLembrete() {
+    chipLem.setAttribute('aria-pressed', String(lembreteAtivo));
+    chipLem.textContent = lembreteAtivo ? 'Lembrete ligado' : 'Ativar lembrete';
+    if (!Lembretes.disponivel()) msgLem.textContent = 'Os lembretes funcionam no aplicativo instalado (APK). Aqui no navegador não é possível.';
+  }
+  async function aplicarLembrete() {
+    const h = lerHora(hora.value);
+    if (!h) { msgLem.textContent = 'Escolha um horário válido.'; return; }
+    try {
+      if (lembreteAtivo) { await Lembretes.ativar(h[0], h[1]); msgLem.textContent = 'Todo dia às ' + hora.value + '.'; }
+      else { await Lembretes.desativar(); msgLem.textContent = ''; }
+      await Config.guardar('lembrete', { ativo: lembreteAtivo, hora: hora.value });
+    } catch (e) {
+      lembreteAtivo = false; pintarLembrete();
+      msgLem.textContent = e.message === 'permissão negada' ? 'Permita as notificações nas configurações do Android.' : 'Lembretes não estão disponíveis aqui.';
+    }
+  }
+  chipLem.onclick = () => {
+    if (!Lembretes.disponivel()) { pintarLembrete(); return; }
+    lembreteAtivo = !lembreteAtivo; pintarLembrete(); aplicarLembrete();
+  };
+  hora.onchange = () => { if (lembreteAtivo) aplicarLembrete(); else Config.guardar('lembrete', { ativo: false, hora: hora.value }); };
+
   (async () => {
+    const lem = await Config.obter('lembrete', { ativo: false, hora: '19:00' });
+    if (!encerrada) { hora.value = lem.hora || '19:00'; lembreteAtivo = !!lem.ativo && Lembretes.disponivel(); pintarLembrete(); }
     pratica = await Pratica.todos();
     const m = await Config.obter('habitos.meta', 10);
     if (encerrada) return;

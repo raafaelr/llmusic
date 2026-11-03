@@ -11,7 +11,7 @@ App web instalável (PWA) que funciona **offline** no celular. Sem anúncios, se
 - [x] Marco 4: leitura à primeira vista e pontuação (estrelas)
 - [x] Marco 5: player de tablatura (3 peças originais, som sintetizado, esperar eu tocar)
 - [x] Marco 6: pacotes de peças, sequência de dias, calendário e backup
-- [ ] Marco 7: APK com notificações locais
+- [x] Marco 7: APK (Capacitor via GitHub Actions) com lembrete diário — veja [APK.md](APK.md)
 
 ## Importante
 Este repositório é público. Não coloque nele PDFs de livros nem nada que seja só seu.
