@@ -12,6 +12,7 @@ import * as caged from './views/caged.js';
 import * as teoria from './views/teoria.js';
 import * as ritmo from './views/ritmo.js';
 import * as cagedAulas from './views/caged-aulas.js';
+import * as importar from './views/importar.js';
 
 const TELAS = {
   '': home,
@@ -25,7 +26,8 @@ const TELAS = {
   'caged': caged,
   'teoria': teoria,
   'ritmo': ritmo,
-  'caged-aulas': cagedAulas
+  'caged-aulas': cagedAulas,
+  'importar': importar
 };
 
 const raiz = document.getElementById('app');

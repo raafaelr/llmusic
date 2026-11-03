@@ -222,8 +222,8 @@ export function validarPacote(obj) {
     if (ids.has(p.id)) return erro('Peça repetida: ' + p.id);
     ids.add(p.id);
     if (!Number.isFinite(p.bpm) || p.bpm < 30 || p.bpm > 240) return erro(nome + 'bpm deve estar entre 30 e 240.');
-    if (!Array.isArray(p.compasso) || ![2, 3, 4, 6].includes(p.compasso[0]) || ![4, 8].includes(p.compasso[1])) return erro(nome + 'compasso inválido.');
-    if (!Array.isArray(p.compassos) || !p.compassos.length || p.compassos.length > 128) return erro(nome + 'precisa de 1 a 128 compassos.');
+    if (!Array.isArray(p.compasso) || !Number.isInteger(p.compasso[0]) || p.compasso[0] < 1 || p.compasso[0] > 16 || ![2, 4, 8, 16].includes(p.compasso[1])) return erro(nome + 'compasso inválido.');
+    if (!Array.isArray(p.compassos) || !p.compassos.length || p.compassos.length > 400) return erro(nome + 'precisa de 1 a 400 compassos.');
     const tpc = tempoPorCompasso(p);
     for (let m = 0; m < p.compassos.length; m++) {
       const c = p.compassos[m];
@@ -231,7 +231,7 @@ export function validarPacote(obj) {
       let fim = 0;
       for (const e of c.eventos) {
         if (!Number.isFinite(e.t) || !Number.isFinite(e.d) || e.d <= 0 || e.t < 0) return erro(nome + 'compasso ' + (m + 1) + ' tem tempo inválido.');
-        if (!Array.isArray(e.n) || !e.n.length) return erro(nome + 'compasso ' + (m + 1) + ' tem evento sem notas.');
+        if (!Array.isArray(e.n) || (!e.n.length && !e.silencio)) return erro(nome + 'compasso ' + (m + 1) + ' tem evento sem notas.');
         for (const nota of e.n) {
           if (!Array.isArray(nota) || !Number.isInteger(nota[0]) || nota[0] < 1 || nota[0] > 6 || !Number.isInteger(nota[1]) || nota[1] < 0 || nota[1] > 24)
             return erro(nome + 'compasso ' + (m + 1) + ' tem corda/casa inválida (corda 1 a 6, casa 0 a 24).');

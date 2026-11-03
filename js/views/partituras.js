@@ -47,7 +47,9 @@ export function montar(raiz, ir) {
   const topo = el('header', 'topo');
   const voltar = el('button', 'botao-texto', '‹ Início');
   voltar.onclick = () => ir('');
-  topo.append(voltar, el('h1', 'titulo-tela', 'Partituras'));
+  const bImp = el('button', 'botao-sec bt-aulas', '＋ Importar');
+  bImp.onclick = () => ir('importar');
+  topo.append(voltar, el('h1', 'titulo-tela', 'Partituras'), bImp);
 
   const cab = el('section', 'cab-peca');
   const titulo = el('h2', 'peca-titulo', '');
@@ -109,6 +111,7 @@ export function montar(raiz, ir) {
           const t = sv('text', { x, y: y + 5, 'text-anchor': 'middle', class: 'num-tab' }, svg); t.textContent = f;
         });
         // haste e ritmo abaixo da tablatura
+        if (e.silencio) { const z = sv('text', { x: x0 + mw / 2, y: y0 + 2.6 * ESP, 'text-anchor': 'middle', class: 'dedo' }, svg); z.textContent = 'pausa'; return; }
         const yh = bottomY + 10;
         sv('line', { x1: x, x2: x, y1: yh, y2: yh + 22, class: 'haste-tab' }, svg);
         if (e.d >= 2) sv('circle', { cx: x, cy: yh + 26, r: 3, class: 'haste-tab-o' }, svg);

@@ -74,3 +74,10 @@ Por isso, de vez em quando, use Hábitos > Exportar e guarde o arquivo `.json` (
 
 ## Canções de ninar (Marco 9b)
 Seis peças originais em `js/pecas.js` (3/4, 6/8 e 4/4). Cada compasso é gerado por uma pequena função (`arpejo34`, `valsa`, `comBaixo`, `arpejoPadrao`, `arpejo44`), então criar uma música nova é só combinar acordes.
+
+## Importador de tablaturas (Marco 9c)
+- `js/importar/ascii.js`: lê tablatura em texto (6 linhas), separa compassos pelo "|" e escreve de volta (`paraAscii`).
+- `js/importar/quant.js`: decide o ritmo a partir da posição das notas (semínima, colcheia ou semicolcheia).
+- `js/importar/posicional.js` + `pdf.js`: acha 6 linhas e números no PDF e converte.
+- `js/importar/gp.js`: converte o resultado da AlphaTab (Guitar Pro/MusicXML) para o nosso formato de peça.
+- `js/views/importar.js`: a tela. As peças guardadas ficam no pacote "minhas" (`js/biblioteca.js`).

@@ -18,3 +18,7 @@ App web instalável (PWA) que funciona **offline** no celular. Sem anúncios, se
 Este repositório é público. Não coloque nele PDFs de livros nem nada que seja só seu.
 
 Para entender cada arquivo, leia o [APRENDER.md](APRENDER.md).
+
+## Importar tablaturas
+Tela **Importar** (também pelo botão "＋ Importar" em Partituras). Lê PDF com tablatura em texto, PDF desenhado (números sobre 6 linhas), Guitar Pro (.gp3–.gp7/.gpx), MusicXML, AlphaTex e texto ASCII; você revisa/edita como texto, ouve e guarda em "Minhas tablaturas". PDF só de imagem (digitalizado) não tem leitura automática: o app mostra a imagem ao lado do editor.
+Bibliotecas incluídas (funcionam offline), em `js/vendor`: pdf.js (Apache-2.0) e AlphaTab (MPL-2.0).

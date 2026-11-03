@@ -4,7 +4,7 @@
 //
 // IMPORTANTE: quando você mudar qualquer arquivo do app, aumente o número da VERSAO.
 // Assim o celular joga fora o cache velho e baixa os arquivos novos.
-const VERSAO = 'llmusic-v12';
+const VERSAO = 'llmusic-v13';
 
 const ARQUIVOS = [
   './',
@@ -44,6 +44,15 @@ const ARQUIVOS = [
   './js/views/pacotes.js',
   './js/views/caged.js',
   './js/views/caged-aulas.js',
+  './js/views/importar.js',
+  './js/importar/gp.js',
+  './js/importar/ascii.js',
+  './js/importar/quant.js',
+  './js/importar/posicional.js',
+  './js/importar/pdf.js',
+  './js/vendor/alphaTab.core.min.mjs',
+  './js/vendor/pdf.min.js',
+  './js/vendor/pdf.worker.min.js',
   './js/views/teoria.js',
   './js/views/ritmo.js',
   './icons/icon.svg',

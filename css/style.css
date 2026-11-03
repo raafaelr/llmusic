@@ -470,3 +470,17 @@ input[type=range] { width: 100%; height: 44px; accent-color: var(--destaque); ba
 .aulas-caged .item-check { display: flex; gap: 10px; align-items: flex-start; min-height: 44px; align-items: center; }
 .aulas-caged .item-check input { width: 22px; height: 22px; flex: none; }
 .cartao-exame { border-color: var(--destaque); }
+
+/* ---- Importar tablatura ---- */
+.importar { display: flex; flex-direction: column; gap: 12px; }
+.importar .coluna { display: flex; flex-direction: column; gap: 10px; }
+.area-tab { width: 100%; font-family: var(--mono); font-size: 13px; line-height: 1.25; background: var(--superficie); color: var(--texto); border: 1px solid var(--linha); border-radius: 10px; padding: 10px; white-space: pre; overflow: auto; }
+.form-revisao { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.form-revisao .campo { display: flex; flex-direction: column; gap: 4px; }
+.form-revisao input, .form-revisao select { min-height: 44px; font-size: 16px; background: var(--superficie); color: var(--texto); border: 1px solid var(--linha); border-radius: 10px; padding: 0 10px; }
+.rot-campo { font-size: 13px; color: var(--suave); }
+.avisos { padding-left: 20px; color: var(--quase); font-size: 14px; line-height: 1.4; }
+.imagens-pdf { display: flex; flex-direction: column; gap: 8px; max-height: 45vh; overflow: auto; }
+.pagina-pdf { width: 100%; height: auto; background: #fff; border-radius: 6px; }
+.acoes-cartao { display: flex; gap: 8px; flex-wrap: wrap; }
+@media (max-width: 420px) { .form-revisao { grid-template-columns: 1fr; } }
