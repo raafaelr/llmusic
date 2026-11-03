@@ -235,6 +235,42 @@ input[type=range] { width: 100%; height: 44px; accent-color: var(--destaque); ba
   .braco-opcoes .chip.sm { min-width: 34px; padding: 0 8px; }
   .braco-opcoes .chips { gap: 4px; flex-wrap: nowrap; }
 }
+
+/* ---------- Leitura ---------- */
+.leitura { display: grid; gap: 10px; grid-template-columns: 1fr; }
+.pergunta-leitura { font-size: 22px; }
+.pauta-svg { width: 100%; height: auto; max-height: 300px; display: block; }
+.linha-pauta { stroke: var(--suave); stroke-width: 2; }
+.clave { font-family: Georgia, 'Times New Roman', serif; font-style: italic; font-size: 90px; fill: var(--suave); }
+.clave-sub { font-size: 13px; fill: var(--suave); }
+.cabeca { fill: var(--texto); }
+.haste { stroke: var(--texto); stroke-width: 3; }
+.nota-g.ok .cabeca { fill: var(--ok); } .nota-g.ok .haste { stroke: var(--ok); }
+.nota-g.erro .cabeca { fill: var(--ruim); } .nota-g.erro .haste { stroke: var(--ruim); }
+.nota-g.atual .cabeca { fill: var(--destaque); stroke: var(--destaque); stroke-width: 6; }
+.nota-g.atual .haste { stroke: var(--destaque); }
+.nome-nota { font-size: 22px; font-weight: 700; fill: var(--suave); }
+.notas-botoes { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+.nota-btn { min-height: 60px; font-family: var(--fonte); font-size: 18px; font-weight: 700; }
+.leitura-opcoes { display: flex; flex-wrap: wrap; gap: 8px 24px; align-items: end; }
+.painel-fim { text-align: center; display: flex; flex-direction: column; gap: 8px; align-items: center; }
+.estrelas { font-size: 48px; color: var(--destaque); line-height: 1; letter-spacing: 6px; }
+.fim-msg { color: var(--suave); }
+.painel-fim .botao-principal { padding: 0 32px; }
+@media (orientation: landscape) and (max-height: 460px) {
+  .leitura { gap: 2px; }
+  .leitura .topo, .leitura .botao-texto { min-height: 34px; }
+  .leitura .coluna { gap: 0; }
+  .pergunta-leitura { font-size: 17px; }
+  .pauta-svg { max-height: 150px; }
+  .nota-btn { min-height: 44px; }
+  .leitura-opcoes .rotulo-grupo { font-size: 11px; }
+  .leitura-opcoes .chip { min-height: 36px; }
+  .leitura-opcoes .botao-sec { min-height: 36px; }
+  .estrelas { font-size: 34px; }
+  .painel-fim { gap: 2px; }
+  .painel-fim .botao-principal { min-height: 44px; font-size: 16px; }
+}
 @media (orientation: portrait) and (min-width: 700px) {
   .grade { grid-template-columns: repeat(2, 1fr); }
 }

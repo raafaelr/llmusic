@@ -16,6 +16,8 @@ Este app é feito só de arquivos de texto. Não tem instalação nem programas 
 | `js/pitch.js` | As contas: descobre a frequência do som (método YIN) e converte em nota e cents. |
 | `js/views/braco.js` | O braço virtual desenhado em SVG e os dois exercícios (achar e tocar a nota). |
 | `js/braco.js` | As contas do braço: que nota está em cada casa, sorteio e julgamento. |
+| `js/views/leitura.js` | A tela de leitura: pauta desenhada em SVG, botões, microfone e estrelas. |
+| `js/leitura.js` | As contas: sorteio das notas, posição na pauta, linhas suplementares, estrelas. |
 | `js/db.js` | Guarda dados no celular (banco local IndexedDB). |
 | `js/pratica.js` | Conta os minutos de prática do dia. |
 | `sw.js` | O "service worker": guarda os arquivos para o app abrir sem internet. |
@@ -41,3 +43,7 @@ Uma nota é uma onda que se repete. Em `js/pitch.js` o app compara o som com ele
 quando o deslocamento é igual ao período da onda, os dois ficam quase iguais. Esse período dá a frequência (Hz).
 Depois a conta `69 + 12 × log2(f / 440)` transforma Hz em nota, e a sobra em "cents" (100 cents = 1 semitom).
 Experimento: em `js/pitch.js`, mude `rmsMin` para 0.05 e veja o afinador ficar "surdo" a sons fracos.
+
+## Curiosidade: o violão soa uma oitava abaixo do que está escrito
+Na partitura de violão, a 6ª corda solta aparece como Mi3, mas soa Mi2. Por isso, no modo microfone da Leitura,
+o app confere `escrito - 12` (veja `midiQueSoa` em `js/leitura.js`).

@@ -4,12 +4,14 @@ import * as home from './views/home.js';
 import * as metronomo from './views/metronomo.js';
 import * as afinador from './views/afinador.js';
 import * as braco from './views/braco.js';
+import * as leitura from './views/leitura.js';
 
 const TELAS = {
   '': home,
   'metronomo': metronomo,
   'afinador': afinador,
-  'braco': braco
+  'braco': braco,
+  'leitura': leitura
 };
 
 const raiz = document.getElementById('app');

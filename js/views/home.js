@@ -14,7 +14,7 @@ const MODULOS = [
   { nome: 'Metrônomo', desc: 'Cliques sintetizados, compassos e subdivisões', rota: 'metronomo' },
   { nome: 'Afinador', desc: 'Afinação padrão e alternativas', rota: 'afinador' },
   { nome: 'Braço virtual', desc: 'Notas e casas acendendo no braço', rota: 'braco' },
-  { nome: 'Leitura', desc: 'Partituras infinitas para ler à primeira vista', etapa: 'Marco 4' },
+  { nome: 'Leitura', desc: 'Partituras infinitas para ler à primeira vista', rota: 'leitura' },
   { nome: 'Partituras', desc: 'Tocar lendo, com cursor e tablatura', etapa: 'Marco 5' },
   { nome: 'Hábitos', desc: 'Sequência de dias e calendário de estudo', etapa: 'Marco 6' }
 ];
