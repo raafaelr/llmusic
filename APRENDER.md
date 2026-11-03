@@ -65,3 +65,9 @@ Importante: o repositório é público. Use só músicas suas ou de domínio pú
 ## Seus dados e o backup
 Tudo fica só neste celular (IndexedDB). Se você limpar os dados do navegador ou trocar de aparelho, perde tudo.
 Por isso, de vez em quando, use Hábitos > Exportar e guarde o arquivo `.json` (e-mail, nuvem). Para recuperar, use Importar.
+
+## CAGED completo (Marco 9)
+- `js/caged.js`: os dados e as contas (formas maior/menor/7/maj7/m7, deslocamento com pestana, caixas de escala).
+- `js/aulasCaged.js`: o texto das 12 aulas. Cada aula é uma lista de "blocos" (texto, desenho, áudio, exercício...). Para mudar uma aula, edite só esse arquivo.
+- `js/views/caged-aulas.js`: a tela que desenha os blocos. `js/views/caged.js`: a ferramenta livre.
+- `js/quizui.js` e `js/caged-quiz.js`: o quiz com estrelas, reaproveitável.

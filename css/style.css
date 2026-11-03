@@ -365,6 +365,10 @@ input[type=range] { width: 100%; height: 44px; accent-color: var(--destaque); ba
 .ponto.neutro { fill: var(--suave); }
 .ponto.fraco { opacity: 0.35; }
 .ponto.raiz { stroke: var(--texto); stroke-width: 4; }
+.barra-pestana { fill: color-mix(in srgb, var(--texto) 18%, transparent); stroke: var(--suave); stroke-width: 2; stroke-dasharray: 5 4; }
+.bt-aulas { min-height: 44px; padding: 0 14px; margin-left: auto; font-size: 14px; }
+.acoes-caged { grid-template-columns: 1fr 1.6fr; }
+.desenho-quiz { max-height: 200px; }
 .muda { font-size: 26px; font-weight: 700; fill: var(--suave); }
 .respostas-caged { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
 .respostas-caged .certa { background: var(--ok); color: var(--fundo); border-color: var(--ok); }
@@ -372,16 +376,12 @@ input[type=range] { width: 100%; height: 44px; accent-color: var(--destaque); ba
 .caged-opcoes { display: grid; gap: 8px; }
 .caged-opcoes .chips { gap: 6px; }
 @media (orientation: landscape) and (max-height: 460px) {
-  .caged { gap: 2px; }
   .caged .topo, .caged .botao-texto { min-height: 34px; }
-  .caged .coluna { gap: 0; }
   .info-caged { font-size: 13px; min-height: 1.3em; line-height: 1.25; }
-  .caged .braco-svg { max-height: 130px; }
-  .caged-opcoes .rotulo-grupo { font-size: 11px; }
-  .caged-opcoes .chip { min-height: 32px; padding: 0 8px; font-size: 13px; }
-  .caged-opcoes .chips { flex-wrap: nowrap; gap: 3px; }
-  .caged-opcoes .botao-sec { min-height: 36px; }
-  .respostas-caged .nota-btn { min-height: 40px; }
+  .caged .braco-svg { max-height: 150px; }
+  .caged-opcoes .chip { min-height: 34px; padding: 0 10px; font-size: 13px; }
+  .bt-aulas { min-height: 36px; }
+}
 }
 
 /* ---------- Teoria ---------- */
@@ -457,3 +457,16 @@ input[type=range] { width: 100%; height: 44px; accent-color: var(--destaque); ba
   .grade { grid-template-columns: repeat(2, 1fr); }
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+
+/* ---- Aulas do CAGED ---- */
+.aulas-caged .bloco-desenho { display: flex; flex-direction: column; gap: 6px; margin: 6px 0 10px; }
+.aulas-caged .legenda { font-size: 14px; line-height: 1.4; color: var(--suave); }
+.aulas-caged .detalhe-forma { font-size: 13px; line-height: 1.35; }
+.aulas-caged .texto-bloco { line-height: 1.55; max-width: 70ch; }
+.aulas-caged .titulo-bloco { margin-top: 10px; }
+.aulas-caged .dica-bloco { background: color-mix(in srgb, var(--destaque) 14%, transparent); border-left: 4px solid var(--destaque); padding: 10px 12px; border-radius: 8px; line-height: 1.45; }
+.aulas-caged .lista-bloco { padding-left: 20px; line-height: 1.55; display: flex; flex-direction: column; gap: 4px; }
+.aulas-caged .bloco-tocar, .aulas-caged .bloco-check { display: flex; flex-direction: column; gap: 6px; border: 1px solid var(--linha); border-radius: 10px; padding: 10px; margin: 6px 0; }
+.aulas-caged .item-check { display: flex; gap: 10px; align-items: flex-start; min-height: 44px; align-items: center; }
+.aulas-caged .item-check input { width: 22px; height: 22px; flex: none; }
+.cartao-exame { border-color: var(--destaque); }

@@ -54,3 +54,8 @@ export function tocarNota(ctx, destino, midi, quando, volume = 0.5) {
   fonte.start(quando);
   return fonte;
 }
+
+// Toca um acorde "dedilhado para baixo" (strum): as notas entram da mais grave para a mais aguda.
+export function tocarAcorde(ctx, destino, midis, quando, intervalo = 0.045, volume = 0.4) {
+  return midis.map((m, i) => tocarNota(ctx, destino, m, quando + i * intervalo, volume));
+}

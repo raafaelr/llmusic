@@ -15,7 +15,7 @@ const MODULOS = [
   { nome: 'Afinador', desc: 'Afinação padrão e alternativas', rota: 'afinador' },
   { nome: 'Braço virtual', desc: 'Notas e casas acendendo no braço', rota: 'braco' },
   { nome: 'Teoria', desc: 'Lições curtas com quiz e braço', rota: 'teoria' },
-  { nome: 'CAGED', desc: 'As 5 formas de acorde e o braço inteiro', rota: 'caged' },
+  { nome: 'CAGED', desc: 'Curso de 12 aulas + ferramenta das 5 formas', rota: 'caged' },
   { nome: 'Leitura', desc: 'Partituras infinitas para ler à primeira vista', rota: 'leitura' },
   { nome: 'Ritmo', desc: 'Leia e toque o ritmo no tempo do metrônomo', rota: 'ritmo' },
   { nome: 'Partituras', desc: 'Tocar lendo, com cursor e tablatura', rota: 'partituras' },

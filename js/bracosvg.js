@@ -52,6 +52,11 @@ export function criarBraco(svg, { casas = 12, aoToque = null } = {}) {
     const t = sv('text', { x: X0 - 28, y: yCorda(corda) + 6, 'text-anchor': 'middle', class: 'muda' }, camada);
     t.textContent = '×';
   }
+  // Pestana: barra arredondada na casa, de uma corda a outra (cordaDe e cordaAte entre 1 e 6).
+  function barra(casa, cordaDe, cordaAte) {
+    const a = Math.min(cordaDe, cordaAte), b = Math.max(cordaDe, cordaAte);
+    sv('rect', { x: xCasa(casa) - 19, y: yCorda(a) - 19, width: 38, height: (b - a) * DY + 38, rx: 19, class: 'barra-pestana' }, camada);
+  }
   function limpar() { camada.innerHTML = ''; pontos.clear(); }
   if (aoToque) {
     for (let corda = 1; corda <= 6; corda++) for (let c = 0; c <= casas; c++) {
@@ -59,5 +64,5 @@ export function criarBraco(svg, { casas = 12, aoToque = null } = {}) {
       r.onclick = () => aoToque(corda, c);
     }
   }
-  return { ponto, marcaMuda, limpar };
+  return { ponto, marcaMuda, barra, limpar };
 }
