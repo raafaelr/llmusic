@@ -1,0 +1,146 @@
+/* Visual do LLMusic. Escuro por padrão (bom para praticar em ambiente com pouca luz),
+   com versão clara se o celular estiver no modo claro.
+   Todas as cores ficam em variáveis (--nome): para mudar o tema, mude só aqui. */
+:root {
+  --fundo: #1B1512;
+  --superficie: #261E19;
+  --superficie-2: #302621;
+  --texto: #F3EBDD;
+  --suave: #B9AC9A;
+  --linha: #43362D;
+  --destaque: #E0A64A;
+  --sobre-destaque: #1B1512;
+  --ok: #6FCB8F;
+  --fonte: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --fundo: #F6F0E4;
+    --superficie: #FFFFFF;
+    --superficie-2: #EFE6D6;
+    --texto: #231B15;
+    --suave: #6B5C4C;
+    --linha: #D9CCB6;
+    --destaque: #8C5B10;
+    --sobre-destaque: #FFFFFF;
+    --ok: #1D7448;
+    color-scheme: light;
+  }
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--fundo);
+  color: var(--texto);
+  font-family: var(--fonte);
+  font-size: 16px;
+  line-height: 1.45;
+  -webkit-tap-highlight-color: transparent;
+  /* respeita o recorte da câmera e as bordas do celular na horizontal */
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+h1, h2, p { margin: 0; }
+button { font: inherit; color: inherit; cursor: pointer; }
+button:focus-visible, input:focus-visible { outline: 3px solid var(--destaque); outline-offset: 2px; }
+
+.tela { max-width: 1100px; margin: 0 auto; padding: 16px; }
+
+/* ---------- Início ---------- */
+.marca { display: flex; align-items: center; gap: 14px; margin-bottom: 8px; }
+.marca img { border-radius: 14px; }
+.titulo { font-size: 30px; font-weight: 800; letter-spacing: -0.01em; line-height: 1.1; }
+.sub { color: var(--suave); }
+.hoje { color: var(--suave); margin-bottom: 16px; }
+.grade { display: grid; gap: 12px; grid-template-columns: 1fr; }
+.cartao {
+  text-align: left; background: var(--superficie); border: 1px solid var(--linha);
+  border-radius: 16px; padding: 16px; min-height: 88px;
+  display: flex; flex-direction: column; gap: 4px;
+}
+button.cartao:active { background: var(--superficie-2); }
+.cartao-nome { font-size: 18px; font-weight: 700; }
+.cartao-desc { color: var(--suave); font-size: 14px; }
+.cartao.em-breve { opacity: 0.6; }
+.selo { align-self: flex-start; margin-top: 4px; font-size: 12px; color: var(--destaque); border: 1px solid var(--linha); border-radius: 999px; padding: 2px 10px; }
+
+/* ---------- Metrônomo ---------- */
+.metronomo { display: grid; gap: 16px; grid-template-columns: 1fr; }
+.topo { display: flex; align-items: center; gap: 8px; }
+.titulo-tela { font-size: 22px; font-weight: 700; }
+.botao-texto { background: none; border: 0; color: var(--destaque); font-weight: 600; min-height: 48px; padding: 0 12px 0 0; }
+.coluna { display: flex; flex-direction: column; gap: 14px; }
+.andamento { color: var(--destaque); font-weight: 600; font-style: italic; text-align: center; min-height: 1.45em; }
+.bpm-num { font-family: var(--mono); font-size: 96px; font-weight: 500; line-height: 1; text-align: center; font-variant-numeric: tabular-nums; }
+.rotulo { text-align: center; color: var(--suave); font-size: 14px; margin-top: -8px; }
+.linha-botoes { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.botao-passo {
+  background: var(--superficie); border: 1px solid var(--linha); border-radius: 12px;
+  min-height: 56px; font-family: var(--mono); font-size: 20px; font-weight: 500;
+}
+.botao-passo:active { background: var(--superficie-2); }
+input[type=range] { width: 100%; height: 44px; accent-color: var(--destaque); background: transparent; }
+
+.batidas { display: flex; gap: 10px; justify-content: center; align-items: center; min-height: 56px; }
+.batida { width: 28px; height: 28px; border-radius: 50%; background: var(--superficie-2); border: 2px solid var(--linha); transition: background 0.06s, transform 0.06s; }
+.batida.forte { width: 36px; height: 36px; }
+.batida.media { width: 32px; height: 32px; }
+.batida.ativa { background: var(--destaque); border-color: var(--destaque); transform: scale(1.18); }
+
+.grupo { display: flex; flex-direction: column; gap: 8px; }
+.rotulo-grupo { font-size: 14px; font-weight: 600; color: var(--suave); }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  background: var(--superficie); border: 1px solid var(--linha); border-radius: 12px;
+  min-height: 48px; padding: 0 16px; font-weight: 500;
+}
+.chip[aria-pressed="true"] { background: var(--destaque); border-color: var(--destaque); color: var(--sobre-destaque); font-weight: 700; }
+.chip.sm { min-height: 40px; padding: 0 12px; font-size: 14px; }
+
+.acoes { display: grid; grid-template-columns: 1fr 1.4fr; gap: 10px; margin-top: 4px; }
+.botao-sec { background: var(--superficie); border: 1px solid var(--linha); border-radius: 14px; min-height: 64px; font-weight: 600; }
+.botao-principal { background: var(--destaque); color: var(--sobre-destaque); border: 0; border-radius: 14px; min-height: 64px; font-size: 20px; font-weight: 800; }
+.botao-principal.ligado { background: var(--superficie-2); color: var(--texto); border: 2px solid var(--destaque); }
+.dica { color: var(--suave); font-size: 13px; }
+
+/* ---------- Paisagem primeiro: celular deitado ---------- */
+@media (orientation: landscape) {
+  .tela { padding: 10px 20px; }
+  .grade { grid-template-columns: repeat(3, 1fr); }
+  .metronomo { grid-template-columns: 1fr 1fr; column-gap: 28px; row-gap: 6px; align-items: start; }
+  .metronomo .topo { grid-column: 1 / -1; }
+  .metronomo .dica { grid-column: 1 / -1; }
+  .bpm-num { font-size: 84px; }
+  .batidas { min-height: 44px; }
+  .botao-passo { min-height: 48px; }
+  .botao-sec, .botao-principal { min-height: 56px; }
+}
+@media (orientation: landscape) and (max-height: 460px) {
+  .marca img { width: 44px; height: 44px; }
+  .titulo { font-size: 24px; }
+  .hoje { margin-bottom: 8px; }
+  .cartao { min-height: 76px; padding: 12px 14px; }
+  /* No celular deitado, tudo do metrônomo cabe na tela sem rolar */
+  .metronomo { row-gap: 0; }
+  .metronomo .topo { min-height: 40px; }
+  .botao-texto { min-height: 40px; }
+  .titulo-tela { font-size: 20px; }
+  .coluna { gap: 8px; }
+  .bpm-num { font-size: 68px; }
+  .rotulo { margin-top: -4px; }
+  .botao-passo { min-height: 44px; }
+  input[type=range] { height: 36px; }
+  .batidas { min-height: 36px; }
+  .chip { min-height: 44px; }
+  .grupo { gap: 4px; }
+  .acoes { margin-top: 0; }
+  .botao-sec, .botao-principal { min-height: 52px; }
+  .metronomo .dica { display: none; }
+}
+@media (orientation: portrait) and (min-width: 700px) {
+  .grade { grid-template-columns: repeat(2, 1fr); }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }

@@ -1,11 +1,19 @@
 # LLMusic
 
-App pessoal de estudo de violão, feito para a Liz e a Lívia.
+Meu app de estudo de violão e música, em homenagem à Liz e à Lívia.
 
-Esta é a versão 0: o app "Notas do Braço" (treino de notas, trilha do Henrique Pinto, aulas de partitura e cifra, leitor dos seus próprios PDFs).
+App web instalável (PWA) que funciona **offline** no celular. Sem anúncios, sem conta, sem servidor: tudo fica no aparelho.
 
-## Como usar
-Abra `index.html` no navegador, ou use o endereço do GitHub Pages.
+## Marcos
+- [x] Marco 1: base do app (offline, banco local, paisagem) e metrônomo sintetizado
+- [ ] Marco 2: afinador cromático
+- [ ] Marco 3: braço virtual e reconhecimento de notas
+- [ ] Marco 4: leitura à primeira vista e pontuação
+- [ ] Marco 5: player de partitura e tablatura
+- [ ] Marco 6: pacotes, sequência de dias e calendário
+- [ ] Marco 7: APK com notificações locais
 
 ## Importante
-Não coloque neste repositório os PDFs dos livros. Ele é público, e os PDFs ficam só no seu aparelho.
+Este repositório é público. Não coloque nele PDFs de livros nem nada que seja só seu.
+
+Para entender cada arquivo, leia o [APRENDER.md](APRENDER.md).
