@@ -21,6 +21,8 @@ Este app é feito só de arquivos de texto. Não tem instalação nem programas 
 | `js/views/partituras.js` | O player: desenha a tablatura, toca, move o cursor, repete compasso, espera você tocar. |
 | `js/pecas.js` | As peças (todas originais) e as formas de acorde. Para criar a sua, copie uma e mude as casas. |
 | `js/violao.js` | O som de violão sintetizado (Karplus-Strong), sem arquivos de áudio. |
+| `js/views/habitos.js`, `js/habitos.js` | Sequência de dias, meta diária, calendário e backup (as contas ficam em `habitos.js`). |
+| `js/views/pacotes.js`, `js/biblioteca.js` | Instalar/remover pacotes de peças (`pacotes/exemplo.json` mostra o formato). |
 | `js/db.js` | Guarda dados no celular (banco local IndexedDB). |
 | `js/pratica.js` | Conta os minutos de prática do dia. |
 | `sw.js` | O "service worker": guarda os arquivos para o app abrir sem internet. |
@@ -55,3 +57,7 @@ o app confere `escrito - 12` (veja `midiQueSoa` em `js/leitura.js`).
 Abra `js/pecas.js`, copie uma peça de `PECAS` e mude: `titulo`, `bpm` e os compassos. Em `melodia('C', [[corda, casa, duração], ...])`
 a duração é em tempos (1 = semínima, 0.5 = colcheia, 2 = mínima). Cada compasso precisa somar o total do compasso.
 Importante: o repositório é público. Use só músicas suas ou de domínio público.
+
+## Seus dados e o backup
+Tudo fica só neste celular (IndexedDB). Se você limpar os dados do navegador ou trocar de aparelho, perde tudo.
+Por isso, de vez em quando, use Hábitos > Exportar e guarde o arquivo `.json` (e-mail, nuvem). Para recuperar, use Importar.

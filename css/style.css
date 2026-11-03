@@ -305,6 +305,47 @@ input[type=range] { width: 100%; height: 44px; accent-color: var(--destaque); ba
   .partituras .chips { gap: 4px; }
   .barra-player .botao-principal { min-height: 44px; font-size: 16px; padding: 0 16px; }
 }
+
+/* ---------- Hábitos e Pacotes ---------- */
+.habitos { display: grid; gap: 14px; grid-template-columns: 1fr; }
+.sequencia { text-align: center; }
+.seq-num { font-family: var(--mono); font-size: 72px; font-weight: 600; line-height: 1; color: var(--destaque); }
+.barra-meta { height: 14px; background: var(--superficie-2); border-radius: 999px; overflow: hidden; }
+.barra-meta-fill { display: block; height: 100%; width: 0; background: var(--ok); transition: width 0.3s; }
+.texto-hoje { text-align: center; }
+.stats { color: var(--suave); font-size: 14px; text-align: center; }
+.nav-mes { display: grid; grid-template-columns: 56px 1fr 56px; align-items: center; gap: 8px; }
+.titulo-mes { text-align: center; font-size: 18px; font-weight: 700; }
+.calendario { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+.cal-sem { text-align: center; color: var(--suave); font-size: 12px; }
+.cal-dia { text-align: center; padding: 8px 0; border-radius: 10px; background: var(--superficie); border: 1px solid var(--linha); font-family: var(--mono); font-size: 14px; }
+.cal-dia.nivel1 { background: color-mix(in srgb, var(--ok) 25%, var(--superficie)); }
+.cal-dia.nivel2 { background: color-mix(in srgb, var(--ok) 50%, var(--superficie)); }
+.cal-dia.nivel3 { background: var(--ok); color: var(--fundo); font-weight: 700; }
+.cal-dia.hoje { outline: 2px solid var(--destaque); outline-offset: 1px; }
+.pacotes { display: flex; flex-direction: column; gap: 12px; }
+.lista-pacotes { display: flex; flex-direction: column; gap: 8px; }
+.pacote { flex-direction: row; align-items: center; justify-content: space-between; gap: 12px; }
+.pacote .remover { min-height: 44px; padding: 0 16px; }
+.vazio { color: var(--suave); }
+@media (orientation: landscape) {
+  .habitos { grid-template-columns: 1fr 1fr; column-gap: 28px; align-items: start; }
+  .habitos .topo { grid-column: 1 / -1; }
+}
+@media (orientation: landscape) and (max-height: 460px) {
+  .habitos { gap: 4px 28px; }
+  .habitos .topo, .habitos .botao-texto { min-height: 34px; }
+  .habitos .coluna { gap: 6px; }
+  .seq-num { font-size: 44px; }
+  .habitos .rotulo { margin-top: 0; }
+  .habitos .rotulo-grupo { font-size: 11px; }
+  .habitos .chip { min-height: 34px; }
+  .habitos .botao-sec { min-height: 40px; }
+  .habitos .botao-passo { min-height: 34px; }
+  .cal-dia { padding: 4px 0; font-size: 12px; }
+  .stats { font-size: 12px; }
+  .habitos .dica { font-size: 12px; }
+}
 @media (orientation: portrait) and (min-width: 700px) {
   .grade { grid-template-columns: repeat(2, 1fr); }
 }

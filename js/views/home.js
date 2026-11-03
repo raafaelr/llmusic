@@ -16,7 +16,8 @@ const MODULOS = [
   { nome: 'Braço virtual', desc: 'Notas e casas acendendo no braço', rota: 'braco' },
   { nome: 'Leitura', desc: 'Partituras infinitas para ler à primeira vista', rota: 'leitura' },
   { nome: 'Partituras', desc: 'Tocar lendo, com cursor e tablatura', rota: 'partituras' },
-  { nome: 'Hábitos', desc: 'Sequência de dias e calendário de estudo', etapa: 'Marco 6' }
+  { nome: 'Hábitos', desc: 'Sequência de dias e calendário de estudo', rota: 'habitos' },
+  { nome: 'Pacotes', desc: 'Instalar e remover peças extras', rota: 'pacotes' }
 ];
 
 export function montar(raiz, ir) {

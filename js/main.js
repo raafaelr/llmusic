@@ -6,6 +6,8 @@ import * as afinador from './views/afinador.js';
 import * as braco from './views/braco.js';
 import * as leitura from './views/leitura.js';
 import * as partituras from './views/partituras.js';
+import * as habitos from './views/habitos.js';
+import * as pacotes from './views/pacotes.js';
 
 const TELAS = {
   '': home,
@@ -13,7 +15,9 @@ const TELAS = {
   'afinador': afinador,
   'braco': braco,
   'leitura': leitura,
-  'partituras': partituras
+  'partituras': partituras,
+  'habitos': habitos,
+  'pacotes': pacotes
 };
 
 const raiz = document.getElementById('app');

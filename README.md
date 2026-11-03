@@ -10,7 +10,7 @@ App web instalável (PWA) que funciona **offline** no celular. Sem anúncios, se
 - [x] Marco 3: braço virtual e reconhecimento de notas
 - [x] Marco 4: leitura à primeira vista e pontuação (estrelas)
 - [x] Marco 5: player de tablatura (3 peças originais, som sintetizado, esperar eu tocar)
-- [ ] Marco 6: pacotes, sequência de dias e calendário
+- [x] Marco 6: pacotes de peças, sequência de dias, calendário e backup
 - [ ] Marco 7: APK com notificações locais
 
 ## Importante

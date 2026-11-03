@@ -7,6 +7,7 @@ import { Afinador } from '../tuner.js';
 import { notaMaisProxima } from '../pitch.js';
 import { PECAS, achatar, tempoPorCompasso, dedoDaCorda } from '../pecas.js';
 import { tocarNota } from '../violao.js';
+import { todasAsPecas } from '../biblioteca.js';
 
 const NS = 'http://www.w3.org/2000/svg';
 function el(tag, classe, texto) {
@@ -26,6 +27,7 @@ const LARG = 1000, ESQ = 56, DIR = 12, POR_LINHA = 2, ESP = 17, ALTURA_LINHA = 1
 
 export function montar(raiz, ir) {
   let peca = PECAS[0];
+  let pecas = PECAS;
   let eventos = [];
   let fator = 1;                   // 0.5, 0.75 ou 1 (velocidade)
   let compassoRepetir = -1;        // -1 = peça toda
@@ -272,7 +274,7 @@ export function montar(raiz, ir) {
   // ---------- controles ----------
   function chips() {
     chipsPeca.innerHTML = '';
-    PECAS.forEach((p) => {
+    pecas.forEach((p) => {
       const b = el('button', 'chip sm', p.titulo);
       b.setAttribute('aria-pressed', String(p === peca));
       b.onclick = () => { escolherPeca(p); };
@@ -317,7 +319,9 @@ export function montar(raiz, ir) {
     const id = await Config.obter('part.peca', PECAS[0].id);
     const fv = await Config.obter('part.fator', 1);
     if (encerrada) return;
-    peca = PECAS.find((p) => p.id === id) || PECAS[0];
+    pecas = await todasAsPecas();
+    if (encerrada) return;
+    peca = pecas.find((p) => p.id === id) || PECAS[0];
     fator = [0.5, 0.75, 1].includes(fv) ? fv : 1;
     eventos = achatar(peca);
     chips(); atualizarTitulo(); desenhar();

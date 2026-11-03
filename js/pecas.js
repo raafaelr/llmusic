@@ -101,3 +101,41 @@ export function achatar(peca) {
   });
   return lista;
 }
+
+// ---------- Pacotes (peças extras que você instala por arquivo .json) ----------
+// Um pacote é um arquivo: { "formato": "llmusic-pacote", "versao": 1, "id": "...", "nome": "...", "pecas": [ ...peças no mesmo formato acima... ] }
+// Esta função confere tudo antes de aceitar, para um arquivo errado nunca quebrar o app.
+export function validarPacote(obj) {
+  const erro = (m) => ({ ok: false, erro: m });
+  if (!obj || obj.formato !== 'llmusic-pacote' || obj.versao !== 1) return erro('Este arquivo não é um pacote do LLMusic.');
+  if (typeof obj.id !== 'string' || !/^[a-z0-9-]{2,40}$/.test(obj.id)) return erro('O pacote precisa de um "id" com letras minúsculas, números e hífen.');
+  if (typeof obj.nome !== 'string' || !obj.nome.trim()) return erro('O pacote precisa de um "nome".');
+  if (!Array.isArray(obj.pecas) || !obj.pecas.length || obj.pecas.length > 50) return erro('O pacote precisa ter de 1 a 50 peças.');
+  const ids = new Set();
+  for (const p of obj.pecas) {
+    const nome = 'Peça "' + (p && p.titulo) + '": ';
+    if (!p || typeof p.id !== 'string' || typeof p.titulo !== 'string') return erro('Toda peça precisa de "id" e "titulo".');
+    if (ids.has(p.id)) return erro('Peça repetida: ' + p.id);
+    ids.add(p.id);
+    if (!Number.isFinite(p.bpm) || p.bpm < 30 || p.bpm > 240) return erro(nome + 'bpm deve estar entre 30 e 240.');
+    if (!Array.isArray(p.compasso) || ![2, 3, 4, 6].includes(p.compasso[0]) || ![4, 8].includes(p.compasso[1])) return erro(nome + 'compasso inválido.');
+    if (!Array.isArray(p.compassos) || !p.compassos.length || p.compassos.length > 128) return erro(nome + 'precisa de 1 a 128 compassos.');
+    const tpc = tempoPorCompasso(p);
+    for (let m = 0; m < p.compassos.length; m++) {
+      const c = p.compassos[m];
+      if (!c || !Array.isArray(c.eventos) || !c.eventos.length) return erro(nome + 'compasso ' + (m + 1) + ' vazio.');
+      let fim = 0;
+      for (const e of c.eventos) {
+        if (!Number.isFinite(e.t) || !Number.isFinite(e.d) || e.d <= 0 || e.t < 0) return erro(nome + 'compasso ' + (m + 1) + ' tem tempo inválido.');
+        if (!Array.isArray(e.n) || !e.n.length) return erro(nome + 'compasso ' + (m + 1) + ' tem evento sem notas.');
+        for (const nota of e.n) {
+          if (!Array.isArray(nota) || !Number.isInteger(nota[0]) || nota[0] < 1 || nota[0] > 6 || !Number.isInteger(nota[1]) || nota[1] < 0 || nota[1] > 24)
+            return erro(nome + 'compasso ' + (m + 1) + ' tem corda/casa inválida (corda 1 a 6, casa 0 a 24).');
+        }
+        fim = Math.max(fim, e.t + e.d);
+      }
+      if (fim > tpc + 1e-9) return erro(nome + 'compasso ' + (m + 1) + ' passa do tempo do compasso.');
+    }
+  }
+  return { ok: true };
+}

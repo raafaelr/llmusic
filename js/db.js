@@ -58,6 +58,24 @@ async function gravar(loja, chave, valor) {
   } catch (e) { /* sem banco: fica só na memória */ }
 }
 
+// Lê TUDO de uma loja (usado no backup). Se o banco falhar, usa a memória.
+async function lerTudo(loja) {
+  try {
+    const db = await abrir();
+    return await new Promise((ok, erro) => {
+      const r = {};
+      const q = db.transaction(loja).objectStore(loja).openCursor();
+      q.onsuccess = () => {
+        const c = q.result;
+        if (c) { r[c.key] = c.value; c.continue(); } else ok(r);
+      };
+      q.onerror = () => erro(q.error);
+    });
+  } catch (e) {
+    return Object.fromEntries(memoria[loja]);
+  }
+}
+
 export const Config = {
   async obter(chave, padrao) {
     const v = await ler('config', chave);
@@ -65,7 +83,8 @@ export const Config = {
   },
   guardar(chave, valor) {
     return gravar('config', chave, valor);
-  }
+  },
+  todos() { return lerTudo('config'); }
 };
 
 export const Pratica = {
@@ -87,5 +106,29 @@ export const Pratica = {
   },
   async segundosDoDia(dia) {
     return (await ler('pratica', dia)) || 0;
+  },
+  todos() { return lerTudo('pratica'); },
+  // Usado na importação: guarda o MAIOR valor entre o que já existe e o que veio do backup.
+  async definirMaior(dia, segundos) {
+    const atual = (await ler('pratica', dia)) || 0;
+    if (segundos > atual) await gravar('pratica', dia, segundos);
+  }
+};
+
+// Backup completo em um objeto simples (vira um arquivo .json).
+export const Backup = {
+  async exportar() {
+    return { formato: 'llmusic-backup', versao: 1, em: new Date().toISOString(), config: await Config.todos(), pratica: await Pratica.todos() };
+  },
+  // Mescla: configurações do backup substituem as atuais; dias de prática ficam com o maior valor.
+  async importar(obj) {
+    if (!obj || obj.formato !== 'llmusic-backup' || typeof obj.config !== 'object' || typeof obj.pratica !== 'object') {
+      throw new Error('Este arquivo não é um backup do LLMusic.');
+    }
+    for (const k of Object.keys(obj.config)) await Config.guardar(k, obj.config[k]);
+    for (const d of Object.keys(obj.pratica)) {
+      if (/^\d{4}-\d{2}-\d{2}$/.test(d) && Number.isFinite(obj.pratica[d])) await Pratica.definirMaior(d, obj.pratica[d]);
+    }
+    return { configs: Object.keys(obj.config).length, dias: Object.keys(obj.pratica).length };
   }
 };
