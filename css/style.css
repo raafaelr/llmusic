@@ -348,6 +348,33 @@ input[type=range] { width: 100%; height: 44px; accent-color: var(--destaque); ba
   .stats { font-size: 12px; }
   .habitos .dica { font-size: 12px; }
 }
+
+/* ---------- CAGED ---------- */
+.caged { display: grid; gap: 10px; grid-template-columns: 1fr; }
+.info-caged { font-size: 17px; font-weight: 600; min-height: 2.6em; }
+.ponto.f-C { fill: #4C9BE8; } .ponto.f-A { fill: #E86F9A; } .ponto.f-G { fill: #7BC86C; }
+.ponto.f-E { fill: #B58CF0; } .ponto.f-D { fill: #E8A24C; }
+.ponto.neutro { fill: var(--suave); }
+.ponto.fraco { opacity: 0.35; }
+.ponto.raiz { stroke: var(--texto); stroke-width: 4; }
+.muda { font-size: 26px; font-weight: 700; fill: var(--suave); }
+.respostas-caged { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+.respostas-caged .certa { background: var(--ok); color: var(--fundo); border-color: var(--ok); }
+.respostas-caged .errada { background: var(--ruim); color: var(--fundo); border-color: var(--ruim); }
+.caged-opcoes { display: grid; gap: 8px; }
+.caged-opcoes .chips { gap: 6px; }
+@media (orientation: landscape) and (max-height: 460px) {
+  .caged { gap: 2px; }
+  .caged .topo, .caged .botao-texto { min-height: 34px; }
+  .caged .coluna { gap: 0; }
+  .info-caged { font-size: 13px; min-height: 1.3em; line-height: 1.25; }
+  .caged .braco-svg { max-height: 130px; }
+  .caged-opcoes .rotulo-grupo { font-size: 11px; }
+  .caged-opcoes .chip { min-height: 32px; padding: 0 8px; font-size: 13px; }
+  .caged-opcoes .chips { flex-wrap: nowrap; gap: 3px; }
+  .caged-opcoes .botao-sec { min-height: 36px; }
+  .respostas-caged .nota-btn { min-height: 40px; }
+}
 @media (orientation: portrait) and (min-width: 700px) {
   .grade { grid-template-columns: repeat(2, 1fr); }
 }
