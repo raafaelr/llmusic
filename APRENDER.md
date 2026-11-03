@@ -11,6 +11,9 @@ Este app é feito só de arquivos de texto. Não tem instalação nem programas 
 | `js/views/home.js` | A tela inicial. |
 | `js/views/metronomo.js` | A tela do metrônomo: botões, chips e a ligação com o motor. |
 | `js/metronome.js` | O motor do metrônomo: gera os cliques e controla o tempo. |
+| `js/views/afinador.js` | A tela do afinador: nota grande, medidor de cents, cordas e afinações. |
+| `js/tuner.js` | O motor do afinador: liga o microfone e toca a nota de referência. |
+| `js/pitch.js` | As contas: descobre a frequência do som (método YIN) e converte em nota e cents. |
 | `js/db.js` | Guarda dados no celular (banco local IndexedDB). |
 | `js/pratica.js` | Conta os minutos de prática do dia. |
 | `sw.js` | O "service worker": guarda os arquivos para o app abrir sem internet. |
@@ -30,3 +33,9 @@ Quando mudar qualquer arquivo, aumente o número em `const VERSAO = 'llmusic-v1'
 O JavaScript atrasa um pouco de vez em quando, e o ouvido percebe. Por isso o app não manda tocar cada clique na hora.
 Ele agenda os cliques um pouco antes (até 120 ms à frente) no relógio de áudio, que é muito mais preciso.
 Está explicado em comentários no topo de `js/metronome.js`.
+
+## Como o afinador descobre a nota
+Uma nota é uma onda que se repete. Em `js/pitch.js` o app compara o som com ele mesmo deslocado no tempo:
+quando o deslocamento é igual ao período da onda, os dois ficam quase iguais. Esse período dá a frequência (Hz).
+Depois a conta `69 + 12 × log2(f / 440)` transforma Hz em nota, e a sobra em "cents" (100 cents = 1 semitom).
+Experimento: em `js/pitch.js`, mude `rmsMin` para 0.05 e veja o afinador ficar "surdo" a sons fracos.

@@ -12,7 +12,7 @@ function el(tag, classe, texto) {
 // Cada módulo do app. "rota" vazia significa que ainda não existe.
 const MODULOS = [
   { nome: 'Metrônomo', desc: 'Cliques sintetizados, compassos e subdivisões', rota: 'metronomo' },
-  { nome: 'Afinador', desc: 'Afinação padrão e alternativas', etapa: 'Marco 2' },
+  { nome: 'Afinador', desc: 'Afinação padrão e alternativas', rota: 'afinador' },
   { nome: 'Braço virtual', desc: 'Notas e casas acendendo no braço', etapa: 'Marco 3' },
   { nome: 'Leitura', desc: 'Partituras infinitas para ler à primeira vista', etapa: 'Marco 4' },
   { nome: 'Partituras', desc: 'Tocar lendo, com cursor e tablatura', etapa: 'Marco 5' },

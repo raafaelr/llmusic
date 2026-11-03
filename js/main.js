@@ -2,10 +2,12 @@
 // As "rotas" são o que vem depois do # no endereço: #/metronomo mostra o metrônomo.
 import * as home from './views/home.js';
 import * as metronomo from './views/metronomo.js';
+import * as afinador from './views/afinador.js';
 
 const TELAS = {
   '': home,
-  'metronomo': metronomo
+  'metronomo': metronomo,
+  'afinador': afinador
 };
 
 const raiz = document.getElementById('app');

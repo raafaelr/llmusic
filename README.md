@@ -6,7 +6,7 @@ App web instalável (PWA) que funciona **offline** no celular. Sem anúncios, se
 
 ## Marcos
 - [x] Marco 1: base do app (offline, banco local, paisagem) e metrônomo sintetizado
-- [ ] Marco 2: afinador cromático
+- [x] Marco 2: afinador cromático e de violão (6 afinações)
 - [ ] Marco 3: braço virtual e reconhecimento de notas
 - [ ] Marco 4: leitura à primeira vista e pontuação
 - [ ] Marco 5: player de partitura e tablatura
