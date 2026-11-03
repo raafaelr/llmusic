@@ -13,7 +13,13 @@ const FORMAS = {
   C: [-1, 3, 2, 0, 1, 0],
   G: [3, 2, 0, 0, 0, 3],
   Em: [0, 2, 2, 0, 0, 0],
-  E: [0, 2, 2, 1, 0, 0]
+  E: [0, 2, 2, 1, 0, 0],
+  D: [-1, -1, 0, 2, 3, 2],
+  Dm: [-1, -1, 0, 2, 3, 1],
+  Fmaj7: [-1, -1, 3, 2, 1, 0],
+  Am7: [-1, 0, 2, 0, 1, 0],
+  Cmaj7: [-1, 3, 2, 0, 0, 0],
+  G7: [3, 2, 0, 0, 0, 1]
 };
 const casaDe = (acorde, corda) => FORMAS[acorde][6 - corda];
 
@@ -34,6 +40,36 @@ function acordeFinal(acorde, tempos) {
 function melodia(acorde, lista) {
   let t = 0;
   const eventos = lista.map(([c, f, d]) => { const e = { t, d, n: [[c, f]] }; t += d; return e; });
+  return { acorde, eventos };
+}
+
+// Arpejo de seis colcheias com um padrão de cordas à escolha (a 1ª entrada é o baixo).
+function arpejoPadrao(acorde, baixo, padrao) {
+  const cordas = padrao.map((c) => (c === 0 ? baixo : c));
+  return { acorde, eventos: cordas.map((c, k) => ({ t: k * 0.5, d: 0.5, n: [[c, casaDe(acorde, c)]] })) };
+}
+// Arpejo de oito colcheias em 4/4.
+function arpejo44(acorde, baixo) {
+  const cordas = [baixo, 3, 2, 1, 3, 2, 3, 2];
+  return { acorde, eventos: cordas.map((c, k) => ({ t: k * 0.5, d: 0.5, n: [[c, casaDe(acorde, c)]] })) };
+}
+// Valsa: baixo no 1º tempo e as três cordas agudas juntas nos tempos 2 e 3.
+function valsa(acorde, baixo) {
+  const agudas = [3, 2, 1].map((c) => [c, casaDe(acorde, c)]);
+  return { acorde, eventos: [
+    { t: 0, d: 1, n: [[baixo, casaDe(acorde, baixo)]] },
+    { t: 1, d: 1, n: agudas },
+    { t: 2, d: 1, n: agudas }
+  ] };
+}
+// Melodia nas cordas agudas com o baixo do acorde nos tempos 1 e 3.
+function comBaixo(acorde, baixo, lista) {
+  let t = 0;
+  const eventos = lista.map(([c, f, d]) => {
+    const n = [[c, f]];
+    if (t === 0 || t === 2) n.unshift([baixo, casaDe(acorde, baixo)]);
+    const e = { t, d, n }; t += d; return e;
+  });
   return { acorde, eventos };
 }
 
@@ -62,6 +98,74 @@ export const PECAS = [
     compassos: [
       arpejo34('Am', 5), arpejo34('C', 5), arpejo34('G', 6), arpejo34('Em', 6),
       arpejo34('Am', 5), arpejo34('C', 5), arpejo34('E', 6), acordeFinal('Am', 3)
+    ]
+  },
+  {
+    id: 'estrelinha',
+    titulo: 'Estrelinha da Liz',
+    nivel: 'Iniciante · 3/4 · acordes G, C e D',
+    bpm: 60,
+    compasso: [3, 4],
+    dica: 'O mesmo arpejo p-i-m-a-m-i do primeiro ninar, agora com três acordes novos: G, C e D. No acorde D o polegar toca a 4ª corda (a de baixo é a 4ª, nunca a 5ª ou a 6ª). Conte 1-2-3 devagar, como se estivesse balançando o berço.',
+    compassos: [
+      arpejo34('G', 6), arpejo34('C', 5), arpejo34('G', 6), arpejo34('D', 4),
+      arpejo34('G', 6), arpejo34('C', 5), arpejo34('D', 4), acordeFinal('G', 3)
+    ]
+  },
+  {
+    id: 'valsa',
+    titulo: 'Valsa do sono da Lívia',
+    nivel: 'Iniciante · 3/4 · baixo e acorde',
+    bpm: 72,
+    compasso: [3, 4],
+    dica: 'Um jeito diferente de acompanhar: o polegar toca o baixo no tempo 1 e os dedos i, m e a tocam as três cordas agudas juntas nos tempos 2 e 3 ("BUM-tchá-tchá", como uma valsa). Fica bonito com a mão direita leve. Acordes: Am, E e Dm.',
+    compassos: [
+      valsa('Am', 5), valsa('E', 6), valsa('Am', 5), valsa('Dm', 4),
+      valsa('Am', 5), valsa('Dm', 4), valsa('E', 6), acordeFinal('Am', 3)
+    ]
+  },
+  {
+    id: 'berco',
+    titulo: 'Berço de lã',
+    nivel: 'Fácil · melodia com baixo',
+    bpm: 60,
+    compasso: [4, 4],
+    dica: 'Agora você toca a melodia (cordas 1 e 2) e o baixo do acorde juntos, nos tempos 1 e 3. Toque os dois ao mesmo tempo com o polegar e o dedo a (ou m). Acordes: C, Am, Fmaj7 e G. Se for difícil, toque só a melodia primeiro.',
+    compassos: [
+      comBaixo('C', 5, [[1, 0, 1], [1, 3, 1], [1, 0, 1], [2, 3, 1]]),
+      comBaixo('Am', 5, [[2, 1, 1], [1, 0, 1], [2, 1, 1], [2, 0, 1]]),
+      comBaixo('Fmaj7', 4, [[1, 1, 1], [1, 0, 1], [2, 1, 1], [3, 2, 1]]),
+      comBaixo('G', 6, [[1, 3, 1], [2, 3, 1], [2, 0, 1], [2, 3, 1]]),
+      comBaixo('C', 5, [[1, 0, 2], [1, 3, 2]]),
+      comBaixo('Am', 5, [[2, 1, 1], [2, 3, 1], [1, 0, 2]]),
+      comBaixo('G', 6, [[2, 3, 1], [2, 0, 1], [3, 0, 2]]),
+      acordeFinal('C', 4)
+    ]
+  },
+  {
+    id: 'lua',
+    titulo: 'Lua de algodão',
+    nivel: 'Fácil · 6/8 · balanço',
+    bpm: 54,
+    compasso: [6, 8],
+    dica: 'Compasso 6/8: seis colcheias em dois grupos de três (UM-dois-três, QUA-tro-cinco). O arpejo vai p-i-m-i-a-i. Dê um pouquinho mais de força no 1º e no 4º toque, como um balanço. Acordes: Em, C, G e D.',
+    compassos: [
+      arpejoPadrao('Em', 6, [0, 3, 2, 3, 1, 3]), arpejoPadrao('C', 5, [0, 3, 2, 3, 1, 3]),
+      arpejoPadrao('G', 6, [0, 3, 2, 3, 1, 3]), arpejoPadrao('D', 4, [0, 3, 2, 3, 1, 3]),
+      arpejoPadrao('Em', 6, [0, 3, 2, 3, 1, 3]), arpejoPadrao('C', 5, [0, 3, 2, 3, 1, 3]),
+      arpejoPadrao('D', 4, [0, 3, 2, 3, 1, 3]), acordeFinal('Em', 3)
+    ]
+  },
+  {
+    id: 'dorme',
+    titulo: 'Dorme, pequena',
+    nivel: 'Médio · 4/4 · acordes com sétima',
+    bpm: 56,
+    compasso: [4, 4],
+    dica: 'Arpejo de oito colcheias, devagar. Usa os acordes de sétima que você viu nas aulas do CAGED: Cmaj7, Am7, Dm e G7. Deixe cada nota soar: no violão de nylon e de aço isso dá um som de caixinha de música.',
+    compassos: [
+      arpejo44('Cmaj7', 5), arpejo44('Am7', 5), arpejo44('Dm', 4), arpejo44('G7', 6),
+      arpejo44('Cmaj7', 5), arpejo44('Am7', 5), arpejo44('Dm', 4), acordeFinal('Cmaj7', 4)
     ]
   },
   {

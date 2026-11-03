@@ -71,3 +71,6 @@ Por isso, de vez em quando, use Hábitos > Exportar e guarde o arquivo `.json` (
 - `js/aulasCaged.js`: o texto das 12 aulas. Cada aula é uma lista de "blocos" (texto, desenho, áudio, exercício...). Para mudar uma aula, edite só esse arquivo.
 - `js/views/caged-aulas.js`: a tela que desenha os blocos. `js/views/caged.js`: a ferramenta livre.
 - `js/quizui.js` e `js/caged-quiz.js`: o quiz com estrelas, reaproveitável.
+
+## Canções de ninar (Marco 9b)
+Seis peças originais em `js/pecas.js` (3/4, 6/8 e 4/4). Cada compasso é gerado por uma pequena função (`arpejo34`, `valsa`, `comBaixo`, `arpejoPadrao`, `arpejo44`), então criar uma música nova é só combinar acordes.

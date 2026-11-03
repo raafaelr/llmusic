@@ -113,16 +113,17 @@ export function montar(raiz, ir) {
         sv('line', { x1: x, x2: x, y1: yh, y2: yh + 22, class: 'haste-tab' }, svg);
         if (e.d >= 2) sv('circle', { cx: x, cy: yh + 26, r: 3, class: 'haste-tab-o' }, svg);
         const prox = comp.eventos[i + 1];
-        if (e.d === 0.5 && prox && prox.d === 0.5 && Math.floor(e.t) === Math.floor(prox.t)) {
+        const gb = peca.compasso[1] === 8 ? 1.5 : 1;     // 6/8: colcheias agrupadas de três em três
+        const mesmo = (a, b) => Math.floor((a.t + 1e-6) / gb) === Math.floor((b.t + 1e-6) / gb);
+        if (e.d === 0.5 && prox && prox.d === 0.5 && mesmo(e, prox)) {
           sv('line', { x1: x, x2: xe(prox.t), y1: yh + 22, y2: yh + 22, class: 'viga' }, svg);
         } else if (e.d === 0.5) {
           const ant = comp.eventos[i - 1];
-          if (!(ant && ant.d === 0.5 && Math.floor(ant.t) === Math.floor(e.t))) sv('line', { x1: x, x2: x + 8, y1: yh + 22, y2: yh + 14, class: 'viga' }, svg);
+          if (!(ant && ant.d === 0.5 && mesmo(ant, e))) sv('line', { x1: x, x2: x + 8, y1: yh + 22, y2: yh + 14, class: 'viga' }, svg);
         }
         const dd = [...new Set(e.n.map(([c]) => dedoDaCorda(c)))];
-        if (e.n.length === 1) {
-          const dt = sv('text', { x, y: yh + 46, 'text-anchor': 'middle', class: 'dedo' }, svg); dt.textContent = dd[0];
-        }
+        const dt = sv('text', { x, y: yh + 46, 'text-anchor': 'middle', class: 'dedo' }, svg);
+        dt.textContent = e.n.length === 1 ? dd[0] : [...e.n.map(([c]) => dedoDaCorda(c))].reverse().join('');
       });
     });
     cursor = sv('rect', { class: 'cursor-tab', x: 0, y: 0, width: 26, height: 5 * ESP + 20, rx: 6, visibility: 'hidden' }, svg);
