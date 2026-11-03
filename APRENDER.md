@@ -14,6 +14,8 @@ Este app é feito só de arquivos de texto. Não tem instalação nem programas 
 | `js/views/afinador.js` | A tela do afinador: nota grande, medidor de cents, cordas e afinações. |
 | `js/tuner.js` | O motor do afinador: liga o microfone e toca a nota de referência. |
 | `js/pitch.js` | As contas: descobre a frequência do som (método YIN) e converte em nota e cents. |
+| `js/views/braco.js` | O braço virtual desenhado em SVG e os dois exercícios (achar e tocar a nota). |
+| `js/braco.js` | As contas do braço: que nota está em cada casa, sorteio e julgamento. |
 | `js/db.js` | Guarda dados no celular (banco local IndexedDB). |
 | `js/pratica.js` | Conta os minutos de prática do dia. |
 | `sw.js` | O "service worker": guarda os arquivos para o app abrir sem internet. |

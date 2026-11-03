@@ -3,11 +3,13 @@
 import * as home from './views/home.js';
 import * as metronomo from './views/metronomo.js';
 import * as afinador from './views/afinador.js';
+import * as braco from './views/braco.js';
 
 const TELAS = {
   '': home,
   'metronomo': metronomo,
-  'afinador': afinador
+  'afinador': afinador,
+  'braco': braco
 };
 
 const raiz = document.getElementById('app');

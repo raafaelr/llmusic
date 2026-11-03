@@ -12,6 +12,7 @@
   --sobre-destaque: #1B1512;
   --ok: #6FCB8F;
   --ruim: #E8806F;
+  --quase: #E6C84A;
   --fonte: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
   color-scheme: dark;
@@ -28,6 +29,7 @@
     --sobre-destaque: #FFFFFF;
     --ok: #1D7448;
     --ruim: #B3392B;
+    --quase: #B38A00;
     color-scheme: light;
   }
 }
@@ -190,6 +192,48 @@ input[type=range] { width: 100%; height: 44px; accent-color: var(--destaque); ba
   .afinador .chips { gap: 6px; }
   .afinador .chip { min-height: 38px; }
   .afinador .topo { min-height: 34px; }
+}
+
+/* ---------- Braço virtual ---------- */
+.braco { display: grid; gap: 10px; grid-template-columns: 1fr; }
+.pergunta { font-size: 26px; font-weight: 800; text-align: center; min-height: 1.3em; }
+.braco-svg { width: 100%; height: auto; display: block; touch-action: manipulation; }
+.madeira { fill: var(--superficie); stroke: var(--linha); stroke-width: 2; }
+.traste { stroke: var(--linha); stroke-width: 2; }
+.pestana { stroke: var(--suave); stroke-width: 6; }
+.corda-svg { stroke: var(--suave); }
+.marca-casa { fill: var(--linha); }
+.num-casa, .num-corda { fill: var(--suave); font-size: 15px; font-family: var(--mono); }
+.toque { fill: transparent; cursor: pointer; }
+.celula.fora { opacity: 0.25; pointer-events: none; }
+.ponto { fill: transparent; stroke: none; }
+.ponto.alvo { fill: var(--destaque); }
+.ponto.certo { fill: var(--ok); }
+.ponto.errado { fill: var(--ruim); }
+.ponto.quase { fill: var(--quase); }
+.ponto-txt { font-size: 10px; font-weight: 700; fill: var(--fundo); pointer-events: none; }
+.feedback { text-align: center; min-height: 1.45em; font-weight: 600; color: var(--suave); }
+.feedback.certo { color: var(--ok); } .feedback.errado { color: var(--ruim); } .feedback.quase { color: var(--quase); }
+.placar { text-align: center; color: var(--suave); font-family: var(--mono); font-size: 14px; }
+.braco-opcoes { display: grid; gap: 10px; }
+.braco-opcoes .chip.sm { min-width: 40px; }
+@media (orientation: landscape) {
+  .braco-opcoes { grid-template-columns: auto auto auto 1fr; align-items: end; column-gap: 20px; }
+  .braco-opcoes .acoes { grid-template-columns: 1fr 1fr; margin: 0; }
+  .braco-opcoes .botao-sec { min-height: 44px; }
+}
+@media (orientation: landscape) and (max-height: 460px) {
+  .braco { gap: 2px; }
+  .braco .topo { min-height: 34px; }
+  .braco .botao-texto { min-height: 34px; }
+  .braco .coluna { gap: 0; }
+  .pergunta { font-size: 20px; }
+  .placar { display: none; }
+  .braco-svg { max-height: 190px; }
+  .braco-opcoes .rotulo-grupo { font-size: 11px; }
+  .braco-opcoes .chip { min-height: 36px; padding: 0 10px; }
+  .braco-opcoes .chip.sm { min-width: 34px; padding: 0 8px; }
+  .braco-opcoes .chips { gap: 4px; flex-wrap: nowrap; }
 }
 @media (orientation: portrait) and (min-width: 700px) {
   .grade { grid-template-columns: repeat(2, 1fr); }
