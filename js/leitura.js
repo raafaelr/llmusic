@@ -13,10 +13,12 @@ function naturaisEntre(min, max) {
   for (let m = min; m <= max; m++) if (PC_NATURAIS.includes(((m % 12) + 12) % 12)) r.push(m);
   return r;
 }
+function cromaticasEntre(min, max) { const r = []; for (let m = min; m <= max; m++) r.push(m); return r; }
 export const NIVEIS = [
   { id: 1, nome: 'Nível 1', desc: 'Si a Mi (cordas 2 e 1)', notas: naturaisEntre(71, 76) },
   { id: 2, nome: 'Nível 2', desc: 'Sol a Sol (cordas 3, 2 e 1)', notas: naturaisEntre(67, 79) },
-  { id: 3, nome: 'Nível 3', desc: 'Todas as cordas (Mi grave a Lá agudo)', notas: naturaisEntre(52, 81) }
+  { id: 3, nome: 'Nível 3', desc: 'Todas as cordas (Mi grave a Lá agudo)', notas: naturaisEntre(52, 81) },
+  { id: 4, nome: 'Nível 4', desc: 'Com sustenidos e bemóis (Mi a Sol agudo)', notas: cromaticasEntre(64, 79) }
 ];
 
 // Sorteia n notas, sem repetir a mesma duas vezes seguidas e com saltos pequenos na maioria das vezes
@@ -64,3 +66,12 @@ export function estrelas(acertosDePrimeira, total) {
   const a = total ? acertosDePrimeira / total : 0;
   return a >= 0.9 ? 3 : a >= 0.7 ? 2 : a >= 0.5 ? 1 : 0;
 }
+
+// Nota escrita (MIDI) com sustenido ou bemol: devolve { midi, base, acc }.
+// "base" é a nota natural em que ela é desenhada na pauta; "acc" é +1 (sustenido), -1 (bemol) ou 0.
+export function escreverNota(midi, aleatorio = Math.random) {
+  const pc = ((midi % 12) + 12) % 12;
+  if (PC_NATURAIS.includes(pc)) return { midi, base: midi, acc: 0 };
+  return aleatorio() < 0.5 ? { midi, base: midi - 1, acc: 1 } : { midi, base: midi + 1, acc: -1 };
+}
+export function nomeCompleto(n) { return nomeDaNota(n.base) + (n.acc > 0 ? '#' : n.acc < 0 ? '♭' : ''); }

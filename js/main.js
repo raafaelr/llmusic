@@ -10,6 +10,7 @@ import * as habitos from './views/habitos.js';
 import * as pacotes from './views/pacotes.js';
 import * as caged from './views/caged.js';
 import * as teoria from './views/teoria.js';
+import * as ritmo from './views/ritmo.js';
 
 const TELAS = {
   '': home,
@@ -21,7 +22,8 @@ const TELAS = {
   'habitos': habitos,
   'pacotes': pacotes,
   'caged': caged,
-  'teoria': teoria
+  'teoria': teoria,
+  'ritmo': ritmo
 };
 
 const raiz = document.getElementById('app');

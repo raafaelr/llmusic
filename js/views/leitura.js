@@ -5,7 +5,7 @@ import { Config } from '../db.js';
 import { comecarPratica, pararPratica } from '../pratica.js';
 import { Afinador } from '../tuner.js';
 import { notaMaisProxima, nomeDoMidi } from '../pitch.js';
-import { NIVEIS, NOMES_NATURAIS, gerarExercicio, posicaoNaPauta, linhasSuplementares, nomeDaNota, midiQueSoa, estrelas } from '../leitura.js';
+import { NIVEIS, NOMES_NATURAIS, gerarExercicio, posicaoNaPauta, linhasSuplementares, nomeDaNota, midiQueSoa, estrelas, escreverNota, nomeCompleto } from '../leitura.js';
 
 const NS = 'http://www.w3.org/2000/svg';
 function el(tag, classe, texto) {
@@ -31,6 +31,7 @@ export function montar(raiz, ir) {
   let notas = [], idx = 0, erroNoAtual = false, deprimeira = 0;
   let estado = [];             // por nota: '', 'ok', 'erro'
   let bloqueioMidi = -1, bloqueioAte = 0, travado = false;
+  let modAcc = 0;               // sustenido (+1), bemol (-1) ou nenhum (0) escolhido nos botões
   let encerrada = false;
   const motor = new Afinador((f) => aoOuvir(f));
 
@@ -68,36 +69,39 @@ export function montar(raiz, ir) {
   const xNota = (i) => 170 + i * 100;
   function desenharPauta() {
     svg.innerHTML = '';
-    const poss = notas.map(posicaoNaPauta);
+    const poss = notas.map((n) => posicaoNaPauta(n.base));
     const minP = Math.min(0, ...poss), maxP = Math.max(8, ...poss);
     const topoY = yPos(maxP) - 36, baixoY = yPos(minP) + 36;
     svg.setAttribute('viewBox', `0 ${topoY} 1000 ${baixoY - topoY}`);
-    svg.dataset.notas = notas.join(',');
+    svg.dataset.notas = notas.map((n) => n.midi).join(',');
+    svg.dataset.acc = notas.map((n) => n.acc).join(',');
     for (let l = 0; l < 5; l++) sv('line', { x1: 20, x2: 985, y1: yPos(l * 2), y2: yPos(l * 2), class: 'linha-pauta' }, svg);
     const clave = sv('text', { x: 40, y: yPos(2) + 34, class: 'clave' }, svg);
     clave.textContent = 'G';
     const sub = sv('text', { x: 40, y: yPos(0) + 30, class: 'clave-sub' }, svg);
     sub.textContent = 'clave de Sol';
-    notas.forEach((m, i) => {
-      const pos = posicaoNaPauta(m), x = xNota(i), y = yPos(pos);
+    notas.forEach((nt, i) => {
+      const pos = posicaoNaPauta(nt.base), x = xNota(i), y = yPos(pos);
       const g = sv('g', { class: 'nota-g ' + (estado[i] || '') + (i === idx && !travado ? ' atual' : ''), 'data-i': i }, svg);
       linhasSuplementares(pos).forEach((p) => sv('line', { x1: x - 26, x2: x + 26, y1: yPos(p), y2: yPos(p), class: 'linha-pauta' }, g));
+      if (nt.acc) { const ac = sv('text', { x: x - 38, y: y + 9, class: 'acidente', 'text-anchor': 'middle' }, g); ac.textContent = nt.acc > 0 ? '♯' : '♭'; }
       sv('ellipse', { cx: x, cy: y, rx: 15, ry: 11, class: 'cabeca', transform: `rotate(-18 ${x} ${y})` }, g);
       if (pos < 4) sv('line', { x1: x + 14, x2: x + 14, y1: y, y2: y - 7 * H, class: 'haste' }, g);
       else sv('line', { x1: x - 14, x2: x - 14, y1: y, y2: y + 7 * H, class: 'haste' }, g);
       if (estado[i]) {
         const t = sv('text', { x, y: baixoY - 8, 'text-anchor': 'middle', class: 'nome-nota' }, g);
-        t.textContent = nomeDaNota(m);
+        t.textContent = nomeCompleto(nt);
       }
     });
   }
 
   // ---------- exercício ----------
   function novo() {
-    notas = gerarExercicio(nivel, TOTAL);
+    notas = gerarExercicio(nivel, TOTAL).map((m) => escreverNota(m));
     idx = 0; erroNoAtual = false; deprimeira = 0; travado = false;
     estado = notas.map(() => '');
     painelFim.hidden = true;
+    modAcc = 0; pintarAcc();
     botoes.hidden = entrada !== 'botoes';
     feedback.textContent = ''; feedback.className = 'feedback';
     instr.textContent = entrada === 'botoes' ? 'Qual é a nota marcada?' : 'Toque a nota marcada no violão';
@@ -145,14 +149,22 @@ export function montar(raiz, ir) {
   // Resposta pelos botões: só o nome da nota (não dá para informar a oitava).
   function responderNome(nome) {
     if (travado || entrada !== 'botoes') return;
-    if (nome === nomeDaNota(notas[idx])) acertou();
-    else errou('Não é ' + nome + '. Tente de novo.');
+    const acc = nivel >= 4 ? modAcc : 0;
+    modAcc = 0; pintarAcc();
+    if (nome === nomeDaNota(notas[idx].base) && acc === notas[idx].acc) acertou();
+    else errou('Não é ' + nome + (acc > 0 ? '#' : acc < 0 ? '♭' : '') + '. Tente de novo.');
   }
+  const botSus = el('button', 'botao-passo nota-btn acid', '♯'); botSus.setAttribute('aria-label', 'Sustenido'); botSus.setAttribute('aria-pressed', 'false');
+  const botBem = el('button', 'botao-passo nota-btn acid', '♭'); botBem.setAttribute('aria-label', 'Bemol'); botBem.setAttribute('aria-pressed', 'false');
+  function pintarAcc() { botSus.setAttribute('aria-pressed', String(modAcc === 1)); botBem.setAttribute('aria-pressed', String(modAcc === -1)); botoes.classList.toggle('com-acid', nivel >= 4); }
+  botSus.onclick = () => { modAcc = modAcc === 1 ? 0 : 1; pintarAcc(); };
+  botBem.onclick = () => { modAcc = modAcc === -1 ? 0 : -1; pintarAcc(); };
   NOMES_NATURAIS.forEach((n) => {
     const b = el('button', 'botao-passo nota-btn', n);
     b.onclick = () => responderNome(n);
     botoes.append(b);
   });
+  botoes.append(botSus, botBem);
 
   // Resposta pelo microfone: a nota que SOA precisa ser exatamente a certa.
   function aoOuvir(freq) {
@@ -160,14 +172,14 @@ export function montar(raiz, ir) {
     if (motor.ctx && motor.ctx.currentTime < motor.mudoAte) return;
     const r = notaMaisProxima(freq);
     if (r.midi === bloqueioMidi && performance.now() < bloqueioAte) return;
-    const alvo = midiQueSoa(notas[idx]);
+    const alvo = midiQueSoa(notas[idx].midi);
     const n = nomeDoMidi(r.midi);
     if (r.midi === alvo) {
       if (Math.abs(r.cents) <= 25) {
         bloqueioMidi = alvo; bloqueioAte = performance.now() + 2500;
         acertou();
       } else errou('Nota certa, mas desafinada: ajuste.', true);
-    } else errou('Você tocou ' + n.pt + n.oitava + '. Procure ' + nomeDaNota(notas[idx]) + ' (soa ' + nomeDoMidi(alvo).pt + nomeDoMidi(alvo).oitava + ').');
+    } else errou('Você tocou ' + n.pt + n.oitava + '. Procure ' + nomeCompleto(notas[idx]) + ' (soa ' + nomeDoMidi(alvo).pt + nomeDoMidi(alvo).oitava + ').');
   }
 
   // ---------- controles ----------

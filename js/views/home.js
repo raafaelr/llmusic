@@ -17,6 +17,7 @@ const MODULOS = [
   { nome: 'Teoria', desc: 'Lições curtas com quiz e braço', rota: 'teoria' },
   { nome: 'CAGED', desc: 'As 5 formas de acorde e o braço inteiro', rota: 'caged' },
   { nome: 'Leitura', desc: 'Partituras infinitas para ler à primeira vista', rota: 'leitura' },
+  { nome: 'Ritmo', desc: 'Leia e toque o ritmo no tempo do metrônomo', rota: 'ritmo' },
   { nome: 'Partituras', desc: 'Tocar lendo, com cursor e tablatura', rota: 'partituras' },
   { nome: 'Hábitos', desc: 'Sequência de dias e calendário de estudo', rota: 'habitos' },
   { nome: 'Pacotes', desc: 'Instalar e remover peças extras', rota: 'pacotes' }

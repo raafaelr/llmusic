@@ -251,11 +251,19 @@ input[type=range] { width: 100%; height: 44px; accent-color: var(--destaque); ba
 .nota-g.atual .haste { stroke: var(--destaque); }
 .nome-nota { font-size: 22px; font-weight: 700; fill: var(--suave); }
 .notas-botoes { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+.acidente { font-size: 34px; font-weight: 700; fill: var(--texto); font-family: Georgia, serif; }
+.nota-g.ok .acidente { fill: var(--ok); } .nota-g.erro .acidente { fill: var(--ruim); } .nota-g.atual .acidente { fill: var(--destaque); }
+.nota-btn.acid { display: none; font-size: 22px; }
+.notas-botoes.com-acid { grid-template-columns: repeat(7, 1fr) 0.8fr 0.8fr; }
+.notas-botoes.com-acid .acid { display: block; }
+.nota-btn.acid[aria-pressed="true"] { background: var(--destaque); color: var(--sobre-destaque); border-color: var(--destaque); }
 .nota-btn { min-height: 60px; font-family: var(--fonte); font-size: 18px; font-weight: 700; }
 .leitura-opcoes { display: flex; flex-wrap: wrap; gap: 8px 24px; align-items: end; }
 .painel-fim { text-align: center; display: flex; flex-direction: column; gap: 8px; align-items: center; }
 .estrelas { font-size: 48px; color: var(--destaque); line-height: 1; letter-spacing: 6px; }
 .fim-msg { color: var(--suave); }
+.fim-botoes { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+.fim-botoes .botao-sec { padding: 0 20px; min-height: 52px; }
 .painel-fim .botao-principal { padding: 0 32px; }
 @media (orientation: landscape) and (max-height: 460px) {
   .leitura { gap: 2px; }
@@ -412,6 +420,38 @@ input[type=range] { width: 100%; height: 44px; accent-color: var(--destaque); ba
   .opcao { min-height: 46px; font-size: 15px; padding: 4px 12px; }
   .quiz-tela .botao-principal { min-height: 46px; font-size: 16px; }
   .quiz-tela .feedback { font-size: 13px; min-height: 1.3em; }
+}
+
+/* ---------- Ritmo ---------- */
+.ritmo { display: grid; gap: 10px; grid-template-columns: 1fr; }
+.ritmo-svg { max-height: 190px; }
+.compasso-num { font-size: 26px; font-weight: 800; fill: var(--suave); font-family: Georgia, serif; }
+.cabeca-aberta { fill: var(--superficie); stroke: var(--texto); stroke-width: 4; }
+.viga-grossa { stroke: var(--texto); stroke-width: 7; }
+.bandeira { stroke: var(--texto); stroke-width: 3; fill: none; }
+.pausa-svg { fill: none; stroke: var(--suave); stroke-width: 4; stroke-linejoin: round; stroke-linecap: round; }
+.pausa-pt { fill: var(--suave); }
+.cursor-ritmo { stroke: var(--destaque); stroke-width: 4; }
+.ritmo-ev.hit .cabeca, .ritmo-ev.hit .cabeca-aberta { fill: var(--ok); stroke: var(--ok); }
+.ritmo-ev.hit .haste, .ritmo-ev.hit .viga-grossa, .ritmo-ev.hit .bandeira { stroke: var(--ok); }
+.ritmo-ev.miss .cabeca, .ritmo-ev.miss .cabeca-aberta { fill: var(--ruim); stroke: var(--ruim); }
+.ritmo-ev.miss .haste, .ritmo-ev.miss .viga-grossa, .ritmo-ev.miss .bandeira { stroke: var(--ruim); }
+.contagem { text-align: center; font-family: var(--mono); font-size: 40px; font-weight: 700; color: var(--destaque); min-height: 1.2em; line-height: 1.1; }
+.botao-tap { min-height: 120px; border-radius: 20px; border: 3px solid var(--destaque); background: var(--superficie); color: var(--texto); font-size: 22px; font-weight: 800; touch-action: manipulation; user-select: none; }
+.botao-tap:disabled { opacity: 0.45; border-color: var(--linha); }
+.botao-tap.batido { background: var(--destaque); color: var(--sobre-destaque); }
+@media (orientation: landscape) and (max-height: 460px) {
+  .ritmo { gap: 2px; }
+  .ritmo .topo, .ritmo .botao-texto { min-height: 34px; }
+  .ritmo .coluna { gap: 0; }
+  .ritmo-svg { max-height: 100px; }
+  .contagem { font-size: 26px; }
+  .botao-tap { min-height: 70px; font-size: 18px; }
+  .ritmo .leitura-opcoes .chip { min-height: 34px; }
+  .ritmo .leitura-opcoes .botao-principal { min-height: 44px; font-size: 16px; padding: 0 20px; }
+  .ritmo .estrelas { font-size: 28px; }
+  .ritmo .painel-fim .botao-principal, .ritmo .fim-botoes .botao-sec { min-height: 40px; font-size: 15px; }
+  .ritmo .fim-msg { font-size: 13px; }
 }
 @media (orientation: portrait) and (min-width: 700px) {
   .grade { grid-template-columns: repeat(2, 1fr); }
