@@ -25,6 +25,7 @@ Este app é feito só de arquivos de texto. Não tem instalação nem programas 
 | `js/views/pacotes.js`, `js/biblioteca.js` | Instalar/remover pacotes de peças (`pacotes/exemplo.json` mostra o formato). |
 | `js/views/caged.js`, `js/caged.js` | O sistema CAGED: as 5 formas, como deslizam pelo braço, quiz e tocar a forma. |
 | `js/bracosvg.js` | Desenha o braço em SVG; reaproveitado por várias telas. |
+| `js/views/teoria.js`, `js/teoria.js`, `js/licoes.js` | Lições de teoria: o texto fica em `licoes.js`, as contas e os quizzes em `teoria.js`. |
 | `js/db.js` | Guarda dados no celular (banco local IndexedDB). |
 | `js/pratica.js` | Conta os minutos de prática do dia. |
 | `sw.js` | O "service worker": guarda os arquivos para o app abrir sem internet. |

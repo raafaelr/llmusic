@@ -375,6 +375,44 @@ input[type=range] { width: 100%; height: 44px; accent-color: var(--destaque); ba
   .caged-opcoes .botao-sec { min-height: 36px; }
   .respostas-caged .nota-btn { min-height: 40px; }
 }
+
+/* ---------- Teoria ---------- */
+.teoria { display: flex; flex-direction: column; gap: 12px; }
+.texto-licao { display: flex; flex-direction: column; gap: 10px; max-width: 70ch; }
+.texto-licao p { line-height: 1.5; }
+.tabela-int { border-collapse: collapse; font-size: 14px; max-width: 360px; }
+.tabela-int td, .tabela-int th { border: 1px solid var(--linha); padding: 4px 10px; text-align: left; }
+.tabela-int th { color: var(--suave); font-weight: 600; }
+.demo-licao { display: flex; flex-direction: column; gap: 8px; }
+.info-demo { font-weight: 600; }
+.campo-lista { display: flex; flex-direction: column; gap: 4px; }
+.campo-item { display: grid; grid-template-columns: 56px 80px 1fr; gap: 8px; background: var(--superficie); border: 1px solid var(--linha); border-radius: 10px; padding: 8px 12px; }
+.campo-grau { color: var(--suave); font-family: var(--mono); }
+.campo-cifra { font-weight: 800; font-size: 18px; color: var(--destaque); }
+.exercicio-licao { display: flex; flex-direction: column; gap: 8px; }
+.seq-ex { display: flex; gap: 6px; flex-wrap: wrap; }
+.seq-nota { padding: 6px 12px; border-radius: 10px; border: 1px solid var(--linha); background: var(--superficie); font-weight: 700; }
+.seq-nota.atual { border-color: var(--destaque); background: var(--destaque); color: var(--sobre-destaque); }
+.seq-nota.feito { background: var(--ok); color: var(--fundo); border-color: var(--ok); }
+.acoes-licao { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
+.acoes-licao .botao-principal { padding: 0 28px; }
+.quiz-tela { gap: 10px; }
+.enunciado { font-size: 22px; font-weight: 700; min-height: 2.6em; }
+.opcoes-quiz { display: grid; gap: 8px; grid-template-columns: 1fr; }
+.opcao { min-height: 56px; text-align: left; padding: 8px 16px; font-weight: 600; }
+.opcao.certa { background: var(--ok); color: var(--fundo); border-color: var(--ok); }
+.opcao.errada { background: var(--ruim); color: var(--fundo); border-color: var(--ruim); }
+@media (orientation: landscape) {
+  .opcoes-quiz { grid-template-columns: 1fr 1fr; }
+}
+@media (orientation: landscape) and (max-height: 460px) {
+  .quiz-tela { gap: 4px; }
+  .quiz-tela .topo, .quiz-tela .botao-texto { min-height: 34px; }
+  .enunciado { font-size: 17px; min-height: 2.4em; }
+  .opcao { min-height: 46px; font-size: 15px; padding: 4px 12px; }
+  .quiz-tela .botao-principal { min-height: 46px; font-size: 16px; }
+  .quiz-tela .feedback { font-size: 13px; min-height: 1.3em; }
+}
 @media (orientation: portrait) and (min-width: 700px) {
   .grade { grid-template-columns: repeat(2, 1fr); }
 }
