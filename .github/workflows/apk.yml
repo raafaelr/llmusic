@@ -1,11 +1,14 @@
 # Gera o APK do LLMusic no GitHub (de graça). Para rodar: aba Actions > "Gerar APK" > Run workflow.
-# Quando terminar, baixe o arquivo "LLMusic-apk" na página da execução (seção Artifacts).
+# Quando terminar, o APK fica na página Releases do repositório (LLMusic.apk) e também como artefato "LLMusic-apk" na execução.
 name: Gerar APK
 
 on:
   workflow_dispatch:
   push:
     tags: ['v*']
+
+permissions:
+  contents: write
 
 jobs:
   apk:
@@ -45,3 +48,12 @@ jobs:
           name: LLMusic-apk
           path: android/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
+
+      # Também publica o APK numa "Release", para baixar direto do celular (sem .zip e sem login).
+      - name: Publicar APK na página Releases
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cp android/app/build/outputs/apk/debug/app-debug.apk LLMusic.apk
+          gh release delete apk-latest --yes --cleanup-tag || true
+          gh release create apk-latest LLMusic.apk --title "LLMusic - APK mais recente" --notes "Baixe LLMusic.apk e instale no celular (permita instalar de fontes desconhecidas)."
