@@ -4,7 +4,7 @@
 //
 // IMPORTANTE: quando você mudar qualquer arquivo do app, aumente o número da VERSAO.
 // Assim o celular joga fora o cache velho e baixa os arquivos novos.
-const VERSAO = 'llmusic-v13';
+const VERSAO = 'llmusic-v14';
 
 const ARQUIVOS = [
   './',
@@ -23,6 +23,7 @@ const ARQUIVOS = [
   './js/violao.js',
   './js/habitos.js',
   './js/nativo.js',
+  './js/menu.js',
   './js/caged.js',
   './js/caged-quiz.js',
   './js/cagedui.js',

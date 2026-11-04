@@ -484,3 +484,21 @@ input[type=range] { width: 100%; height: 44px; accent-color: var(--destaque); ba
 .pagina-pdf { width: 100%; height: auto; background: #fff; border-radius: 6px; }
 .acoes-cartao { display: flex; gap: 8px; flex-wrap: wrap; }
 @media (max-width: 420px) { .form-revisao { grid-template-columns: 1fr; } }
+
+/* ---- Menu lateral ---- */
+.menu-aba { position: fixed; left: 0; top: 50%; transform: translateY(-50%); z-index: 40; width: 22px; height: 72px; padding: 0; border: 1px solid var(--linha); border-left: 0; border-radius: 0 12px 12px 0; background: color-mix(in srgb, var(--superficie-2) 82%, transparent); color: var(--destaque); font-size: 22px; font-weight: 800; line-height: 1; opacity: .8; }
+.menu-aba:active { opacity: 1; }
+.menu-veu { position: fixed; inset: 0; z-index: 50; background: rgba(0,0,0,.5); opacity: 0; transition: opacity .2s; }
+.menu-veu.aberta { opacity: 1; }
+.menu-gaveta { position: fixed; top: 0; bottom: 0; left: 0; z-index: 60; width: min(80vw, 300px); background: var(--superficie); border-right: 1px solid var(--linha); transform: translateX(-100%); transition: transform .2s ease; overflow-y: auto; padding: 12px 10px calc(16px + env(safe-area-inset-bottom)); display: flex; flex-direction: column; gap: 2px; }
+.menu-gaveta.aberta { transform: none; }
+.menu-cab { display: flex; align-items: center; gap: 10px; padding: 4px 4px 10px; }
+.menu-nome { font-size: 20px; font-weight: 800; flex: 1; }
+.menu-fechar { min-height: 44px; padding: 0 10px; background: none; border: 0; color: var(--destaque); font-size: 15px; font-weight: 700; }
+.menu-grupo { margin: 12px 8px 2px; font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--suave); }
+.menu-item { min-height: 48px; text-align: left; padding: 0 14px; border: 0; border-radius: 10px; background: none; color: var(--texto); font-size: 17px; }
+.menu-item:active { background: var(--superficie-2); }
+.menu-item[aria-current="page"] { background: var(--destaque); color: var(--sobre-destaque); font-weight: 800; }
+.aviso-sair { position: fixed; left: 50%; bottom: calc(28px + env(safe-area-inset-bottom)); transform: translateX(-50%); z-index: 70; background: var(--superficie-2); color: var(--texto); border: 1px solid var(--linha); border-radius: 22px; padding: 10px 18px; font-size: 15px; }
+@media (orientation: landscape) and (max-height: 460px) { .menu-aba { height: 56px; } .menu-item { min-height: 40px; font-size: 16px; } }
+@media (prefers-reduced-motion: reduce) { .menu-gaveta, .menu-veu { transition: none; } }
