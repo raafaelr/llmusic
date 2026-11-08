@@ -42,5 +42,12 @@ como um conservatório: 8 níveis progressivos, módulos, aulas, exercícios e a
 Uma aula só é considerada **dominada** quando o questionário teórico atinge 75% de acerto
 *e* a avaliação prática é confirmada. O app não finge avaliar a sua execução por áudio.
 
-Estado atual: **Nível 1 completo** (4 módulos, 26 aulas). Níveis 2 a 8 mapeados, com
+Também fazem parte do curso:
+
+- **Biblioteca de Técnicas** (`#/tecnicas`): as 23 técnicas do violão clássico, cada uma
+  com passo a passo, digitação, exercícios, erros comuns e critérios de autoavaliação.
+- **Central de Exercícios** (`#/exercicios`): exercícios filtráveis por nível, disciplina,
+  técnica, dificuldade, tempo e objetivo, com registro de prática e de andamento atingido.
+
+Estado atual: **Níveis 1, 2 e 3 completos** (66 aulas). Níveis 4 a 8 mapeados, com
 conteúdo em preparação — acompanhe pela tela de Auditoria.

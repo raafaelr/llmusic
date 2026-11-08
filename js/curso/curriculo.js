@@ -128,7 +128,8 @@ export const MAPA = [
 // para funcionar offline depois da primeira visita).
 const CARREGADORES = {
   1: () => import('./niveis/n1.js'),
-  2: () => import('./niveis/n2.js')
+  2: () => import('./niveis/n2.js'),
+  3: () => import('./niveis/n3.js')
 };
 
 const cache = new Map();
