@@ -54,7 +54,16 @@ export const M11 = {
             'Cordas de náilon só existem desde ~1946.',
             '"Violão" quer dizer "viola grande", e no Brasil o instrumento nasceu na rua antes de chegar à escola.'
           ]
-        }
+        },
+        {
+          t: 'check', chave: 'historia', titulo: 'Observe e ouça',
+          itens: [
+            'Ouvi uma gravação de alaúde ou de vihuela e comparei com o som do violão.',
+            'Contei as cordas do meu violão e confirmei que são seis — a herança do século XIX.',
+            'Olhei por dentro da boca do violão e vi as barras que sustentam o tampo.',
+            'Procurei a etiqueta com o nome do fabricante e o modelo do meu instrumento.'
+          ]
+        },
       ],
       quiz: [
         { texto: 'Quem criou, por volta de 1850, o formato do violão clássico moderno?', opcoes: ['Antonio de Torres', 'Francisco Tárrega', 'Andrés Segovia', 'Fernando Sor'], correta: 0, explicacao: 'Torres era luthier: aumentou a caixa e criou o leque de varetas do tampo.' },
@@ -205,7 +214,16 @@ export const M11 = {
             'Elétrica = corpo maciço, captadores, precisa de amplificador.',
             'Jamais ponha cordas de aço num violão de náilon.'
           ]
-        }
+        },
+        {
+          t: 'check', chave: 'tipos', titulo: 'Compare na prática',
+          itens: [
+            'Toquei (ou ouvi) um violão de nylon e um de aço e percebi a diferença de timbre.',
+            'Senti a diferença de largura entre o braço de um clássico e de um folk.',
+            'Identifiquei qual é o tipo do violão que eu tenho.',
+            'Toquei uma corda solta com a ponta do dedo e com a unha e comparei o som.'
+          ]
+        },
       ],
       quiz: [
         { texto: 'Qual a principal diferença entre violão clássico e acústico?', opcoes: ['O material das cordas: náilon contra aço', 'O número de cordas', 'A afinação', 'O número de casas'], correta: 0, explicacao: 'Daí vêm todas as outras diferenças: largura do braço, dureza da corda e timbre.' },
@@ -542,7 +560,21 @@ export const M11 = {
             'Troque as cordas a cada 3 ou 4 meses, uma de cada vez.',
             'Guarde no case ou num suporte firme.'
           ]
-        }
+        },
+        {
+          t: 'violao', destacar: ['corpo', 'braco', 'cordas', 'cavalete'], rotulos: true,
+          legenda: 'As regiões que pedem cuidado: o corpo (poeira e suor no tampo), o braço e os trastes (oxidação), as cordas e o cavalete, onde a tensão se concentra.'
+        },
+        {
+          t: 'check', chave: 'cuidados', titulo: 'Rotina de cuidados',
+          itens: [
+            'Passei um pano seco e macio no violão depois de tocar.',
+            'Guardei o violão na capa, longe do sol e de fonte de calor.',
+            'Conferi se as cordas estão escuras ou sem brilho (sinal de oxidação).',
+            'Lavei e secei as mãos antes de tocar.',
+            'Anotei a data da última troca de cordas.'
+          ]
+        },
       ],
       quiz: [
         { texto: 'Qual é a faixa de umidade relativa ideal para um violão?', opcoes: ['Entre 45% e 60%', 'Entre 10% e 20%', 'Entre 80% e 95%', 'Não faz diferença'], correta: 0, explicacao: 'Seco demais racha; úmido demais incha.' },

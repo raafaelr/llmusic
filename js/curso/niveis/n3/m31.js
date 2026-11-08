@@ -271,7 +271,14 @@ export const M31 = {
             'Melódica: sexto e sétimo elevados na subida, natural na descida.',
             'A armadura é sempre a da relativa maior; as alterações são escritas como acidentes.'
           ]
-        }
+        },
+        {
+          t: 'tocar', titulo: 'Ouça a diferença no braço',
+          seq: [[5, 0], [4, 2], [3, 0], [3, 2], [2, 0], [2, 1], [1, 0], [1, 1]],
+          rotulo: 'Conferir Lá menor harmônica',
+          fim: 'Agora toque a mesma escala trocando o Sol sustenido pelo Sol natural: essa é a menor natural.',
+          x: 'Lá Si Dó Ré Mi Fá Sol sustenido Lá. A sétima nota (Sol sustenido, 1ª corda casa 1) é o que distingue a harmônica da natural.'
+        },
       ],
       quiz: [
         { texto: 'Qual é a diferença entre menor natural e menor harmônica?', opcoes: ['A harmônica tem o sétimo grau elevado', 'A harmônica tem o terceiro grau elevado', 'A harmônica tem o sexto elevado', 'Não há diferença'], correta: 0, explicacao: 'É o Sol♯ em Lá menor.' },
@@ -555,7 +562,16 @@ export const M31 = {
             'I–V–vi–IV é a progressão mais usada da música popular.',
             'No menor harmônico, o V é maior: é para isso que o 7º grau sobe.'
           ]
-        }
+        },
+        {
+          t: 'check', chave: 'campo', titulo: 'Toque o campo harmônico',
+          itens: [
+            'Toquei os sete acordes do campo de Dó maior em sequência: C, Dm, Em, F, G, Am, Bdim.',
+            'Toquei os sete acordes do campo de Sol maior.',
+            'Toquei a sequência I - IV - V - I em Dó e em Sol.',
+            'Escrevi de memória o campo harmônico de Ré maior e confirmei na tabela.'
+          ]
+        },
       ],
       quiz: [
         { texto: 'Qual é a qualidade do grau vi no campo harmônico maior?', opcoes: ['Menor', 'Maior', 'Diminuto', 'Aumentado'], correta: 0, explicacao: 'I ii iii IV V vi vii°.' },

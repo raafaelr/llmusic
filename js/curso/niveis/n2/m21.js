@@ -350,7 +350,18 @@ export const M21 = {
             'D.C., D.S., Fine e Coda mandam saltar pela partitura.',
             'Mapeie a ordem dos compassos em voz alta antes de tocar.'
           ]
-        }
+        },
+        {
+          t: 'exercicio', tipo: 'perguntas', titulo: 'Sinais de caminho', rodadas: 6,
+          perguntas: [
+            { texto: 'Dois pontos antes de uma barra dupla significam:', opcoes: ['Repetir o trecho', 'Fim da peça', 'Mudar de tom', 'Acelerar'], correta: 0, explicacao: 'É o sinal de ritornelo: volte e toque de novo.' },
+            { texto: 'O que indica a barra dupla final (uma fina e uma grossa)?', opcoes: ['O fim da peça', 'Uma repetição', 'Uma pausa longa', 'Troca de compasso'], correta: 0, explicacao: 'Ela encerra a música.' },
+            { texto: 'D.C. al Fine manda:', opcoes: ['Voltar ao começo e tocar até a palavra Fine', 'Parar imediatamente', 'Repetir só o último compasso', 'Tocar mais forte'], correta: 0, explicacao: 'Da capo quer dizer "da cabeça", isto é, do começo.' },
+            { texto: 'Em 3/4, o número de baixo diz que:', opcoes: ['A figura que vale um tempo é a semínima', 'Há quatro tempos no compasso', 'O andamento é rápido', 'A tonalidade é maior'], correta: 0, explicacao: 'O 4 representa a semínima; o 3 diz que cabem três por compasso.' },
+            { texto: 'As casas 1 e 2 (os colchetes sobre a pauta) servem para:', opcoes: ['Dar finais diferentes à repetição', 'Marcar o andamento', 'Indicar o dedilhado', 'Mudar o compasso'], correta: 0, explicacao: 'Na primeira vez você toca a casa 1; na repetição, pula para a casa 2.' },
+            { texto: 'O que é uma anacruse?', opcoes: ['A nota ou notas que vêm antes do primeiro tempo forte', 'Uma pausa de dois compassos', 'Um sinal de repetição', 'Uma ligadura de expressão'], correta: 0, explicacao: 'É o compasso inicial incompleto, como o "pa" de "pa-rabéns".' }
+          ]
+        },
       ],
       quiz: [
         { texto: 'O que significam dois pontos antes de uma barra grossa?', opcoes: ['Volte e repita o trecho', 'Fim da música', 'Mudança de andamento', 'Toque mais forte'], correta: 0, explicacao: 'É o sinal de repetição.' },

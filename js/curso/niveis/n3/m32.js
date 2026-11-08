@@ -492,7 +492,14 @@ export const M32 = {
             'Toque mais perto do cavalete para o harmônico sair claro.',
             'Harmônicos são excelentes para afinar com precisão.'
           ]
-        }
+        },
+        {
+          t: 'tocar', titulo: 'Confira os harmônicos da casa 12',
+          seq: [[5, 12], [4, 12], [3, 12]],
+          rotulo: 'Conferir harmônicos no microfone',
+          fim: 'Se o app reconheceu as três notas, o seu toque de harmônico já está limpo.',
+          x: 'Encoste o dedo sobre o traste 12 (sem apertar), toque e solte o dedo. O harmônico soa uma oitava acima da corda solta, e é essa nota que o app confere.'
+        },
       ],
       quiz: [
         { texto: 'Onde encostar o dedo para um harmônico natural?', opcoes: ['Exatamente em cima do traste', 'Dentro da casa', 'Logo depois do traste', 'No meio da casa'], correta: 0, explicacao: 'É a única técnica em que isso é correto.' },
@@ -706,6 +713,164 @@ export const M32 = {
           'Toco uma peça sem metrônomo, com liberdade expressiva.'
         ],
         criterio: 'Você domina quando o metrônomo virou ferramenta de diagnóstico, não apenas acompanhamento.'
+      }
+    },
+    {
+      id: 'n3.2.8',
+      titulo: 'Independência dos dedos e mudanças de posição',
+      resumo: 'Cada dedo obedecendo sozinho, e a mão viajando pelo braço sem perder o tempo.',
+      minutos: 20,
+      disciplinas: ['tecnica'],
+      prereq: ['n3.2.1', 'n3.2.4'],
+      status: 'implementado',
+      cobre: ['Independência dos dedos', 'Mudanças de posição'],
+      objetivo: 'Treinar cada dedo da mão esquerda a agir sem arrastar os vizinhos e deslocar a mão entre posições sem interromper o som.',
+      blocos: [
+        { t: 'p', x: 'Duas dificuldades aparecem juntas por volta desta altura do estudo: os dedos *se atrapalham entre si*, e a mão *não consegue mudar de lugar* no braço sem que a música pare. As duas têm a mesma raiz: a mão ainda trabalha como um bloco só. Esta aula separa esse bloco em quatro dedos e ensina a mão a viajar.' },
+        { t: 'h', x: 'Parte 1 — Independência dos dedos' },
+        {
+          t: 'def', termo: 'Independência',
+          x: 'Capacidade de mover um dedo *sem que os outros se mexam*. Não é força: é controle. O dedo 4 não precisa ficar forte, precisa ficar obediente.'
+        },
+        { t: 'p', x: 'Anatomicamente, os dedos 3 e 4 compartilham tendões: quando um sobe, o outro tende a ir junto. Isso não se corrige com esforço, e sim com repetição lenta e consciente. Você não vai *vencer* a anatomia — vai ensinar o cérebro a enviar ordens separadas.' },
+        { t: 'mao', lado: 'esquerda', destacar: ['3', '4'], legenda: 'Os dedos 3 e 4 são os que mais se arrastam um ao outro. São eles que pedem o trabalho específico desta aula.' },
+        { t: 'h3', x: 'Exercício 1 — o dedo que fica' },
+        {
+          t: 'passos', itens: [
+            'Ponha o dedo 1 na 1ª corda, casa 5, e toque. Mantenha o dedo 1 apertado durante todo o exercício.',
+            'Sem levantar o 1, ponha o dedo 2 na casa 6 e toque.',
+            'Sem levantar o 1 nem o 2, ponha o 3 na casa 7 e toque.',
+            'Sem levantar nenhum, ponha o 4 na casa 8 e toque.',
+            'Agora levante só o 4 e toque a nota do 3. Depois só o 3, e toque a do 2. Depois só o 2.',
+            'Repita na 2ª corda, na 3ª, até a 6ª. Depois volte.'
+          ]
+        },
+        {
+          t: 'braco', casas: 9,
+          notas: [
+            { corda: 1, casa: 5, classe: 'dedo1', rotulo: '1' },
+            { corda: 1, casa: 6, classe: 'dedo2', rotulo: '2' },
+            { corda: 1, casa: 7, classe: 'dedo3', rotulo: '3' },
+            { corda: 1, casa: 8, classe: 'dedo4', rotulo: '4' }
+          ],
+          legenda: 'Um dedo por casa, todos apertados ao mesmo tempo. Essa é a "mão aberta" da 5ª posição.',
+          tocar: true, bpm: 60
+        },
+        {
+          t: 'dica', titulo: 'O ponto da aula: ',
+          x: 'o que importa não é a nota que soa, e sim os dedos que *não se mexeram*. Olhe para a mão enquanto toca: se o 4 sobe quando o 3 levanta, vá mais devagar.'
+        },
+        { t: 'h3', x: 'Exercício 2 — pares cruzados' },
+        { t: 'p', x: 'Toque pares de dedos nas combinações difíceis, sempre na mesma posição, alternando devagar: 1-2, 1-3, 1-4, 2-3, 2-4 e *3-4*. O par 3-4 é o mais difícil e o que mais rende.' },
+        {
+          t: 'tab',
+          compassos: [
+            { notas: [{ pos: [[2, 5]], fig: 'colcheia', dedo: 'i' }, { pos: [[2, 7]], fig: 'colcheia', dedo: 'm' }, { pos: [[2, 5]], fig: 'colcheia', dedo: 'i' }, { pos: [[2, 8]], fig: 'colcheia', dedo: 'm' }, { pos: [[2, 6]], fig: 'colcheia', dedo: 'i' }, { pos: [[2, 7]], fig: 'colcheia', dedo: 'm' }, { pos: [[2, 7]], fig: 'colcheia', dedo: 'i' }, { pos: [[2, 8]], fig: 'colcheia', dedo: 'm' }] }
+          ],
+          legenda: 'Mão esquerda, 5ª posição: 1-3, 1-4, 2-3, 3-4. A mão não sai do lugar; só os dedos trabalham.',
+          tocar: true, bpm: 72
+        },
+        { t: 'metronomo', titulo: 'Pares cruzados com clique', bpm: 60, compasso: '4/4', x: 'Uma nota por clique. Suba de 4 em 4 BPM só quando o par 3-4 sair limpo.' },
+        { t: 'h', x: 'Parte 2 — Mudanças de posição' },
+        {
+          t: 'def', termo: 'Posição',
+          x: 'A casa onde o *dedo 1* está. Mão na 5ª posição = dedo 1 na casa 5, dedo 2 na 6, dedo 3 na 7, dedo 4 na 8. Mudar de posição é levar a mão inteira para outra casa.'
+        },
+        { t: 'p', x: 'A mudança de posição é o que permite tocar o braço inteiro. E é onde quase todo aluno atrasa o tempo, porque faz a mudança em três movimentos separados: solta, procura, aperta. O movimento correto é *um só*.' },
+        {
+          t: 'comparar',
+          a: { titulo: 'O que atrasa', itens: ['Levantar os dedos e só depois mover a mão.', 'Olhar para o braço antes de mover.', 'Apertar o polegar e arrastá-lo.', 'Procurar a casa com o olho, não com a distância.'] },
+          b: { titulo: 'O que funciona', itens: ['Aliviar a pressão sem perder o contato com a corda.', 'O polegar sai primeiro, guiando a mão.', 'O braço (e não o pulso) leva a mão.', 'O dedo-guia desliza pela corda até a casa nova.'] }
+        },
+        { t: 'h3', x: 'A regra do dedo-guia' },
+        { t: 'p', x: 'Em quase toda mudança existe um dedo que pode *deslizar* pela corda em vez de saltar no ar. Ele é o dedo-guia: alivia a pressão, mantém o contato e desliza. A mão chega na nova posição já no lugar, porque o dedo nunca perdeu a referência.' },
+        {
+          t: 'tab',
+          compassos: [
+            { notas: [{ pos: [[1, 3]], fig: 'seminima', dedo: 'i' }, { pos: [[1, 5]], fig: 'seminima', dedo: 'm' }, { pos: [[1, 7]], fig: 'seminima', dedo: 'i' }, { pos: [[1, 9]], fig: 'seminima', dedo: 'm' }] },
+            { notas: [{ pos: [[1, 7]], fig: 'seminima', dedo: 'i' }, { pos: [[1, 5]], fig: 'seminima', dedo: 'm' }, { pos: [[1, 3]], fig: 'seminima', dedo: 'i' }, { pos: [[1, 3]], fig: 'seminima', dedo: 'm' }] }
+          ],
+          legenda: 'Só o dedo 1, deslizando pela 1ª corda: casa 3 → 5 → 7 → 9 e volta. O som não para entre as casas.',
+          tocar: true, bpm: 60
+        },
+        {
+          t: 'passos', itens: [
+            'Toque a nota da casa 3 com o dedo 1 e deixe soar.',
+            'Alivie a pressão do dedo sem soltar a corda (o som vai morrer um pouco: é normal).',
+            'Deslize até a casa 5 mantendo o contato, e aperte de novo ao chegar.',
+            'Toque a corda só depois de a mão já estar posicionada.',
+            'O polegar acompanha atrás, no meio do braço — ele nunca fica para trás.'
+          ]
+        },
+        {
+          t: 'tocar', titulo: 'Confira a sua mudança de posição',
+          seq: [[1, 3], [1, 5], [1, 7], [1, 9], [1, 7], [1, 5], [1, 3]],
+          rotulo: 'Conferir no microfone',
+          fim: 'Agora faça o mesmo caminho com o dedo 2 e depois com o dedo 3.',
+          x: 'Toque devagar, uma nota por vez. O app confere se você chegou na casa certa: Sol, Lá, Si, Dó sustenido e volta.'
+        },
+        { t: 'h3', x: 'Mudanças longas: o salto preparado' },
+        { t: 'p', x: 'Quando não há dedo-guia possível (um salto da 1ª para a 9ª posição, por exemplo), a mudança precisa ser *preparada*: você rouba tempo da nota anterior, não da nota seguinte. Encurte levemente a última nota antes do salto e chegue no tempo. Ninguém percebe a nota encurtada; todos percebem o atraso.' },
+        { t: 'metronomo', titulo: 'Salto no tempo', bpm: 54, compasso: '4/4', x: 'Toque a casa 3 no tempo 1 e a casa 10 no tempo 3. Dois tempos para viajar. Vá subindo o andamento até ter só um tempo.' },
+        {
+          t: 'check', chave: 'independencia', titulo: 'Rotina de cinco minutos',
+          itens: [
+            'Fiz o exercício do dedo que fica nas seis cordas.',
+            'Fiz os seis pares cruzados, com atenção especial ao 3-4.',
+            'Deslizei o dedo-guia pela 1ª corda, da casa 3 até a 9 e de volta.',
+            'Fiz uma mudança longa com o metrônomo, encurtando a nota anterior.',
+            'Observei a mão no espelho (ou no celular) para ver se os dedos ficavam quietos.'
+          ]
+        },
+        {
+          t: 'exercicio', tipo: 'perguntas', titulo: 'Fixação', rodadas: 6,
+          perguntas: [
+            { texto: 'A mão está na 7ª posição. Onde está o dedo 1?', opcoes: ['Casa 7', 'Casa 1', 'Casa 8', 'Casa 10'], correta: 0, explicacao: 'A posição recebe o nome da casa do dedo 1.' },
+            { texto: 'Nessa mesma 7ª posição, o dedo 4 cobre naturalmente a casa:', opcoes: ['10', '7', '8', '11'], correta: 0, explicacao: 'Um dedo por casa: 1 na 7, 2 na 8, 3 na 9, 4 na 10.' },
+            { texto: 'O que faz o dedo-guia numa mudança de posição?', opcoes: ['Alivia a pressão e desliza pela corda sem perder o contato', 'Aperta mais forte para não escapar', 'Sai da corda e salta pelo ar', 'Fica parado enquanto os outros se movem'], correta: 0, explicacao: 'Manter o contato é o que preserva a referência de distância.' },
+            { texto: 'Numa mudança longa, de onde se "rouba" o tempo?', opcoes: ['Da nota anterior ao salto', 'Da nota de chegada', 'Do compasso seguinte', 'Não se rouba tempo nenhum'], correta: 0, explicacao: 'Encurtar a nota anterior é imperceptível; atrasar a chegada não é.' },
+            { texto: 'Por que os dedos 3 e 4 se arrastam um ao outro?', opcoes: ['Porque compartilham tendões', 'Porque são mais curtos', 'Porque têm menos força', 'Porque a unha é maior'], correta: 0, explicacao: 'É anatomia. Resolve-se com repetição lenta, não com força.' },
+            { texto: 'Durante o exercício do dedo que fica, o que mais importa?', opcoes: ['Os dedos que não se mexeram', 'A velocidade atingida', 'O volume do som', 'A quantidade de repetições'], correta: 0, explicacao: 'O objetivo é controle de cada dedo, não velocidade.' }
+          ]
+        },
+        {
+          t: 'erros', itens: [
+            { erro: 'Tentar ganhar independência com força.', certo: 'Independência é controle. Toque mais devagar, não mais forte.' },
+            { erro: 'Levantar o dedo 4 junto com o 3.', certo: 'Pare, observe a mão e repita o movimento devagar até o 4 ficar quieto.' },
+            { erro: 'Soltar a corda completamente para mudar de posição.', certo: 'Alivie a pressão mantendo o contato: o dedo-guia desliza.' },
+            { erro: 'Mover o pulso em vez do braço.', certo: 'O antebraço leva a mão. O pulso fica estável, no mesmo ângulo.' },
+            { erro: 'Deixar o polegar para trás e arrastar a mão.', certo: 'O polegar sai primeiro, atrás do braço, guiando o movimento.' },
+            { erro: 'Olhar para o braço em cada mudança.', certo: 'Olhe uma vez para aprender a distância e depois confie no tato.' }
+          ]
+        },
+        {
+          t: 'resumo', itens: [
+            'Independência é um dedo se mover sem arrastar os vizinhos — controle, não força.',
+            'Os dedos 3 e 4 compartilham tendões: precisam de trabalho específico e lento.',
+            'Posição é a casa onde está o dedo 1.',
+            'Na mudança, o dedo-guia alivia a pressão e desliza sem perder o contato com a corda.',
+            'O polegar sai primeiro e o antebraço leva a mão; o pulso fica estável.',
+            'Em saltos longos, encurte a nota anterior em vez de atrasar a chegada.'
+          ]
+        },
+        { t: 'ir', rota: 'exercicios', titulo: 'Central de Exercícios', x: 'Registre lá o andamento máximo dos pares cruzados e do deslizamento do dedo-guia.' }
+      ],
+      quiz: [
+        { texto: 'O que significa "mão na 5ª posição"?', opcoes: ['O dedo 1 está na casa 5', 'A mão está na 5ª corda', 'Você toca a quinta nota da escala', 'O polegar está na casa 5'], correta: 0, explicacao: 'A posição é sempre nomeada pela casa do dedo 1.' },
+        { texto: 'Independência dos dedos é, acima de tudo:', opcoes: ['Controle', 'Força', 'Velocidade', 'Alongamento'], correta: 0, explicacao: 'O dedo 4 não precisa ficar forte: precisa obedecer sozinho.' },
+        { texto: 'Qual é o papel do dedo-guia?', opcoes: ['Deslizar pela corda mantendo a referência de distância', 'Apertar com mais força a nota de chegada', 'Marcar o tempo da mudança', 'Abafar as cordas durante o salto'], correta: 0, explicacao: 'Sem perder o contato, a mão chega posicionada.' },
+        { texto: 'Numa mudança de posição que atrasa o tempo, o que se corrige primeiro?', opcoes: ['Encurtar a nota anterior para chegar no tempo', 'Tocar a nota de chegada mais forte', 'Aumentar o andamento do metrônomo', 'Trocar o dedilhado da mão direita'], correta: 0, explicacao: 'Rouba-se tempo de antes, nunca de depois.' },
+        { texto: 'Por que o par 3-4 é o mais difícil?', opcoes: ['Porque os dois dedos compartilham tendões', 'Porque ficam mais longe da pestana', 'Porque a corda é mais grossa ali', 'Porque usam unhas diferentes'], correta: 0, explicacao: 'É uma limitação anatômica, vencida com repetição lenta.' }
+      ],
+      pratica: {
+        titulo: 'Avaliação prática',
+        itens: [
+          'Exercício do dedo que fica, nas seis cordas, sem que nenhum dedo apertado se levante.',
+          'Os seis pares cruzados a 72 BPM, uma nota por clique, com o par 3-4 limpo.',
+          'Dedo-guia deslizando na 1ª corda (casas 3-5-7-9 e volta) sem interromper o som.',
+          'Uma mudança longa (casa 3 → casa 10) chegando exatamente no tempo, a 72 BPM.'
+        ],
+        criterio: 'Você domina quando consegue levantar um dedo por vez com os outros parados e fazer a mudança de posição sem perder uma fração de tempo — tudo isso sem olhar para o braço.'
       }
     }
   ]

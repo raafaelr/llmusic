@@ -253,7 +253,12 @@ export const M13 = {
             'O violão usa só a clave de sol.',
             'O 8 embaixo da clave avisa que o violão soa uma oitava abaixo do escrito.'
           ]
-        }
+        },
+        {
+          t: 'exercicio', tipo: 'identificar-nota', titulo: 'Qual é a nota na pauta?', rodadas: 8,
+          notas: ['e4', 'f4', 'g4', 'a4', 'b4', 'c5', 'd5', 'e5'],
+          x: 'Clave de sol. Lembre do apoio: as linhas, de baixo para cima, são Mi, Sol, Si, Ré, Fá; os espaços são Fá, Lá, Dó, Mi.'
+        },
       ],
       quiz: [
         { texto: 'Quantas linhas tem o pentagrama?', opcoes: ['Cinco', 'Quatro', 'Seis', 'Sete'], correta: 0, explicacao: 'Penta = cinco. E quatro espaços entre elas.' },

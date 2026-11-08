@@ -492,7 +492,16 @@ export const M33 = {
             'O foco da música dele é som, cor e fraseado, não dificuldade técnica.',
             'Comece pelos prelúdios curtos; depois Lágrima. Tudo em domínio público.'
           ]
-        }
+        },
+        {
+          t: 'check', chave: 'tarrega', titulo: 'Conheça o som de Tárrega',
+          itens: [
+            'Ouvi uma gravação de Lágrima e uma de Recuerdos de la Alhambra.',
+            'Toquei os primeiros compassos de Lágrima devagar, com a melodia cantando acima do baixo.',
+            'Identifiquei, numa gravação, um trecho em que o intérprete usa rubato.',
+            'Toquei a mesma frase com dois timbres diferentes (mais perto do cavalete e mais perto da boca).'
+          ]
+        },
       ],
       quiz: [
         { texto: 'Qual foi a principal contribuição de Tárrega?', opcoes: ['Sistematizou a postura e a técnica do violão moderno', 'Inventou o violão', 'Criou a tablatura', 'Escreveu o primeiro método'], correta: 0, explicacao: 'Quase tudo o que se ensina hoje passa por ele.' },
