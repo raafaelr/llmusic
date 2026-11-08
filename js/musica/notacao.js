@@ -196,13 +196,17 @@ export function desenharPauta(svg, opcoes = {}) {
     for (let l = 0; l < 5; l++) sv('line', { x1: 14, x2: xFim, y1: yDe(l * 2), y2: yDe(l * 2), class: 'linha-pauta' }, g);
     sv('line', { x1: 14, x2: 14, y1: Y_TOPO, y2: Y_BASE, class: 'barra-compasso' }, g);
 
+    // Lista de todas as notas desenhadas neste sistema, na ordem. É o que permite
+    // desenhar ligaduras que atravessam a barra de compasso.
+    const desenhadas = [];
+
     // divide a largura entre os compassos, proporcional ao número de eventos
     const pesos = grupo.map((c) => Math.max(1, (c.notas || []).length));
     const total = pesos.reduce((a, b) => a + b, 0) || 1;
     let cx = x0;
     grupo.forEach((comp, ci) => {
       const larg = (xFim - x0) * (pesos[ci] / total);
-      desenharCompasso(g, comp, cx, larg, { armadura, nomes, dedos, numerar, numero, aoClicar, yNomes });
+      desenharCompasso(g, comp, cx, larg, { armadura, nomes, dedos, numerar, numero, aoClicar, yNomes, desenhadas });
       numero++;
       cx += larg;
       const ultimo = li === linhas.length - 1 && ci === grupo.length - 1;
@@ -213,9 +217,38 @@ export function desenharPauta(svg, opcoes = {}) {
       if (ultimo) sv('line', { x1: cx - 5, x2: cx - 5, y1: Y_TOPO, y2: Y_BASE, class: 'barra-compasso' }, g);
       if (comp.repetir === 'fim' || comp.repetir === 'ambos') pontosRepeticao(g, cx - 12);
       if (comp.repetir === 'inicio' || comp.repetir === 'ambos') pontosRepeticao(g, cx - larg + 12);
+      if (comp.casa) casaDeFinal(g, cx - larg, cx, comp.casa);
     });
+    desenharLigaduras(g, desenhadas);
   });
   return svg;
+}
+
+// Ligadura: o arco que liga duas notas.
+//  - de prolongamento (mesma altura): soma as durações, toca-se só a primeira.
+//  - de expressão (alturas diferentes): no violão, indica ligado de mão esquerda.
+function desenharLigaduras(g, lista) {
+  lista.forEach((n, i) => {
+    if (!n.lig) return;
+    const prox = lista[i + 1];
+    if (!prox) return;
+    const cima = !n.cima;                       // o arco vai do lado oposto à haste
+    const y1 = cima ? Math.min(n.yTopo, prox.yTopo) - 12 : Math.max(n.yBase, prox.yBase) + 12;
+    const meioX = (n.x + prox.x) / 2;
+    const curva = cima ? y1 - 10 : y1 + 10;
+    sv('path', {
+      d: `M${n.x + 7},${cima ? n.yTopo - 8 : n.yBase + 8} Q${meioX},${curva} ${prox.x - 7},${cima ? prox.yTopo - 8 : prox.yBase + 8}`,
+      class: 'ligadura', fill: 'none'
+    }, g);
+  });
+}
+
+// Casa 1 e casa 2 do final (os colchetes "1." e "2." sobre a pauta).
+function casaDeFinal(g, x0, x1, numero) {
+  const y = Y_TOPO - 34;
+  sv('polyline', { points: `${x0 + 4},${y + 12} ${x0 + 4},${y} ${x1 - 4},${y} ${x1 - 4},${y + 12}`, class: 'casa-final', fill: 'none' }, g);
+  const t = sv('text', { x: x0 + 10, y: y + 11, class: 'casa-final-num' }, g);
+  t.textContent = numero + '.';
 }
 
 function pontosRepeticao(g, x) {
@@ -289,9 +322,9 @@ function desenharCompasso(pai, comp, x0, largura, cfg) {
     info.forEach((it, k) => {
       const y = yDe(it.pos);
       linhasSupl(it.pos).forEach((p) => sv('line', { x1: x - 17, x2: x + 17, y1: yDe(p), y2: yDe(p), class: 'linha-pauta linha-supl' }, gN));
-      if (it.acc) {
+      if (it.acc || n.bequadro) {
         const t = sv('text', { x: x - 22 - k * 13, y: y + 7, class: 'acidente', 'text-anchor': 'middle' }, gN);
-        t.textContent = it.acc > 0 ? '♯' : it.acc < 0 ? '♭' : '♮';
+        t.textContent = n.bequadro ? '♮' : it.acc > 0 ? '♯' : '♭';
       }
       cabeca(gN, x, y, fig, n.cabeca);
       if (n.ponto) sv('circle', { cx: x + 16, cy: y - (it.pos % 2 === 0 ? 6 : 0), r: 2.6, class: 'ponto-aum' }, gN);
@@ -309,7 +342,18 @@ function desenharCompasso(pai, comp, x0, largura, cfg) {
       if (VALOR[fig] < 1 && (!gr || gr.length === 1)) ganchos(gN, xh, yFim, paraCima, fig);
     }
 
-    if (cfg.nomes) rotulo(g, x, nomeDaNota(midis[midis.length - 1], cfg.armadura), cfg.yNomes);
+    if (cfg.desenhadas) cfg.desenhadas.push({
+      x, lig: n.lig, cima: direcao.get(i),
+      yTopo: yDe(info[info.length - 1].pos), yBase: yDe(info[0].pos)
+    });
+    if (cfg.nomes) {
+      // Se a aula forçou um acidente (ex.: escrever Si♭ em vez de Lá♯), o nome segue a escrita.
+      const ult = info[info.length - 1];
+      const nome = n.acc !== undefined
+        ? nomeNatural(ult.pos >= 0 ? midis[midis.length - 1] - n.acc : midis[midis.length - 1] - n.acc) + (n.acc > 0 ? '♯' : n.acc < 0 ? '♭' : '')
+        : nomeDaNota(midis[midis.length - 1], cfg.armadura);
+      rotulo(g, x, nome, cfg.yNomes);
+    }
     if (cfg.dedos && n.dedo) {
       const t = sv('text', { x, y: Y_TOPO - 8, class: 'dedo-pauta', 'text-anchor': 'middle' }, g);
       t.textContent = n.dedo;
@@ -406,14 +450,17 @@ export function midiDe(texto) {
 export function compassosDe(txt) {
   return txt.split('|').map((parte) => {
     const notas = [];
-    parte.trim().split(/\s+/).filter(Boolean).forEach((tok) => {
+    parte.trim().split(/\s+/).filter(Boolean).forEach((tok0) => {
+      let tok = tok0;
+      const lig = tok.endsWith('~');
+      if (lig) tok = tok.slice(0, -1);
       const [alt, figAb = 'q'] = tok.split('/');
       const ponto = figAb.endsWith('.');
       const fig = ABREV[figAb.replace('.', '')] || 'seminima';
       if (alt === 'z' || alt === 'Z') { notas.push({ pausa: fig, ponto }); return; }
-      if (alt.includes('+')) { notas.push({ midis: alt.split('+').map(midiDe), fig, ponto }); return; }
+      if (alt.includes('+')) { notas.push({ midis: alt.split('+').map(midiDe), fig, ponto, lig }); return; }
       const midi = midiDe(alt);
-      if (midi !== null) notas.push({ midi, fig, ponto });
+      if (midi !== null) notas.push({ midi, fig, ponto, lig });
     });
     return { notas };
   });

@@ -127,7 +127,8 @@ export const MAPA = [
 // o navegador só baixa o nível que o aluno abrir (e o service worker guarda tudo
 // para funcionar offline depois da primeira visita).
 const CARREGADORES = {
-  1: () => import('./niveis/n1.js')
+  1: () => import('./niveis/n1.js'),
+  2: () => import('./niveis/n2.js')
 };
 
 const cache = new Map();

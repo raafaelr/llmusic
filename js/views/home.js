@@ -13,6 +13,8 @@ function el(tag, classe, texto) {
 const MODULOS = [
   { nome: 'Curso de violão', desc: '8 níveis, do zero ao avançado: aulas, exercícios e avaliações', rota: 'curso', destaque: true },
   { nome: 'Meu progresso', desc: 'Onde você está, o que já dominou e o que vem agora', rota: 'painel', destaque: true },
+  { nome: 'Biblioteca de Técnicas', desc: '23 técnicas do violão, passo a passo, com critérios de avaliação', rota: 'tecnicas', destaque: true },
+  { nome: 'Central de Exercícios', desc: 'Exercícios filtráveis por nível, técnica, tempo e objetivo', rota: 'exercicios', destaque: true },
   { nome: 'Metrônomo', desc: 'Cliques sintetizados, compassos e subdivisões', rota: 'metronomo' },
   { nome: 'Afinador', desc: 'Afinação padrão e alternativas', rota: 'afinador' },
   { nome: 'Braço virtual', desc: 'Notas e casas acendendo no braço', rota: 'braco' },
