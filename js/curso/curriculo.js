@@ -130,7 +130,8 @@ const CARREGADORES = {
   1: () => import('./niveis/n1.js'),
   2: () => import('./niveis/n2.js'),
   3: () => import('./niveis/n3.js'),
-  4: () => import('./niveis/n4.js')
+  4: () => import('./niveis/n4.js'),
+  5: () => import('./niveis/n5.js')
 };
 
 const cache = new Map();
