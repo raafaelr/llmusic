@@ -19,6 +19,8 @@ import * as painel from './views/painel.js';
 import * as auditoria from './views/auditoria.js';
 import * as tecnicas from './views/tecnicas.js';
 import * as exercicios from './views/exercicios.js';
+import * as repertorio from './views/repertorio.js';
+import * as plano from './views/plano.js';
 import { criarMenu } from './menu.js';
 import { nativo } from './nativo.js';
 
@@ -41,7 +43,9 @@ const TELAS = {
   'painel': painel,
   'auditoria': auditoria,
   'tecnicas': tecnicas,
-  'exercicios': exercicios
+  'exercicios': exercicios,
+  'repertorio': repertorio,
+  'plano': plano
 };
 
 const raiz = document.getElementById('app');

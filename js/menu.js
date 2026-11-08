@@ -2,7 +2,7 @@
 // Também abre arrastando o dedo da borda esquerda para a direita. Fecha tocando fora, em "Fechar" ou no botão Voltar.
 const GRUPOS = [
   ['', [['', 'Início']]],
-  ['Curso', [['painel', 'Meu progresso'], ['curso', 'Grade curricular'], ['tecnicas', 'Biblioteca de Técnicas'], ['exercicios', 'Central de Exercícios'], ['auditoria', 'Auditoria curricular']]],
+  ['Curso', [['painel', 'Meu progresso'], ['curso', 'Grade curricular'], ['tecnicas', 'Biblioteca de Técnicas'], ['exercicios', 'Central de Exercícios'], ['repertorio', 'Repertório'], ['plano', 'Meu Plano de Estudos'], ['auditoria', 'Auditoria curricular']]],
   ['Praticar', [['metronomo', 'Metrônomo'], ['afinador', 'Afinador'], ['braco', 'Braço virtual']]],
   ['Aprender', [['teoria', 'Teoria'], ['caged', 'CAGED (ferramenta)'], ['caged-aulas', 'CAGED (aulas)'], ['leitura', 'Leitura'], ['ritmo', 'Ritmo']]],
   ['Tocar', [['partituras', 'Partituras'], ['importar', 'Importar tablatura']]],

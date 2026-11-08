@@ -4,7 +4,7 @@
 //
 // IMPORTANTE: quando você mudar qualquer arquivo do app, aumente o número da VERSAO.
 // Assim o celular joga fora o cache velho e baixa os arquivos novos.
-const VERSAO = 'llmusic-v19';
+const VERSAO = 'llmusic-v20';
 
 const ARQUIVOS = [
   './',
@@ -69,6 +69,10 @@ const ARQUIVOS = [
   './js/curso/niveis/n7/m72.js',
   './js/curso/niveis/n8.js',
   './js/curso/niveis/n8/m81.js',
+  './js/curso/repertorio.js',
+  './js/curso/plano.js',
+  './js/views/repertorio.js',
+  './js/views/plano.js',
   './js/curso/niveis/n4/m41.js',
   './js/curso/niveis/n4/m42.js',
   './js/curso/niveis/n4/m43.js',
