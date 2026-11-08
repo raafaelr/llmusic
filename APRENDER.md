@@ -81,3 +81,85 @@ Seis peças originais em `js/pecas.js` (3/4, 6/8 e 4/4). Cada compasso é gerado
 - `js/importar/posicional.js` + `pdf.js`: acha 6 linhas e números no PDF e converte.
 - `js/importar/gp.js`: converte o resultado da AlphaTab (Guitar Pro/MusicXML) para o nosso formato de peça.
 - `js/views/importar.js`: a tela. As peças guardadas ficam no pacote "minhas" (`js/biblioteca.js`).
+
+---
+
+## O curso de violão (8 níveis)
+
+A partir da versão 15 o LLMusic deixou de ser só um conjunto de ferramentas e passou
+a ter um curso completo. Vale entender como ele foi montado, porque é o pedaço maior
+do código.
+
+### A ideia central: aula = lista de blocos
+
+Uma aula não é uma página de HTML escrita à mão. Ela é um **objeto JavaScript** com uma
+lista de blocos, assim:
+
+```js
+{
+  id: 'n1.3.6', titulo: 'As figuras musicais', minutos: 16,
+  disciplinas: ['teoria', 'leitura'], prereq: ['n1.3.4'],
+  cobre: ['Figuras musicais'],          // assuntos da grade que esta aula ensina
+  blocos: [
+    { t: 'p', x: 'A posição da nota diz qual som tocar...' },
+    { t: 'figuras', comPausa: false, legenda: '...' },
+    { t: 'pauta', txt: 'c5/o | g4/b a4/b', tocar: true, bpm: 80 },
+    { t: 'exercicio', tipo: 'figura', rodadas: 10 }
+  ],
+  quiz: [ { texto: '...', opcoes: [...], correta: 0, explicacao: '...' } ],
+  pratica: { titulo, itens: [...], criterio: '...' }
+}
+```
+
+Quem transforma isso em tela é `js/curso/blocos.js`. Para criar uma aula nova você só
+escreve o objeto; nenhuma tela precisa mudar.
+
+**Tipos de bloco disponíveis:** `p`, `h`, `h3`, `dica`, `aviso`, `def`, `lista`, `passos`,
+`tabela`, `comparar`, `erros`, `resumo`, `pauta`, `tab`, `braco`, `acorde`, `figuras`,
+`compasso`, `violao`, `mao`, `postura`, `teclado`, `semitons`, `ciclo`, `regua`,
+`metronomo`, `tocar` (microfone), `check`, `exercicio`, `ouvir`, `ir`.
+
+### Os desenhos
+
+Nada é imagem: tudo é SVG desenhado por código, para o app continuar leve e funcionar
+offline.
+
+| Arquivo | Desenha |
+|---|---|
+| `js/musica/notacao.js` | Pentagrama completo: clave, armadura, fórmula, figuras, pausas, vigas inclinadas, linhas suplementares |
+| `js/musica/tablatura.js` | Tablatura com dedilhado |
+| `js/musica/diagramas.js` | Acordes, anatomia do violão, mãos, postura, figuras rítmicas, compasso, régua de semitons |
+| `js/musica/teoriavis.js` | Teclado de piano e ciclo das quintas |
+
+A escrita curta das pautas (`compassosDe`) economiza muita digitação:
+`'c4 d4 e4 | g4/b a4/c'` quer dizer Dó, Ré, Mi (semínimas), barra de compasso,
+Sol (mínima) e Lá (colcheia). As letras das figuras são `o` semibreve, `b` mínima,
+`q` semínima, `c` colcheia, `s` semicolcheia; `.` depois da letra é ponto de aumento;
+`z` é pausa; `+` junta notas num acorde.
+
+### Progresso: por que "concluir" não basta
+
+`js/curso/progresso.js` guarda uma ficha por aula. Uma aula só fica **dominada** quando
+as duas coisas acontecem:
+
+1. o questionário teórico foi respondido com pelo menos 75% de acerto, e
+2. a avaliação prática foi confirmada item por item.
+
+Isso foi proposital: o app não consegue ouvir a sua execução e julgar se está boa, então
+não finge que consegue. Ele dá critérios claros e você confirma. Os pré-requisitos
+funcionam do mesmo jeito: uma aula "destrava" quando as anteriores foram, no mínimo,
+estudadas.
+
+### A auditoria curricular
+
+`js/curso/curriculo.js` tem o `MAPA`: a lista de **todos** os assuntos previstos nos 8
+níveis. Cada aula declara, em `cobre`, quais assuntos ela ensina. A tela de Auditoria
+cruza as duas listas e mostra o estado de cada assunto: planejado, em desenvolvimento,
+implementado ou validado. Assim dá para ver, a qualquer momento, o que já existe de
+verdade e o que ainda vai ser escrito.
+
+### Banco de dados
+
+O IndexedDB passou da versão 1 para a 2. As gavetas `config` e `pratica` continuam iguais;
+foram criadas três novas: `progresso` (uma ficha por aula), `sessoes` e `avaliacoes`.
+Backups antigos continuam funcionando: as gavetas novas simplesmente não vêm no arquivo.

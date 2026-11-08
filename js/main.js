@@ -13,6 +13,10 @@ import * as teoria from './views/teoria.js';
 import * as ritmo from './views/ritmo.js';
 import * as cagedAulas from './views/caged-aulas.js';
 import * as importar from './views/importar.js';
+import * as curso from './views/curso.js';
+import * as aula from './views/aula.js';
+import * as painel from './views/painel.js';
+import * as auditoria from './views/auditoria.js';
 import { criarMenu } from './menu.js';
 import { nativo } from './nativo.js';
 
@@ -29,7 +33,11 @@ const TELAS = {
   'teoria': teoria,
   'ritmo': ritmo,
   'caged-aulas': cagedAulas,
-  'importar': importar
+  'importar': importar,
+  'curso': curso,
+  'aula': aula,
+  'painel': painel,
+  'auditoria': auditoria
 };
 
 const raiz = document.getElementById('app');
@@ -48,12 +56,16 @@ function registrarRota(rota) {
 }
 
 function mostrar() {
-  const rota = location.hash.replace(/^#\/?/, '');
+  // A rota pode ter um argumento depois da barra: #/aula/n1.1.1 abre a aula n1.1.1.
+  const inteira = location.hash.replace(/^#\/?/, '');
+  const corte = inteira.indexOf('/');
+  const rota = corte < 0 ? inteira : inteira.slice(0, corte);
+  const arg = corte < 0 ? '' : inteira.slice(corte + 1);
   const tela = TELAS[rota] || home;
-  registrarRota(TELAS[rota] ? rota : '');
+  registrarRota(TELAS[rota] ? inteira : '');
   if (limpar) limpar();
   raiz.innerHTML = '';
-  limpar = tela.montar(raiz, ir);
+  limpar = tela.montar(raiz, ir, arg);
   window.scrollTo(0, 0);
 }
 

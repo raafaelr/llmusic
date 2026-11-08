@@ -10,7 +10,7 @@ function el(tag, classe, texto) {
 }
 
 // opcoes: { tela, titulo, perguntas, chave (Config), textoVoltar, aoVoltar, aoDesenhar(desenho, svg) }
-export function rodarQuiz({ tela, titulo, perguntas, chave, textoVoltar = '‹ Lição', aoVoltar, aoDesenhar, aoNovaTentativa, ativo = () => true }) {
+export function rodarQuiz({ tela, titulo, perguntas, chave, textoVoltar = '‹ Lição', aoVoltar, aoDesenhar, aoNovaTentativa, aoFim = null, ativo = () => true }) {
   let i = 0, acertos = 0, respondida = false;
   tela.innerHTML = '';
   tela.className = 'tela teoria quiz-tela';
@@ -65,6 +65,7 @@ export function rodarQuiz({ tela, titulo, perguntas, chave, textoVoltar = '‹ L
     const e = estrelas(acertos, perguntas.length);
     const antes = chave ? await Config.obter(chave, 0) : 0;
     if (chave && e > antes) await Config.guardar(chave, e);
+    if (aoFim) await aoFim(acertos, perguntas.length, e);
     if (!ativo()) return;
     tela.innerHTML = '';
     const topo2 = el('header', 'topo');

@@ -25,3 +25,22 @@ Aba na borda esquerda (ou arrastar da borda) abre o menu com todas as telas. No 
 ## Importar tablaturas
 Tela **Importar** (também pelo botão "＋ Importar" em Partituras). Lê PDF com tablatura em texto, PDF desenhado (números sobre 6 linhas), Guitar Pro (.gp3–.gp7/.gpx), MusicXML, AlphaTex e texto ASCII; você revisa/edita como texto, ouve e guarda em "Minhas tablaturas". PDF só de imagem (digitalizado) não tem leitura automática: o app mostra a imagem ao lado do editor.
 Bibliotecas incluídas (funcionam offline), em `js/vendor`: pdf.js (Apache-2.0) e AlphaTab (MPL-2.0).
+
+## Curso de violão (8 níveis)
+
+Além das ferramentas, o LLMusic tem um curso completo de violão clássico, organizado
+como um conservatório: 8 níveis progressivos, módulos, aulas, exercícios e avaliações.
+
+- **Grade curricular** (`#/curso`): os 8 níveis, com módulos e aulas.
+- **Aula** (`#/aula/<id>`): teoria aprofundada, desenhos interativos, áudio, exercícios,
+  questionário e avaliação prática.
+- **Meu progresso** (`#/painel`): onde você está, o que já dominou, pontos fracos e
+  próximas atividades.
+- **Auditoria curricular** (`#/auditoria`): todo assunto previsto com o seu estado
+  (planejado, em desenvolvimento, implementado, validado).
+
+Uma aula só é considerada **dominada** quando o questionário teórico atinge 75% de acerto
+*e* a avaliação prática é confirmada. O app não finge avaliar a sua execução por áudio.
+
+Estado atual: **Nível 1 completo** (4 módulos, 26 aulas). Níveis 2 a 8 mapeados, com
+conteúdo em preparação — acompanhe pela tela de Auditoria.

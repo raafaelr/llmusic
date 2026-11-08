@@ -1,17 +1,23 @@
 // Banco de dados local do app (fica só no seu celular).
 // Usa o IndexedDB, que é o "banco" que todo navegador tem.
-// Duas "gavetas" (lojas):
-//   config  -> configurações (ex.: o último BPM usado do metrônomo)
-//   pratica -> segundos praticados por dia (ex.: "2026-11-04" -> 1260)
+//
+// Gavetas (lojas):
+//   config     -> configurações (ex.: o último BPM usado do metrônomo)
+//   pratica    -> segundos praticados por dia (ex.: "2026-11-04" -> 1260)
+//   progresso  -> uma ficha por aula do curso (status, estrelas, datas)
+//   sessoes    -> cada sessão de estudo registrada no Plano de Estudos
+//   avaliacoes -> histórico de provas e autoavaliações
 //
 // Se o navegador não deixar usar o IndexedDB (modo anônimo, por exemplo),
 // o app continua funcionando, só que sem guardar nada depois de fechar.
 
 const NOME = 'llmusic';
-const VERSAO = 1;
+const VERSAO = 2;                       // v1 tinha só config e pratica
+const LOJAS = ['config', 'pratica', 'progresso', 'sessoes', 'avaliacoes'];
 
 let aberto = null;
-const memoria = { config: new Map(), pratica: new Map() }; // plano B
+// Plano B: uma cópia em memória de tudo, usada se o IndexedDB falhar.
+const memoria = Object.fromEntries(LOJAS.map((l) => [l, new Map()]));
 
 function abrir() {
   if (!aberto) {
@@ -19,11 +25,13 @@ function abrir() {
       try {
         const pedido = indexedDB.open(NOME, VERSAO);
         pedido.onupgradeneeded = () => {
-          pedido.result.createObjectStore('config');
-          pedido.result.createObjectStore('pratica');
+          // Cria só as gavetas que ainda não existem: quem já usava o app não perde nada.
+          const db = pedido.result;
+          LOJAS.forEach((l) => { if (!db.objectStoreNames.contains(l)) db.createObjectStore(l); });
         };
         pedido.onsuccess = () => ok(pedido.result);
         pedido.onerror = () => erro(pedido.error);
+        pedido.onblocked = () => erro(new Error('banco bloqueado por outra aba'));
       } catch (e) {
         erro(e);
       }
@@ -58,7 +66,20 @@ async function gravar(loja, chave, valor) {
   } catch (e) { /* sem banco: fica só na memória */ }
 }
 
-// Lê TUDO de uma loja (usado no backup). Se o banco falhar, usa a memória.
+async function apagar(loja, chave) {
+  memoria[loja].delete(chave);
+  try {
+    const db = await abrir();
+    await new Promise((ok, erro) => {
+      const t = db.transaction(loja, 'readwrite');
+      t.objectStore(loja).delete(chave);
+      t.oncomplete = () => ok();
+      t.onerror = () => erro(t.error);
+    });
+  } catch (e) { /* idem */ }
+}
+
+// Lê TUDO de uma loja (usado no backup e nos painéis). Se o banco falhar, usa a memória.
 async function lerTudo(loja) {
   try {
     const db = await abrir();
@@ -115,12 +136,63 @@ export const Pratica = {
   }
 };
 
+// Ficha de uma aula do curso. A chave é o id da aula (ex.: "n1.1.2").
+// Formato: { status, estudada, quiz:{acertos,total,estrelas,em}, auto:{...}, check:{...}, em, visitas }
+export const Progresso = {
+  async obter(id) { return (await ler('progresso', id)) || null; },
+  guardar(id, ficha) { return gravar('progresso', id, ficha); },
+  todos() { return lerTudo('progresso'); },
+  // Altera só alguns campos da ficha, mantendo o resto.
+  async mesclar(id, partes) {
+    const atual = (await ler('progresso', id)) || {};
+    const nova = { ...atual, ...partes, em: new Date().toISOString() };
+    await gravar('progresso', id, nova);
+    return nova;
+  },
+  limpar(id) { return apagar('progresso', id); }
+};
+
+// Uma sessão de estudo registrada pelo aluno (Plano de Estudos).
+// Chave: carimbo de tempo ISO. Valor: { dia, segundos, blocos:[...], anotacao }
+export const Sessoes = {
+  async registrar(sessao) {
+    const chave = sessao.em || new Date().toISOString();
+    await gravar('sessoes', chave, { ...sessao, em: chave });
+    return chave;
+  },
+  todos() { return lerTudo('sessoes'); },
+  apagar(chave) { return apagar('sessoes', chave); }
+};
+
+// Histórico de avaliações (provas teóricas e autoavaliações práticas).
+// Chave: carimbo de tempo ISO + alvo. Valor: { tipo, alvo, titulo, acertos, total, estrelas, em }
+export const Avaliacoes = {
+  async registrar(av) {
+    const chave = (av.em || new Date().toISOString()) + '|' + (av.alvo || '');
+    await gravar('avaliacoes', chave, { ...av, em: av.em || new Date().toISOString() });
+    return chave;
+  },
+  todos() { return lerTudo('avaliacoes'); },
+  async lista() {
+    const t = await lerTudo('avaliacoes');
+    return Object.values(t).sort((a, b) => (a.em < b.em ? 1 : -1));
+  }
+};
+
 // Backup completo em um objeto simples (vira um arquivo .json).
 export const Backup = {
   async exportar() {
-    return { formato: 'llmusic-backup', versao: 1, em: new Date().toISOString(), config: await Config.todos(), pratica: await Pratica.todos() };
+    return {
+      formato: 'llmusic-backup', versao: 2, em: new Date().toISOString(),
+      config: await Config.todos(),
+      pratica: await Pratica.todos(),
+      progresso: await Progresso.todos(),
+      sessoes: await Sessoes.todos(),
+      avaliacoes: await Avaliacoes.todos()
+    };
   },
   // Mescla: configurações do backup substituem as atuais; dias de prática ficam com o maior valor.
+  // Backups antigos (versão 1) continuam válidos: as gavetas novas simplesmente não vêm no arquivo.
   async importar(obj) {
     if (!obj || obj.formato !== 'llmusic-backup' || typeof obj.config !== 'object' || typeof obj.pratica !== 'object') {
       throw new Error('Este arquivo não é um backup do LLMusic.');
@@ -129,6 +201,16 @@ export const Backup = {
     for (const d of Object.keys(obj.pratica)) {
       if (/^\d{4}-\d{2}-\d{2}$/.test(d) && Number.isFinite(obj.pratica[d])) await Pratica.definirMaior(d, obj.pratica[d]);
     }
-    return { configs: Object.keys(obj.config).length, dias: Object.keys(obj.pratica).length };
+    let aulas = 0, sess = 0, avs = 0;
+    if (obj.progresso && typeof obj.progresso === 'object') {
+      for (const id of Object.keys(obj.progresso)) { await gravar('progresso', id, obj.progresso[id]); aulas++; }
+    }
+    if (obj.sessoes && typeof obj.sessoes === 'object') {
+      for (const k of Object.keys(obj.sessoes)) { await gravar('sessoes', k, obj.sessoes[k]); sess++; }
+    }
+    if (obj.avaliacoes && typeof obj.avaliacoes === 'object') {
+      for (const k of Object.keys(obj.avaliacoes)) { await gravar('avaliacoes', k, obj.avaliacoes[k]); avs++; }
+    }
+    return { configs: Object.keys(obj.config).length, dias: Object.keys(obj.pratica).length, aulas, sessoes: sess, avaliacoes: avs };
   }
 };
