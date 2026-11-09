@@ -1,5 +1,6 @@
 // Pacotes: instale ou remova pacotes de peças (arquivos .json). Tudo fica no seu celular.
 import { pacotesInstalados, instalarPacote, removerPacote } from '../biblioteca.js';
+import { botaoIcone } from '../icones.js';
 
 function el(tag, classe, texto) {
   const e = document.createElement(tag);
@@ -12,7 +13,7 @@ export function montar(raiz, ir) {
   let encerrada = false;
   const tela = el('main', 'tela pacotes');
   const topo = el('header', 'topo');
-  const voltar = el('button', 'botao-texto', '‹ Início');
+  const voltar = botaoIcone('botao-texto', 'voltar', 'Início');
   voltar.onclick = () => ir('');
   topo.append(voltar, el('h1', 'titulo-tela', 'Pacotes'));
 

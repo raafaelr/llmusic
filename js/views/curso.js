@@ -2,6 +2,7 @@
 // Rota #/curso mostra os níveis; #/curso/3 abre o nível 3 já aberto.
 import { MAPA, carregarNivel, carregarTodos, DISCIPLINAS, nomeDisciplina } from '../curso/curriculo.js';
 import { carregarFichas, estadoDaFicha, progressoDoModulo, progressoDoNivel, liberada, ESTADOS } from '../curso/progresso.js';
+import { botaoIcone } from '../icones.js';
 
 function el(tag, classe, texto) {
   const e = document.createElement(tag);
@@ -31,7 +32,7 @@ export function montar(raiz, ir, arg) {
 
     tela.innerHTML = '';
     const topo = el('header', 'topo');
-    const voltar = el('button', 'botao-texto', '‹ Início');
+    const voltar = botaoIcone('botao-texto', 'voltar', 'Início');
     voltar.onclick = () => ir('');
     topo.append(voltar, el('h1', 'titulo-tela', 'Grade curricular'));
     tela.append(topo);
@@ -125,7 +126,7 @@ export function montar(raiz, ir, arg) {
   function verDisciplinas() {
     tela.innerHTML = '';
     const topo = el('header', 'topo');
-    const v = el('button', 'botao-texto', '‹ Grade'); v.onclick = desenhar;
+    const v = botaoIcone('botao-texto', 'voltar', 'Grade'); v.onclick = desenhar;
     topo.append(v, el('h1', 'titulo-tela', 'Disciplinas'));
     tela.append(topo);
     tela.append(el('p', 'dica', 'Doze disciplinas acompanham o aluno do Nível 1 ao 8. Cada aula do curso pertence a uma ou mais delas.'));

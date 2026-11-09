@@ -97,3 +97,21 @@ node scripts/gerar-sw.mjs --conferir     # o cache offline está completo e com 
 node scripts/validar-curso.mjs           # o currículo está íntegro
 node scripts/conferir-contraste.mjs      # o contraste passa na WCAG nos dois temas
 ```
+
+## Política de ícones
+
+**Tabler** é a biblioteca principal: menu, navegação, botões, ações, ferramentas
+e controles. Os desenhos usados ficam embutidos em [`js/icones.js`](js/icones.js)
+— só os necessários, nunca a biblioteca inteira, nada baixado em tempo de
+execução. Tabler Icons © Paweł Kuna, MIT.
+
+**Phosphor** entra apenas quando representar melhor um conceito musical que o
+Tabler não cubra bem, no peso Regular. Hoje não há nenhum caso.
+
+**Grafismos próprios** ([`js/grafismos.js`](js/grafismos.js)) para o que não
+existe em biblioteca nenhuma: roseta, clave, ramo, silhueta do violão, postura.
+Diapasão, diagrama de acorde, tablatura e braço entram aqui quando forem
+precisos — conferido na galeria que nenhuma das cinco bibliotecas os tem.
+
+Antes de desenhar, procurar no Tabler. Antes de adicionar ao `js/icones.js`,
+conferir se outro ícone já serve.

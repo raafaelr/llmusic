@@ -12,6 +12,7 @@ import { Metronomo, limitarBpm } from './metronome.js';
 import { comecarPratica, pararPratica } from './pratica.js';
 import { Config } from './db.js';
 import { conferirPostura, deveConferir } from './postura.js';
+import { botaoIcone } from './icones.js';
 
 // Telas que fazem sentido no modo estudo (as que a gente usa tocando).
 const ROTAS_ESTUDO = new Set(['aula', 'exercicios', 'tecnicas', 'partituras', 'leitura', 'ritmo', 'braco']);
@@ -38,7 +39,7 @@ export function criarEstudo(ir) {
   let vizinhos = { anterior: null, proxima: null };
 
   // ---------------------------------------------------------------- botão
-  const botao = el('button', 'estudo-entrar', '⤢ Modo Estudo');
+  const botao = botaoIcone('estudo-entrar', 'expandir', 'Modo Estudo');
   botao.setAttribute('aria-label', 'Entrar no Modo Estudo: esconde os menus e mostra a barra de prática');
   botao.hidden = true;
   botao.onclick = () => entrar();
@@ -50,25 +51,25 @@ export function criarEstudo(ir) {
   barra.setAttribute('aria-label', 'Controles do Modo Estudo');
   barra.hidden = true;
 
-  const bAnterior = el('button', 'estudo-bt', '‹');
+  const bAnterior = botaoIcone('estudo-bt', 'voltar');
   bAnterior.setAttribute('aria-label', 'Conteúdo anterior');
-  const bProxima = el('button', 'estudo-bt', '›');
+  const bProxima = botaoIcone('estudo-bt', 'avancar');
   bProxima.setAttribute('aria-label', 'Próximo conteúdo');
 
-  const bMetro = el('button', 'estudo-bt estudo-metro', '▶');
+  const bMetro = botaoIcone('estudo-bt estudo-metro', 'tocar');
   bMetro.setAttribute('aria-label', 'Ligar ou desligar o metrônomo');
   const bpmTxt = el('span', 'estudo-bpm', '80');
   bpmTxt.setAttribute('aria-live', 'off');
-  const bMenos = el('button', 'estudo-bt sm', '−');
+  const bMenos = botaoIcone('estudo-bt sm', 'menos');
   bMenos.setAttribute('aria-label', 'Diminuir 4 batidas por minuto');
-  const bMais = el('button', 'estudo-bt sm', '+');
+  const bMais = botaoIcone('estudo-bt sm', 'mais');
   bMais.setAttribute('aria-label', 'Aumentar 4 batidas por minuto');
 
   const tempo = el('span', 'estudo-tempo', '0:00');
   tempo.setAttribute('aria-label', 'Tempo desta sessão');
 
   // O rótulo "Sair" some nas telas estreitas; o ✕ fica (ver o CSS).
-  const bSair = el('button', 'estudo-bt estudo-sair', '✕');
+  const bSair = botaoIcone('estudo-bt estudo-sair', 'fechar');
   bSair.append(el('span', 'estudo-rotulo', ' Sair'));
   bSair.setAttribute('aria-label', 'Sair do Modo Estudo');
 

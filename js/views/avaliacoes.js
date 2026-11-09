@@ -9,6 +9,7 @@
 import { MAPA, carregarNivel } from '../curso/curriculo.js';
 import { carregarFichas, progressoDoNivel, progressoDoModulo, estadoDaFicha, NOTA_MINIMA } from '../curso/progresso.js';
 import { Avaliacoes, Config } from '../db.js';
+import { botaoIcone } from '../icones.js';
 
 function el(tag, classe, texto) {
   const e = document.createElement(tag);
@@ -60,7 +61,7 @@ export function montar(raiz, ir, arg) {
 
     tela.innerHTML = '';
     const topo = el('header', 'topo');
-    const voltar = el('button', 'botao-texto', '‹ Início');
+    const voltar = botaoIcone('botao-texto', 'voltar', 'Início');
     voltar.onclick = () => ir('');
     topo.append(voltar, el('h1', 'titulo-tela', 'Avaliações'));
     tela.append(topo);
@@ -153,7 +154,7 @@ export function montar(raiz, ir, arg) {
 
     tela.innerHTML = '';
     const topo = el('header', 'topo');
-    const voltar = el('button', 'botao-texto', '‹ Avaliações');
+    const voltar = botaoIcone('botao-texto', 'voltar', 'Avaliações');
     voltar.onclick = painel;
     topo.append(voltar, el('h1', 'titulo-tela', 'Prova do Nível ' + n));
     tela.append(topo);
@@ -184,7 +185,7 @@ export function montar(raiz, ir, arg) {
 
     tela.innerHTML = '';
     const topo = el('header', 'topo');
-    const sair = el('button', 'botao-texto', '‹ Sair da prova');
+    const sair = botaoIcone('botao-texto', 'voltar', 'Sair da prova');
     sair.onclick = painel;
     topo.append(sair, el('h1', 'titulo-tela', 'Prova do Nível ' + n));
     tela.append(topo);
@@ -287,7 +288,7 @@ export function montar(raiz, ir, arg) {
 
     tela.innerHTML = '';
     const topo = el('header', 'topo');
-    const voltar = el('button', 'botao-texto', '‹ Avaliações');
+    const voltar = botaoIcone('botao-texto', 'voltar', 'Avaliações');
     voltar.onclick = painel;
     topo.append(voltar, el('h1', 'titulo-tela', 'Avaliação prática — Nível ' + n));
     tela.append(topo);

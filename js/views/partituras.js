@@ -8,6 +8,7 @@ import { notaMaisProxima } from '../pitch.js';
 import { PECAS, achatar, tempoPorCompasso, dedoDaCorda } from '../pecas.js';
 import { tocarNota } from '../violao.js';
 import { todasAsPecas } from '../biblioteca.js';
+import { icone, botaoIcone } from '../icones.js';
 
 const NS = 'http://www.w3.org/2000/svg';
 function el(tag, classe, texto) {
@@ -49,9 +50,9 @@ export function montar(raiz, ir) {
 
   const tela = el('main', 'tela partituras');
   const topo = el('header', 'topo');
-  const voltar = el('button', 'botao-texto', '‹ Início');
+  const voltar = botaoIcone('botao-texto', 'voltar', 'Início');
   voltar.onclick = () => ir('');
-  const bImp = el('button', 'botao-sec bt-aulas', '＋ Importar');
+  const bImp = botaoIcone('botao-sec bt-aulas', 'mais', 'Importar');
   bImp.onclick = () => ir('importar');
   topo.append(voltar, el('h1', 'titulo-tela', 'Partituras'), bImp);
 
@@ -65,7 +66,7 @@ export function montar(raiz, ir) {
   rolagem.append(svg);
 
   const barra = el('div', 'barra-player');
-  const play = el('button', 'botao-principal', '▶ Tocar');
+  const play = botaoIcone('botao-principal', 'tocar', 'Tocar');
   const gPeca = el('div', 'grupo'); gPeca.append(el('h2', 'rotulo-grupo', 'Peça'));
   const chipsPeca = el('div', 'chips'); gPeca.append(chipsPeca);
   const gVel = el('div', 'grupo'); gVel.append(el('h2', 'rotulo-grupo', 'Velocidade'));
@@ -83,7 +84,7 @@ export function montar(raiz, ir) {
   const gTrechos = el('div', 'grupo');
   gTrechos.append(el('h2', 'rotulo-grupo', 'Trechos difíceis'));
   const acoesTrecho = el('div', 'bloco-botoes');
-  const btMarcar = el('button', 'botao-sec', '★ Marcar este trecho');
+  const btMarcar = botaoIcone('botao-sec', 'estrela', 'Marcar este trecho');
   acoesTrecho.append(btMarcar);
   gTrechos.append(acoesTrecho);
   const listaTrechos = el('div', 'trechos-lista');
@@ -315,7 +316,7 @@ export function montar(raiz, ir) {
   let micBtn;
   botaoMic();
   function botaoMic() {
-    const b = el('button', 'chip sm', '🎤 Microfone');
+    const b = botaoIcone('chip sm', 'microfone', 'Microfone');
     b.setAttribute('aria-pressed', 'false');
     b.hidden = true;
     b.onclick = async () => {
@@ -395,9 +396,10 @@ export function montar(raiz, ir) {
   function desenharTrechos() {
     listaTrechos.innerHTML = '';
     btMarcar.disabled = !trecho;
-    btMarcar.textContent = trecho
-      ? (ehDificil(trecho.de) && ehDificil(trecho.ate) ? '★ Desmarcar este trecho' : '★ Marcar este trecho')
-      : '★ Marcar este trecho';
+    const marcado = trecho && ehDificil(trecho.de) && ehDificil(trecho.ate);
+    btMarcar.textContent = '';
+    btMarcar.append(icone(marcado ? 'estrela-cheia' : 'estrela'),
+      document.createTextNode(marcado ? ' Desmarcar este trecho' : ' Marcar este trecho'));
     if (!trecho) {
       listaTrechos.append(el('p', 'cartao-desc',
         'Toque num compasso da partitura para isolá-lo, e em outro para esticar o trecho. '
@@ -406,7 +408,7 @@ export function montar(raiz, ir) {
     if (!trechosDificeis.length) return;
     const grade = el('div', 'chips');
     trechosDificeis.slice().sort((a, b) => a.de - b.de).forEach((t) => {
-      const b = el('button', 'chip chip-trecho', '★ ' + rotuloTrecho(t));
+      const b = botaoIcone('chip chip-trecho', 'estrela', rotuloTrecho(t));
       b.title = 'Repetir este trecho';
       b.onclick = () => {
         trecho = { de: t.de, ate: t.ate };

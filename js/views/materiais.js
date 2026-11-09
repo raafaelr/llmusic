@@ -5,6 +5,7 @@
 // partituras protegidas: o que está em domínio público é identificado como tal,
 // e o resto vem com a indicação de procurar edição licenciada.
 import { GLOSSARIO } from '../curso/tutor.js';
+import { botaoIcone } from '../icones.js';
 
 function el(tag, classe, texto) {
   const e = document.createElement(tag);
@@ -255,7 +256,7 @@ export function montar(raiz, ir) {
   function indice() {
     tela.innerHTML = '';
     const topo = el('header', 'topo');
-    const voltar = el('button', 'botao-texto', '‹ Início');
+    const voltar = botaoIcone('botao-texto', 'voltar', 'Início');
     voltar.onclick = () => ir('');
     topo.append(voltar, el('h1', 'titulo-tela', 'Biblioteca de Materiais'));
     tela.append(topo);
@@ -308,7 +309,7 @@ export function montar(raiz, ir) {
   function referencia(r) {
     tela.innerHTML = '';
     const topo = el('header', 'topo');
-    const voltar = el('button', 'botao-texto', '‹ Materiais');
+    const voltar = botaoIcone('botao-texto', 'voltar', 'Materiais');
     voltar.onclick = indice;
     topo.append(voltar, el('h1', 'titulo-tela', r.nome));
     tela.append(topo);
@@ -323,7 +324,7 @@ export function montar(raiz, ir) {
   function glossario() {
     tela.innerHTML = '';
     const topo = el('header', 'topo');
-    const voltar = el('button', 'botao-texto', '‹ Materiais');
+    const voltar = botaoIcone('botao-texto', 'voltar', 'Materiais');
     voltar.onclick = indice;
     topo.append(voltar, el('h1', 'titulo-tela', 'Glossário'));
     tela.append(topo);
@@ -359,7 +360,7 @@ export function montar(raiz, ir) {
   function direitos() {
     tela.innerHTML = '';
     const topo = el('header', 'topo');
-    const voltar = el('button', 'botao-texto', '‹ Materiais');
+    const voltar = botaoIcone('botao-texto', 'voltar', 'Materiais');
     voltar.onclick = indice;
     topo.append(voltar, el('h1', 'titulo-tela', 'Direito autoral na prática'));
     tela.append(topo);

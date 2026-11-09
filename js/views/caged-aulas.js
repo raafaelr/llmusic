@@ -9,6 +9,7 @@ import { desenharForma, descrever, criarSom } from '../cagedui.js';
 import { gerarPerguntasCaged } from '../caged-quiz.js';
 import { rodarQuiz } from '../quizui.js';
 import { AULAS, EXAME } from '../aulasCaged.js';
+import { icone, botaoIcone } from '../icones.js';
 
 function el(tag, classe, texto) {
   const e = document.createElement(tag);
@@ -44,7 +45,7 @@ export function montar(raiz, ir) {
     await pararMotor(); som.parar();
     tela.innerHTML = ''; tela.className = 'tela teoria aulas-caged';
     const topo = el('header', 'topo');
-    const voltar = el('button', 'botao-texto', '‹ CAGED');
+    const voltar = botaoIcone('botao-texto', 'voltar', 'CAGED');
     voltar.onclick = () => ir('caged');
     topo.append(voltar, el('h1', 'titulo-tela', 'Aulas do CAGED'));
     const grade = el('div', 'grade');
@@ -64,7 +65,7 @@ export function montar(raiz, ir) {
     if (encerrada) return;
     resumo.textContent = 'Faça uma aula por dia. Aulas feitas (com quiz): ' + feitas + ' de ' + AULAS.length + '. Prova final: ' + estrelasTxt(ex);
     const cp = el('button', 'cartao cartao-exame');
-    cp.append(el('h2', 'cartao-nome', '🎓 Prova final do CAGED'), el('p', 'cartao-desc', EXAME.n + ' perguntas de todas as aulas'), el('p', 'cartao-desc', estrelasTxt(ex)));
+    cp.append((() => { const h = el('h2', 'cartao-nome'); h.append(icone('aprendizado'), document.createTextNode(' Prova final do CAGED')); return h; })(), el('p', 'cartao-desc', EXAME.n + ' perguntas de todas as aulas'), el('p', 'cartao-desc', estrelasTxt(ex)));
     cp.onclick = prova;
     grade.append(cp);
     window.scrollTo(0, 0);
@@ -78,7 +79,7 @@ export function montar(raiz, ir) {
     desenharForma(criarBraco(svg, { casas: 15 }), f, { rotulo: b.rotulo || 'graus' });
     const leg = el('figcaption', 'legenda', b.legenda || '');
     const det = el('p', 'detalhe-forma', descrever(f));
-    const ouvir = el('button', 'botao-sec', '▶ Ouvir ' + cifraAcorde(b.tonica, b.qual || 'maior'));
+    const ouvir = botaoIcone('botao-sec', 'tocar', 'Ouvir ' + cifraAcorde(b.tonica, b.qual || 'maior'));
     ouvir.onclick = () => som.acorde(f);
     caixa.append(svg, leg, det, ouvir);
     return caixa;
@@ -94,7 +95,7 @@ export function montar(raiz, ir) {
     desenhar(-1);
     const leg = el('figcaption', 'legenda', b.legenda || '');
     const det = el('p', 'detalhe-forma', cifraAcorde(b.tonica, b.qual || 'maior') + ': ' + ord.map((f) => f.id + ' (casa ' + f.k + ')').join(' → '));
-    const ouvir = el('button', 'botao-sec', '▶ Ouvir as formas em sequência');
+    const ouvir = botaoIcone('botao-sec', 'tocar', 'Ouvir as formas em sequência');
     ouvir.onclick = () => som.sequencia(ord, (i) => { desenhar(i); if (i >= 0) det.textContent = 'Tocando a forma de ' + ord[i].id + ' (casa ' + ord[i].k + ')'; }, 1700);
     caixa.append(svg, leg, det, ouvir);
     return caixa;
@@ -130,7 +131,7 @@ export function montar(raiz, ir) {
       botoes.push(bt); chips.append(bt);
     });
     mostrar(-1);
-    const tudo = el('button', 'botao-sec', '▶ Tocar a progressão');
+    const tudo = botaoIcone('botao-sec', 'tocar', 'Tocar a progressão');
     tudo.onclick = () => som.sequencia(formas, (i) => mostrar(i), 1800);
     caixa.append(svg, el('figcaption', 'legenda', b.legenda || ''), chips, det, tudo);
     return caixa;
@@ -144,7 +145,7 @@ export function montar(raiz, ir) {
     const trilha = el('p', 'seq-ex', '');
     const feed = el('p', 'feedback', '');
     feed.setAttribute('aria-live', 'polite');
-    const bt = el('button', 'botao-sec', '🎤 Tocar ' + nomeCifra + ' corda por corda');
+    const bt = botaoIcone('botao-sec', 'microfone', 'Tocar ' + nomeCifra + ' corda por corda');
     function pintar() {
       trilha.innerHTML = '';
       seq.forEach((n, i) => trilha.append(el('span', 'seq-nota' + (i < passo ? ' feito' : i === passo ? ' atual' : ''), (n.casa === 0 ? '○' : n.casa) + '/' + n.corda + 'ª')));
@@ -223,7 +224,7 @@ export function montar(raiz, ir) {
     pararMotor(); som.parar();
     tela.innerHTML = ''; tela.className = 'tela teoria aulas-caged licao';
     const topo = el('header', 'topo');
-    const voltar = el('button', 'botao-texto', '‹ Aulas');
+    const voltar = botaoIcone('botao-texto', 'voltar', 'Aulas');
     voltar.onclick = lista;
     topo.append(voltar, el('h1', 'titulo-tela', a.titulo));
     tela.append(topo);

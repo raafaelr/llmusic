@@ -6,6 +6,7 @@ import { comecarPratica, pararPratica } from '../pratica.js';
 import { Afinador } from '../tuner.js';
 import { notaMaisProxima, nomeDoMidi } from '../pitch.js';
 import { NIVEIS, NOMES_NATURAIS, gerarExercicio, posicaoNaPauta, linhasSuplementares, nomeDaNota, midiQueSoa, estrelas, escreverNota, nomeCompleto } from '../leitura.js';
+import { botaoIcone } from '../icones.js';
 
 const NS = 'http://www.w3.org/2000/svg';
 function el(tag, classe, texto) {
@@ -37,7 +38,7 @@ export function montar(raiz, ir) {
 
   const tela = el('main', 'tela leitura');
   const topo = el('header', 'topo');
-  const voltar = el('button', 'botao-texto', '‹ Início');
+  const voltar = botaoIcone('botao-texto', 'voltar', 'Início');
   voltar.onclick = () => ir('');
   topo.append(voltar, el('h1', 'titulo-tela', 'Leitura'));
 
@@ -58,7 +59,7 @@ export function montar(raiz, ir) {
   const chipsNiv = el('div', 'chips'); gNiv.append(chipsNiv);
   const gEnt = el('div', 'grupo'); gEnt.append(el('h2', 'rotulo-grupo', 'Responder'));
   const chipsEnt = el('div', 'chips'); gEnt.append(chipsEnt);
-  const botMic = el('button', 'botao-sec', '🎤 Ligar microfone');
+  const botMic = botaoIcone('botao-sec', 'microfone', 'Ligar microfone');
   botMic.hidden = true;
   opcoes.append(gNiv, gEnt, botMic);
 

@@ -7,6 +7,7 @@ import { comecarPratica, pararPratica } from '../pratica.js';
 import { Afinador } from '../tuner.js';
 import { notaMaisProxima, nomeDoMidi } from '../pitch.js';
 import { CORDAS_PADRAO, midiNaCasa, nomeDaClasse, posicoesDaNota, sortearPosicao, julgar } from '../braco.js';
+import { botaoIcone } from '../icones.js';
 
 const NS = 'http://www.w3.org/2000/svg';
 function el(tag, classe, texto) {
@@ -39,7 +40,7 @@ export function montar(raiz, ir) {
 
   const tela = el('main', 'tela braco');
   const topo = el('header', 'topo');
-  const voltar = el('button', 'botao-texto', '‹ Início');
+  const voltar = botaoIcone('botao-texto', 'voltar', 'Início');
   voltar.onclick = () => ir('');
   topo.append(voltar, el('h1', 'titulo-tela', 'Braço virtual'));
 
@@ -59,7 +60,7 @@ export function montar(raiz, ir) {
   const chipsAlc = el('div', 'chips'); gAlc.append(chipsAlc);
   const gCor = el('div', 'grupo');    gCor.append(el('h2', 'rotulo-grupo', 'Corda'));
   const chipsCor = el('div', 'chips'); gCor.append(chipsCor);
-  const botMic = el('button', 'botao-sec', '🎤 Ligar microfone');
+  const botMic = botaoIcone('botao-sec', 'microfone', 'Ligar microfone');
   botMic.hidden = true;
   const botPular = el('button', 'botao-sec', 'Pular');
   const linha = el('div', 'acoes'); linha.append(botPular, botMic);

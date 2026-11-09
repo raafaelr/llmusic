@@ -10,6 +10,7 @@
 // atualização nesta tela, e não depois.
 import { VERSAO_APP, ARQUIVOS_APP } from '../versao.js';
 import { Backup, Config } from '../db.js';
+import { icone, botaoIcone } from '../icones.js';
 
 const REPO = 'raafaelr/llmusic';
 const API_RELEASE = 'https://api.github.com/repos/' + REPO + '/releases/tags/apk-latest';
@@ -44,7 +45,7 @@ export function montar(raiz, ir) {
   raiz.append(tela);
 
   const topo = el('header', 'topo');
-  const voltar = el('button', 'botao-texto', '‹ Início');
+  const voltar = botaoIcone('botao-texto', 'voltar', 'Início');
   voltar.onclick = () => ir('');
   topo.append(voltar, el('h1', 'titulo-tela', 'Atualizar e backup'));
   tela.append(topo);
@@ -60,7 +61,7 @@ export function montar(raiz, ir) {
   secB.append(estadoBk);
 
   const acoesBk = el('div', 'bloco-botoes');
-  const btExportar = el('button', 'botao-principal', '⬇ Salvar backup agora');
+  const btExportar = botaoIcone('botao-principal', 'baixar', 'Salvar backup agora');
   const rotImportar = el('label', 'botao-sec rotulo-arquivo', '⬆ Restaurar de um backup');
   const inpImportar = document.createElement('input');
   inpImportar.type = 'file'; inpImportar.accept = 'application/json,.json'; inpImportar.hidden = true;
@@ -144,7 +145,7 @@ export function montar(raiz, ir) {
   secV.append(estadoV);
 
   const acoesV = el('div', 'bloco-botoes');
-  const btVer = el('button', 'botao-sec', '⟳ Procurar atualização');
+  const btVer = botaoIcone('botao-sec', 'recarregar', 'Procurar atualização');
   acoesV.append(btVer);
   secV.append(acoesV);
   const alvoV = el('div');
@@ -182,7 +183,9 @@ export function montar(raiz, ir) {
       cx.append(el('p', 'texto-bloco', 'Baixe e instale por cima do app atual. '
         + 'Não desinstale: a partir de agora todos os APKs são assinados com a mesma chave, '
         + 'então a instalação passa por cima e o seu progresso fica onde está.'));
-      const bt = el('a', 'botao-principal', '⬇ Baixar o APK (' + (asset ? Math.round(asset.size / 1048576 * 10) / 10 + ' MB' : '') + ')');
+      const bt = el('a', 'botao-principal');
+      bt.append(icone('baixar'), document.createTextNode(' Baixar o APK ('
+        + (asset ? Math.round(asset.size / 1048576 * 10) / 10 + ' MB' : '') + ')'));
       bt.href = APK_URL; bt.target = '_blank'; bt.rel = 'noopener noreferrer';
       cx.append(bt);
       alvoV.append(cx);

@@ -3,6 +3,7 @@
 import { ROTINAS, rotinaPorId, DIAS, DIAS_CURTO, SEMANA_PADRAO, METAS_SUGERIDAS } from '../curso/plano.js';
 import { Config, Pratica, Sessoes } from '../db.js';
 import { hojeISO, comecarPratica, pararPratica, minutosTexto } from '../pratica.js';
+import { icone, botaoIcone } from '../icones.js';
 
 function el(tag, classe, texto) {
   const e = document.createElement(tag);
@@ -52,7 +53,7 @@ export function montar(raiz, ir) {
 
     tela.innerHTML = '';
     const topo = el('header', 'topo');
-    const voltar = el('button', 'botao-texto', '‹ Início');
+    const voltar = botaoIcone('botao-texto', 'voltar', 'Início');
     voltar.onclick = () => ir('');
     topo.append(voltar, el('h1', 'titulo-tela', 'Meu Plano de Estudos'));
     tela.append(topo);
@@ -74,23 +75,26 @@ export function montar(raiz, ir) {
 
     // cronômetro
     const botoes = el('div', 'bloco-botoes');
-    const bt = el('button', 'botao-principal', cronometro ? '■ Parar o cronômetro' : '▶ Começar a praticar');
+    const bt = el('button', 'botao-principal');
+    const rotular = () => { bt.textContent = ''; bt.append(icone(cronometro ? 'parar' : 'tocar'),
+      document.createTextNode(cronometro ? ' Parar o cronômetro' : ' Começar a praticar')); };
+    rotular();
     bt.onclick = async () => {
       if (cronometro) {
         parar();
-        bt.textContent = '▶ Começar a praticar';
+        cronometro = null; rotular();
         await desenhar();
         return;
       }
       inicio = Date.now();
       comecarPratica();
-      bt.textContent = '■ Parar o cronômetro';
       cronometro = setInterval(async () => {
         if (encerrada) return;
         const s = (praticaTudo[hojeISO()] || 0) + Math.floor((Date.now() - inicio) / 1000);
         contador.textContent = minutosTexto(s) + ' de ' + rotina.minutos + ' min hoje';
         preenche.style.width = Math.min(100, Math.round((s / alvo) * 100)) + '%';
       }, 1000);
+      rotular();   // só agora cronometro existe, e o rótulo vira "Parar"
     };
     botoes.append(bt);
     const trocar = el('button', 'botao-sec', 'Trocar a rotina de hoje');
@@ -218,7 +222,7 @@ export function montar(raiz, ir) {
       corpo.append(el('strong', '', m.texto));
       if (m.prazo) corpo.append(el('span', 'cartao-desc', 'Prazo: ' + m.prazo));
       caixa.append(corpo);
-      const x = el('button', 'botao-texto', '✕');
+      const x = botaoIcone('botao-texto', 'fechar');
       x.setAttribute('aria-label', 'Remover meta');
       x.onclick = async () => {
         const lista = await Config.obter(C_METAS, []);
@@ -288,7 +292,7 @@ export function montar(raiz, ir) {
   async function escolherRotina(dia) {
     tela.innerHTML = '';
     const topo = el('header', 'topo');
-    const voltar = el('button', 'botao-texto', '‹ Plano');
+    const voltar = botaoIcone('botao-texto', 'voltar', 'Plano');
     voltar.onclick = desenhar;
     topo.append(voltar, el('h1', 'titulo-tela', DIAS[dia]));
     tela.append(topo);

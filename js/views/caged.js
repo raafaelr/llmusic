@@ -12,6 +12,7 @@ import {
 import { desenharForma, descrever, criarSom } from '../cagedui.js';
 import { gerarPerguntasCaged, NOMES_TIPOS } from '../caged-quiz.js';
 import { rodarQuiz } from '../quizui.js';
+import { botaoIcone } from '../icones.js';
 
 function el(tag, classe, texto) {
   const e = document.createElement(tag);
@@ -32,7 +33,7 @@ export function montar(raiz, ir) {
 
   const tela = el('main', 'tela caged');
   const topo = el('header', 'topo');
-  const voltar = el('button', 'botao-texto', '‹ Início');
+  const voltar = botaoIcone('botao-texto', 'voltar', 'Início');
   voltar.onclick = () => ir('');
   const aulas = el('button', 'botao-sec bt-aulas', '📚 Aulas do CAGED');
   aulas.onclick = () => ir('caged-aulas');
@@ -46,8 +47,8 @@ export function montar(raiz, ir) {
   const feedback = el('p', 'feedback', '');
   feedback.setAttribute('aria-live', 'polite');
   const acoesVer = el('div', 'acoes acoes-caged');
-  const bOuvir = el('button', 'botao-sec', '▶ Ouvir');
-  const bOuvirTodas = el('button', 'botao-sec', '▶ Ouvir as formas em sequência');
+  const bOuvir = botaoIcone('botao-sec', 'tocar', 'Ouvir');
+  const bOuvirTodas = botaoIcone('botao-sec', 'tocar', 'Ouvir as formas em sequência');
   acoesVer.append(bOuvir, bOuvirTodas);
   area.append(info, svg, feedback, acoesVer);
 
@@ -59,7 +60,7 @@ export function montar(raiz, ir) {
   const [gForma, chipsForma] = grupo('Forma');
   const [gRot, chipsRot] = grupo('Mostrar nas bolinhas');
   const [gEsc, chipsEsc] = grupo('Escala');
-  const botMic = el('button', 'botao-sec', '🎤 Ligar microfone');
+  const botMic = botaoIcone('botao-sec', 'microfone', 'Ligar microfone');
   const botNovo = el('button', 'botao-sec', 'Recomeçar');
   const acoes = el('div', 'acoes'); acoes.append(botNovo, botMic);
   opcoes.append(gModo, gTon, gQual, gForma, gRot, gEsc, acoes);

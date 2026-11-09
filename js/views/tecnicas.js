@@ -3,6 +3,7 @@
 import { TECNICAS, GRUPOS_TECNICA, tecnicaPorId, DIFICULDADES } from '../curso/tecnicas.js';
 import { criarRenderizador } from '../curso/blocos.js';
 import { Config } from '../db.js';
+import { icone, botaoIcone } from '../icones.js';
 
 function el(tag, classe, texto) {
   const e = document.createElement(tag);
@@ -32,7 +33,7 @@ export function montar(raiz, ir, arg) {
     tela.className = 'tela tecnicas-tela';
 
     const topo = el('header', 'topo');
-    const voltar = el('button', 'botao-texto', '‹ Início');
+    const voltar = botaoIcone('botao-texto', 'voltar', 'Início');
     voltar.onclick = () => ir('');
     topo.append(voltar, el('h1', 'titulo-tela', 'Biblioteca de Técnicas'));
     tela.append(topo);
@@ -109,7 +110,7 @@ export function montar(raiz, ir, arg) {
     tela.innerHTML = '';
     tela.className = 'tela tecnicas-tela aula-tela';
     const topo = el('header', 'topo');
-    const voltar = el('button', 'botao-texto', '‹ Técnicas');
+    const voltar = botaoIcone('botao-texto', 'voltar', 'Técnicas');
     voltar.onclick = lista;
     topo.append(voltar, el('h1', 'titulo-tela', t.nome));
     tela.append(topo);
@@ -195,8 +196,8 @@ export function montar(raiz, ir, arg) {
     // navegação entre técnicas
     const acoes = el('div', 'acoes acoes-licao');
     const i = TECNICAS.indexOf(t);
-    if (i > 0) { const b = el('button', 'botao-sec', '‹ ' + TECNICAS[i - 1].nome); b.onclick = () => ficha(TECNICAS[i - 1].id); acoes.append(b); }
-    if (i < TECNICAS.length - 1) { const b = el('button', 'botao-sec', TECNICAS[i + 1].nome + ' ›'); b.onclick = () => ficha(TECNICAS[i + 1].id); acoes.append(b); }
+    if (i > 0) { const b = botaoIcone('botao-sec', 'voltar', TECNICAS[i - 1].nome); b.onclick = () => ficha(TECNICAS[i - 1].id); acoes.append(b); }
+    if (i < TECNICAS.length - 1) { const b = el('button', 'botao-sec', TECNICAS[i + 1].nome); b.append(icone('avancar')); b.onclick = () => ficha(TECNICAS[i + 1].id); acoes.append(b); }
     tela.append(acoes);
     window.scrollTo(0, 0);
   }

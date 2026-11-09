@@ -6,6 +6,7 @@
 import { TEMAS, TAMANHOS, trocarTema, trocarTamanho, trocarMovimento, lerTema, lerTamanho, lerMovimento } from '../tema.js';
 import { Config } from '../db.js';
 import { deveConferir, ligarConferencia, abrirEspelho } from '../postura.js';
+import { botaoIcone } from '../icones.js';
 
 function el(tag, classe, texto) {
   const e = document.createElement(tag);
@@ -29,7 +30,7 @@ export function montar(raiz, ir) {
 
     tela.innerHTML = '';
     const topo = el('header', 'topo');
-    const voltar = el('button', 'botao-texto', '‹ Início');
+    const voltar = botaoIcone('botao-texto', 'voltar', 'Início');
     voltar.onclick = () => ir('');
     topo.append(voltar, el('h1', 'titulo-tela', 'Configurações'));
     tela.append(topo);
@@ -117,7 +118,7 @@ export function montar(raiz, ir) {
     txtP.append(el('span', 'cartao-desc', 'Cinco itens com desenho, antes de cada sessão.'));
     linhaP.append(txtP);
     secP.append(linhaP);
-    const btEsp = el('button', 'botao-sec', '◉ Abrir o espelho agora');
+    const btEsp = botaoIcone('botao-sec', 'camera', 'Abrir o espelho agora');
     btEsp.onclick = () => abrirEspelho();
     secP.append(btEsp);
     tela.append(secP);

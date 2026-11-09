@@ -3,6 +3,7 @@ import { Config } from '../db.js';
 import { comecarPratica, pararPratica } from '../pratica.js';
 import { Afinador } from '../tuner.js';
 import { notaMaisProxima, nomeDoMidi, centsAteAlvo, cordaMaisProxima, AFINACOES } from '../pitch.js';
+import { botaoIcone } from '../icones.js';
 
 function el(tag, classe, texto) {
   const e = document.createElement(tag);
@@ -23,7 +24,7 @@ export function montar(raiz, ir) {
   // ---------- estrutura ----------
   const tela = el('main', 'tela afinador');
   const topo = el('header', 'topo');
-  const voltar = el('button', 'botao-texto', '‹ Início');
+  const voltar = botaoIcone('botao-texto', 'voltar', 'Início');
   voltar.onclick = () => ir('');
   topo.append(voltar, el('h1', 'titulo-tela', 'Afinador'));
 
@@ -61,15 +62,15 @@ export function montar(raiz, ir) {
   const gA4 = el('div', 'grupo');
   gA4.append(el('h2', 'rotulo-grupo', 'Referência do Lá (A4)'));
   const linhaA4 = el('div', 'linha-a4');
-  const menos = el('button', 'botao-passo', '−');
+  const menos = botaoIcone('botao-passo', 'menos');
   const valA4 = el('span', 'valor-a4', '440 Hz');
-  const mais = el('button', 'botao-passo', '+');
+  const mais = botaoIcone('botao-passo', 'mais');
   menos.setAttribute('aria-label', 'Diminuir 1 Hz');
   mais.setAttribute('aria-label', 'Aumentar 1 Hz');
   linhaA4.append(menos, valA4, mais);
   gA4.append(linhaA4);
 
-  const botao = el('button', 'botao-principal', '🎤 Ligar microfone');
+  const botao = botaoIcone('botao-principal', 'microfone', 'Ligar microfone');
   const aviso = el('p', 'dica aviso-mic', 'Use em lugar silencioso, com o celular perto do violão.');
 
   colDir.append(gModo, gAf, gCordas, gA4, botao, aviso);

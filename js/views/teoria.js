@@ -8,6 +8,7 @@ import { LICOES } from '../licoes.js';
 import { TONICAS, nomeNota, escalaMaior, campoHarmonico, INTERVALOS, demo, gerarQuiz, sequenciaExercicio } from '../teoria.js';
 import { CORDAS_MIDI } from '../caged.js';
 import { estrelas } from '../leitura.js';
+import { botaoIcone } from '../icones.js';
 
 function el(tag, classe, texto) {
   const e = document.createElement(tag);
@@ -33,7 +34,7 @@ export function montar(raiz, ir) {
     tela.innerHTML = '';
     tela.className = 'tela teoria';
     const topo = el('header', 'topo');
-    const voltar = el('button', 'botao-texto', '‹ Início');
+    const voltar = botaoIcone('botao-texto', 'voltar', 'Início');
     voltar.onclick = () => ir('');
     topo.append(voltar, el('h1', 'titulo-tela', 'Teoria'));
     const grade = el('div', 'grade');
@@ -55,7 +56,7 @@ export function montar(raiz, ir) {
     tela.className = 'tela teoria licao';
     let tonica = TONICAS[0], variante = 'maior';
     const topo = el('header', 'topo');
-    const voltar = el('button', 'botao-texto', '‹ Lições');
+    const voltar = botaoIcone('botao-texto', 'voltar', 'Lições');
     voltar.onclick = lista;
     topo.append(voltar, el('h1', 'titulo-tela', l.titulo));
     const corpo = el('section', 'texto-licao');
@@ -129,7 +130,7 @@ export function montar(raiz, ir) {
     }
     const seqEl = el('p', 'seq-ex', '');
     const feed = el('p', 'feedback', '');
-    const bMic = el('button', 'botao-sec', '🎤 Começar exercício');
+    const bMic = botaoIcone('botao-sec', 'microfone', 'Começar exercício');
     let passo = 0, seq = [], bloqueioPc = -1, bloqueioAte = 0;
     function resetarExercicio() {
       if (!ex) return;
@@ -184,7 +185,7 @@ export function montar(raiz, ir) {
     tela.innerHTML = '';
     tela.className = 'tela teoria quiz-tela';
     const topo = el('header', 'topo');
-    const sair = el('button', 'botao-texto', '‹ Lição');
+    const sair = botaoIcone('botao-texto', 'voltar', 'Lição');
     sair.onclick = () => licao(l);
     topo.append(sair, el('h1', 'titulo-tela', 'Quiz: ' + l.titulo));
     const prog = el('p', 'dica', '');
@@ -231,7 +232,7 @@ export function montar(raiz, ir) {
       if (encerrada) return;
       tela.innerHTML = '';
       const topo2 = el('header', 'topo');
-      const v = el('button', 'botao-texto', '‹ Lições'); v.onclick = lista;
+      const v = botaoIcone('botao-texto', 'voltar', 'Lições'); v.onclick = lista;
       topo2.append(v, el('h1', 'titulo-tela', 'Resultado'));
       const est = el('p', 'estrelas', '★'.repeat(e) + '☆'.repeat(3 - e));
       est.dataset.estrelas = e;

@@ -9,6 +9,7 @@ import { carregarTodos, todasAsAulas } from '../curso/curriculo.js';
 import { carregarFichas } from '../curso/progresso.js';
 import { EXERCICIOS } from '../curso/exercicios.js';
 import { Config } from '../db.js';
+import { botaoIcone } from '../icones.js';
 
 function el(tag, classe, texto) {
   const e = document.createElement(tag);
@@ -45,7 +46,7 @@ export function montar(raiz, ir) {
 
     tela.innerHTML = '';
     const topo = el('header', 'topo');
-    const voltar = el('button', 'botao-texto', '‹ Início');
+    const voltar = botaoIcone('botao-texto', 'voltar', 'Início');
     voltar.onclick = () => ir('');
     topo.append(voltar, el('h1', 'titulo-tela', 'Minhas habilidades'));
     tela.append(topo);
@@ -64,7 +65,7 @@ export function montar(raiz, ir) {
     } else {
       const chips = el('div', 'chips');
       revisar.forEach((q) => {
-        const b = el('button', 'chip chip-revisar', '⟳ ' + q.hab.nome + ' · ' + quandoTexto(q.dias));
+        const b = botaoIcone('chip chip-revisar', 'recarregar', q.hab.nome + ' · ' + quandoTexto(q.dias));
         b.onclick = () => document.getElementById('hab-' + q.hab.id).scrollIntoView({ block: 'center' });
         chips.append(b);
       });

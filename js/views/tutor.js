@@ -11,6 +11,7 @@ import { carregarFichas, proximaAula, pontosFracos, porDisciplina, estadoDaFicha
 import { DISCIPLINAS } from '../curso/curriculo.js';
 import { TECNICAS } from '../curso/tecnicas.js';
 import { Config } from '../db.js';
+import { botaoIcone } from '../icones.js';
 
 function el(tag, classe, texto) {
   const e = document.createElement(tag);
@@ -34,7 +35,7 @@ export function montar(raiz, ir) {
   function cabecalho(titulo, aoVoltar) {
     tela.innerHTML = '';
     const topo = el('header', 'topo');
-    const voltar = el('button', 'botao-texto', aoVoltar ? '‹ Tutor' : '‹ Início');
+    const voltar = botaoIcone('botao-texto', 'voltar', aoVoltar ? 'Tutor' : 'Início');
     voltar.onclick = aoVoltar || (() => ir(''));
     topo.append(voltar, el('h1', 'titulo-tela', titulo));
     tela.append(topo);

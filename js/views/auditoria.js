@@ -2,6 +2,7 @@
 // Mostra, assunto por assunto, se o conteúdo pedagógico já existe no app.
 // Estados: Planejado · Em desenvolvimento · Implementado · Validado.
 import { auditar, carregarTodos, ESTADO_ASSUNTO } from '../curso/curriculo.js';
+import { botaoIcone } from '../icones.js';
 
 function el(tag, classe, texto) {
   const e = document.createElement(tag);
@@ -33,7 +34,7 @@ export function montar(raiz, ir, arg) {
 
     tela.innerHTML = '';
     const topo = el('header', 'topo');
-    const v = el('button', 'botao-texto', '‹ Curso'); v.onclick = () => ir('curso');
+    const v = botaoIcone('botao-texto', 'voltar', 'Curso'); v.onclick = () => ir('curso');
     topo.append(v, el('h1', 'titulo-tela', 'Auditoria curricular'));
     tela.append(topo);
 

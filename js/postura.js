@@ -15,6 +15,7 @@
 //     quem compara é você. Isso é dito na tela, porque fingir uma análise que
 //     não existe seria pior do que não ter espelho nenhum.
 import { Config } from './db.js';
+import { botaoIcone } from './icones.js';
 
 const C_MOSTRAR = 'postura.conferir';   // mostrar a conferência ao entrar no Modo Estudo
 
@@ -125,7 +126,7 @@ function abrirEspelho() {
 
   const cab = el('header', 'espelho-cab');
   cab.append(el('h2', 'espelho-titulo', 'Espelho'));
-  const fechar = el('button', 'botao-texto', '✕ Fechar');
+  const fechar = botaoIcone('botao-texto', 'fechar', 'Fechar');
   cab.append(fechar);
   caixa.append(cab);
 
@@ -197,7 +198,7 @@ export function conferirPostura() {
 
     const acoes = el('div', 'bloco-botoes');
     const ok = el('button', 'botao-principal', 'Conferi, vamos tocar');
-    const espelho = el('button', 'botao-sec', '◉ Abrir o espelho');
+    const espelho = botaoIcone('botao-sec', 'camera', 'Abrir o espelho');
     acoes.append(ok, espelho);
     caixa.append(acoes);
 

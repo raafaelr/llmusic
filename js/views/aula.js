@@ -8,6 +8,7 @@ import { criarRenderizador } from '../curso/blocos.js';
 import { Progresso } from '../db.js';
 import { registrarVisita, marcarEstudada, registrarQuiz, registrarAutoavaliacao, estadoDaFicha, estrelasDaFicha, carregarFichas, liberada, prereqFaltando, ESTADOS, NOTA_MINIMA } from '../curso/progresso.js';
 import { rodarQuiz } from '../quizui.js';
+import { icone, botaoIcone } from '../icones.js';
 
 function el(tag, classe, texto) {
   const e = document.createElement(tag);
@@ -35,7 +36,7 @@ export function montar(raiz, ir, arg) {
     if (!dados) {
       tela.innerHTML = '';
       const topo = el('header', 'topo');
-      const v = el('button', 'botao-texto', '‹ Curso'); v.onclick = () => ir('curso');
+      const v = botaoIcone('botao-texto', 'voltar', 'Curso'); v.onclick = () => ir('curso');
       topo.append(v, el('h1', 'titulo-tela', 'Aula não encontrada'));
       tela.append(topo, el('p', 'texto-bloco', 'Esta aula ainda não existe. Volte à grade curricular e escolha outra.'));
       return;
@@ -59,7 +60,7 @@ export function montar(raiz, ir, arg) {
     tela.className = 'tela aula-tela';
 
     const topo = el('header', 'topo');
-    const voltar = el('button', 'botao-texto', '‹ Módulo ' + modulo.id);
+    const voltar = botaoIcone('botao-texto', 'voltar', 'Módulo ' + modulo.id);
     voltar.onclick = () => ir('curso/' + nivel.n);
     topo.append(voltar, el('h1', 'titulo-tela', aula.titulo));
     tela.append(topo);
@@ -190,9 +191,9 @@ export function montar(raiz, ir, arg) {
     const acoes = el('div', 'acoes acoes-licao');
     const todas = (modulo.aulas || []);
     const i = todas.findIndex((x) => x.id === aula.id);
-    if (i > 0) { const b = el('button', 'botao-sec', '‹ Aula anterior'); b.onclick = () => ir('aula/' + todas[i - 1].id); acoes.append(b); }
+    if (i > 0) { const b = botaoIcone('botao-sec', 'voltar', 'Aula anterior'); b.onclick = () => ir('aula/' + todas[i - 1].id); acoes.append(b); }
     const bm = el('button', 'botao-sec', 'Ver o módulo'); bm.onclick = () => ir('curso/' + nivel.n); acoes.append(bm);
-    if (i >= 0 && i < todas.length - 1) { const b = el('button', 'botao-principal', 'Próxima aula ›'); b.onclick = () => ir('aula/' + todas[i + 1].id); acoes.append(b); }
+    if (i >= 0 && i < todas.length - 1) { const b = el('button', 'botao-principal', 'Próxima aula'); b.append(icone('avancar')); b.onclick = () => ir('aula/' + todas[i + 1].id); acoes.append(b); }
     tela.append(acoes);
 
     function atualizarSelo() {

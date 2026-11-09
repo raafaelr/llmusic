@@ -8,6 +8,7 @@ import { lerAscii, paraAscii } from '../importar/ascii.js';
 import { ligar, buscaIMSLP } from '../obrapartitura.js';
 import { obraPorId } from '../curso/repertorio.js';
 import { montarPosicional } from '../importar/posicional.js';
+import { icone, botaoIcone } from '../icones.js';
 
 function el(tag, classe, texto) {
   const e = document.createElement(tag);
@@ -53,7 +54,7 @@ export function montar(raiz, ir, arg) {
     pararSom();
     tela.innerHTML = ''; tela.className = 'tela importar';
     const topo = el('header', 'topo');
-    const voltar = el('button', 'botao-texto', '‹ Partituras');
+    const voltar = botaoIcone('botao-texto', 'voltar', 'Partituras');
     voltar.onclick = () => ir('partituras');
     topo.append(voltar, el('h1', 'titulo-tela', 'Importar tablatura'));
     const intro = el('section', 'coluna');
@@ -68,7 +69,7 @@ export function montar(raiz, ir, arg) {
         + ' · domínio público (autor falecido em ' + obra.morte + ')'));
       faixa.append(el('p', 'cartao-desc', 'Ao guardar, o arquivo fica ligado a esta obra: '
         + 'abrir a obra no Repertório passa a abrir a partitura.'));
-      const lk = el('a', 'botao-sec', '↗ Procurar no IMSLP');
+      const lk = (() => { const a = el('a', 'botao-sec'); a.append(icone('link-externo'), document.createTextNode(' Procurar no IMSLP')); return a; })();
       lk.href = buscaIMSLP(obra); lk.target = '_blank'; lk.rel = 'noopener noreferrer';
       faixa.append(lk);
       intro.append(faixa);
@@ -118,7 +119,7 @@ export function montar(raiz, ir, arg) {
       const info = el('div');
       info.append(el('h2', 'cartao-nome', p.titulo), el('p', 'cartao-desc', p.compassos.length + ' compassos · ' + p.bpm + ' BPM · ' + p.compasso.join('/')));
       const bt = el('div', 'acoes-cartao');
-      const tocar = el('button', 'botao-sec', '▶ Partituras');
+      const tocar = botaoIcone('botao-sec', 'tocar', 'Partituras');
       tocar.onclick = async () => { await Config.guardar('part.peca', ID_MINHAS + ':' + p.id); ir('partituras'); };
       const ed = el('button', 'botao-sec', 'Editar');
       ed.onclick = () => revisao({ tipo: 'ascii', texto: paraAscii(p), peca: p, avisos: [], edicao: true });
@@ -179,7 +180,7 @@ export function montar(raiz, ir, arg) {
     let { peca } = fonte;
     let avisos = fonte.avisos || [];
     const topo = el('header', 'topo');
-    const voltar = el('button', 'botao-texto', '‹ Cancelar');
+    const voltar = botaoIcone('botao-texto', 'voltar', 'Cancelar');
     voltar.onclick = () => inicio();
     topo.append(voltar, el('h1', 'titulo-tela', fonte.novo ? 'Nova tablatura' : fonte.edicao ? 'Editar' : 'Revisar'));
     tela.append(topo);
@@ -251,7 +252,7 @@ export function montar(raiz, ir, arg) {
     bAp.onclick = () => { reler('texto'); };
     [seCmp, seGrade].forEach((s) => { s.onchange = () => { if (fonte.tipo === 'posicional') { reler('entrada'); atualizarTexto(); } else if (reler('texto')) {/* mantém o texto */} }; });
     inBpm.onchange = () => { const b = Math.max(30, Math.min(240, parseInt(inBpm.value, 10) || peca.bpm)); inBpm.value = b; peca.bpm = b; };
-    const bOuvir = el('button', 'botao-sec', '▶ Ouvir');
+    const bOuvir = botaoIcone('botao-sec', 'tocar', 'Ouvir');
     let tocando = false;
     bOuvir.onclick = () => {
       if (tocando) { pararSom(); tocando = false; bOuvir.textContent = '▶ Ouvir'; return; }

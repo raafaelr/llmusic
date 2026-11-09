@@ -2,6 +2,7 @@
 import { Config } from '../db.js';
 import { comecarPratica, pararPratica } from '../pratica.js';
 import { Metronomo, COMPASSOS, SUBDIVISOES, BPM_MIN, BPM_MAX, limitarBpm, andamento } from '../metronome.js';
+import { botaoIcone } from '../icones.js';
 
 function el(tag, classe, texto) {
   const e = document.createElement(tag);
@@ -21,7 +22,7 @@ export function montar(raiz, ir) {
   const tela = el('main', 'tela metronomo');
 
   const topo = el('header', 'topo');
-  const voltar = el('button', 'botao-texto', '‹ Início');
+  const voltar = botaoIcone('botao-texto', 'voltar', 'Início');
   voltar.onclick = () => ir('');
   topo.append(voltar, el('h1', 'titulo-tela', 'Metrônomo'));
 
@@ -62,7 +63,7 @@ export function montar(raiz, ir) {
 
   const acoes = el('div', 'acoes');
   const tap = el('button', 'botao-sec', 'Marcar tempo (tap)');
-  const play = el('button', 'botao-principal', '▶ Iniciar');
+  const play = botaoIcone('botao-principal', 'tocar', 'Iniciar');
   acoes.append(tap, play);
 
   const dica = el('p', 'dica', 'O número de batidas é contado na figura do compasso: semínima em 2/4, 3/4 e 4/4, colcheia em 6/8.');

@@ -10,12 +10,12 @@
 // arrastando o dedo da borda esquerda. Fixada, fica aberta durante a
 // navegação, e a escolha é guardada no aparelho.
 import { Config } from './db.js';
+import { icone } from './icones.js';
 
 const C_FIXADO = 'ui.menuFixo';
 
-// Um ícone por grupo, para a régua. São glifos, não arquivos: a régua não
-// vale um conjunto de imagens novo.
-const ICONES = ['⌂', '♪', '𝄞', '▤', '◴', '⚙'];
+// Um ícone por grupo, na ordem de GRUPOS.
+const ICONES = ['inicio', 'aprendizado', 'estudio', 'biblioteca', 'evolucao', 'ajustes'];
 
 const GRUPOS = [
   ['', [['', 'Início']]],
@@ -49,7 +49,8 @@ function el(tag, classe, texto) {
 }
 
 export function criarMenu(ir) {
-  const aba = el('button', 'menu-aba', '›');
+  const aba = el('button', 'menu-aba');
+  aba.append(icone('avancar'));
   aba.setAttribute('aria-label', 'Abrir menu');
   aba.setAttribute('aria-expanded', 'false');
   const veu = el('div', 'menu-veu');
@@ -64,7 +65,8 @@ export function criarMenu(ir) {
   const img = document.createElement('img');
   img.src = 'icons/icon.svg'; img.alt = ''; img.width = 36; img.height = 36;
   const nome = el('span', 'menu-nome', 'LLMusic');
-  const fechar = el('button', 'menu-fechar', '‹ Fechar');
+  const fechar = el('button', 'menu-fechar');
+  fechar.append(icone('voltar'), document.createTextNode(' Fechar'));
   fechar.setAttribute('aria-label', 'Fechar menu');
   cab.append(img, nome, fechar);
   gaveta.append(cab);
@@ -90,7 +92,8 @@ export function criarMenu(ir) {
   regua.setAttribute('aria-label', 'Áreas do app');
   const botoesRegua = GRUPOS.map(([titulo], g) => {
     const nome = titulo || 'Início';
-    const b = el('button', 'regua-bt', ICONES[g] || '•');
+    const b = el('button', 'regua-bt');
+    b.append(icone(ICONES[g] || 'inicio'));
     b.title = nome;                      // tooltip quando recolhida
     b.setAttribute('aria-label', nome);
     b.dataset.grupo = String(g);
@@ -100,7 +103,8 @@ export function criarMenu(ir) {
     return b;
   });
 
-  const bFixar = el('button', 'regua-bt regua-fixar', '⇥');
+  const bFixar = el('button', 'regua-bt regua-fixar');
+  bFixar.append(icone('fixar'));
   bFixar.title = 'Fixar o menu aberto';
   bFixar.setAttribute('aria-label', 'Fixar o menu aberto');
   bFixar.setAttribute('aria-pressed', 'false');

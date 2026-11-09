@@ -4,6 +4,7 @@ import { carregarFichas, progressoDoNivel, progressoDoModulo, proximaAula, ponto
 import { Pratica, Config, Avaliacoes } from '../db.js';
 import { hojeISO, minutosTexto } from '../pratica.js';
 import { sequenciaAtual, melhorSequencia, totalSegundos, semana } from '../habitos.js';
+import { botaoIcone } from '../icones.js';
 
 function el(tag, classe, texto) {
   const e = document.createElement(tag);
@@ -39,7 +40,7 @@ export function montar(raiz, ir) {
 
     tela.innerHTML = '';
     const topo = el('header', 'topo');
-    const voltar = el('button', 'botao-texto', '‹ Início');
+    const voltar = botaoIcone('botao-texto', 'voltar', 'Início');
     voltar.onclick = () => ir('');
     topo.append(voltar, el('h1', 'titulo-tela', 'Meu progresso'));
     tela.append(topo);

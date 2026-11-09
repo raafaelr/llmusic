@@ -1592,3 +1592,11 @@ button, .chip, a.botao-sec, .botao-sec, .botao-principal, label.config-linha {
 :root[data-estudo] .menu-regua { display: none; }
 :root[data-estudo] body { padding-left: 0; }
 .aviso-revisao { display: block; margin: var(--e-3) 0 0; color: var(--destaque); font-weight: 600; text-align: left; padding-left: 0; }
+
+/* Ícones do Tabler (js/icones.js). Tamanho pelo CSS, cor por currentColor. */
+.ic-t { width: 1.15em; height: 1.15em; flex: 0 0 auto; vertical-align: -0.2em; }
+button .ic-t, a .ic-t { margin-right: 0.1em; }
+/* Botão só de ícone: sem o espaço que o texto deixaria. */
+.bt-so-icone .ic-t { margin-right: 0; width: 1.3em; height: 1.3em; }
+.regua-bt .ic-t { width: 22px; height: 22px; margin: 0; }
+.estudo-bt .ic-t { width: 22px; height: 22px; margin: 0; }

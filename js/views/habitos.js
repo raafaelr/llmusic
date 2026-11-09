@@ -3,6 +3,7 @@ import { Config, Pratica, Backup } from '../db.js';
 import { hojeISO, minutosTexto } from '../pratica.js';
 import { nativo, compartilharArquivo, Lembretes, lerHora } from '../nativo.js';
 import { sequenciaAtual, melhorSequencia, diasDoMes, semana, totalSegundos, nivelDoDia, dataDe } from '../habitos.js';
+import { botaoIcone } from '../icones.js';
 
 function el(tag, classe, texto) {
   const e = document.createElement(tag);
@@ -23,7 +24,7 @@ export function montar(raiz, ir) {
 
   const tela = el('main', 'tela habitos');
   const topo = el('header', 'topo');
-  const voltar = el('button', 'botao-texto', '‹ Início');
+  const voltar = botaoIcone('botao-texto', 'voltar', 'Início');
   voltar.onclick = () => ir('');
   topo.append(voltar, el('h1', 'titulo-tela', 'Hábitos'));
 
@@ -65,8 +66,8 @@ export function montar(raiz, ir) {
 
   const dir = el('section', 'coluna');
   const navMes = el('div', 'nav-mes');
-  const ant = el('button', 'botao-passo', '‹'); ant.setAttribute('aria-label', 'Mês anterior');
-  const prox = el('button', 'botao-passo', '›'); prox.setAttribute('aria-label', 'Próximo mês');
+  const ant = botaoIcone('botao-passo', 'voltar'); ant.setAttribute('aria-label', 'Mês anterior');
+  const prox = botaoIcone('botao-passo', 'avancar'); prox.setAttribute('aria-label', 'Próximo mês');
   const tituloMes = el('h2', 'titulo-mes', '');
   navMes.append(ant, tituloMes, prox);
   const cal = el('div', 'calendario');

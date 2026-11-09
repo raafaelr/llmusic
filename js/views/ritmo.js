@@ -3,6 +3,7 @@
 import { Config } from '../db.js';
 import { comecarPratica, pararPratica } from '../pratica.js';
 import { NIVEIS_RITMO, gerarRitmo, onsets, avaliarToques, estrelasDoRitmo } from '../ritmo.js';
+import { botaoIcone } from '../icones.js';
 
 const NS = 'http://www.w3.org/2000/svg';
 function el(tag, classe, texto) {
@@ -28,7 +29,7 @@ export function montar(raiz, ir) {
 
   const tela = el('main', 'tela ritmo');
   const topo = el('header', 'topo');
-  const voltar = el('button', 'botao-texto', '‹ Início');
+  const voltar = botaoIcone('botao-texto', 'voltar', 'Início');
   voltar.onclick = () => ir('');
   topo.append(voltar, el('h1', 'titulo-tela', 'Ritmo'));
 
@@ -48,7 +49,7 @@ export function montar(raiz, ir) {
   const chipsNiv = el('div', 'chips'); gNiv.append(chipsNiv);
   const gB = el('div', 'grupo'); gB.append(el('h2', 'rotulo-grupo', 'Andamento (BPM)'));
   const chipsB = el('div', 'chips'); gB.append(chipsB);
-  const iniciar = el('button', 'botao-principal', '▶ Começar');
+  const iniciar = botaoIcone('botao-principal', 'tocar', 'Começar');
   opcoes.append(gNiv, gB, iniciar);
 
   tela.append(topo, area, tap, painelFim, opcoes);

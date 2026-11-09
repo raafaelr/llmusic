@@ -7,6 +7,7 @@ import { tecnicaPorId } from '../curso/tecnicas.js';
 import { criarRenderizador } from '../curso/blocos.js';
 import { Config } from '../db.js';
 import { hojeISO } from '../pratica.js';
+import { botaoIcone } from '../icones.js';
 
 function el(tag, classe, texto) {
   const e = document.createElement(tag);
@@ -34,7 +35,7 @@ export function montar(raiz, ir, arg) {
     tela.className = 'tela exerc-tela';
 
     const topo = el('header', 'topo');
-    const voltar = el('button', 'botao-texto', '‹ Início');
+    const voltar = botaoIcone('botao-texto', 'voltar', 'Início');
     voltar.onclick = () => ir('');
     topo.append(voltar, el('h1', 'titulo-tela', 'Central de Exercícios'));
     tela.append(topo);
@@ -129,7 +130,7 @@ export function montar(raiz, ir, arg) {
     tela.innerHTML = '';
     tela.className = 'tela exerc-tela aula-tela';
     const topo = el('header', 'topo');
-    const voltar = el('button', 'botao-texto', '‹ Exercícios');
+    const voltar = botaoIcone('botao-texto', 'voltar', 'Exercícios');
     voltar.onclick = lista;
     topo.append(voltar, el('h1', 'titulo-tela', e.nome));
     tela.append(topo);
@@ -235,7 +236,7 @@ export function montar(raiz, ir, arg) {
 
     const acoes = el('div', 'acoes acoes-licao');
     const i = EXERCICIOS.indexOf(e);
-    if (i > 0) { const b = el('button', 'botao-sec', '‹ ' + EXERCICIOS[i - 1].nome); b.onclick = () => ficha(EXERCICIOS[i - 1].id); acoes.append(b); }
+    if (i > 0) { const b = botaoIcone('botao-sec', 'voltar', EXERCICIOS[i - 1].nome); b.onclick = () => ficha(EXERCICIOS[i - 1].id); acoes.append(b); }
     if (i < EXERCICIOS.length - 1) { const b = el('button', 'botao-sec', EXERCICIOS[i + 1].nome + ' ›'); b.onclick = () => ficha(EXERCICIOS[i + 1].id); acoes.append(b); }
     tela.append(acoes);
     window.scrollTo(0, 0);

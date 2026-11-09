@@ -19,6 +19,7 @@ import { Metronomo, andamento } from '../metronome.js';
 import { Afinador } from '../tuner.js';
 import { notaMaisProxima, nomeDoMidi } from '../pitch.js';
 import { comecarPratica, pararPratica } from '../pratica.js';
+import { botaoIcone } from '../icones.js';
 
 const NS = 'http://www.w3.org/2000/svg';
 function el(tag, classe, texto) {
@@ -109,7 +110,7 @@ export function criarRenderizador(ctx = {}) {
     let botoes = null;
     if (b.tocar !== false) {
       botoes = el('div', 'bloco-botoes');
-      const bt = el('button', 'botao-sec', '▶ Ouvir');
+      const bt = botaoIcone('botao-sec', 'tocar', 'Ouvir');
       const eventos = compassos.flatMap((c) => (c.notas || []).map((n) => ({
         midis: n.pausa ? [] : (n.midis || [n.midi]).map(soaComoEscrito),
         fig: n.fig, ponto: n.ponto, pausa: n.pausa
@@ -146,7 +147,7 @@ export function criarRenderizador(ctx = {}) {
     let botoes = null;
     if (b.tocar !== false) {
       botoes = el('div', 'bloco-botoes');
-      const bt = el('button', 'botao-sec', '▶ Ouvir');
+      const bt = botaoIcone('botao-sec', 'tocar', 'Ouvir');
       const eventos = eventosDaTab(b.compassos || []);
       bt.onclick = async () => {
         if (tocador.tocando()) { tocador.parar(); bt.textContent = '▶ Ouvir'; return; }
@@ -178,7 +179,7 @@ export function criarRenderizador(ctx = {}) {
     let botoes = null;
     if (b.tocar) {
       botoes = el('div', 'bloco-botoes');
-      const bt = el('button', 'botao-sec', b.rotuloTocar || '▶ Ouvir');
+      const bt = botaoIcone('botao-sec', 'tocar', (b.rotuloTocar || 'Ouvir').replace(/^▶ /, ''));
       const ev = (b.notas || []).map((n) => ({ midi: midiDaPosicao(n.corda, n.casa), fig: b.fig || 'seminima' }));
       bt.onclick = () => {
         silenciar(); contarTempo();
@@ -198,7 +199,7 @@ export function criarRenderizador(ctx = {}) {
     const svg = svgNovo('diag-acorde', 'Acorde ' + (a.nome || ''));
     D.diagramaAcorde(svg, a);
     caixa.append(svg);
-    const bt = el('button', 'botao-sec sm', '▶');
+    const bt = botaoIcone('botao-sec sm', 'tocar');
     bt.setAttribute('aria-label', 'Ouvir ' + (a.nome || 'o acorde'));
     const midis = (a.cordas || []).map((casa, k) => (casa < 0 ? null : midiDaPosicao(6 - k, casa))).filter((m) => m !== null);
     bt.onclick = () => { silenciar(); contarTempo(); tocador.acorde(midis); };
@@ -226,9 +227,9 @@ export function criarRenderizador(ctx = {}) {
     const pontos = [];
     for (let i = 0; i < n; i++) { const p = el('span', 'metro-luz' + (i === 0 ? ' forte' : '')); pontos.push(p); luzes.append(p); }
     const linha = el('div', 'linha-botoes');
-    const menos = el('button', 'botao-sec sm', '−');
-    const mais = el('button', 'botao-sec sm', '+');
-    const liga = el('button', 'botao-principal', '▶ Começar');
+    const menos = botaoIcone('botao-sec sm', 'menos');
+    const mais = botaoIcone('botao-sec sm', 'mais');
+    const liga = botaoIcone('botao-principal', 'tocar', 'Começar');
     const mostrar = () => { info.textContent = bpm + ' BPM · ' + compasso + ' · ' + andamento(bpm); };
     menos.onclick = () => { bpm = Math.max(30, bpm - 4); mostrar(); if (metro) metro.bpm = bpm; };
     mais.onclick = () => { bpm = Math.min(240, bpm + 4); mostrar(); if (metro) metro.bpm = bpm; };
@@ -261,7 +262,7 @@ export function criarRenderizador(ctx = {}) {
     const trilha = el('p', 'seq-ex', '');
     const feed = el('p', 'feedback', '');
     feed.setAttribute('aria-live', 'polite');
-    const bt = el('button', 'botao-sec', '🎤 ' + (b.rotulo || 'Conferir no violão'));
+    const bt = botaoIcone('botao-sec', 'microfone', b.rotulo || 'Conferir no violão');
 
     function pintar() {
       trilha.innerHTML = '';
@@ -566,7 +567,7 @@ export function criarRenderizador(ctx = {}) {
       case 'exercicio': return blocoExercicio(b);
       case 'ouvir': {
         const caixa = el('div', 'bloco-botoes');
-        const bt = el('button', 'botao-sec', '▶ ' + (b.titulo || 'Ouvir'));
+        const bt = botaoIcone('botao-sec', 'tocar', b.titulo || 'Ouvir');
         bt.onclick = () => {
           silenciar(); contarTempo();
           if (b.acorde) tocador.acorde(b.acorde);

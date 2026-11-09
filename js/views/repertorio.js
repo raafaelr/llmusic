@@ -6,6 +6,7 @@ import { Config } from '../db.js';
 import { partituraDaObra, ligar, desligar, buscaIMSLP, vinculos } from '../obrapartitura.js';
 import { todasAsPecas } from '../biblioteca.js';
 import { acharAula } from '../curso/curriculo.js';
+import { icone, botaoIcone } from '../icones.js';
 
 function el(tag, classe, texto) {
   const e = document.createElement(tag);
@@ -40,7 +41,7 @@ export function montar(raiz, ir, arg) {
     tela.className = 'tela exerc-tela';
 
     const topo = el('header', 'topo');
-    const voltar = el('button', 'botao-texto', '‹ Início');
+    const voltar = botaoIcone('botao-texto', 'voltar', 'Início');
     voltar.onclick = () => ir('');
     topo.append(voltar, el('h1', 'titulo-tela', 'Repertório'));
     tela.append(topo);
@@ -138,7 +139,7 @@ export function montar(raiz, ir, arg) {
     tela.innerHTML = '';
     tela.className = 'tela exerc-tela aula-tela';
     const topo = el('header', 'topo');
-    const voltar = el('button', 'botao-texto', '‹ Repertório');
+    const voltar = botaoIcone('botao-texto', 'voltar', 'Repertório');
     voltar.onclick = lista;
     topo.append(voltar, el('h1', 'titulo-tela', o.titulo));
     tela.append(topo);
@@ -205,7 +206,7 @@ export function montar(raiz, ir, arg) {
       if (lig) {
         corpoPart.append(el('p', 'texto-bloco', 'Partitura ligada a esta obra: ' + lig.peca.titulo + '.'));
         const acoes = el('div', 'bloco-botoes');
-        const bt = el('button', 'botao-principal', '▶ Tocar esta obra');
+        const bt = botaoIcone('botao-principal', 'tocar', 'Tocar esta obra');
         bt.onclick = async () => { await Config.guardar('part.peca', lig.id); ir('partituras'); };
         const bd = el('button', 'botao-texto', 'Desligar esta partitura');
         bd.onclick = async () => { await desligar(o.id); if (!encerrada) ficha(o.id); };
@@ -227,7 +228,7 @@ export function montar(raiz, ir, arg) {
       corpoPart.append(passos);
 
       const acoes = el('div', 'bloco-botoes');
-      const bImslp = el('a', 'botao-sec', '↗ Procurar no IMSLP');
+      const bImslp = (() => { const a = el('a', 'botao-sec'); a.append(icone('link-externo'), document.createTextNode(' Procurar no IMSLP')); return a; })();
       bImslp.href = buscaIMSLP(o);
       bImslp.target = '_blank'; bImslp.rel = 'noopener noreferrer';
       const bImp = el('button', 'botao-principal', 'Importar a partitura desta obra');
