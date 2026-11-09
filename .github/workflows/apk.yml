@@ -75,6 +75,13 @@ jobs:
           cp android/app/build/outputs/apk/debug/app-debug.apk LLMusic.apk
           gh release delete apk-latest --yes --cleanup-tag || true
           VERSAO=$(node -pe "require('./versao.json').versao")
-          gh release create apk-latest LLMusic.apk --title "LLMusic - APK mais recente" --notes "versao: $VERSAO
-
-Baixe LLMusic.apk e instale no celular por cima do app atual — nao precisa desinstalar, e o seu progresso fica."
+          # As notas carregam a versao: e o app compara com a dele para saber
+          # se ha atualizacao. Escritas num arquivo para nao quebrar o YAML.
+          {
+            echo "versao: $VERSAO"
+            echo
+            echo "Baixe LLMusic.apk e instale por cima do app atual."
+            echo "Nao desinstale: todos os APKs usam a mesma chave, entao a"
+            echo "instalacao passa por cima e o seu progresso fica."
+          } > notas.md
+          gh release create apk-latest LLMusic.apk --title "LLMusic - APK mais recente" --notes-file notas.md

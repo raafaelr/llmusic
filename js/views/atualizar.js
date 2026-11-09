@@ -15,6 +15,8 @@ const REPO = 'raafaelr/llmusic';
 const API_RELEASE = 'https://api.github.com/repos/' + REPO + '/releases/tags/apk-latest';
 const APK_URL = 'https://github.com/' + REPO + '/releases/download/apk-latest/LLMusic.apk';
 const C_BACKUP = 'backup.ultimo';
+const C_CHECADO = 'atualizar.ultimaChecagem';   // para não bater no GitHub toda vez que a tela abre
+const HORAS_ENTRE_CHECAGENS = 6;
 
 function el(tag, classe, texto) {
   const e = document.createElement(tag);
@@ -149,15 +151,17 @@ export function montar(raiz, ir) {
   secV.append(alvoV);
   tela.append(secV);
 
-  async function procurar() {
+  async function procurar(automatica) {
     estadoV.className = 'hab-tempo';
     estadoV.textContent = 'Procurando…';
     alvoV.innerHTML = '';
     try {
       const r = await fetch(API_RELEASE, { headers: { Accept: 'application/vnd.github+json' }, cache: 'no-store' });
+      if (r.status === 403) throw new Error('o GitHub limitou as consultas por agora — tente daqui a pouco');
       if (!r.ok) throw new Error('o GitHub respondeu ' + r.status);
       const rel = await r.json();
       if (encerrada) return;
+      await Config.guardar(C_CHECADO, new Date().toISOString());
 
       // O workflow escreve "versao: <impressão digital>" nas notas da release.
       const m = /versao:\s*(\S+)/.exec(rel.body || '');
@@ -189,7 +193,19 @@ export function montar(raiz, ir) {
         + 'Procurar atualização é a única parte do app que precisa de internet — o resto funciona offline.';
     }
   }
-  btVer.onclick = procurar;
+  btVer.onclick = () => procurar(false);
+
+  // Na abertura, só consulta se já faz algumas horas. O app é offline-first:
+  // bater no GitHub toda vez que a tela abre gasta rede à toa e esbarra no
+  // limite de consultas de quem não está autenticado.
+  async function talvezProcurar() {
+    const ultima = await Config.obter(C_CHECADO, null);
+    if (encerrada) return;
+    const horas = ultima ? (Date.now() - Date.parse(ultima)) / 3600000 : Infinity;
+    if (horas >= HORAS_ENTRE_CHECAGENS) return procurar(true);
+    estadoV.textContent = 'Procurei há pouco e não havia versão nova. '
+      + 'Toque em “Procurar atualização” para conferir de novo.';
+  }
 
   // ============================================ 3. o que acontece com os dados
   const secI = el('section', 'grupo');
@@ -210,7 +226,7 @@ export function montar(raiz, ir) {
   tela.append(secI);
 
   mostrarEstadoBackup().catch(() => {});
-  procurar().catch(() => {});
+  talvezProcurar().catch(() => {});
 
   return () => { encerrada = true; };
 }
