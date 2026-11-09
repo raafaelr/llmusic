@@ -27,6 +27,7 @@ import * as materiais from './views/materiais.js';
 import * as config from './views/config.js';
 import { criarMenu } from './menu.js';
 import { iniciarTema } from './tema.js';
+import { criarEstudo } from './estudo.js';
 import { nativo } from './nativo.js';
 
 const TELAS = {
@@ -83,11 +84,14 @@ function mostrar() {
   if (limpar) limpar();
   raiz.innerHTML = '';
   limpar = tela.montar(raiz, ir, arg);
+  // O Modo Estudo não é uma tela: é uma camada que aparece nas telas de prática.
+  if (estudo) estudo.aplicar(TELAS[rota] ? rota : '', arg);
   window.scrollTo(0, 0);
 }
 
 window.addEventListener('hashchange', mostrar);
 const menu = criarMenu(ir);
+const estudo = criarEstudo(ir);
 // O tema preferido entra antes da primeira pintura; se ainda não carregou,
 // vale o tema do sistema operacional, que é o padrão do CSS.
 iniciarTema().catch(() => {});
