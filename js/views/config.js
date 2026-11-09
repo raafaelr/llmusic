@@ -128,11 +128,13 @@ export function montar(raiz, ir) {
     sec5.append(el('p', 'dica', 'Progresso, sessões, avaliações, anotações e preferências ficam só neste aparelho, '
       + 'num banco local. Nada é enviado para servidor nenhum.'));
     const bts = el('div', 'bloco-botoes');
-    const b1 = el('button', 'botao-sec', 'Backup e pacotes');
-    b1.onclick = () => ir('pacotes');
+    const b1 = el('button', 'botao-principal', 'Atualizar e backup');
+    b1.onclick = () => ir('atualizar');
+    const b1b = el('button', 'botao-sec', 'Pacotes extras');
+    b1b.onclick = () => ir('pacotes');
     const b2 = el('button', 'botao-sec', 'Biblioteca de Materiais');
     b2.onclick = () => ir('materiais');
-    bts.append(b1, b2);
+    bts.append(b1, b1b, b2);
     sec5.append(bts);
     tela.append(sec5);
 

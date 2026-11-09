@@ -46,11 +46,18 @@ function varrer(dir, achados = []) {
   return achados;
 }
 
+// Arquivos que o gerador escreve e que, por isso, NÃO entram no cálculo da
+// versão: se entrassem, escrever a versão mudaria o conteúdo, que mudaria a
+// versão, que mudaria o conteúdo — o hash nunca assentaria. Eles continuam
+// no cache offline; só ficam de fora da conta.
+const GERADOS = new Set(['js/versao.js', 'versao.json']);
+
 // A versão é a impressão digital do conteúdo de todos os arquivos juntos.
 // Dois conteúdos iguais dão a mesma versão; um byte diferente dá outra.
 function impressaoDigital(arquivos) {
   const h = createHash('sha256');
   for (const rel of arquivos) {
+    if (GERADOS.has(rel)) continue;
     h.update(rel);
     h.update(readFileSync(join(RAIZ, rel)));
   }
@@ -111,11 +118,25 @@ self.addEventListener('fetch', (evento) => {
 });
 `;
 
+// Além do sw.js, o gerador escreve a versão em dois lugares:
+//  - js/versao.js, que vai dentro do app (é o que o aparelho sabe de si);
+//  - versao.json, publicado na web e lido pelo workflow do APK.
+// É a comparação entre os dois que diz se há atualização.
+const versaoJs = `// GERADO por scripts/gerar-sw.mjs. Não edite à mão.
+// É a impressão digital do conteúdo do app — a mesma que nomeia o cache.
+export const VERSAO_APP = '${versao}';
+export const ARQUIVOS_APP = ${lista.length};
+`;
+const versaoJson = JSON.stringify({ versao, arquivos: lista.length }, null, 2) + '\n';
+
 const destino = join(RAIZ, 'sw.js');
 const atual = (() => { try { return readFileSync(destino, 'utf8'); } catch { return ''; } })();
 
+const atualJs = (() => { try { return readFileSync(join(RAIZ, 'js/versao.js'), 'utf8'); } catch { return ''; } })();
+const atualJson = (() => { try { return readFileSync(join(RAIZ, 'versao.json'), 'utf8'); } catch { return ''; } })();
+
 if (SO_CONFERIR) {
-  if (atual === conteudo) {
+  if (atual === conteudo && atualJs === versaoJs && atualJson === versaoJson) {
     console.log(`sw.js está em dia (${lista.length} arquivos, versão ${versao}).`);
     process.exit(0);
   }
@@ -131,4 +152,6 @@ if (SO_CONFERIR) {
 }
 
 writeFileSync(destino, conteudo);
-console.log(`sw.js gerado: ${lista.length} arquivos, versão ${versao}.`);
+writeFileSync(join(RAIZ, 'js/versao.js'), versaoJs);
+writeFileSync(join(RAIZ, 'versao.json'), versaoJson);
+console.log(`sw.js, js/versao.js e versao.json gerados: ${lista.length} arquivos, versão ${versao}.`);

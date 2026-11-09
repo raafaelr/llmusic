@@ -26,6 +26,7 @@ import * as tutor from './views/tutor.js';
 import * as materiais from './views/materiais.js';
 import * as config from './views/config.js';
 import * as habilidades from './views/habilidades.js';
+import * as atualizar from './views/atualizar.js';
 import { criarMenu } from './menu.js';
 import { iniciarTema } from './tema.js';
 import { criarEstudo } from './estudo.js';
@@ -53,6 +54,7 @@ const TELAS = {
   'exercicios': exercicios,
   'repertorio': repertorio,
   'habilidades': habilidades,
+  'atualizar': atualizar,
   'plano': plano,
   'avaliacoes': avaliacoes,
   'tutor': tutor,

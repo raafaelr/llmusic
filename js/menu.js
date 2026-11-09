@@ -21,7 +21,7 @@ const GRUPOS = [
     ['habilidades', 'Minhas habilidades'], ['plano', 'Meu Plano de Estudos'],
     ['habitos', 'Hábitos'], ['auditoria', 'Auditoria curricular']
   ]],
-  ['Ajustes', [['config', 'Configurações'], ['pacotes', 'Backup e pacotes']]]
+  ['Ajustes', [['config', 'Configurações'], ['atualizar', 'Atualizar e backup'], ['pacotes', 'Backup e pacotes']]]
 ];
 
 function el(tag, classe, texto) {

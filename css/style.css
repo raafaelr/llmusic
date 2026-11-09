@@ -1395,3 +1395,17 @@ a.botao-sec { text-decoration: none; text-align: center; }
 .hab-graus { margin-top: var(--e-3); }
 .hab-graus .chip { font-size: var(--txt-xs); }
 .chip-revisar { border-color: var(--destaque); color: var(--destaque); }
+
+/* Tela de atualização e backup. */
+.rotulo-arquivo { display: inline-block; cursor: pointer; text-align: center; }
+.tabela-simples { border: 1px solid var(--linha); border-radius: var(--r-md); overflow: hidden; }
+.tabela-linha {
+  display: flex; justify-content: space-between; gap: var(--e-3);
+  padding: var(--e-3);
+  border-bottom: 1px solid var(--linha);
+  font-size: var(--txt-sm);
+}
+.tabela-linha:last-child { border-bottom: 0; }
+.tabela-linha:nth-child(odd) { background: var(--superficie-2); }
+.tabela-linha strong { text-align: right; white-space: normal; color: var(--ok); }
+.tabela-linha strong.perigo { color: var(--ruim); }

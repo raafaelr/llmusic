@@ -38,9 +38,27 @@ jobs:
           sh scripts/ajustar-android.sh
           npx cap sync android
 
+      # A MESMA chave em todo build. Sem isto, o Gradle cria uma chave de
+      # depuração nova a cada execução, a assinatura muda, e o Android recusa
+      # instalar por cima — obrigando a desinstalar o app e perder o progresso.
+      # A chave em chaves/debug.keystore é a chave PADRÃO de depuração do
+      # Android (senha "android", alias "androiddebugkey"): descartável por
+      # natureza e pública de propósito. Não serve para publicar na Play Store.
+      - name: Usar a chave de assinatura fixa
+        run: |
+          mkdir -p ~/.android
+          cp chaves/debug.keystore ~/.android/debug.keystore
+          keytool -list -v -keystore ~/.android/debug.keystore -storepass android | grep -E "SHA256:" | head -1
+
       - name: Compilar APK
         working-directory: android
         run: ./gradlew assembleDebug --no-daemon
+
+      - name: Conferir a assinatura do APK
+        run: |
+          APK=android/app/build/outputs/apk/debug/app-debug.apk
+          AS=$(ls "$ANDROID_HOME"/build-tools/*/apksigner | tail -1)
+          "$AS" verify --print-certs "$APK" | grep -i "SHA-256 digest" | head -1
 
       - name: Guardar APK
         uses: actions/upload-artifact@v4
@@ -56,4 +74,7 @@ jobs:
         run: |
           cp android/app/build/outputs/apk/debug/app-debug.apk LLMusic.apk
           gh release delete apk-latest --yes --cleanup-tag || true
-          gh release create apk-latest LLMusic.apk --title "LLMusic - APK mais recente" --notes "Baixe LLMusic.apk e instale no celular (permita instalar de fontes desconhecidas)."
+          VERSAO=$(node -pe "require('./versao.json').versao")
+          gh release create apk-latest LLMusic.apk --title "LLMusic - APK mais recente" --notes "versao: $VERSAO
+
+Baixe LLMusic.apk e instale no celular por cima do app atual — nao precisa desinstalar, e o seu progresso fica."

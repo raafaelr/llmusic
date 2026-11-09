@@ -61,7 +61,8 @@ const AREAS = [
       ['plano', 'Plano de estudos', 'Rotina, metas e sessões'],
       ['habitos', 'Hábitos', 'Sequência de dias'],
       ['auditoria', 'Auditoria curricular', 'Cobertura do curso'],
-      ['config', 'Configurações', 'Tema, letra e backup']
+      ['config', 'Configurações', 'Tema, letra e acessibilidade'],
+      ['atualizar', 'Atualizar e backup', 'Versão do app e cópia do progresso']
     ]
   }
 ];

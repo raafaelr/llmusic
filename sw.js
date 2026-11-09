@@ -7,8 +7,8 @@
 // A versão abaixo é a impressão digital do conteúdo: mudou um byte, muda ela,
 // e o celular troca o cache velho pelo novo sozinho.
 //
-// Arquivos no cache: 121
-const VERSAO = 'llmusic-c5543efae868';
+// Arquivos no cache: 124
+const VERSAO = 'llmusic-d63fc5e9c3b8';
 
 const ARQUIVOS = [
   './',
@@ -103,7 +103,9 @@ const ARQUIVOS = [
   './js/vendor/alphaTab.core.min.mjs',
   './js/vendor/pdf.min.js',
   './js/vendor/pdf.worker.min.js',
+  './js/versao.js',
   './js/views/afinador.js',
+  './js/views/atualizar.js',
   './js/views/auditoria.js',
   './js/views/aula.js',
   './js/views/avaliacoes.js',
@@ -131,7 +133,8 @@ const ARQUIVOS = [
   './js/views/tutor.js',
   './js/violao.js',
   './manifest.webmanifest',
-  './pacotes/exemplo.json'
+  './pacotes/exemplo.json',
+  './versao.json'
 ];
 
 self.addEventListener('install', (evento) => {
