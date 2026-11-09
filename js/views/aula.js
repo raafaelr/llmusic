@@ -6,9 +6,10 @@
 import { acharAula, carregarNivel, nomeDisciplina } from '../curso/curriculo.js';
 import { criarRenderizador } from '../curso/blocos.js';
 import { Progresso } from '../db.js';
-import { registrarVisita, marcarEstudada, registrarQuiz, registrarAutoavaliacao, estadoDaFicha, estrelasDaFicha, carregarFichas, liberada, prereqFaltando, ESTADOS, NOTA_MINIMA } from '../curso/progresso.js';
+import { registrarVisita, marcarEstudada, registrarQuiz, registrarAutoavaliacao, estadoDaFicha, estrelasDaFicha, pedeViolao, carregarFichas, liberada, prereqFaltando, ESTADOS, NOTA_MINIMA } from '../curso/progresso.js';
 import { rodarQuiz } from '../quizui.js';
 import { icone, botaoIcone } from '../icones.js';
+import { criarLeitor } from '../leitor.js';
 
 function el(tag, classe, texto) {
   const e = document.createElement(tag);
@@ -19,6 +20,7 @@ function el(tag, classe, texto) {
 
 export function montar(raiz, ir, arg) {
   let encerrada = false;
+  let pararLeitor = null;   // devolvido por criarLeitor; silencia a voz ao sair
   const tela = el('main', 'tela aula-tela');
   raiz.append(tela);
   let render = null;
@@ -105,6 +107,12 @@ export function montar(raiz, ir, arg) {
       catch (e) { corpo.append(el('p', 'dica', 'Não consegui mostrar um trecho desta aula.')); }
     });
     tela.append(corpo);
+
+    // Leitor em voz alta: só nas aulas de ler. Nas que pedem o violão o
+    // conteúdo é diagrama, e ouvir sozinho não ensina.
+    if (!pedeViolao(aula)) {
+      try { pararLeitor = criarLeitor(corpo, corpo); } catch { /* sem voz no aparelho */ }
+    }
 
     // ---- fecho: questionário e avaliação prática ----
     const fecho = el('section', 'aula-fecho');
@@ -243,6 +251,7 @@ export function montar(raiz, ir, arg) {
   return () => {
     encerrada = true;
     document.removeEventListener('visibilitychange', aoEsconder);
+    if (pararLeitor) pararLeitor();
     limpar();
   };
 }

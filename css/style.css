@@ -1600,3 +1600,35 @@ button .ic-t, a .ic-t { margin-right: 0.1em; }
 .bt-so-icone .ic-t { margin-right: 0; width: 1.3em; height: 1.3em; }
 .regua-bt .ic-t { width: 22px; height: 22px; margin: 0; }
 .estudo-bt .ic-t { width: 22px; height: 22px; margin: 0; }
+
+/* ===================================================================
+   LEITOR EM VOZ ALTA (js/leitor.js)
+   =================================================================== */
+.leitor { margin-top: var(--e-5); padding-top: var(--e-4); border-top: 1px solid var(--linha); }
+.leitor-abrir { width: 100%; }
+.leitor-painel {
+  margin-top: var(--e-3);
+  padding: var(--e-4);
+  border: 1px solid var(--linha);
+  border-radius: var(--r-md);
+  background: var(--superficie-2);
+}
+.leitor-controles { display: flex; align-items: center; gap: var(--e-2); flex-wrap: wrap; }
+.leitor-tocar { flex: 1 1 auto; min-width: 140px; }
+.leitor-progresso {
+  margin: var(--e-3) 0 0; font-size: var(--txt-xs); color: var(--suave);
+  font-variant-numeric: tabular-nums lining-nums;
+}
+.leitor-vel { margin-top: var(--e-3); }
+.leitor-rotulo { display: block; margin-top: var(--e-3); }
+.leitor-rotulo .cartao-desc { display: block; margin-bottom: var(--e-1); }
+.leitor-dica { margin-top: var(--e-3); }
+
+/* A frase sendo lida. Fundo, não cor de texto: o contraste do texto
+   continua sendo o mesmo que o conferidor mede. */
+.lendo {
+  background: color-mix(in srgb, var(--destaque) 18%, transparent);
+  border-radius: var(--r-sm);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--destaque) 18%, transparent);
+}
+:root[data-sem-animacao] .lendo { box-shadow: none; outline: 2px solid var(--destaque); }
