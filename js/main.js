@@ -21,6 +21,9 @@ import * as tecnicas from './views/tecnicas.js';
 import * as exercicios from './views/exercicios.js';
 import * as repertorio from './views/repertorio.js';
 import * as plano from './views/plano.js';
+import * as avaliacoes from './views/avaliacoes.js';
+import * as tutor from './views/tutor.js';
+import * as materiais from './views/materiais.js';
 import { criarMenu } from './menu.js';
 import { nativo } from './nativo.js';
 
@@ -45,7 +48,10 @@ const TELAS = {
   'tecnicas': tecnicas,
   'exercicios': exercicios,
   'repertorio': repertorio,
-  'plano': plano
+  'plano': plano,
+  'avaliacoes': avaliacoes,
+  'tutor': tutor,
+  'materiais': materiais
 };
 
 const raiz = document.getElementById('app');
