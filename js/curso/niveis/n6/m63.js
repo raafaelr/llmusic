@@ -15,7 +15,7 @@ export const M63 = {
       minutos: 24,
       disciplinas: ['repertorio', 'contraponto', 'interpretacao'],
       prereq: ['n5.3.1', 'n6.1.1'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Bach: suítes e obras contrapontísticas'],
       objetivo: 'Conhecer as suítes e obras contrapontísticas de Bach tocadas no violão e preparar tecnicamente a execução de uma delas.',
       blocos: [
@@ -160,7 +160,7 @@ export const M63 = {
       minutos: 22,
       disciplinas: ['repertorio', 'historia'],
       prereq: ['n5.3.4'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Villa-Lobos: 12 Estudos e Prelúdios'],
       objetivo: 'Conhecer estudo a estudo o conjunto de 1929 e preparar tecnicamente cada exigência com material livre.',
       blocos: [
@@ -295,7 +295,7 @@ export const M63 = {
       minutos: 22,
       disciplinas: ['repertorio', 'interpretacao'],
       prereq: ['n5.3.5'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Barrios: La Catedral'],
       objetivo: 'Preparar e interpretar La Catedral, entendendo as exigências específicas de cada movimento.',
       blocos: [
@@ -424,7 +424,7 @@ export const M63 = {
       minutos: 20,
       disciplinas: ['repertorio', 'historia'],
       prereq: ['n5.3.1', 'n5.1.8'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Manuel Ponce: sonatas e outras obras'],
       objetivo: 'Conhecer a obra violonística de Ponce e preparar a execução de uma sonata ou conjunto de variações.',
       blocos: [
@@ -555,7 +555,7 @@ export const M63 = {
       minutos: 20,
       disciplinas: ['repertorio', 'historia'],
       prereq: ['n5.3.6'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Joaquín Rodrigo: obras para violão'],
       objetivo: 'Conhecer a obra violonística de Rodrigo e preparar os recursos técnicos que ela exige.',
       blocos: [
@@ -691,7 +691,7 @@ export const M63 = {
       minutos: 20,
       disciplinas: ['repertorio', 'historia'],
       prereq: ['n6.1.3'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Leo Brouwer: estudos e sonatas'],
       objetivo: 'Conhecer as fases da obra de Brouwer e preparar os recursos técnicos contemporâneos que ela exige.',
       blocos: [

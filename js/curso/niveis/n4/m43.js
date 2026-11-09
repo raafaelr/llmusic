@@ -17,7 +17,7 @@ export const M43 = {
       minutos: 18,
       disciplinas: ['repertorio', 'historia', 'interpretacao'],
       prereq: ['n4.2.2'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Estudos de Mauro Giuliani'],
       objetivo: 'Entender o estilo de Giuliani e estudar os seus estudos de arpejo e de melodia acompanhada.',
       blocos: [
@@ -126,7 +126,7 @@ export const M43 = {
       minutos: 20,
       disciplinas: ['repertorio', 'historia', 'contraponto'],
       prereq: ['n4.1.9'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Estudos avançados de Sor'],
       objetivo: 'Conhecer os estudos intermediários e avançados de Sor e estudar as suas peças a duas vozes.',
       blocos: [
@@ -239,7 +239,7 @@ export const M43 = {
       minutos: 18,
       disciplinas: ['repertorio', 'tecnica', 'historia'],
       prereq: ['n4.2.4'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Estudos de Carcassi'],
       objetivo: 'Conhecer o Op. 60 de Carcassi e estudar os estudos de ligado, arpejo e escala mais importantes.',
       blocos: [
@@ -344,7 +344,7 @@ export const M43 = {
       minutos: 20,
       disciplinas: ['repertorio', 'historia', 'interpretacao'],
       prereq: ['n4.2.6'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Peças de Tárrega'],
       objetivo: 'Conhecer o repertório de Tárrega e começar as suas peças de nível intermediário com a interpretação adequada.',
       blocos: [
@@ -457,7 +457,7 @@ export const M43 = {
       minutos: 22,
       disciplinas: ['repertorio', 'contraponto', 'historia'],
       prereq: ['n4.1.9', 'n4.2.5'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Obras de Johann Sebastian Bach'],
       objetivo: 'Entender como Bach chega ao violão e estudar as suas obras acessíveis com critérios de estilo barroco.',
       blocos: [
@@ -572,7 +572,7 @@ export const M43 = {
       minutos: 20,
       disciplinas: ['repertorio', 'interpretacao'],
       prereq: ['n4.3.5'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Repertório intermediário'],
       objetivo: 'Montar um programa equilibrado de 15 minutos e saber como levar uma peça do zero ao palco.',
       blocos: [

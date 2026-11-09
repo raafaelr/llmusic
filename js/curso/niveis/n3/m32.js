@@ -17,7 +17,7 @@ export const M32 = {
       minutos: 18,
       disciplinas: ['tecnica'],
       prereq: ['n2.2.5', 'n2.2.6'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Escalas em duas oitavas', 'Escalas maiores e menores'],
       objetivo: 'Tocar escalas de duas oitavas com mudança de posição limpa e som parelho.',
       blocos: [
@@ -118,7 +118,7 @@ export const M32 = {
       minutos: 20,
       disciplinas: ['tecnica'],
       prereq: ['n2.2.6'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Pestana completa e meia pestana'],
       objetivo: 'Fazer pestana com som limpo em todas as cordas, sem dor e sem travar a mão.',
       blocos: [
@@ -212,7 +212,7 @@ export const M32 = {
       minutos: 18,
       disciplinas: ['tecnica'],
       prereq: ['n2.2.4'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Arpejos com diferentes combinações'],
       objetivo: 'Dominar padrões de arpejo de 3, 4, 6 e 8 notas, com polegar móvel e cruzamentos.',
       blocos: [
@@ -316,7 +316,7 @@ export const M32 = {
       minutos: 16,
       disciplinas: ['tecnica'],
       prereq: ['n2.2.7', 'n3.2.1'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Ligados ascendentes e descendentes', 'Saltos entre posições'],
       objetivo: 'Tocar sequências de ligados com volume parelho e executar saltos grandes com precisão.',
       blocos: [
@@ -418,7 +418,7 @@ export const M32 = {
       minutos: 14,
       disciplinas: ['tecnica'],
       prereq: ['n1.1.6'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Harmônicos naturais'],
       objetivo: 'Produzir harmônicos limpos nas casas 12, 7 e 5, e usá-los para afinar.',
       blocos: [
@@ -529,7 +529,7 @@ export const M32 = {
       minutos: 16,
       disciplinas: ['tecnica', 'interpretacao'],
       prereq: ['n2.2.8'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Sustentação das notas'],
       objetivo: 'Controlar a duração real de cada nota e tocar ligado de verdade.',
       blocos: [
@@ -626,7 +626,7 @@ export const M32 = {
       minutos: 14,
       disciplinas: ['tecnica'],
       prereq: ['n1.3.8'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Exercícios com metrônomo', 'Controle de dinâmica'],
       objetivo: 'Usar o metrônomo como ferramenta de diagnóstico e de construção de velocidade, não como castigo.',
       blocos: [
@@ -722,7 +722,7 @@ export const M32 = {
       minutos: 20,
       disciplinas: ['tecnica'],
       prereq: ['n3.2.1', 'n3.2.4'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Independência dos dedos', 'Mudanças de posição'],
       objetivo: 'Treinar cada dedo da mão esquerda a agir sem arrastar os vizinhos e deslocar a mão entre posições sem interromper o som.',
       blocos: [

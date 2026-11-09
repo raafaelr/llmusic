@@ -17,7 +17,7 @@ export const M53 = {
       minutos: 24,
       disciplinas: ['repertorio', 'contraponto', 'interpretacao'],
       prereq: ['n4.3.5', 'n5.2.8'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Johann Sebastian Bach'],
       objetivo: 'Entender o que muda ao transcrever Bach para o violão e aplicar critérios de articulação, ornamentação e sustentação.',
       blocos: [
@@ -154,7 +154,7 @@ export const M53 = {
       minutos: 20,
       disciplinas: ['repertorio', 'historia', 'interpretacao'],
       prereq: ['n4.3.1', 'n4.3.2'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Fernando Sor', 'Mauro Giuliani'],
       objetivo: 'Distinguir os estilos de Sor e Giuliani e escolher o repertório avançado adequado de cada um.',
       blocos: [
@@ -268,7 +268,7 @@ export const M53 = {
       minutos: 20,
       disciplinas: ['repertorio', 'historia', 'interpretacao'],
       prereq: ['n4.3.4', 'n5.2.3'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Francisco Tárrega'],
       objetivo: 'Interpretar Tárrega com o rubato, o timbre e o legato que a escrita dele exige.',
       blocos: [
@@ -391,7 +391,7 @@ export const M53 = {
       minutos: 20,
       disciplinas: ['repertorio', 'historia'],
       prereq: ['n5.1.9'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Heitor Villa-Lobos'],
       objetivo: 'Compreender a linguagem violonística de Villa-Lobos e preparar tecnicamente os recursos que ela exige.',
       blocos: [
@@ -528,7 +528,7 @@ export const M53 = {
       minutos: 20,
       disciplinas: ['repertorio', 'historia', 'interpretacao'],
       prereq: ['n5.2.3', 'n5.3.3'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Agustín Barrios Mangoré'],
       objetivo: 'Conhecer a obra de Barrios e preparar os recursos técnicos que ela exige — tremolo, polifonia e grandes extensões.',
       blocos: [
@@ -648,7 +648,7 @@ export const M53 = {
       minutos: 20,
       disciplinas: ['repertorio', 'historia', 'interpretacao'],
       prereq: ['n5.2.4', 'n5.3.3'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Isaac Albéniz', 'Enrique Granados'],
       objetivo: 'Entender o processo de transcrição do piano para o violão e os recursos de sotaque espanhol que ela exige.',
       blocos: [

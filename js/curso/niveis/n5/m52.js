@@ -15,7 +15,7 @@ export const M52 = {
       minutos: 20,
       disciplinas: ['tecnica', 'leitura'],
       prereq: ['n4.2.1'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Escalas em diferentes posições'],
       objetivo: 'Tocar uma escala maior em pelo menos três posições diferentes e escolher a posição certa em função da passagem musical.',
       blocos: [
@@ -146,7 +146,7 @@ export const M52 = {
       minutos: 20,
       disciplinas: ['tecnica'],
       prereq: ['n4.2.2'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Arpejos de alta velocidade'],
       objetivo: 'Construir velocidade em arpejos por meio de preparação antecipada, economia de movimento e trabalho rítmico.',
       blocos: [
@@ -262,7 +262,7 @@ export const M52 = {
       minutos: 22,
       disciplinas: ['tecnica'],
       prereq: ['n4.2.7'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Tremolo'],
       objetivo: 'Desenvolver um tremolo regular, com os três ataques iguais em volume e espaçamento.',
       blocos: [
@@ -378,7 +378,7 @@ export const M52 = {
       minutos: 18,
       disciplinas: ['tecnica'],
       prereq: ['n4.2.6'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Rasgueados'],
       objetivo: 'Executar os rasgueados básicos com som limpo e ritmo controlado, sem tensão no pulso.',
       blocos: [
@@ -491,7 +491,7 @@ export const M52 = {
       minutos: 18,
       disciplinas: ['tecnica'],
       prereq: ['n4.2.8'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Harmônicos naturais e artificiais'],
       objetivo: 'Produzir harmônicos naturais e artificiais com confiabilidade e saber que nota cada um produz.',
       blocos: [
@@ -619,7 +619,7 @@ export const M52 = {
       minutos: 18,
       disciplinas: ['tecnica', 'interpretacao'],
       prereq: ['n5.2.1'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Vibrato', 'Glissando', 'Portamento'],
       objetivo: 'Produzir vibrato controlado e distinguir glissando de portamento, usando cada um no lugar certo.',
       blocos: [
@@ -747,7 +747,7 @@ export const M52 = {
       minutos: 18,
       disciplinas: ['tecnica', 'interpretacao'],
       prereq: ['n4.2.6'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Controle avançado de timbre', 'Dinâmica em passagens complexas'],
       objetivo: 'Manter o controle de timbre e de dinâmica em trechos tecnicamente exigentes, planejando-os de antemão.',
       blocos: [
@@ -873,7 +873,7 @@ export const M52 = {
       minutos: 20,
       disciplinas: ['tecnica', 'contraponto'],
       prereq: ['n4.2.5', 'n5.1.6'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Independência de vozes', 'Polifonia'],
       objetivo: 'Executar textura polifônica com cada voz num plano sonoro distinto e com a duração correta.',
       blocos: [
@@ -990,7 +990,7 @@ export const M52 = {
       minutos: 18,
       disciplinas: ['leitura'],
       prereq: ['n4.2.1'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Leitura à primeira vista'],
       objetivo: 'Desenvolver uma rotina confiável de leitura à primeira vista, mantendo o pulso mesmo com erros.',
       blocos: [
@@ -1098,7 +1098,7 @@ export const M52 = {
       minutos: 20,
       disciplinas: ['tecnica', 'interpretacao'],
       prereq: ['n5.1.7', 'n5.2.9'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Memorização', 'Preparação para apresentações'],
       objetivo: 'Memorizar uma peça por mais de um caminho e montar um plano de preparação para tocar em público.',
       blocos: [

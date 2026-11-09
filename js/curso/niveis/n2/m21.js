@@ -17,7 +17,7 @@ export const M21 = {
       minutos: 18,
       disciplinas: ['leitura'],
       prereq: ['n1.3.5'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Leitura de partituras na clave de sol', 'Identificação das notas no pentagrama'],
       objetivo: 'Transformar a leitura de um cálculo em um reconhecimento automático, como ler uma palavra.',
       blocos: [
@@ -120,7 +120,7 @@ export const M21 = {
       minutos: 16,
       disciplinas: ['teoria', 'leitura'],
       prereq: ['n1.3.6'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Valores e subdivisões rítmicas', 'Ponto de aumento'],
       objetivo: 'Executar com precisão qualquer combinação de figuras dentro de um tempo.',
       blocos: [
@@ -204,7 +204,7 @@ export const M21 = {
       minutos: 14,
       disciplinas: ['leitura', 'tecnica'],
       prereq: ['n2.1.2'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Ligadura de prolongamento', 'Ligadura de expressão'],
       objetivo: 'Distinguir os dois tipos de ligadura e executar cada um corretamente no violão.',
       blocos: [
@@ -276,7 +276,7 @@ export const M21 = {
       minutos: 14,
       disciplinas: ['leitura'],
       prereq: ['n1.3.8'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Sinais de repetição', 'Fórmulas de compasso', 'Barras de compasso'],
       objetivo: 'Seguir o caminho de leitura de uma partitura sem se perder.',
       blocos: [
@@ -390,7 +390,7 @@ export const M21 = {
       minutos: 14,
       disciplinas: ['teoria', 'leitura'],
       prereq: ['n2.1.1'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Sustenido, bemol e bequadro'],
       objetivo: 'Ler e executar notas alteradas, e entender até onde a alteração vale.',
       blocos: [
@@ -481,7 +481,7 @@ export const M21 = {
       minutos: 14,
       disciplinas: ['teoria'],
       prereq: ['n2.1.5'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Tom e semitom', 'Escala cromática'],
       objetivo: 'Medir distâncias entre notas e tocar a escala cromática no braço.',
       blocos: [
@@ -571,7 +571,7 @@ export const M21 = {
       minutos: 16,
       disciplinas: ['teoria', 'tecnica'],
       prereq: ['n2.1.6'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Introdução às escalas maiores'],
       objetivo: 'Construir qualquer escala maior a partir da fórmula, e tocar a de Dó e a de Sol no braço.',
       blocos: [
@@ -677,7 +677,7 @@ export const M21 = {
       minutos: 16,
       disciplinas: ['teoria', 'percepcao'],
       prereq: ['n2.1.7'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Introdução aos intervalos'],
       objetivo: 'Nomear intervalos simples, contá-los em semitons e começar a reconhecê-los de ouvido.',
       blocos: [

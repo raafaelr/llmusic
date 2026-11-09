@@ -17,7 +17,7 @@ export const M31 = {
       minutos: 16,
       disciplinas: ['teoria'],
       prereq: ['n2.1.7'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Escalas maiores'],
       objetivo: 'Construir e escrever a escala maior de qualquer uma das doze notas.',
       blocos: [
@@ -111,7 +111,7 @@ export const M31 = {
       minutos: 18,
       disciplinas: ['teoria', 'harmonia'],
       prereq: ['n3.1.1'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Ciclo das quintas', 'Armaduras de clave'],
       objetivo: 'Ler qualquer armadura de clave na hora e entender o parentesco entre as tonalidades.',
       blocos: [
@@ -216,7 +216,7 @@ export const M31 = {
       minutos: 18,
       disciplinas: ['teoria'],
       prereq: ['n3.1.2'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Escalas menores naturais', 'Escalas menores harmônicas', 'Escalas menores melódicas'],
       objetivo: 'Construir e reconhecer as três formas da escala menor, e entender o problema que cada uma resolve.',
       blocos: [
@@ -308,7 +308,7 @@ export const M31 = {
       minutos: 16,
       disciplinas: ['teoria', 'percepcao'],
       prereq: ['n2.1.8'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Intervalos simples e compostos'],
       objetivo: 'Nomear, inverter e reconhecer intervalos dentro e além da oitava.',
       blocos: [
@@ -402,7 +402,7 @@ export const M31 = {
       minutos: 16,
       disciplinas: ['harmonia', 'teoria'],
       prereq: ['n3.1.4'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Formação de tríades', 'Acordes maiores e menores', 'Acordes diminutos e aumentados'],
       objetivo: 'Construir e reconhecer as quatro tríades, no papel e no braço.',
       blocos: [
@@ -494,7 +494,7 @@ export const M31 = {
       minutos: 16,
       disciplinas: ['harmonia'],
       prereq: ['n3.1.5'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Campo harmônico maior', 'Graus da escala'],
       objetivo: 'Saber quais acordes pertencem a uma tonalidade e como eles são numerados.',
       blocos: [
@@ -601,7 +601,7 @@ export const M31 = {
       minutos: 16,
       disciplinas: ['harmonia'],
       prereq: ['n3.1.6'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Funções harmônicas', 'Tônica, subdominante e dominante'],
       objetivo: 'Entender por que os acordes se movem, e não apenas quais existem.',
       blocos: [
@@ -694,7 +694,7 @@ export const M31 = {
       minutos: 16,
       disciplinas: ['harmonia'],
       prereq: ['n3.1.7'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Introdução às cadências', 'Harmonia tonal'],
       objetivo: 'Reconhecer e usar as quatro cadências básicas, e entender o que é harmonia tonal.',
       blocos: [

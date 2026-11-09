@@ -17,7 +17,7 @@ export const M22 = {
       minutos: 18,
       disciplinas: ['tecnica', 'leitura'],
       prereq: ['n1.4.4'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Localização das notas nas primeiras posições'],
       objetivo: 'Tocar qualquer nota da primeira posição sem procurar, com o dedo certo.',
       blocos: [
@@ -116,7 +116,7 @@ export const M22 = {
       minutos: 18,
       disciplinas: ['tecnica'],
       prereq: ['n1.4.3'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Técnica Apoyando', 'Técnica Tirando'],
       objetivo: 'Executar os dois toques com som correto e saber quando usar cada um.',
       blocos: [
@@ -234,7 +234,7 @@ export const M22 = {
       minutos: 16,
       disciplinas: ['tecnica'],
       prereq: ['n1.4.4', 'n2.1.6'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Exercícios cromáticos', 'Independência dos dedos'],
       objetivo: 'Ganhar independência e força nos quatro dedos da mão esquerda, especialmente no 3 e no 4.',
       blocos: [
@@ -337,7 +337,7 @@ export const M22 = {
       minutos: 18,
       disciplinas: ['tecnica'],
       prereq: ['n1.4.2', 'n2.2.2'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Arpejos simples'],
       objetivo: 'Executar os padrões básicos de arpejo com regularidade, som parelho e sem olhar a mão.',
       blocos: [
@@ -455,7 +455,7 @@ export const M22 = {
       minutos: 16,
       disciplinas: ['tecnica', 'teoria'],
       prereq: ['n2.1.7', 'n2.2.2'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Escalas de uma oitava'],
       objetivo: 'Tocar quatro escalas maiores com digitação correta, apoyando e no tempo.',
       blocos: [
@@ -556,7 +556,7 @@ export const M22 = {
       minutos: 14,
       disciplinas: ['tecnica'],
       prereq: ['n2.2.1'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Mudanças de posição', 'Sincronização entre as mãos'],
       objetivo: 'Deslocar a mão esquerda pelo braço com precisão e sem interromper o som.',
       blocos: [
@@ -654,7 +654,7 @@ export const M22 = {
       minutos: 16,
       disciplinas: ['tecnica'],
       prereq: ['n2.1.3', 'n2.2.3'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Ligados ascendentes e descendentes'],
       objetivo: 'Executar ligados ascendentes e descendentes com som audível e parelho.',
       blocos: [
@@ -769,7 +769,7 @@ export const M22 = {
       minutos: 14,
       disciplinas: ['tecnica', 'interpretacao'],
       prereq: ['n2.2.2'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Controle de intensidade'],
       objetivo: 'Controlar o volume de cada nota conscientemente e separar melodia de acompanhamento.',
       blocos: [

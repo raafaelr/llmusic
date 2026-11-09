@@ -18,7 +18,7 @@ export const M42 = {
       minutos: 22,
       disciplinas: ['tecnica'],
       prereq: ['n3.2.2'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Escalas em três oitavas', 'Mudanças rápidas de posição'],
       objetivo: 'Tocar escalas de três oitavas com a digitação de Segovia e trocar de posição sem buraco no som.',
       blocos: [
@@ -145,7 +145,7 @@ export const M42 = {
       minutos: 20,
       disciplinas: ['tecnica'],
       prereq: ['n3.2.3'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Arpejos avançados'],
       objetivo: 'Dominar as fórmulas de arpejo com três e quatro dedos, incluindo padrões com repetição e salto.',
       blocos: [
@@ -255,7 +255,7 @@ export const M42 = {
       minutos: 18,
       disciplinas: ['tecnica', 'postura'],
       prereq: ['n3.2.5'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Pestanas e acordes com aberturas maiores'],
       objetivo: 'Fazer pestana completa limpa em qualquer casa e alcançar acordes com abertura de quatro ou cinco casas sem tensão.',
       blocos: [
@@ -376,7 +376,7 @@ export const M42 = {
       minutos: 18,
       disciplinas: ['tecnica'],
       prereq: ['n3.2.4'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Ligados em velocidade'],
       objetivo: 'Executar ligados ascendentes e descendentes com volume igual ao das notas tocadas, em velocidade.',
       blocos: [
@@ -472,7 +472,7 @@ export const M42 = {
       minutos: 22,
       disciplinas: ['tecnica', 'interpretacao'],
       prereq: ['n4.2.2'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Independência entre polegar e demais dedos', 'Execução de vozes simultâneas', 'Independência entre melodia e acompanhamento'],
       objetivo: 'Tocar duas ou três vozes ao mesmo tempo com volumes e articulações diferentes, controlando qual delas o ouvinte escuta.',
       blocos: [
@@ -581,7 +581,7 @@ export const M42 = {
       minutos: 18,
       disciplinas: ['tecnica', 'interpretacao'],
       prereq: ['n4.2.5'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Controle de timbre', 'Técnicas de abafamento'],
       objetivo: 'Produzir ao menos quatro timbres distintos de propósito e interromper o som quando a música pede silêncio.',
       blocos: [
@@ -699,7 +699,7 @@ export const M42 = {
       minutos: 20,
       disciplinas: ['tecnica'],
       prereq: ['n4.2.2'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Introdução ao tremolo'],
       objetivo: 'Executar o tremolo clássico p-a-m-i com regularidade, construindo velocidade a partir da igualdade.',
       blocos: [
@@ -812,7 +812,7 @@ export const M42 = {
       minutos: 16,
       disciplinas: ['tecnica'],
       prereq: ['n3.2.6'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Harmônicos artificiais'],
       objetivo: 'Produzir harmônicos artificiais limpos em qualquer nota, com as duas mãos coordenadas.',
       blocos: [
@@ -929,7 +929,7 @@ export const M42 = {
       minutos: 18,
       disciplinas: ['tecnica', 'postura'],
       prereq: ['n1.2.5'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Resistência e relaxamento muscular'],
       objetivo: 'Construir resistência para sessões longas e reconhecer os sinais de excesso antes de uma lesão.',
       blocos: [

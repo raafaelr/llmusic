@@ -15,7 +15,7 @@ export const M81 = {
       minutos: 22,
       disciplinas: ['interpretacao'],
       prereq: ['n6.2.1'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Construção de identidade artística'],
       objetivo: 'Definir uma identidade artística própria a partir de repertório, som e escolhas interpretativas.',
       blocos: [
@@ -135,7 +135,7 @@ export const M81 = {
       minutos: 20,
       disciplinas: ['repertorio', 'historia'],
       prereq: ['n6.1.10'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Pesquisa de repertório', 'Estudo aprofundado de compositores'],
       objetivo: 'Pesquisar repertório em fontes confiáveis e estudar um compositor em profundidade.',
       blocos: [
@@ -250,7 +250,7 @@ export const M81 = {
       minutos: 22,
       disciplinas: ['interpretacao'],
       prereq: ['n6.2.2'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Interpretação avançada', 'Desenvolvimento da musicalidade'],
       objetivo: 'Construir uma interpretação pessoal e fundamentada, com arquitetura de longo prazo.',
       blocos: [
@@ -371,7 +371,7 @@ export const M81 = {
       minutos: 18,
       disciplinas: ['interpretacao'],
       prereq: ['n6.2.5'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Masterclasses'],
       objetivo: 'Preparar-se para participar de masterclasses de forma produtiva, como executante e como ouvinte.',
       blocos: [
@@ -492,7 +492,7 @@ export const M81 = {
       minutos: 18,
       disciplinas: ['repertorio', 'interpretacao'],
       prereq: ['n7.2.8'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Festivais e concursos'],
       objetivo: 'Selecionar e participar de festivais e concursos com objetivos claros e expectativas realistas.',
       blocos: [
@@ -606,7 +606,7 @@ export const M81 = {
       minutos: 20,
       disciplinas: ['interpretacao'],
       prereq: ['n6.2.5'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Preparação de recitais'],
       objetivo: 'Preparar e sustentar um programa de recital completo ao longo de uma temporada.',
       blocos: [
@@ -732,7 +732,7 @@ export const M81 = {
       minutos: 20,
       disciplinas: ['interpretacao', 'tecnica'],
       prereq: ['n7.2.9'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Gravação de repertório'],
       objetivo: 'Planejar e executar um projeto de gravação de repertório, do conceito à publicação.',
       blocos: [
@@ -856,7 +856,7 @@ export const M81 = {
       minutos: 20,
       disciplinas: ['historia', 'teoria'],
       prereq: ['n8.1.2'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Pesquisa acadêmica'],
       objetivo: 'Formular uma pergunta de pesquisa em música e conduzir uma investigação com método e fontes confiáveis.',
       blocos: [
@@ -972,7 +972,7 @@ export const M81 = {
       minutos: 20,
       disciplinas: ['harmonia', 'teoria'],
       prereq: ['n6.1.7'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Composição e arranjo'],
       objetivo: 'Manter uma prática regular de composição e arranjo, com método de trabalho e revisão.',
       blocos: [
@@ -1095,7 +1095,7 @@ export const M81 = {
       minutos: 22,
       disciplinas: ['conjunto', 'interpretacao'],
       prereq: ['n7.2.6', 'n8.1.1'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Desenvolvimento de carreira musical'],
       objetivo: 'Mapear as formas de atuação profissional em música e construir um plano realista de carreira.',
       blocos: [

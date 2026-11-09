@@ -50,6 +50,13 @@ export function montar(raiz, ir, arg) {
       legenda.append(s);
     });
     tela.append(legenda);
+    tela.append(el('p', 'legenda', 'O que cada estado significa neste app: '
+      + 'Planejado — assunto previsto na grade, sem aula escrita. '
+      + 'Em desenvolvimento — aula começada, ainda incompleta. '
+      + 'Implementado — a aula existe com teoria, representação visual, atividade prática, '
+      + 'questionário e avaliação prática. '
+      + 'Validado — além disso, a aula passou no validador automático do repositório '
+      + '(scripts/validar-curso.mjs) e foi aberta na tela sem erro, sem estouro de layout e com todos os blocos desenhados.'));
 
     const chips = el('div', 'chips');
     [['todos', 'Todos'], ['planejado', 'Só planejados'], ['implementado', 'Só implementados']].forEach(([k, nome]) => {

@@ -1,7 +1,11 @@
 // Validador do curso do LLMusic: estrutura, pré-requisitos, cobertura e blocos.
 // Uso: node validar.mjs [/caminho/do/repo]
-const RAIZ = process.argv[2] || '/home/claude/llmusic';
-const { MAPA, carregarNivel, auditar } = await import(RAIZ + '/js/curso/curriculo.js');
+// Uso: node scripts/validar-curso.mjs [caminho-do-repo]  (padrão: pasta atual)
+import { resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
+
+const RAIZ = resolve(process.argv[2] || process.cwd());
+const { MAPA, carregarNivel, auditar } = await import(pathToFileURL(RAIZ + '/js/curso/curriculo.js').href);
 
 let erros = 0, avisos = 0;
 const erro = (m) => { erros++; console.log('ERRO  ' + m); };

@@ -14,7 +14,7 @@ export const M71 = {
       minutos: 22,
       disciplinas: ['teoria', 'historia'],
       prereq: ['n6.2.2'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Metodologia do ensino musical', 'História da pedagogia musical'],
       objetivo: 'Conhecer as principais metodologias de educação musical e escolher, com critério, o que aplicar no ensino de violão.',
       blocos: [
@@ -131,7 +131,7 @@ export const M71 = {
       minutos: 20,
       disciplinas: ['teoria'],
       prereq: ['n7.1.1'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Psicologia da aprendizagem'],
       objetivo: 'Aplicar princípios de memória, atenção e motivação ao planejamento do estudo e da aula.',
       blocos: [
@@ -249,7 +249,7 @@ export const M71 = {
       minutos: 20,
       disciplinas: ['teoria'],
       prereq: ['n7.1.2'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Didática musical'],
       objetivo: 'Usar recursos didáticos concretos — demonstração, analogia, decomposição e feedback — com eficácia.',
       blocos: [
@@ -368,7 +368,7 @@ export const M71 = {
       minutos: 20,
       disciplinas: ['teoria'],
       prereq: ['n7.1.3'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Planejamento de aulas'],
       objetivo: 'Elaborar planos de aula e de curso com objetivos, sequência e avaliação definidos.',
       blocos: [
@@ -475,7 +475,7 @@ export const M71 = {
       minutos: 20,
       disciplinas: ['postura', 'teoria'],
       prereq: ['n7.1.2'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Desenvolvimento motor e musical'],
       objetivo: 'Adequar conteúdo, duração e abordagem à etapa de desenvolvimento motor e musical do aluno.',
       blocos: [
@@ -573,7 +573,7 @@ export const M71 = {
       minutos: 20,
       disciplinas: ['teoria', 'tecnica'],
       prereq: ['n7.1.1'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Metodologias de ensino do violão'],
       objetivo: 'Conhecer os principais métodos de violão e montar um percurso próprio combinando fontes.',
       blocos: [
@@ -686,7 +686,7 @@ export const M71 = {
       minutos: 20,
       disciplinas: ['teoria'],
       prereq: ['n7.1.4'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Avaliação de desempenho'],
       objetivo: 'Construir critérios de avaliação objetivos e dar devolutivas que produzam mudança.',
       blocos: [

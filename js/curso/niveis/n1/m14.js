@@ -17,7 +17,7 @@ export const M14 = {
       minutos: 14,
       disciplinas: ['tecnica'],
       prereq: ['n1.2.3'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Execução de cordas soltas', 'Produção de som limpo'],
       objetivo: 'Produzir um som limpo, igual e sem ruído em qualquer corda solta.',
       blocos: [
@@ -115,7 +115,7 @@ export const M14 = {
       minutos: 12,
       disciplinas: ['tecnica'],
       prereq: ['n1.4.1'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Dedos polegar, indicador, médio e anular'],
       objetivo: 'Usar o polegar com independência, com som firme e sem bagunçar os outros dedos.',
       blocos: [
@@ -207,7 +207,7 @@ export const M14 = {
       minutos: 14,
       disciplinas: ['tecnica'],
       prereq: ['n1.4.1'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Alternância entre indicador e médio', 'Dedilhado básico'],
       objetivo: 'Alternar i e m com som parelho e regular, a base de toda escala e melodia.',
       blocos: [
@@ -297,7 +297,7 @@ export const M14 = {
       minutos: 16,
       disciplinas: ['tecnica'],
       prereq: ['n1.2.4', 'n1.4.3'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Coordenação das duas mãos'],
       objetivo: 'Fazer as duas mãos trabalharem no mesmo instante, com nota limpa e sem ruído de troca.',
       blocos: [
@@ -397,7 +397,7 @@ export const M14 = {
       minutos: 20,
       disciplinas: ['leitura', 'repertorio', 'tecnica'],
       prereq: ['n1.3.5', 'n1.4.4'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Primeiras melodias'],
       objetivo: 'Juntar tudo: ler a partitura, achar a nota no braço, tocar com dedilhado certo e no tempo.',
       blocos: [
@@ -526,7 +526,7 @@ export const M14 = {
       minutos: 16,
       disciplinas: ['teoria', 'tecnica'],
       prereq: ['n1.3.8', 'n1.4.3'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Exercícios simples de ritmo'],
       objetivo: 'Executar padrões rítmicos simples com precisão, contando em voz alta.',
       blocos: [

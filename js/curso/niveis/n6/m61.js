@@ -14,7 +14,7 @@ export const M61 = {
       minutos: 24,
       disciplinas: ['contraponto', 'teoria'],
       prereq: ['n5.1.6'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Contraponto avançado'],
       objetivo: 'Reconhecer e aplicar imitação, inversão, aumentação e os elementos de uma fuga.',
       blocos: [
@@ -141,7 +141,7 @@ export const M61 = {
       minutos: 22,
       disciplinas: ['teoria', 'harmonia'],
       prereq: ['n5.1.1'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Modos gregos', 'Harmonia modal'],
       objetivo: 'Construir, reconhecer e harmonizar os sete modos, distinguindo música modal de música tonal.',
       blocos: [
@@ -270,7 +270,7 @@ export const M61 = {
       minutos: 22,
       disciplinas: ['teoria', 'harmonia'],
       prereq: ['n6.1.2'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Escalas exóticas', 'Harmonia não tonal'],
       objetivo: 'Conhecer as escalas simétricas e artificiais mais usadas e entender como a música se organiza sem centro tonal.',
       blocos: [
@@ -403,7 +403,7 @@ export const M61 = {
       minutos: 22,
       disciplinas: ['teoria', 'historia', 'interpretacao'],
       prereq: ['n5.1.8', 'n5.1.9'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Análise estrutural', 'Análise de estilo e período histórico'],
       objetivo: 'Aplicar um roteiro completo de análise a qualquer peça e converter o resultado em decisões de execução.',
       blocos: [
@@ -531,7 +531,7 @@ export const M61 = {
       minutos: 22,
       disciplinas: ['harmonia', 'teoria'],
       prereq: ['n5.2.8'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Orquestração', 'Arranjo'],
       objetivo: 'Arranjar uma canção para violão solo, decidindo registro, textura e densidade com critério orquestral.',
       blocos: [
@@ -663,7 +663,7 @@ export const M61 = {
       minutos: 20,
       disciplinas: ['teoria', 'repertorio'],
       prereq: ['n6.1.5'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Transcrição musical'],
       objetivo: 'Transcrever uma peça de outro instrumento para violão tomando decisões justificadas de tom, oitava e textura.',
       blocos: [
@@ -788,7 +788,7 @@ export const M61 = {
       minutos: 22,
       disciplinas: ['teoria', 'harmonia'],
       prereq: ['n6.1.5', 'n5.1.8'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Composição'],
       objetivo: 'Compor uma peça curta para violão com motivo, forma definida e escrita idiomática.',
       blocos: [
@@ -924,7 +924,7 @@ export const M61 = {
       minutos: 20,
       disciplinas: ['harmonia', 'percepcao'],
       prereq: ['n6.1.2'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Improvisação'],
       objetivo: 'Improvisar sobre harmonias simples usando motivos, escalas adequadas e construção de frase.',
       blocos: [
@@ -1055,7 +1055,7 @@ export const M61 = {
       minutos: 20,
       disciplinas: ['teoria'],
       prereq: ['n5.2.5'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Acústica musical'],
       objetivo: 'Entender a física do som do violão e usar esse conhecimento para escolher cordas, posição de ataque e lugar de tocar.',
       blocos: [
@@ -1176,7 +1176,7 @@ export const M61 = {
       minutos: 22,
       disciplinas: ['historia', 'interpretacao'],
       prereq: ['n5.1.9'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['História do violão', 'Interpretação historicamente informada'],
       objetivo: 'Conhecer a história do instrumento e aplicar critérios de interpretação informada a cada período.',
       blocos: [

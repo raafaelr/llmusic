@@ -19,7 +19,7 @@ export const M51 = {
       minutos: 20,
       disciplinas: ['harmonia', 'teoria'],
       prereq: ['n4.1.4', 'n4.1.7'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Harmonia tonal avançada'],
       objetivo: 'Enxergar uma tonalidade como um território com regiões e caminhos, e não como uma lista de sete acordes.',
       blocos: [
@@ -136,7 +136,7 @@ export const M51 = {
       minutos: 18,
       disciplinas: ['harmonia', 'teoria'],
       prereq: ['n5.1.1'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Empréstimo modal'],
       objetivo: 'Reconhecer, usar e ouvir acordes emprestados do modo menor dentro de uma peça em maior.',
       blocos: [
@@ -257,7 +257,7 @@ export const M51 = {
       minutos: 20,
       disciplinas: ['harmonia', 'teoria'],
       prereq: ['n4.1.6', 'n5.1.1'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Modulações'],
       objetivo: 'Conhecer os quatro tipos principais de modulação e aplicá-los ao violão.',
       blocos: [
@@ -379,7 +379,7 @@ export const M51 = {
       minutos: 20,
       disciplinas: ['harmonia', 'teoria'],
       prereq: ['n5.1.3'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Harmonia cromática'],
       objetivo: 'Usar notas e acordes cromáticos como ornamento e como força de condução, sem perder o centro tonal.',
       blocos: [
@@ -492,7 +492,7 @@ export const M51 = {
       minutos: 18,
       disciplinas: ['harmonia', 'teoria'],
       prereq: ['n4.1.3'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Acordes de nona, décima primeira e décima terceira', 'Notas de tensão'],
       objetivo: 'Construir e usar acordes de nona, décima primeira e décima terceira no violão, sabendo quais notas omitir.',
       blocos: [
@@ -612,7 +612,7 @@ export const M51 = {
       minutos: 22,
       disciplinas: ['contraponto', 'teoria'],
       prereq: ['n4.1.9'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Contraponto a duas, três e quatro vozes'],
       objetivo: 'Escrever e tocar contraponto simples a duas e três vozes, reconhecendo os movimentos permitidos e os proibidos.',
       blocos: [
@@ -748,7 +748,7 @@ export const M51 = {
       minutos: 18,
       disciplinas: ['teoria', 'historia'],
       prereq: ['n4.1.8'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Análise formal', 'Forma binária e ternária', 'Rondó'],
       objetivo: 'Identificar a forma de uma peça ouvindo e lendo, e usar essa informação para estudar e memorizar melhor.',
       blocos: [
@@ -863,7 +863,7 @@ export const M51 = {
       minutos: 20,
       disciplinas: ['teoria', 'historia'],
       prereq: ['n5.1.7'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Tema e variações', 'Forma-sonata'],
       objetivo: 'Entender as duas formas que organizam as peças longas do repertório de violão e saber ouvir cada seção.',
       blocos: [
@@ -982,7 +982,7 @@ export const M51 = {
       minutos: 22,
       disciplinas: ['historia', 'interpretacao'],
       prereq: ['n5.1.7'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['História da música ocidental', 'Análise estilística'],
       objetivo: 'Situar qualquer peça do repertório num período histórico e extrair daí decisões concretas de interpretação.',
       blocos: [

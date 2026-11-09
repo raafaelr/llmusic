@@ -6,7 +6,7 @@
 // exercícios e recomendador, construído sobre o currículo e o seu progresso
 // real. Ele não escuta você tocar.
 import { SINTOMAS, GLOSSARIO, COMPETENCIAS, competenciaPorId, montarPlano } from '../curso/tutor.js';
-import { MAPA, carregarNivel, todasAsAulas, acharAula } from '../curso/curriculo.js';
+import { MAPA, carregarNivel, carregarTodos, todasAsAulas, acharAula } from '../curso/curriculo.js';
 import { carregarFichas, proximaAula, pontosFracos, porDisciplina, estadoDaFicha } from '../curso/progresso.js';
 import { DISCIPLINAS } from '../curso/curriculo.js';
 import { TECNICAS } from '../curso/tecnicas.js';
@@ -206,7 +206,7 @@ export function montar(raiz, ir) {
     const area = el('div', 'grupo');
     tela.append(area);
 
-    const aulas = await todasAsAulas();
+    const aulas = todasAsAulas(await carregarTodos());
     if (encerrada) return;
 
     function buscar() {

@@ -16,7 +16,7 @@ export const M11 = {
       minutos: 12,
       disciplinas: ['historia'],
       prereq: [],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['História e origem do violão clássico'],
       objetivo: 'Entender que o violão é o resultado de séculos de mudanças, e reconhecer os nomes que aparecerão em todo o resto do curso.',
       blocos: [
@@ -92,7 +92,7 @@ export const M11 = {
       minutos: 15,
       disciplinas: ['tecnica'],
       prereq: ['n1.1.1'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Anatomia do instrumento', 'Corpo, braço, tampo, cavalete, tarraxas, trastes e cordas'],
       objetivo: 'Nomear corretamente cada parte do violão e entender o caminho que o som faz, da corda até o seu ouvido.',
       blocos: [
@@ -178,7 +178,7 @@ export const M11 = {
       minutos: 10,
       disciplinas: ['tecnica', 'historia'],
       prereq: ['n1.1.2'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Diferenças entre violão clássico, acústico e elétrico'],
       objetivo: 'Saber qual instrumento você tem, o que esperar dele e por que este curso usa o violão clássico como referência.',
       blocos: [
@@ -247,7 +247,7 @@ export const M11 = {
       minutos: 14,
       disciplinas: ['tecnica', 'teoria'],
       prereq: ['n1.1.2'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Identificação das seis cordas', 'Afinação padrão'],
       objetivo: 'Identificar as seis cordas pelo número e pelo nome, de olhos fechados, e saber qual é mais grave e qual é mais aguda.',
       blocos: [
@@ -325,7 +325,7 @@ export const M11 = {
       minutos: 12,
       disciplinas: ['tecnica'],
       prereq: ['n1.1.2'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Nomenclatura dos dedos das duas mãos'],
       objetivo: 'Entender a notação de dedilhado que aparece em toda partitura de violão e saber qual dedo faz o quê.',
       blocos: [
@@ -404,7 +404,7 @@ export const M11 = {
       minutos: 18,
       disciplinas: ['tecnica', 'percepcao'],
       prereq: ['n1.1.4'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Afinação padrão', 'Utilização do afinador'],
       objetivo: 'Deixar o violão afinado sozinho, com o afinador e também de ouvido, e entender o que a afinação significa.',
       blocos: [
@@ -503,7 +503,7 @@ export const M11 = {
       minutos: 10,
       disciplinas: ['tecnica'],
       prereq: ['n1.1.2'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Conservação e cuidados com o instrumento'],
       objetivo: 'Conservar o violão em boas condições para que ele dure décadas e continue soando bem.',
       blocos: [

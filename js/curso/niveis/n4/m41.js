@@ -17,7 +17,7 @@ export const M41 = {
       minutos: 18,
       disciplinas: ['harmonia', 'teoria'],
       prereq: ['n3.1.6'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Campo harmônico menor'],
       objetivo: 'Montar os sete acordes de qualquer tonalidade menor e entender por que o quinto grau aparece maior no repertório.',
       blocos: [
@@ -149,7 +149,7 @@ export const M41 = {
       minutos: 16,
       disciplinas: ['harmonia', 'teoria'],
       prereq: ['n4.1.1'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Tríades e inversões'],
       objetivo: 'Reconhecer e usar as três posições de uma tríade e entender o efeito de cada baixo.',
       blocos: [
@@ -255,7 +255,7 @@ export const M41 = {
       minutos: 20,
       disciplinas: ['harmonia', 'teoria'],
       prereq: ['n4.1.2'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Acordes com sétima', 'Tétrades'],
       objetivo: 'Construir e reconhecer as cinco tétrades do campo harmônico e saber o que cada uma pede.',
       blocos: [
@@ -379,7 +379,7 @@ export const M41 = {
       minutos: 20,
       disciplinas: ['harmonia'],
       prereq: ['n4.1.3'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Progressões harmônicas', 'Cadências autênticas, plagais e interrompidas'],
       objetivo: 'Reconhecer os caminhos harmônicos mais usados e classificar os quatro tipos de cadência de ouvido.',
       blocos: [
@@ -496,7 +496,7 @@ export const M41 = {
       minutos: 16,
       disciplinas: ['harmonia'],
       prereq: ['n4.1.4'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Dominantes secundárias'],
       objetivo: 'Reconhecer e usar dominantes que resolvem em graus que não são a tônica.',
       blocos: [
@@ -599,7 +599,7 @@ export const M41 = {
       minutos: 20,
       disciplinas: ['harmonia', 'teoria'],
       prereq: ['n4.1.5'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Tonalidade', 'Centro tonal', 'Modulação'],
       objetivo: 'Identificar a tonalidade de uma peça, perceber o centro tonal de ouvido e reconhecer os três tipos de modulação mais comuns.',
       blocos: [
@@ -712,7 +712,7 @@ export const M41 = {
       minutos: 22,
       disciplinas: ['harmonia', 'interpretacao'],
       prereq: ['n4.1.6'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Análise harmônica'],
       objetivo: 'Analisar harmonicamente um trecho de peça, com cifra, graus e cadências, do zero ao fim.',
       blocos: [
@@ -828,7 +828,7 @@ export const M41 = {
       minutos: 20,
       disciplinas: ['harmonia', 'interpretacao', 'historia'],
       prereq: ['n4.1.7'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Frases e períodos musicais', 'Motivos musicais', 'Formas musicais'],
       objetivo: 'Dividir uma peça em motivos, frases, períodos e seções, e nomear a sua forma.',
       blocos: [
@@ -938,7 +938,7 @@ export const M41 = {
       minutos: 20,
       disciplinas: ['contraponto', 'harmonia'],
       prereq: ['n4.1.8'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Introdução ao contraponto'],
       objetivo: 'Entender a diferença entre harmonia e contraponto e tocar duas vozes independentes no violão.',
       blocos: [

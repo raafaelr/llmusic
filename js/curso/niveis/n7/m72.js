@@ -15,7 +15,7 @@ export const M72 = {
       minutos: 20,
       disciplinas: ['postura', 'tecnica'],
       prereq: ['n7.1.3'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Ensino de postura e técnica'],
       objetivo: 'Conduzir as primeiras aulas de postura e técnica estabelecendo hábitos corretos e sem tensão.',
       blocos: [
@@ -123,7 +123,7 @@ export const M72 = {
       minutos: 20,
       disciplinas: ['tecnica', 'postura'],
       prereq: ['n7.2.1'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Correção de vícios técnicos'],
       objetivo: 'Diagnosticar vícios técnicos e aplicar um protocolo de correção que funcione sem desmotivar.',
       blocos: [
@@ -242,7 +242,7 @@ export const M72 = {
       minutos: 20,
       disciplinas: ['tecnica'],
       prereq: ['n7.2.2'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Estruturação de exercícios'],
       objetivo: 'Construir exercícios sob medida, com objetivo, progressão e critério de domínio definidos.',
       blocos: [
@@ -366,7 +366,7 @@ export const M72 = {
       minutos: 20,
       disciplinas: ['leitura'],
       prereq: ['n7.1.3'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Ensino de leitura musical'],
       objetivo: 'Ensinar leitura de forma progressiva, evitando os atalhos que produzem alunos que não leem.',
       blocos: [
@@ -481,7 +481,7 @@ export const M72 = {
       minutos: 20,
       disciplinas: ['repertorio'],
       prereq: ['n7.1.6'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Seleção de repertório'],
       objetivo: 'Selecionar repertório que equilibre motivação, desenvolvimento técnico e viabilidade legal.',
       blocos: [
@@ -594,7 +594,7 @@ export const M72 = {
       minutos: 20,
       disciplinas: ['conjunto', 'interpretacao'],
       prereq: ['n6.2.5'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Organização de apresentações'],
       objetivo: 'Planejar e executar uma apresentação de alunos ou um recital próprio, cuidando de todos os aspectos práticos.',
       blocos: [
@@ -716,7 +716,7 @@ export const M72 = {
       minutos: 20,
       disciplinas: ['conjunto'],
       prereq: ['n6.2.9'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Música de conjunto'],
       objetivo: 'Organizar e conduzir atividades de conjunto, distribuindo partes conforme o nível de cada aluno.',
       blocos: [
@@ -846,7 +846,7 @@ export const M72 = {
       minutos: 20,
       disciplinas: ['interpretacao', 'repertorio'],
       prereq: ['n6.2.5'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Preparação para provas e concursos'],
       objetivo: 'Preparar um aluno (ou a si mesmo) para provas de conservatório, vestibular de música e concursos.',
       blocos: [
@@ -973,7 +973,7 @@ export const M72 = {
       minutos: 20,
       disciplinas: ['tecnica', 'interpretacao'],
       prereq: ['n6.2.8'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Gravação e produção de performances'],
       objetivo: 'Planejar e executar uma gravação de qualidade, com decisões técnicas e éticas conscientes.',
       blocos: [

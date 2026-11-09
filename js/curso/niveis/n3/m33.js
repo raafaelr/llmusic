@@ -20,7 +20,7 @@ export const M33 = {
       minutos: 20,
       disciplinas: ['repertorio', 'historia', 'interpretacao'],
       prereq: ['n2.3.4'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Fernando Sor'],
       objetivo: 'Entender a escrita de Sor e trabalhar o equilíbrio entre melodia e acompanhamento.',
       blocos: [
@@ -120,7 +120,7 @@ export const M33 = {
       minutos: 18,
       disciplinas: ['repertorio', 'historia', 'tecnica'],
       prereq: ['n3.3.1'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Matteo Carcassi'],
       objetivo: 'Trabalhar arpejos regulares e deslocamentos, o núcleo técnico de Carcassi.',
       blocos: [
@@ -214,7 +214,7 @@ export const M33 = {
       minutos: 16,
       disciplinas: ['repertorio', 'historia'],
       prereq: ['n3.3.2'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Ferdinando Carulli'],
       objetivo: 'Trabalhar baixo e melodia simultâneos num repertório acessível.',
       blocos: [
@@ -321,7 +321,7 @@ export const M33 = {
       minutos: 16,
       disciplinas: ['repertorio', 'historia', 'tecnica'],
       prereq: ['n3.3.3'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Dionisio Aguado'],
       objetivo: 'Trabalhar a precisão e a clareza da mão direita, a obsessão de Aguado.',
       blocos: [
@@ -414,7 +414,7 @@ export const M33 = {
       minutos: 18,
       disciplinas: ['repertorio', 'historia', 'interpretacao'],
       prereq: ['n3.3.4'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Francisco Tárrega'],
       objetivo: 'Entender a virada técnica e expressiva que Tárrega provocou, e trabalhar som e fraseado.',
       blocos: [

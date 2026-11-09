@@ -15,7 +15,7 @@ export const M62 = {
       minutos: 20,
       disciplinas: ['tecnica', 'interpretacao'],
       prereq: ['n5.2.7'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Identidade sonora'],
       objetivo: 'Identificar os componentes que formam o som pessoal e trabalhar cada um deliberadamente.',
       blocos: [
@@ -135,7 +135,7 @@ export const M62 = {
       minutos: 20,
       disciplinas: ['interpretacao', 'historia'],
       prereq: ['n6.1.10'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Interpretação de diferentes períodos'],
       objetivo: 'Executar peças de períodos diferentes com as convenções próprias de cada um, de forma consistente.',
       blocos: [
@@ -247,7 +247,7 @@ export const M62 = {
       minutos: 20,
       disciplinas: ['tecnica', 'interpretacao'],
       prereq: ['n5.2.7'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Controle avançado de articulação', 'Precisão rítmica'],
       objetivo: 'Dominar os recursos de articulação do violão e corrigir imprecisões rítmicas com método.',
       blocos: [
@@ -371,7 +371,7 @@ export const M62 = {
       minutos: 22,
       disciplinas: ['tecnica', 'interpretacao', 'contraponto'],
       prereq: ['n5.2.8', 'n6.1.1'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Controle de timbre', 'Execução polifônica complexa'],
       objetivo: 'Executar textura a três e quatro vozes com planos sonoros e cores distintas entre elas.',
       blocos: [
@@ -498,7 +498,7 @@ export const M62 = {
       minutos: 22,
       disciplinas: ['interpretacao', 'tecnica'],
       prereq: ['n5.2.10', 'n6.2.2'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Preparação de recitais', 'Memorização de programas extensos'],
       objetivo: 'Planejar e executar a preparação de um recital completo, com um programa memorizado de 30 a 45 minutos.',
       blocos: [
@@ -631,7 +631,7 @@ export const M62 = {
       minutos: 20,
       disciplinas: ['leitura'],
       prereq: ['n5.2.9'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Leitura de partituras complexas'],
       objetivo: 'Ler partituras polifônicas, com métrica variável e notação contemporânea, decodificando-as sistematicamente.',
       blocos: [
@@ -761,7 +761,7 @@ export const M62 = {
       minutos: 20,
       disciplinas: ['leitura', 'repertorio'],
       prereq: ['n6.1.6'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Transcrição para violão'],
       objetivo: 'Executar o processo completo de transcrição, incluindo tirar de ouvido e finalizar uma partitura legível.',
       blocos: [
@@ -890,7 +890,7 @@ export const M62 = {
       minutos: 18,
       disciplinas: ['tecnica', 'interpretacao'],
       prereq: ['n6.2.1'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Gravação e autoavaliação'],
       objetivo: 'Montar uma rotina de gravação e avaliar a própria execução com critérios objetivos.',
       blocos: [
@@ -1022,7 +1022,7 @@ export const M62 = {
       minutos: 20,
       disciplinas: ['conjunto', 'interpretacao'],
       prereq: ['n6.2.3'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Música de câmara'],
       objetivo: 'Participar de um grupo de câmara com as competências próprias: entrada, equilíbrio, escuta e ensaio.',
       blocos: [

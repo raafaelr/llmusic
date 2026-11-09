@@ -15,7 +15,7 @@ export const M13 = {
       minutos: 10,
       disciplinas: ['teoria'],
       prereq: [],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['O que é música', 'Som e silêncio'],
       objetivo: 'Entender que música é som e silêncio organizados no tempo, e que a partitura escreve os dois.',
       blocos: [
@@ -66,7 +66,7 @@ export const M13 = {
       minutos: 12,
       disciplinas: ['teoria', 'percepcao'],
       prereq: ['n1.3.1'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Altura, duração, intensidade e timbre'],
       objetivo: 'Separar as quatro coisas que você pode controlar em cada nota que toca.',
       blocos: [
@@ -137,7 +137,7 @@ export const M13 = {
       minutos: 14,
       disciplinas: ['teoria'],
       prereq: ['n1.3.1'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Notas musicais: Dó, Ré, Mi, Fá, Sol, Lá e Si', 'Alfabeto musical: C, D, E, F, G, A e B', 'Notas naturais'],
       objetivo: 'Saber os dois nomes de cada nota, a ordem delas e o que é uma oitava.',
       blocos: [
@@ -215,7 +215,7 @@ export const M13 = {
       minutos: 12,
       disciplinas: ['leitura', 'teoria'],
       prereq: ['n1.3.3'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Pentagrama', 'Clave de sol'],
       objetivo: 'Entender como a altura das notas é desenhada e por que a clave é indispensável.',
       blocos: [
@@ -283,7 +283,7 @@ export const M13 = {
       minutos: 18,
       disciplinas: ['leitura'],
       prereq: ['n1.3.4'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Linhas e espaços', 'Identificação das notas no pentagrama'],
       objetivo: 'Nomear qualquer nota da pauta sem contar degrau por degrau.',
       blocos: [
@@ -378,7 +378,7 @@ export const M13 = {
       minutos: 16,
       disciplinas: ['teoria', 'leitura'],
       prereq: ['n1.3.4'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Figuras musicais', 'Semibreve, mínima, semínima, colcheia e semicolcheia'],
       objetivo: 'Entender o sistema de durações e saber, olhando uma figura, quantos tempos ela vale.',
       blocos: [
@@ -465,7 +465,7 @@ export const M13 = {
       minutos: 12,
       disciplinas: ['teoria', 'leitura'],
       prereq: ['n1.3.6'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Pausas musicais'],
       objetivo: 'Reconhecer cada pausa, saber quanto ela dura e aprender a executá-la de verdade no violão.',
       blocos: [
@@ -547,7 +547,7 @@ export const M13 = {
       minutos: 18,
       disciplinas: ['teoria', 'leitura'],
       prereq: ['n1.3.6'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Pulsação', 'Andamento', 'Compassos 2/4, 3/4 e 4/4'],
       objetivo: 'Sentir o pulso, entender a fórmula de compasso e tocar junto com o metrônomo.',
       blocos: [

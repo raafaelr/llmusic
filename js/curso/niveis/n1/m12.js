@@ -15,7 +15,7 @@ export const M12 = {
       minutos: 10,
       disciplinas: ['postura'],
       prereq: ['n1.1.2'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Postura correta sentado'],
       objetivo: 'Montar um lugar de estudo que sustente o corpo, para que as mãos fiquem livres para trabalhar.',
       blocos: [
@@ -90,7 +90,7 @@ export const M12 = {
       minutos: 12,
       disciplinas: ['postura'],
       prereq: ['n1.2.1'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Posicionamento do violão', 'Apoio para o pé ou suporte ergonômico'],
       objetivo: 'Posicionar o violão de modo que ele fique estável sem ajuda das mãos, no ângulo que facilita as duas mãos.',
       blocos: [
@@ -173,7 +173,7 @@ export const M12 = {
       minutos: 14,
       disciplinas: ['postura', 'tecnica'],
       prereq: ['n1.1.5', 'n1.2.2'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Posicionamento da mão direita'],
       objetivo: 'Posicionar a mão direita de modo que o som saia cheio e os dedos possam se mover sozinhos.',
       blocos: [
@@ -272,7 +272,7 @@ export const M12 = {
       minutos: 14,
       disciplinas: ['postura', 'tecnica'],
       prereq: ['n1.1.5', 'n1.2.2'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Posicionamento da mão esquerda'],
       objetivo: 'Apertar as cordas com o mínimo de esforço, com som limpo e com os quatro dedos disponíveis.',
       blocos: [
@@ -365,7 +365,7 @@ export const M12 = {
       minutos: 12,
       disciplinas: ['postura'],
       prereq: ['n1.2.3', 'n1.2.4'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Relaxamento e prevenção de tensões'],
       objetivo: 'Reconhecer tensão desnecessária, saber parar na hora certa e construir uma rotina que o corpo aguente por anos.',
       blocos: [

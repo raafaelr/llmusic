@@ -16,7 +16,7 @@ export const M23 = {
       minutos: 22,
       disciplinas: ['repertorio', 'leitura'],
       prereq: ['n2.2.1'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Melodias populares adaptadas'],
       objetivo: 'Tocar três melodias completas, lendo a partitura, com dedilhado correto e no tempo.',
       blocos: [
@@ -160,7 +160,7 @@ export const M23 = {
       minutos: 22,
       disciplinas: ['repertorio', 'tecnica'],
       prereq: ['n2.2.4'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Pequenas peças didáticas'],
       objetivo: 'Tocar peças em que as duas mãos fazem duas coisas ao mesmo tempo: baixo e melodia.',
       blocos: [
@@ -285,7 +285,7 @@ export const M23 = {
       minutos: 20,
       disciplinas: ['repertorio', 'tecnica'],
       prereq: ['n2.3.2'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Estudos simples'],
       objetivo: 'Entender o que é um estudo e tocar dois, cada um treinando uma habilidade específica.',
       blocos: [
@@ -404,7 +404,7 @@ export const M23 = {
       minutos: 20,
       disciplinas: ['repertorio', 'interpretacao', 'historia'],
       prereq: ['n2.3.3'],
-      status: 'implementado',
+      status: 'validado',
       cobre: ['Primeiras obras de compositores clássicos'],
       objetivo: 'Tocar uma peça com estrutura e intenção musical, não só notas certas.',
       blocos: [
