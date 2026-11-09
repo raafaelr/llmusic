@@ -51,7 +51,12 @@ export function montar(raiz, ir) {
   const feedback = el('p', 'feedback', '');
   feedback.setAttribute('aria-live', 'polite');
   const placar = el('p', 'placar', '');
-  area.append(pergunta, svg, feedback, placar);
+  // O braço rola na horizontal dentro desta caixa: assim ele mantém o
+  // tamanho legível sem fazer a página inteira rolar de lado.
+  const caixaBraco = document.createElement('div');
+  caixaBraco.className = 'rola-h';
+  caixaBraco.append(svg);
+  area.append(pergunta, caixaBraco, feedback, placar);
 
   const opcoes = el('section', 'braco-opcoes');
   const gModo = el('div', 'grupo');   gModo.append(el('h2', 'rotulo-grupo', 'Exercício'));

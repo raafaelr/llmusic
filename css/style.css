@@ -286,11 +286,22 @@ button.cartao:active { transform: translateY(1px); background: var(--superficie-
 .titulo-tela { font-family: var(--fonte-titulo); font-size: var(--txt-xl); font-weight: 600; line-height: 1.1; }
 .botao-texto { background: none; border: 0; color: var(--acao); font-weight: 600; min-height: 48px; padding: 0 var(--e-3) 0 0; }
 :root:not([data-tema='claro']) .botao-texto { color: var(--destaque); }
-.coluna { display: flex; flex-direction: column; gap: 14px; }
+.coluna { display: flex; flex-direction: column; gap: 14px;
+  /* Item de grade/flex não encolhe abaixo do conteúdo sem isto: era por
+     aqui que o braço largo alargava a página inteira. */
+  min-width: 0;
+}
 .andamento { color: var(--destaque); font-weight: 600; font-style: italic; text-align: center; min-height: 1.45em; }
 .bpm-num { font-family: var(--mono); font-size: 96px; font-weight: 500; line-height: 1; text-align: center; font-variant-numeric: tabular-nums; }
 .rotulo { text-align: center; color: var(--suave); font-size: 14px; margin-top: -8px; }
-.linha-botoes { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.linha-botoes {
+  display: grid;
+  /* auto-fit com minmax: três botões cabem lado a lado quando há espaço e
+     quebram em duas linhas num celular estreito, em vez de estourar 6px
+     para fora da tela. */
+  grid-template-columns: repeat(auto-fit, minmax(104px, 1fr));
+  gap: 8px;
+}
 .botao-passo {
   background: var(--superficie); border: 1px solid var(--linha); border-radius: var(--r-md);
   min-height: 56px; font-family: var(--mono); font-size: 20px; font-weight: 500;
@@ -1457,9 +1468,13 @@ a.botao-sec { text-decoration: none; text-align: center; }
 
 /* O braço tem largura mínima: num celular estreito ele rola na horizontal
    em vez de encolher a ponto de os rótulos das notas ficarem ilegíveis.
-   A rolagem é interna, não empurra a página. */
-.bloco-fig:has(.braco-svg) { overflow-x: auto; }
-.braco-svg { min-width: 440px; }
+   A largura mínima só vale DENTRO de um pai que role — senão é a página
+   inteira que passa a rolar de lado, que foi o que aconteceu nas telas
+   Braço e CAGED quando a regra era solta. */
+/* min-width:0 é obrigatório: como item de uma coluna flex, esta caixa não
+   encolhe abaixo do conteúdo sem isso, e era a página inteira que alargava. */
+.rola-h { overflow-x: auto; overscroll-behavior-x: contain; min-width: 0; max-width: 100%; }
+.bloco-fig:has(.braco-svg), .rola-h { overflow-x: auto; }
 
 /* Moldura fina em volta do conteúdo musical. Todo diagrama e toda pauta das
    aulas sai como <figure class="bloco-fig">; emoldurar dá a eles a borda de

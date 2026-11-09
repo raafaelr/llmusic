@@ -20,6 +20,10 @@ export function criarBraco(svg, { casas = 12, aoToque = null } = {}) {
   const yCorda = (corda) => Y0 + (corda - 1) * DY;
   svg.innerHTML = '';
   svg.setAttribute('viewBox', `0 0 ${L} ${A}`);
+  // Largura mínima proporcional ao desenho: abaixo de ~62% da escala natural
+  // os rótulos dentro das bolinhas ficam pequenos demais para ler. Em tela
+  // estreita o pai rola na horizontal em vez de espremer.
+  svg.style.minWidth = Math.round(L * 0.62) + 'px';
   sv('rect', { x: X0, y: Y0 - 14, width: L - X0 - 10, height: DY * 5 + 28, rx: 6, class: 'madeira' }, svg);
   for (let c = 1; c <= casas; c++) {
     const x = X0 + c * passo;

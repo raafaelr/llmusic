@@ -50,7 +50,10 @@ export function montar(raiz, ir) {
   const bOuvir = botaoIcone('botao-sec', 'tocar', 'Ouvir');
   const bOuvirTodas = botaoIcone('botao-sec', 'tocar', 'Ouvir as formas em sequência');
   acoesVer.append(bOuvir, bOuvirTodas);
-  area.append(info, svg, feedback, acoesVer);
+  const caixaBraco = document.createElement('div');
+  caixaBraco.className = 'rola-h';
+  caixaBraco.append(svg);
+  area.append(info, caixaBraco, feedback, acoesVer);
 
   const opcoes = el('section', 'caged-opcoes');
   function grupo(rot) { const g = el('div', 'grupo'); g.append(el('h2', 'rotulo-grupo', rot)); const c = el('div', 'chips'); g.append(c); return [g, c]; }
