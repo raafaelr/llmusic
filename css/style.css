@@ -1,44 +1,170 @@
-/* Visual do LLMusic. Escuro por padrão (bom para praticar em ambiente com pouca luz),
-   com versão clara se o celular estiver no modo claro.
-   Todas as cores ficam em variáveis (--nome): para mudar o tema, mude só aqui. */
+/* ============================================================================
+   LLMusic — Identidade visual "Modernismo Musical Brasileiro"
+   Inspirada no universo de Heitor Villa-Lobos: conservatório clássico,
+   papel de partitura, madeira de violão e geometria modernista.
+
+   TUDO o que é cor, fonte, espaço, raio, sombra e transição está declarado
+   aqui, uma vez só. Para mudar a identidade inteira, mexa só neste bloco.
+
+   Dois temas completos, cada um com composição própria (o escuro não é uma
+   inversão do claro):
+     claro  — "Conservatório Clássico": marfim de partitura, verde floresta
+     escuro — "Concerto Noturno": verde quase preto, marfim e dourado
+
+   O tema segue o sistema operacional por padrão. Se o aluno escolher um tema
+   em Configurações, o atributo data-tema="claro|escuro" entra no <html> e
+   manda nas media queries.
+   ========================================================================= */
+
+/* ---------- Tipografia (arquivos locais: funciona offline e no APK) ------- */
+@font-face {
+  font-family: 'Inter'; font-style: normal; font-weight: 400; font-display: swap;
+  src: url('../fonts/inter-latin-400-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Inter'; font-style: normal; font-weight: 500; font-display: swap;
+  src: url('../fonts/inter-latin-500-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Inter'; font-style: normal; font-weight: 600; font-display: swap;
+  src: url('../fonts/inter-latin-600-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Inter'; font-style: normal; font-weight: 700; font-display: swap;
+  src: url('../fonts/inter-latin-700-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Cormorant Garamond'; font-style: normal; font-weight: 400; font-display: swap;
+  src: url('../fonts/cormorant-garamond-latin-400-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Cormorant Garamond'; font-style: normal; font-weight: 600; font-display: swap;
+  src: url('../fonts/cormorant-garamond-latin-600-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Cormorant Garamond'; font-style: normal; font-weight: 700; font-display: swap;
+  src: url('../fonts/cormorant-garamond-latin-700-normal.woff2') format('woff2');
+}
+
 :root {
-  --fundo: #1B1512;
-  --superficie: #261E19;
-  --superficie-2: #302621;
-  --texto: #F3EBDD;
-  --suave: #B9AC9A;
-  --linha: #43362D;
-  --destaque: #E0A64A;
-  --sobre-destaque: #1B1512;
-  --ok: #6FCB8F;
-  --ruim: #E8806F;
-  --quase: #E6C84A;
-  --fonte: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  /* ---- Paleta Villa-Lobos (as nove cores oficiais, sempre as mesmas) ---- */
+  --vl-verde-floresta: #263F35;
+  --vl-verde-musical:  #496D5B;
+  --vl-verde-salvia:   #879989;
+  --vl-marfim:         #F3EFE3;
+  --vl-dourado:        #B49358;
+  --vl-madeira:        #986748;
+  --vl-grafite:        #292D2A;
+  --vl-cinza-papel:    #D9D4C8;
+  --vl-terracota:      #A65F45;
+
+  /* ---- Tipografia ---- */
+  --fonte: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --fonte-titulo: 'Cormorant Garamond', 'Iowan Old Style', Georgia, 'Times New Roman', serif;
   --mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
+  --txt-xs: 12px;
+  --txt-sm: 13.5px;
+  --txt-base: 16px;
+  --txt-md: 18px;
+  --txt-lg: 22px;
+  --txt-xl: 28px;
+  --txt-2xl: 34px;
+
+  /* ---- Espaçamento (escala de 4) ---- */
+  --e-1: 4px;  --e-2: 8px;  --e-3: 12px; --e-4: 16px;
+  --e-5: 20px; --e-6: 24px; --e-8: 32px; --e-10: 40px;
+
+  /* ---- Raios ---- */
+  --r-sm: 8px; --r-md: 12px; --r-lg: 16px; --r-xl: 20px; --r-pill: 999px;
+
+  /* ---- Transições (respeitam movimento reduzido mais abaixo) ---- */
+  --t-rapida: 120ms ease;
+  --t-media: 200ms ease;
+
+  /* ---- Tema escuro: "Concerto Noturno" (padrão) ---- */
+  --fundo: #121714;
+  --fundo-alt: #0E1310;
+  --superficie: #1B2420;
+  --superficie-2: #243029;
+  --texto: #F3EFE3;
+  --suave: #A3B3A7;
+  --linha: #33443A;
+  --linha-forte: #46594C;
+  --destaque: #C9A86B;          /* dourado, clareado para contraste no escuro */
+  --sobre-destaque: #121714;
+  --acao: #5C8570;              /* verde musical, clareado: botão principal */
+  --sobre-acao: #0E1310;
+  --madeira: #B07E5C;
+  --ok: #7FBF95;
+  --ruim: #DD8A72;
+  --quase: #D8B463;
+  --sombra: 0 1px 2px rgba(0, 0, 0, 0.4), 0 6px 18px rgba(0, 0, 0, 0.25);
+  --sombra-sutil: 0 1px 2px rgba(0, 0, 0, 0.35);
+  --papel: none;
   color-scheme: dark;
 }
+
+/* ---- Tema claro: "Conservatório Clássico" ---- */
 @media (prefers-color-scheme: light) {
-  :root {
-    --fundo: #F6F0E4;
-    --superficie: #FFFFFF;
-    --superficie-2: #EFE6D6;
-    --texto: #231B15;
-    --suave: #6B5C4C;
-    --linha: #D9CCB6;
-    --destaque: #8C5B10;
-    --sobre-destaque: #FFFFFF;
-    --ok: #1D7448;
-    --ruim: #B3392B;
-    --quase: #B38A00;
+  :root:not([data-tema='escuro']) {
+    --fundo: #F3EFE3;
+    --fundo-alt: #EBE5D6;
+    --superficie: #FCFAF4;
+    --superficie-2: #EDE7D9;
+    --texto: #292D2A;
+    --suave: #5B6A5F;
+    --linha: #D9D4C8;
+    --linha-forte: #C3BCAB;
+    --destaque: #8A6B30;
+    --sobre-destaque: #FCFAF4;
+    --acao: #496D5B;
+    --sobre-acao: #F3EFE3;
+    --madeira: #86583C;
+    --ok: #2E6B47;
+    --ruim: #A65F45;
+    --quase: #8A6B30;
+    --sombra: 0 1px 2px rgba(41, 45, 42, 0.08), 0 8px 24px rgba(41, 45, 42, 0.07);
+    --sombra-sutil: 0 1px 2px rgba(41, 45, 42, 0.07);
+    --papel: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
     color-scheme: light;
   }
 }
+
+/* O aluno escolheu o tema claro em Configurações. */
+:root[data-tema='claro'] {
+  --fundo: #F3EFE3;
+  --fundo-alt: #EBE5D6;
+  --superficie: #FCFAF4;
+  --superficie-2: #EDE7D9;
+  --texto: #292D2A;
+  --suave: #5B6A5F;
+  --linha: #D9D4C8;
+  --linha-forte: #C3BCAB;
+  --destaque: #8A6B30;
+  --sobre-destaque: #FCFAF4;
+  --acao: #496D5B;
+  --sobre-acao: #F3EFE3;
+  --madeira: #86583C;
+  --ok: #2E6B47;
+  --ruim: #A65F45;
+  --quase: #8A6B30;
+  --sombra: 0 1px 2px rgba(41, 45, 42, 0.08), 0 8px 24px rgba(41, 45, 42, 0.07);
+  --sombra-sutil: 0 1px 2px rgba(41, 45, 42, 0.07);
+  --papel: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  color-scheme: light;
+}
+
+/* Tamanho de fonte escolhido pelo aluno (Configurações). */
+:root[data-fonte='grande'] { font-size: 112.5%; }
+:root[data-fonte='maior'] { font-size: 125%; }
 
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
 body {
   margin: 0;
   background: var(--fundo);
+  background-image: var(--papel);
   color: var(--texto);
   font-family: var(--fonte);
   font-size: 16px;
@@ -48,34 +174,103 @@ body {
   padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
 }
 h1, h2, p { margin: 0; }
+h1, h2, h3 { font-family: var(--fonte-titulo); font-weight: 600; letter-spacing: 0.005em; font-variant-numeric: lining-nums; }
+button { font-family: var(--fonte); }
 button { font: inherit; color: inherit; cursor: pointer; }
 button:focus-visible, input:focus-visible { outline: 3px solid var(--destaque); outline-offset: 2px; }
 
-.tela { max-width: 1100px; margin: 0 auto; padding: 16px; }
+.tela { max-width: 1100px; margin: 0 auto; padding: var(--e-4); }
 
-/* ---------- Início ---------- */
-.marca { display: flex; align-items: center; gap: 14px; margin-bottom: 8px; }
-.marca img { border-radius: 14px; }
-.titulo { font-size: 30px; font-weight: 800; letter-spacing: -0.01em; line-height: 1.1; }
-.sub { color: var(--suave); }
-.hoje { color: var(--suave); margin-bottom: 16px; }
-.grade { display: grid; gap: 12px; grid-template-columns: 1fr; }
+/* ---------- Cartão: o componente mais reutilizado do app ---------- */
 .cartao {
   text-align: left; background: var(--superficie); border: 1px solid var(--linha);
-  border-radius: 16px; padding: 16px; min-height: 88px;
-  display: flex; flex-direction: column; gap: 4px;
+  border-radius: var(--r-lg); padding: var(--e-4); min-height: 88px;
+  display: flex; flex-direction: column; gap: var(--e-1);
+  box-shadow: var(--sombra-sutil);
+  transition: border-color var(--t-rapida), box-shadow var(--t-rapida), transform var(--t-rapida);
+  position: relative; overflow: hidden;
 }
-button.cartao:active { background: var(--superficie-2); }
-.cartao-nome { font-size: 18px; font-weight: 700; }
-.cartao-desc { color: var(--suave); font-size: 14px; }
+button.cartao:hover { border-color: var(--linha-forte); box-shadow: var(--sombra); }
+button.cartao:active { transform: translateY(1px); background: var(--superficie-2); }
+.cartao-nome { font-family: var(--fonte-titulo); font-size: var(--txt-lg); font-weight: 600; line-height: 1.15; }
+.cartao-desc { color: var(--suave); font-size: var(--txt-sm); line-height: 1.5; }
 .cartao.em-breve { opacity: 0.6; }
-.selo { align-self: flex-start; margin-top: 4px; font-size: 12px; color: var(--destaque); border: 1px solid var(--linha); border-radius: 999px; padding: 2px 10px; }
+.selo {
+  align-self: flex-start; margin-top: var(--e-1); font-size: var(--txt-xs); color: var(--destaque);
+  border: 1px solid var(--linha); border-radius: var(--r-pill); padding: 2px 10px;
+}
+/* filete dourado no topo dos cartões em destaque */
+.cartao-destaque::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--destaque) 18%, var(--destaque) 82%, transparent);
+  opacity: 0.85;
+}
+
+/* ---------- Início: o saguão do conservatório ---------- */
+.saguao {
+  margin: calc(var(--e-4) * -1) calc(var(--e-4) * -1) var(--e-5);
+  padding: var(--e-5) var(--e-4) var(--e-6);
+  background: linear-gradient(170deg, var(--vl-verde-floresta), #1C3029 70%);
+  color: var(--vl-marfim);
+  border-bottom: 2px solid var(--destaque);
+  position: relative; overflow: hidden;
+}
+/* pauta discreta ao fundo do cabeçalho */
+.saguao::after {
+  content: ''; position: absolute; right: -10%; top: 50%; width: 70%; height: 40px;
+  background: repeating-linear-gradient(to bottom, transparent 0 6px, var(--vl-marfim) 6px 7px, transparent 7px 13px);
+  opacity: 0.1; transform: rotate(-4deg); pointer-events: none;
+}
+.saguao-marca { display: flex; align-items: center; gap: var(--e-3); }
+.saguao-marca img { border-radius: var(--r-md); }
+.saguao-nome { font-family: var(--fonte-titulo); font-size: var(--txt-xl); font-weight: 700; line-height: 1.05; }
+.saguao-sub { font-size: var(--txt-xs); color: var(--vl-verde-salvia); letter-spacing: 0.03em; }
+.saguao-ola { margin-top: var(--e-4); font-family: var(--fonte-titulo); font-size: var(--txt-lg); color: var(--vl-marfim); }
+
+.marca { display: flex; align-items: center; gap: 14px; margin-bottom: 8px; }
+.marca img { border-radius: 14px; }
+.titulo { font-family: var(--fonte-titulo); font-size: var(--txt-2xl); font-weight: 700; letter-spacing: 0; line-height: 1.05; }
+.sub { color: var(--suave); }
+.hoje { color: var(--suave); margin-bottom: 16px; }
+
+/* retomada do estudo: o cartão mais importante da tela */
+.retomar { gap: var(--e-2); }
+.retomar-caminho { font-size: var(--txt-xs); color: var(--suave); letter-spacing: 0.04em; text-transform: uppercase; }
+.retomar-titulo { font-family: var(--fonte-titulo); font-size: var(--txt-xl); font-weight: 600; line-height: 1.1; }
+.retomar .bloco-botoes { margin-top: var(--e-2); }
+
+/* faixa de números: hoje, sequência, nível, aulas dominadas */
+.faixa-numeros {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--e-2);
+  margin: var(--e-4) 0 0;
+}
+.numero {
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  padding: var(--e-3) var(--e-1); background: var(--superficie); border: 1px solid var(--linha);
+  border-radius: var(--r-md); text-align: center;
+}
+.numero-valor { font-family: var(--fonte-titulo); font-size: var(--txt-lg); font-weight: 700; color: var(--destaque); line-height: 1; font-variant-numeric: lining-nums tabular-nums; }
+.numero-rotulo { font-size: 11px; color: var(--suave); letter-spacing: 0.02em; }
+
+/* áreas de atalho */
+.area { margin-top: var(--e-6); }
+.area-cab { margin-bottom: var(--e-3); }
+.area-nome { font-family: var(--fonte-titulo); font-size: var(--txt-lg); font-weight: 600; }
+.area-desc { font-size: var(--txt-sm); color: var(--suave); }
+.grade { display: grid; gap: var(--e-3); grid-template-columns: 1fr; }
+.grade-atalhos { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+.grade-atalhos .atalho { min-height: 0; padding: var(--e-3) var(--e-4); }
+.grade-atalhos .cartao-nome { font-size: var(--txt-md); }
+.grade-atalhos .cartao-desc { font-size: var(--txt-xs); }
+
+.saguao-rodape { margin: var(--e-8) 0 var(--e-4); text-align: center; }
 
 /* ---------- Metrônomo ---------- */
 .metronomo { display: grid; gap: 16px; grid-template-columns: 1fr; }
 .topo { display: flex; align-items: center; gap: 8px; }
-.titulo-tela { font-size: 22px; font-weight: 700; }
-.botao-texto { background: none; border: 0; color: var(--destaque); font-weight: 600; min-height: 48px; padding: 0 12px 0 0; }
+.titulo-tela { font-family: var(--fonte-titulo); font-size: var(--txt-xl); font-weight: 600; line-height: 1.1; }
+.botao-texto { background: none; border: 0; color: var(--acao); font-weight: 600; min-height: 48px; padding: 0 var(--e-3) 0 0; }
+:root:not([data-tema='claro']) .botao-texto { color: var(--destaque); }
 .coluna { display: flex; flex-direction: column; gap: 14px; }
 .andamento { color: var(--destaque); font-weight: 600; font-style: italic; text-align: center; min-height: 1.45em; }
 .bpm-num { font-family: var(--mono); font-size: 96px; font-weight: 500; line-height: 1; text-align: center; font-variant-numeric: tabular-nums; }
@@ -94,20 +289,35 @@ input[type=range] { width: 100%; height: 44px; accent-color: var(--destaque); ba
 .batida.media { width: 32px; height: 32px; }
 .batida.ativa { background: var(--destaque); border-color: var(--destaque); transform: scale(1.18); }
 
-.grupo { display: flex; flex-direction: column; gap: 8px; }
+.grupo { display: flex; flex-direction: column; gap: var(--e-2); margin-top: var(--e-5); }
+.topo + .grupo, .grupo:first-child { margin-top: var(--e-3); }
 .rotulo-grupo { font-size: 14px; font-weight: 600; color: var(--suave); }
 .chips { display: flex; flex-wrap: wrap; gap: 8px; }
 .chip {
-  background: var(--superficie); border: 1px solid var(--linha); border-radius: 12px;
-  min-height: 48px; padding: 0 16px; font-weight: 500;
+  background: var(--superficie); border: 1px solid var(--linha); border-radius: var(--r-pill);
+  min-height: 48px; padding: 0 var(--e-4); font-weight: 500;
+  transition: border-color var(--t-rapida), background var(--t-rapida);
 }
-.chip[aria-pressed="true"] { background: var(--destaque); border-color: var(--destaque); color: var(--sobre-destaque); font-weight: 700; }
+.chip:hover { border-color: var(--linha-forte); }
+.chip[aria-pressed="true"], .chip.ativo { background: var(--acao); border-color: var(--acao); color: var(--sobre-acao); font-weight: 600; }
 .chip.sm { min-height: 40px; padding: 0 12px; font-size: 14px; }
 
 .acoes { display: grid; grid-template-columns: 1fr 1.4fr; gap: 10px; margin-top: 4px; }
-.botao-sec { background: var(--superficie); border: 1px solid var(--linha); border-radius: 14px; min-height: 64px; font-weight: 600; }
-.botao-principal { background: var(--destaque); color: var(--sobre-destaque); border: 0; border-radius: 14px; min-height: 64px; font-size: 20px; font-weight: 800; }
-.botao-principal.ligado { background: var(--superficie-2); color: var(--texto); border: 2px solid var(--destaque); }
+.botao-sec {
+  background: var(--superficie); border: 1px solid var(--linha); border-radius: var(--r-md);
+  min-height: 64px; font-weight: 600; padding: 0 var(--e-4);
+  transition: border-color var(--t-rapida), background var(--t-rapida);
+}
+.botao-sec:hover { border-color: var(--linha-forte); background: var(--superficie-2); }
+.botao-sec:active { transform: translateY(1px); }
+.botao-principal {
+  background: var(--acao); color: var(--sobre-acao); border: 0; border-radius: var(--r-md);
+  min-height: 64px; font-size: var(--txt-md); font-weight: 600; padding: 0 var(--e-5);
+  box-shadow: var(--sombra-sutil); transition: filter var(--t-rapida), transform var(--t-rapida);
+}
+.botao-principal:hover { filter: brightness(1.08); }
+.botao-principal:active { transform: translateY(1px); }
+.botao-principal.ligado { background: var(--superficie-2); color: var(--texto); border: 2px solid var(--acao); box-shadow: none; }
 .dica { color: var(--suave); font-size: 13px; }
 
 /* ---------- Paisagem primeiro: celular deitado ---------- */
@@ -457,6 +667,7 @@ input[type=range] { width: 100%; height: 44px; accent-color: var(--destaque); ba
   .grade { grid-template-columns: repeat(2, 1fr); }
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+:root[data-sem-animacao] * { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
 
 /* ---- Aulas do CAGED ---- */
 .aulas-caged .bloco-desenho { display: flex; flex-direction: column; gap: 6px; margin: 6px 0 10px; }
@@ -487,18 +698,22 @@ input[type=range] { width: 100%; height: 44px; accent-color: var(--destaque); ba
 
 /* ---- Menu lateral ---- */
 .menu-aba { position: fixed; left: 0; top: 50%; transform: translateY(-50%); z-index: 40; width: 22px; height: 72px; padding: 0; border: 1px solid var(--linha); border-left: 0; border-radius: 0 12px 12px 0; background: color-mix(in srgb, var(--superficie-2) 82%, transparent); color: var(--destaque); font-size: 22px; font-weight: 800; line-height: 1; opacity: .8; }
+.config-linha { display: flex; gap: var(--e-3); align-items: flex-start; padding: var(--e-3); border: 1px solid var(--linha); border-radius: var(--r-md); background: var(--superficie); }
+.config-linha input[type="checkbox"] { width: 22px; height: 22px; margin-top: 2px; flex: 0 0 auto; }
+.config-linha > div { display: flex; flex-direction: column; gap: 2px; }
 .menu-aba:active { opacity: 1; }
 .menu-veu { position: fixed; inset: 0; z-index: 50; background: rgba(0,0,0,.5); opacity: 0; transition: opacity .2s; }
 .menu-veu.aberta { opacity: 1; }
-.menu-gaveta { position: fixed; top: 0; bottom: 0; left: 0; z-index: 60; width: min(80vw, 300px); background: var(--superficie); border-right: 1px solid var(--linha); transform: translateX(-100%); transition: transform .2s ease; overflow-y: auto; padding: 12px 10px calc(16px + env(safe-area-inset-bottom)); display: flex; flex-direction: column; gap: 2px; }
+.menu-gaveta { position: fixed; top: 0; bottom: 0; left: 0; z-index: 60; width: min(80vw, 300px); background: var(--vl-verde-floresta); color: var(--vl-marfim); border-right: 1px solid var(--destaque); transform: translateX(-100%); transition: transform .2s ease; overflow-y: auto; padding: 12px 10px calc(16px + env(safe-area-inset-bottom)); display: flex; flex-direction: column; gap: 2px; }
 .menu-gaveta.aberta { transform: none; }
-.menu-cab { display: flex; align-items: center; gap: 10px; padding: 4px 4px 10px; }
-.menu-nome { font-size: 20px; font-weight: 800; flex: 1; }
-.menu-fechar { min-height: 44px; padding: 0 10px; background: none; border: 0; color: var(--destaque); font-size: 15px; font-weight: 700; }
-.menu-grupo { margin: 12px 8px 2px; font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--suave); }
-.menu-item { min-height: 48px; text-align: left; padding: 0 14px; border: 0; border-radius: 10px; background: none; color: var(--texto); font-size: 17px; }
-.menu-item:active { background: var(--superficie-2); }
-.menu-item[aria-current="page"] { background: var(--destaque); color: var(--sobre-destaque); font-weight: 800; }
+.menu-cab { display: flex; align-items: center; gap: 10px; padding: 4px 4px 10px; border-bottom: 1px solid rgba(180, 147, 88, 0.3); margin-bottom: 4px; }
+.menu-nome { font-family: var(--fonte-titulo); font-size: 24px; font-weight: 700; flex: 1; color: var(--vl-marfim); }
+.menu-fechar { min-height: 44px; padding: 0 10px; background: none; border: 0; color: var(--vl-dourado); font-size: 15px; font-weight: 600; }
+.menu-grupo { margin: 14px 8px 2px; font-family: var(--fonte); font-size: 11px; text-transform: uppercase; letter-spacing: .1em; color: var(--vl-verde-salvia); }
+.menu-item { min-height: 48px; text-align: left; padding: 0 14px; border: 0; border-radius: var(--r-sm); background: none; color: var(--vl-marfim); font-size: 17px; transition: background var(--t-rapida); }
+.menu-item:hover { background: rgba(243, 239, 227, 0.08); }
+.menu-item:active { background: rgba(243, 239, 227, 0.14); }
+.menu-item[aria-current="page"] { background: var(--vl-verde-musical); color: var(--vl-marfim); font-weight: 600; box-shadow: inset 3px 0 0 var(--vl-dourado); }
 .aviso-sair { position: fixed; left: 50%; bottom: calc(28px + env(safe-area-inset-bottom)); transform: translateX(-50%); z-index: 70; background: var(--superficie-2); color: var(--texto); border: 1px solid var(--linha); border-radius: 22px; padding: 10px 18px; font-size: 15px; }
 @media (orientation: landscape) and (max-height: 460px) { .menu-aba { height: 56px; } .menu-item { min-height: 40px; font-size: 16px; } }
 @media (prefers-reduced-motion: reduce) { .menu-gaveta, .menu-veu { transition: none; } }
@@ -784,7 +999,7 @@ input[type=range] { width: 100%; height: 44px; accent-color: var(--destaque); ba
 .aud-item { display: flex; gap: 10px; align-items: flex-start; }
 .aud-texto { display: flex; flex-direction: column; min-width: 0; }
 .aud-nome { font-size: 14.5px; }
-.chip.ativo { background: var(--destaque); color: var(--sobre-destaque); }
+.chip.ativo { background: var(--acao); border-color: var(--acao); color: var(--sobre-acao); }
 
 /* ---- tablatura das aulas ---- */
 .tab-aula { width: 100%; height: auto; display: block; background: var(--superficie); border-radius: 12px; padding: 4px 0; }
@@ -860,3 +1075,53 @@ input[type=range] { width: 100%; height: 44px; accent-color: var(--destaque); ba
 .plano-bloco .corpo .link-aula { display: inline-block; margin-top: 4px; }
 .plano-bloco input[type="checkbox"] { flex: 0 0 auto; width: 20px; height: 20px; margin-top: 2px; }
 .plano-bloco .botao-sec.sm { flex: 0 0 auto; }
+
+/* ============================================================================
+   Grafismos da identidade Villa-Lobos
+   Linhas de pauta, filetes dourados, molduras finas e texturas discretas.
+   Tudo decorativo aqui é aria-hidden ou ::before/::after: nada entra na
+   leitura de tela nem compete com o conteúdo.
+   ========================================================================= */
+
+/* Divisor em forma de pauta: cinco linhas finas, como um trecho de partitura. */
+.pauta-divisor {
+  height: 13px; margin: var(--e-5) 0; border: 0; opacity: 0.5;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0 2px, var(--linha-forte) 2px 3px, transparent 3px 5px);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 15%, #000 85%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 15%, #000 85%, transparent);
+}
+
+/* Filete dourado: separador curto e elegante entre seções. */
+.filete {
+  height: 1px; border: 0; margin: var(--e-5) 0;
+  background: linear-gradient(90deg, var(--destaque), transparent 70%);
+  opacity: 0.55;
+}
+
+/* Cabeçalho de seção com uma pequena marca dourada à esquerda. */
+.rotulo-grupo {
+  font-family: var(--fonte); font-size: var(--txt-xs); font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--suave);
+}
+
+/* Moldura fina de conservatório, para blocos em destaque. */
+.moldura {
+  border: 1px solid var(--linha); border-radius: var(--r-lg);
+  padding: var(--e-4); background: var(--superficie);
+  position: relative;
+}
+.moldura::after {
+  content: ''; position: absolute; inset: 4px; border-radius: calc(var(--r-lg) - 4px);
+  border: 1px solid var(--destaque); opacity: 0.16; pointer-events: none;
+}
+
+/* Citação musical, em Cormorant: para as frases de abertura das telas. */
+.citacao {
+  font-family: var(--fonte-titulo); font-size: var(--txt-md); font-style: italic;
+  color: var(--suave); line-height: 1.4;
+}
+
+/* Numeração em algarismo romano, como nas posições do braço. */
+.romano { font-family: var(--fonte-titulo); font-weight: 600; letter-spacing: 0.04em; }

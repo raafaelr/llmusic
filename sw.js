@@ -4,7 +4,7 @@
 //
 // IMPORTANTE: quando você mudar qualquer arquivo do app, aumente o número da VERSAO.
 // Assim o celular joga fora o cache velho e baixa os arquivos novos.
-const VERSAO = 'llmusic-v23';
+const VERSAO = 'llmusic-v24';
 
 const ARQUIVOS = [
   './',
@@ -13,6 +13,15 @@ const ARQUIVOS = [
   './css/style.css',
   './js/main.js',
   './js/db.js',
+  './js/tema.js',
+  './js/views/config.js',
+  './fonts/inter-latin-400-normal.woff2',
+  './fonts/inter-latin-500-normal.woff2',
+  './fonts/inter-latin-600-normal.woff2',
+  './fonts/inter-latin-700-normal.woff2',
+  './fonts/cormorant-garamond-latin-400-normal.woff2',
+  './fonts/cormorant-garamond-latin-600-normal.woff2',
+  './fonts/cormorant-garamond-latin-700-normal.woff2',
   './js/pratica.js',
   './js/metronome.js',
   './js/pitch.js',

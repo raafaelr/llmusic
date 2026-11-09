@@ -2,11 +2,25 @@
 // Também abre arrastando o dedo da borda esquerda para a direita. Fecha tocando fora, em "Fechar" ou no botão Voltar.
 const GRUPOS = [
   ['', [['', 'Início']]],
-  ['Curso', [['painel', 'Meu progresso'], ['curso', 'Grade curricular'], ['tecnicas', 'Biblioteca de Técnicas'], ['exercicios', 'Central de Exercícios'], ['repertorio', 'Repertório'], ['plano', 'Meu Plano de Estudos'], ['avaliacoes', 'Avaliações'], ['tutor', 'Tutor pedagógico'], ['materiais', 'Biblioteca de Materiais'], ['auditoria', 'Auditoria curricular']]],
-  ['Praticar', [['metronomo', 'Metrônomo'], ['afinador', 'Afinador'], ['braco', 'Braço virtual']]],
-  ['Aprender', [['teoria', 'Teoria'], ['caged', 'CAGED (ferramenta)'], ['caged-aulas', 'CAGED (aulas)'], ['leitura', 'Leitura'], ['ritmo', 'Ritmo']]],
-  ['Tocar', [['partituras', 'Partituras'], ['importar', 'Importar tablatura']]],
-  ['Você', [['habitos', 'Hábitos'], ['pacotes', 'Pacotes']]]
+  ['Aprendizado', [
+    ['curso', 'Grade curricular'], ['exercicios', 'Central de Exercícios'],
+    ['avaliacoes', 'Avaliações'], ['tutor', 'Tutor pedagógico']
+  ]],
+  ['Estúdio de prática', [
+    ['metronomo', 'Metrônomo'], ['afinador', 'Afinador e diapasão'], ['braco', 'Braço virtual'],
+    ['partituras', 'Partituras'], ['leitura', 'Leitura'], ['ritmo', 'Ritmo']
+  ]],
+  ['Biblioteca', [
+    ['repertorio', 'Repertório'], ['tecnicas', 'Biblioteca de Técnicas'],
+    ['materiais', 'Biblioteca de Materiais'], ['teoria', 'Teoria'],
+    ['caged', 'CAGED (ferramenta)'], ['caged-aulas', 'CAGED (aulas)'],
+    ['importar', 'Importar tablatura']
+  ]],
+  ['Minha evolução', [
+    ['painel', 'Meu progresso'], ['plano', 'Meu Plano de Estudos'],
+    ['habitos', 'Hábitos'], ['auditoria', 'Auditoria curricular']
+  ]],
+  ['Ajustes', [['config', 'Configurações'], ['pacotes', 'Backup e pacotes']]]
 ];
 
 function el(tag, classe, texto) {

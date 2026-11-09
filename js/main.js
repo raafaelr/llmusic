@@ -24,7 +24,9 @@ import * as plano from './views/plano.js';
 import * as avaliacoes from './views/avaliacoes.js';
 import * as tutor from './views/tutor.js';
 import * as materiais from './views/materiais.js';
+import * as config from './views/config.js';
 import { criarMenu } from './menu.js';
+import { iniciarTema } from './tema.js';
 import { nativo } from './nativo.js';
 
 const TELAS = {
@@ -51,7 +53,8 @@ const TELAS = {
   'plano': plano,
   'avaliacoes': avaliacoes,
   'tutor': tutor,
-  'materiais': materiais
+  'materiais': materiais,
+  'config': config
 };
 
 const raiz = document.getElementById('app');
@@ -85,6 +88,9 @@ function mostrar() {
 
 window.addEventListener('hashchange', mostrar);
 const menu = criarMenu(ir);
+// O tema preferido entra antes da primeira pintura; se ainda não carregou,
+// vale o tema do sistema operacional, que é o padrão do CSS.
+iniciarTema().catch(() => {});
 mostrar();
 
 // ---- Botão Voltar do Android (só no APK) ----

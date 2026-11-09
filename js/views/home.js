@@ -1,6 +1,17 @@
-// Tela inicial: lista os módulos do app e mostra quanto você praticou hoje.
-import { Pratica } from '../db.js';
+// Tela inicial: o saguão do conservatório.
+//
+// Não é uma grade de atalhos: é um painel que responde a uma pergunta só —
+// "o que eu estudo agora?". Primeiro vem a retomada do estudo, depois o
+// panorama da semana, e só então os atalhos, agrupados por área.
+//
+// A tela desenha na hora com o que já tem e vai preenchendo conforme o banco
+// e o currículo respondem, para não ficar em branco esperando.
+import { Pratica, Config } from '../db.js';
 import { hojeISO, minutosTexto } from '../pratica.js';
+import { sequenciaAtual } from '../habitos.js';
+import { MAPA, carregarTodos } from '../curso/curriculo.js';
+import { carregarFichas, proximaAula, progressoDoNivel, estadoDaFicha } from '../curso/progresso.js';
+import { rotinaPorId, SEMANA_PADRAO, DIAS } from '../curso/plano.js';
 
 function el(tag, classe, texto) {
   const e = document.createElement(tag);
@@ -9,61 +20,211 @@ function el(tag, classe, texto) {
   return e;
 }
 
-// Cada módulo do app. "rota" vazia significa que ainda não existe.
-const MODULOS = [
-  { nome: 'Curso de violão', desc: '8 níveis, do zero ao avançado: aulas, exercícios e avaliações', rota: 'curso', destaque: true },
-  { nome: 'Meu progresso', desc: 'Onde você está, o que já dominou e o que vem agora', rota: 'painel', destaque: true },
-  { nome: 'Biblioteca de Técnicas', desc: '23 técnicas do violão, passo a passo, com critérios de avaliação', rota: 'tecnicas', destaque: true },
-  { nome: 'Central de Exercícios', desc: 'Exercícios filtráveis por nível, técnica, tempo e objetivo', rota: 'exercicios', destaque: true },
-  { nome: 'Meu Plano de Estudos', desc: 'Rotina do dia, plano semanal, metas e histórico de sessões', rota: 'plano', destaque: true },
-  { nome: 'Repertório', desc: '44 obras em domínio público, com ficha de estudo e filtros', rota: 'repertorio', destaque: true },
-  { nome: 'Avaliações', desc: 'Prova de nível e avaliação prática com critérios de domínio', rota: 'avaliacoes', destaque: true },
-  { nome: 'Tutor pedagógico', desc: 'Diagnóstico, glossário, exercícios sob medida e recomendações', rota: 'tutor', destaque: true },
-  { nome: 'Biblioteca de Materiais', desc: 'Tabelas de consulta, métodos históricos e guia de direito autoral', rota: 'materiais' },
-  { nome: 'Metrônomo', desc: 'Cliques sintetizados, compassos e subdivisões', rota: 'metronomo' },
-  { nome: 'Afinador', desc: 'Afinação padrão e alternativas', rota: 'afinador' },
-  { nome: 'Braço virtual', desc: 'Notas e casas acendendo no braço', rota: 'braco' },
-  { nome: 'Teoria', desc: 'Lições curtas com quiz e braço', rota: 'teoria' },
-  { nome: 'CAGED', desc: 'Curso de 12 aulas + ferramenta das 5 formas', rota: 'caged' },
-  { nome: 'Leitura', desc: 'Partituras infinitas para ler à primeira vista', rota: 'leitura' },
-  { nome: 'Ritmo', desc: 'Leia e toque o ritmo no tempo do metrônomo', rota: 'ritmo' },
-  { nome: 'Partituras', desc: 'Tocar lendo, com cursor e tablatura', rota: 'partituras' },
-  { nome: 'Importar tablatura', desc: 'PDF, Guitar Pro, MusicXML ou texto → Partituras', rota: 'importar' },
-  { nome: 'Hábitos', desc: 'Sequência de dias e calendário de estudo', rota: 'habitos' },
-  { nome: 'Pacotes', desc: 'Instalar e remover peças extras', rota: 'pacotes' }
+// Atalhos, agrupados nas cinco áreas da plataforma.
+const AREAS = [
+  {
+    nome: 'Aprendizado', desc: 'O curso, do zero ao aperfeiçoamento',
+    itens: [
+      ['curso', 'Grade curricular', '8 níveis, 167 aulas'],
+      ['exercicios', 'Exercícios', '49 exercícios com critério'],
+      ['avaliacoes', 'Avaliações', 'Provas e avaliação prática'],
+      ['tutor', 'Tutor', 'Diagnóstico e recomendações']
+    ]
+  },
+  {
+    nome: 'Estúdio de prática', desc: 'As ferramentas para usar com o violão na mão',
+    itens: [
+      ['metronomo', 'Metrônomo', 'Compassos e subdivisões'],
+      ['afinador', 'Afinador', 'Microfone e diapasão'],
+      ['braco', 'Braço virtual', 'Notas no braço'],
+      ['partituras', 'Partituras', 'Tocar lendo, com cursor'],
+      ['leitura', 'Leitura', 'Primeira vista infinita'],
+      ['ritmo', 'Ritmo', 'Leitura rítmica no tempo']
+    ]
+  },
+  {
+    nome: 'Biblioteca', desc: 'Repertório, técnicas e referência',
+    itens: [
+      ['repertorio', 'Repertório', '44 obras em domínio público'],
+      ['tecnicas', 'Técnicas', '23 técnicas do violão'],
+      ['materiais', 'Materiais', 'Tabelas, métodos e direitos'],
+      ['teoria', 'Teoria', 'Lições curtas com quiz'],
+      ['caged', 'CAGED', 'Ferramenta e aulas'],
+      ['importar', 'Importar tablatura', 'PDF, Guitar Pro, texto']
+    ]
+  },
+  {
+    nome: 'Minha evolução', desc: 'Onde você está e o que já dominou',
+    itens: [
+      ['painel', 'Meu progresso', 'Níveis, disciplinas e pontos fracos'],
+      ['plano', 'Plano de estudos', 'Rotina, metas e sessões'],
+      ['habitos', 'Hábitos', 'Sequência de dias'],
+      ['auditoria', 'Auditoria curricular', 'Cobertura do curso'],
+      ['config', 'Configurações', 'Tema, letra e backup']
+    ]
+  }
 ];
 
+function saudacao() {
+  const h = new Date().getHours();
+  if (h < 5) return 'Boa madrugada de estudo';
+  if (h < 12) return 'Bom dia';
+  if (h < 18) return 'Boa tarde';
+  return 'Boa noite';
+}
+
 export function montar(raiz, ir) {
+  let encerrada = false;
   const tela = el('main', 'tela inicio');
 
-  const topo = el('header', 'marca');
+  // ---------------------------------------------------------------- cabeçalho
+  const capa = el('header', 'saguao');
+  const marca = el('div', 'saguao-marca');
   const logo = document.createElement('img');
-  logo.src = 'icons/icon.svg';
-  logo.alt = '';
-  logo.width = 56;
-  logo.height = 56;
-  const textos = el('div');
-  textos.append(el('h1', 'titulo', 'LLMusic'), el('p', 'sub', 'para a Liz e a Lívia'));
-  topo.append(logo, textos);
+  logo.src = 'icons/icon.svg'; logo.alt = ''; logo.width = 44; logo.height = 44;
+  const nomes = el('div');
+  nomes.append(el('p', 'saguao-nome', 'LLMusic'));
+  nomes.append(el('p', 'saguao-sub', 'Academia de violão clássico · para a Liz e a Lívia'));
+  marca.append(logo, nomes);
+  capa.append(marca);
+  capa.append(el('p', 'saguao-ola', saudacao() + '. Pronto para estudar?'));
+  tela.append(capa);
 
-  const hoje = el('p', 'hoje', 'Praticado hoje: …');
-  const grade = el('div', 'grade');
+  // ---------------------------------------------------------------- retomar
+  const retomar = el('section', 'cartao cartao-destaque retomar');
+  retomar.append(el('p', 'rotulo-grupo', 'Continuar de onde parei'));
+  const retomarCorpo = el('div', 'retomar-corpo');
+  retomarCorpo.append(el('p', 'texto-bloco', 'Procurando a sua próxima aula…'));
+  retomar.append(retomarCorpo);
+  tela.append(retomar);
 
-  MODULOS.forEach((m) => {
-    const ativo = !!m.rota;
-    const cartao = el(ativo ? 'button' : 'div', 'cartao' + (ativo ? '' : ' em-breve') + (m.destaque ? ' cartao-destaque' : ''));
-    cartao.append(el('h2', 'cartao-nome', m.nome), el('p', 'cartao-desc', m.desc));
-    if (ativo) cartao.onclick = () => ir(m.rota);
-    else cartao.append(el('span', 'selo', 'em breve · ' + m.etapa));
-    grade.append(cartao);
+  // ---------------------------------------------------------------- números
+  const faixa = el('section', 'faixa-numeros');
+  const numeros = {};
+  [['hoje', 'Hoje'], ['sequencia', 'Sequência'], ['nivel', 'Nível'], ['dominadas', 'Aulas dominadas']]
+    .forEach(([id, rotulo]) => {
+      const c = el('div', 'numero');
+      const v = el('span', 'numero-valor', '—');
+      c.append(v, el('span', 'numero-rotulo', rotulo));
+      numeros[id] = v;
+      faixa.append(c);
+    });
+  tela.append(faixa);
+
+  tela.append(Object.assign(document.createElement('hr'), { className: 'pauta-divisor' }));
+
+  // ---------------------------------------------------------------- rotina
+  const rotina = el('section', 'grupo');
+  rotina.append(el('h2', 'rotulo-grupo', 'A rotina de hoje'));
+  const rotinaCorpo = el('div');
+  rotina.append(rotinaCorpo);
+  tela.append(rotina);
+
+  // ---------------------------------------------------------------- áreas
+  AREAS.forEach((area) => {
+    const sec = el('section', 'area');
+    const cab = el('div', 'area-cab');
+    cab.append(el('h2', 'area-nome', area.nome));
+    cab.append(el('p', 'area-desc', area.desc));
+    sec.append(cab);
+    const grade = el('div', 'grade grade-atalhos');
+    area.itens.forEach(([rota, nome, desc]) => {
+      const c = el('button', 'cartao atalho');
+      c.append(el('h3', 'cartao-nome', nome));
+      c.append(el('p', 'cartao-desc', desc));
+      c.onclick = () => ir(rota);
+      grade.append(c);
+    });
+    sec.append(grade);
+    tela.append(sec);
   });
 
-  tela.append(topo, hoje, grade);
+  const rodape = el('footer', 'saguao-rodape');
+  rodape.append(el('p', 'citacao', 'Trinta minutos hoje valem mais que três horas no domingo.'));
+  tela.append(rodape);
+
   raiz.append(tela);
 
-  let encerrada = false;
-  Pratica.segundosDoDia(hojeISO()).then((s) => {
-    if (!encerrada) hoje.textContent = 'Praticado hoje: ' + minutosTexto(s);
+  // ------------------------------------------------------------ preenchendo
+  (async () => {
+    const pratica = await Pratica.todos();
+    if (encerrada) return;
+    const seg = pratica[hojeISO()] || 0;
+    const meta = await Config.obter('habitos.meta', 15);
+    if (encerrada) return;
+    numeros.hoje.textContent = minutosTexto(seg).replace(' min', '′');
+    const seq = sequenciaAtual(pratica, meta, hojeISO());
+    numeros.sequencia.textContent = seq + (seq === 1 ? ' dia' : ' dias');
+
+    // rotina do dia, vinda do Plano de Estudos
+    const semana = await Config.obter('plano.semana', SEMANA_PADRAO);
+    if (encerrada) return;
+    const doDia = semana[new Date().getDay()] || SEMANA_PADRAO[new Date().getDay()];
+    const r = rotinaPorId(doDia.rotina);
+    rotinaCorpo.innerHTML = '';
+    const cr = el('button', 'cartao');
+    cr.append(el('h3', 'cartao-nome', DIAS[new Date().getDay()] + ' · ' + r.nome));
+    cr.append(el('p', 'cartao-desc', doDia.foco));
+    const barra = el('div', 'plano-barra');
+    const pre = el('span');
+    pre.style.width = Math.min(100, Math.round((seg / (r.minutos * 60)) * 100)) + '%';
+    barra.append(pre);
+    cr.append(barra);
+    cr.append(el('p', 'cartao-desc', minutosTexto(seg) + ' de ' + r.minutos + ' min'));
+    cr.onclick = () => ir('plano');
+    rotinaCorpo.append(cr);
+  })().catch(() => {});
+
+  (async () => {
+    const fichas = await carregarFichas();
+    const niveis = await carregarTodos();
+    if (encerrada) return;
+
+    const dominadas = Object.values(fichas).filter((f) => f.dominada).length;
+    numeros.dominadas.textContent = String(dominadas);
+
+    // nível atual: o primeiro que ainda não está 100%
+    let atual = niveis[0];
+    for (const n of niveis) {
+      const p = progressoDoNivel(n, fichas);
+      if (p.pct < 100) { atual = n; break; }
+    }
+    numeros.nivel.textContent = 'N' + atual.n;
+
+    const prox = proximaAula(niveis, fichas);
+    retomarCorpo.innerHTML = '';
+    if (!prox) {
+      retomarCorpo.append(el('p', 'texto-bloco', 'Você dominou todas as aulas liberadas. '
+        + 'Escolha uma obra no Repertório ou prepare uma apresentação.'));
+      const b = el('button', 'botao-principal', 'Abrir o Repertório');
+      b.onclick = () => ir('repertorio');
+      retomarCorpo.append(b);
+      return;
+    }
+    const estado = estadoDaFicha(fichas[prox.aula.id]);
+    retomarCorpo.append(el('p', 'retomar-caminho',
+      'Nível ' + prox.nivel.n + ' · Módulo ' + prox.modulo.id + ' · ' + prox.modulo.titulo));
+    retomarCorpo.append(el('h2', 'retomar-titulo', prox.aula.titulo));
+    retomarCorpo.append(el('p', 'cartao-desc', prox.aula.objetivo || prox.aula.resumo || ''));
+    const selos = el('div', 'aula-selos');
+    selos.append(el('span', 'selo-aula', '⏱ ' + prox.aula.minutos + ' min'));
+    selos.append(el('span', 'selo-aula disc', estado === 'nova' ? 'ainda não iniciada'
+      : estado === 'em-andamento' ? 'em andamento' : 'estudada — falta dominar'));
+    retomarCorpo.append(selos);
+    const acoes = el('div', 'bloco-botoes');
+    const b1 = el('button', 'botao-principal', estado === 'nova' ? 'Começar a aula' : 'Continuar a aula');
+    b1.onclick = () => ir('aula/' + prox.aula.id);
+    const b2 = el('button', 'botao-sec', 'Ver a grade');
+    b2.onclick = () => ir('curso');
+    acoes.append(b1, b2);
+    retomarCorpo.append(acoes);
+  })().catch(() => {
+    if (encerrada) return;
+    retomarCorpo.innerHTML = '';
+    retomarCorpo.append(el('p', 'texto-bloco', 'Não consegui ler o seu progresso agora.'));
+    const b = el('button', 'botao-principal', 'Abrir a grade curricular');
+    b.onclick = () => ir('curso');
+    retomarCorpo.append(b);
   });
 
   return () => { encerrada = true; };
