@@ -70,7 +70,7 @@ jobs:
             echo "::error::O APK nao foi assinado com chaves/debug.keystore. Instalar por cima vai falhar."
             exit 1
           fi
-          echo "Assinatura confere.
+          echo "Assinatura confere."
 
       - name: Guardar APK
         uses: actions/upload-artifact@v4
