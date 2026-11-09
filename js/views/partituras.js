@@ -30,7 +30,11 @@ export function montar(raiz, ir) {
   let pecas = PECAS;
   let eventos = [];
   let fator = 1;                   // 0.5, 0.75 ou 1 (velocidade)
-  let compassoRepetir = -1;        // -1 = peça toda
+  // Trecho em repetição: { de, ate } em índices de compasso, ou null para a
+  // peça toda. É assim que se estuda violão clássico de verdade — isolando
+  // os compassos 14 a 17 e repetindo devagar, não tocando do início ao fim.
+  let trecho = null;
+  let primeiroToque = -1;          // compasso tocado à espera do segundo, para formar o trecho
   let tocando = false;
   let idxAtual = -1;
   let esperar = false;
@@ -70,9 +74,24 @@ export function montar(raiz, ir) {
   const chipsOpc = el('div', 'chips'); gOpc.append(chipsOpc);
   const status = el('p', 'dica status-player', '');
   status.setAttribute('aria-live', 'polite');
-  barra.append(play, gVel, gOpc);
+  const voltasTxt = el('span', 'voltas-contador', '');
+  voltasTxt.setAttribute('aria-live', 'off');
+  const linhaPlay = el('div', 'linha-play');
+  linhaPlay.append(play, voltasTxt);
 
-  tela.append(topo, gPeca, cab, rolagem, barra, status);
+  // Trechos difíceis: as passagens que você marcou nesta peça para voltar.
+  const gTrechos = el('div', 'grupo');
+  gTrechos.append(el('h2', 'rotulo-grupo', 'Trechos difíceis'));
+  const acoesTrecho = el('div', 'bloco-botoes');
+  const btMarcar = el('button', 'botao-sec', '★ Marcar este trecho');
+  acoesTrecho.append(btMarcar);
+  gTrechos.append(acoesTrecho);
+  const listaTrechos = el('div', 'trechos-lista');
+  gTrechos.append(listaTrechos);
+
+  barra.append(linhaPlay, gVel, gOpc);
+
+  tela.append(topo, gPeca, cab, rolagem, barra, status, gTrechos);
   raiz.append(tela);
 
   // ---------- desenho da tablatura ----------
@@ -152,22 +171,47 @@ export function montar(raiz, ir) {
     if (alvoY < rolagem.scrollTop || alvoY + 120 > rolagem.scrollTop + rolagem.clientHeight) rolagem.scrollTop = Math.max(0, alvoY - 10);
   }
   function marcarRepetir() {
-    marcasCompasso.forEach((a, m) => a.classList.toggle('repetir', m === compassoRepetir));
+    marcasCompasso.forEach((a, m) => {
+      a.classList.toggle('repetir', !!trecho && m >= trecho.de && m <= trecho.ate);
+      a.classList.toggle('ponta', m === primeiroToque && !trecho);
+      a.classList.toggle('dificil', ehDificil(m));
+    });
+    if (typeof desenharTrechos === 'function') desenharTrechos();
   }
+
+  // Toque num compasso: ele vira o trecho. Toque em outro: o trecho se estica
+  // de um até o outro. Toque de novo no mesmo trecho de um compasso só: volta
+  // à peça inteira.
   function escolherCompasso(m) {
-    compassoRepetir = compassoRepetir === m ? -1 : m;
+    if (trecho && trecho.de === m && trecho.ate === m) {
+      trecho = null; primeiroToque = -1;
+    } else if (trecho) {
+      // já existe trecho: o compasso tocado vira a nova ponta
+      const de = Math.min(trecho.de, m), ate = Math.max(trecho.ate, m);
+      trecho = (m >= trecho.de && m <= trecho.ate) ? { de: m, ate: m } : { de, ate };
+    } else {
+      trecho = { de: m, ate: m };
+    }
+    primeiroToque = -1;
     marcarRepetir();
-    status.textContent = compassoRepetir >= 0 ? 'Repetindo o compasso ' + (m + 1) + '. Toque nele de novo para voltar à peça toda.' : '';
+    atualizarStatusTrecho();
     if (tocando) { parar(); }
     if (esperar) iniciarEspera();
+  }
+
+  function atualizarStatusTrecho() {
+    if (!trecho) { status.textContent = ''; voltasTxt.textContent = ''; return; }
+    status.textContent = trecho.de === trecho.ate
+      ? 'Repetindo o compasso ' + (trecho.de + 1) + '. Toque em outro compasso para esticar o trecho, ou nele de novo para voltar à peça toda.'
+      : 'Repetindo os compassos ' + (trecho.de + 1) + ' a ' + (trecho.ate + 1) + '.';
   }
 
   // ---------- reprodução ----------
   function segPorTempo() { return 60 / (peca.bpm * fator); }
   function faixa() {
     const tpc = tempoPorCompasso(peca);
-    if (compassoRepetir < 0) return { ini: 0, fim: peca.compassos.length * tpc };
-    return { ini: compassoRepetir * tpc, fim: (compassoRepetir + 1) * tpc };
+    if (!trecho) return { ini: 0, fim: peca.compassos.length * tpc };
+    return { ini: trecho.de * tpc, fim: (trecho.ate + 1) * tpc };
   }
   function iniciarAudio() {
     if (!ctx) {
@@ -199,7 +243,14 @@ export function montar(raiz, ir) {
     while (true) {
       if (proximo >= eventos.length || eventos[proximo].t >= f.fim) {
         // fim da faixa: repete a faixa se for compasso isolado, senão para ao terminar o som
-        if (compassoRepetir >= 0) { volta++; proximo = eventos.findIndex((e) => e.t >= f.ini); continue; }
+        if (trecho) {
+          volta++;
+          // Contar as voltas não é enfeite: prática deliberada é saber quantas
+          // vezes você repetiu a passagem, não "tocar um pouco".
+          voltasTxt.textContent = volta + (volta === 1 ? ' volta' : ' voltas');
+          proximo = eventos.findIndex((e) => e.t >= f.ini);
+          continue;
+        }
         if (ctx.currentTime > tInicio + dur + 0.3) { parar(); }
         return;
       }
@@ -254,7 +305,7 @@ export function montar(raiz, ir) {
       const f = faixa();
       let prox = idxAtual + 1;
       if (prox >= eventos.length || eventos[prox].t >= f.fim) {
-        if (compassoRepetir >= 0) prox = eventos.findIndex((e) => e.t >= f.ini);
+        if (trecho) prox = eventos.findIndex((e) => e.t >= f.ini);
         else { status.textContent = '✓ Peça completa! Parabéns!'; moverCursor(-1); idxAtual = -1; return; }
       }
       moverCursor(prox);
@@ -309,12 +360,76 @@ export function montar(raiz, ir) {
   }
   async function escolherPeca(p) {
     if (tocando) await parar();
-    peca = p; eventos = achatar(p); compassoRepetir = -1; idxAtual = -1;
+    peca = p; eventos = achatar(p); trecho = null; primeiroToque = -1; idxAtual = -1;
     Config.guardar('part.peca', p.id);
-    status.textContent = '';
-    chips(); atualizarTitulo(); desenhar(); rolagem.scrollTop = 0;
+    status.textContent = ''; voltasTxt.textContent = '';
+    await carregarTrechos();          // cada peça tem os seus trechos marcados
+    if (encerrada) return;
+    chips(); atualizarTitulo(); desenhar(); marcarRepetir(); rolagem.scrollTop = 0;
     if (esperar) iniciarEspera();
   }
+
+  // ---------- trechos difíceis ----------
+  //
+  // Marcar a passagem é metade do trabalho: a outra metade é voltar nela
+  // amanhã. Por isso a marca fica guardada por peça e sobrevive ao app
+  // fechar — ela é a lista do que ainda não está pronto.
+  const C_TRECHOS = 'part.trechos';
+  let trechosDificeis = [];
+
+  async function carregarTrechos() {
+    const todos = await Config.obter(C_TRECHOS, {});
+    trechosDificeis = todos[peca.id] || [];
+  }
+  async function guardarTrechos() {
+    const todos = await Config.obter(C_TRECHOS, {});
+    if (trechosDificeis.length) todos[peca.id] = trechosDificeis; else delete todos[peca.id];
+    await Config.guardar(C_TRECHOS, todos);
+  }
+  function ehDificil(m) {
+    return trechosDificeis.some((t) => m >= t.de && m <= t.ate);
+  }
+  function rotuloTrecho(t) {
+    return t.de === t.ate ? 'Compasso ' + (t.de + 1) : 'Compassos ' + (t.de + 1) + '–' + (t.ate + 1);
+  }
+  function desenharTrechos() {
+    listaTrechos.innerHTML = '';
+    btMarcar.disabled = !trecho;
+    btMarcar.textContent = trecho
+      ? (ehDificil(trecho.de) && ehDificil(trecho.ate) ? '★ Desmarcar este trecho' : '★ Marcar este trecho')
+      : '★ Marcar este trecho';
+    if (!trecho) {
+      listaTrechos.append(el('p', 'cartao-desc',
+        'Toque num compasso da partitura para isolá-lo, e em outro para esticar o trecho. '
+        + 'Depois marque o que estiver difícil: a marca fica guardada nesta peça.'));
+    }
+    if (!trechosDificeis.length) return;
+    const grade = el('div', 'chips');
+    trechosDificeis.slice().sort((a, b) => a.de - b.de).forEach((t) => {
+      const b = el('button', 'chip chip-trecho', '★ ' + rotuloTrecho(t));
+      b.title = 'Repetir este trecho';
+      b.onclick = () => {
+        trecho = { de: t.de, ate: t.ate };
+        primeiroToque = -1;
+        volta = 0; voltasTxt.textContent = '';
+        marcarRepetir(); atualizarStatusTrecho();
+        if (tocando) parar();
+      };
+      grade.append(b);
+    });
+    listaTrechos.append(grade);
+  }
+  btMarcar.onclick = async () => {
+    if (!trecho) return;
+    const jaTem = trechosDificeis.findIndex((t) => t.de === trecho.de && t.ate === trecho.ate);
+    if (jaTem >= 0) trechosDificeis.splice(jaTem, 1);
+    else trechosDificeis = trechosDificeis
+      .filter((t) => t.ate < trecho.de || t.de > trecho.ate)   // sem trechos sobrepostos
+      .concat([{ de: trecho.de, ate: trecho.ate, em: new Date().toISOString() }]);
+    await guardarTrechos();
+    if (encerrada) return;
+    marcarRepetir();
+  };
 
   function aoEsconder() { if (document.hidden) { if (tocando) parar(); if (motor.ouvindo) { motor.parar(); pararPratica(); if (micBtn) micBtn.setAttribute('aria-pressed', 'false'); } } }
   document.addEventListener('visibilitychange', aoEsconder);
@@ -328,7 +443,9 @@ export function montar(raiz, ir) {
     peca = pecas.find((p) => p.id === id) || PECAS[0];
     fator = [0.5, 0.75, 1].includes(fv) ? fv : 1;
     eventos = achatar(peca);
-    chips(); atualizarTitulo(); desenhar();
+    await carregarTrechos();
+    if (encerrada) return;
+    chips(); atualizarTitulo(); desenhar(); marcarRepetir();
   })();
 
   return () => {

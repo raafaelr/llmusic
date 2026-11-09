@@ -57,6 +57,7 @@ const AREAS = [
     nome: 'Minha evolução', desc: 'Onde você está e o que já dominou',
     itens: [
       ['painel', 'Meu progresso', 'Níveis, disciplinas e pontos fracos'],
+      ['habilidades', 'Minhas habilidades', '17 habilidades e o que revisar hoje'],
       ['plano', 'Plano de estudos', 'Rotina, metas e sessões'],
       ['habitos', 'Hábitos', 'Sequência de dias'],
       ['auditoria', 'Auditoria curricular', 'Cobertura do curso'],

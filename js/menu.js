@@ -17,7 +17,8 @@ const GRUPOS = [
     ['importar', 'Importar tablatura']
   ]],
   ['Minha evolução', [
-    ['painel', 'Meu progresso'], ['plano', 'Meu Plano de Estudos'],
+    ['painel', 'Meu progresso'],
+    ['habilidades', 'Minhas habilidades'], ['plano', 'Meu Plano de Estudos'],
     ['habitos', 'Hábitos'], ['auditoria', 'Auditoria curricular']
   ]],
   ['Ajustes', [['config', 'Configurações'], ['pacotes', 'Backup e pacotes']]]
