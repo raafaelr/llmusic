@@ -5,6 +5,8 @@ import { achatar, tempoPorCompasso, validarPacote } from '../pecas.js';
 import { tocarNota } from '../violao.js';
 import { minhasPecas, salvarMinha, removerMinha, pacoteDasMinhas, instalarPacote, ID_MINHAS } from '../biblioteca.js';
 import { lerAscii, paraAscii } from '../importar/ascii.js';
+import { ligar, buscaIMSLP } from '../obrapartitura.js';
+import { obraPorId } from '../curso/repertorio.js';
 import { montarPosicional } from '../importar/posicional.js';
 
 function el(tag, classe, texto) {
@@ -22,10 +24,14 @@ const COMPASSOS = [[4, 4], [3, 4], [2, 4], [6, 8], [12, 8], [5, 4], [2, 2]];
 const GRADES = [[0, 'Automático'], [1, 'Semínima'], [0.5, 'Colcheia'], [0.25, 'Semicolcheia']];
 const MODELO = ['e|--------------------------------|', 'B|--------------------------------|', 'G|--------------------------------|', 'D|--------------------------------|', 'A|--------------------------------|', 'E|--------------------------------|'].join('\n');
 
-export function montar(raiz, ir) {
+export function montar(raiz, ir, arg) {
   let encerrada = false;
   const tela = el('main', 'tela importar');
   raiz.append(tela);
+  // Quando se chega aqui pela ficha de uma obra (#/importar/sor-op60-1), a
+  // tela sabe qual obra é: mostra de qual partitura estamos falando e, ao
+  // guardar, liga o arquivo àquela obra sozinho.
+  const obra = arg ? obraPorId(arg) : null;
   let ctx = null, saida = null, timers = [];
 
   function pararSom() { timers.forEach(clearTimeout); timers = []; if (ctx) { ctx.close().catch(() => {}); ctx = null; } }
@@ -51,6 +57,22 @@ export function montar(raiz, ir) {
     voltar.onclick = () => ir('partituras');
     topo.append(voltar, el('h1', 'titulo-tela', 'Importar tablatura'));
     const intro = el('section', 'coluna');
+    // Chegou pela ficha de uma obra: diz qual é, e lembra onde achar o arquivo.
+    if (obra) {
+      voltar.textContent = '‹ ' + obra.titulo;
+      voltar.onclick = () => ir('repertorio/' + obra.id);
+      const faixa = el('div', 'cartao cartao-destaque importar-obra');
+      faixa.append(el('p', 'rotulo-grupo', 'Importando a partitura de'));
+      faixa.append(el('h2', 'cartao-nome', obra.titulo));
+      faixa.append(el('p', 'cartao-desc', obra.compositor + ' · ' + obra.tom
+        + ' · domínio público (autor falecido em ' + obra.morte + ')'));
+      faixa.append(el('p', 'cartao-desc', 'Ao guardar, o arquivo fica ligado a esta obra: '
+        + 'abrir a obra no Repertório passa a abrir a partitura.'));
+      const lk = el('a', 'botao-sec', '↗ Procurar no IMSLP');
+      lk.href = buscaIMSLP(obra); lk.target = '_blank'; lk.rel = 'noopener noreferrer';
+      faixa.append(lk);
+      intro.append(faixa);
+    }
     intro.append(el('p', 'dica', 'Escolha um arquivo e o app converte para a tela Partituras, onde você ouve e toca junto. Tudo é feito no seu celular, sem internet.'));
     const lista = el('ul', 'lista-bloco');
     [
@@ -252,7 +274,10 @@ export function montar(raiz, ir) {
       if (!v.ok) { msg.textContent = 'Não dá para guardar: ' + v.erro; return; }
       try {
         const idCompleto = await salvarMinha(peca);
-        if (ir_) { await Config.guardar('part.peca', idCompleto); ir('partituras'); } else inicio('✓ Guardada em Minhas tablaturas: ' + peca.titulo);
+        if (obra) await ligar(obra.id, idCompleto);
+        if (ir_) { await Config.guardar('part.peca', idCompleto); ir('partituras'); }
+        else if (obra) inicio('✓ Guardada e ligada à obra "' + obra.titulo + '".');
+        else inicio('✓ Guardada em Minhas tablaturas: ' + peca.titulo);
       } catch (e) { msg.textContent = 'Não consegui guardar: ' + e.message; }
     }
     const bG = el('button', 'botao-sec', 'Guardar');

@@ -1345,3 +1345,20 @@ input[type=range] { width: 100%; height: 44px; accent-color: var(--destaque); ba
   .espelho-palco { flex-direction: column; }
   .espelho-ref { flex: 1 1 auto; flex-direction: row; text-align: left; }
 }
+
+/* Partitura ligada a uma obra do Repertório. */
+.obra-partitura { margin-top: var(--e-6); }
+.obra-ligar { margin-top: var(--e-3); }
+.campo-sel {
+  width: 100%;
+  padding: var(--e-3);
+  border: 1px solid var(--linha-forte);
+  border-radius: var(--r-md);
+  background: var(--superficie-2);
+  color: var(--texto);
+  font: 400 var(--txt-sm) / 1.4 var(--fonte);
+}
+.importar-obra { margin-bottom: var(--e-4); }
+.importar-obra .botao-sec { margin-top: var(--e-3); display: inline-block; }
+a.botao-sec { text-decoration: none; text-align: center; }
+.selo-aula.selo-part { border-color: var(--destaque); color: var(--destaque); }

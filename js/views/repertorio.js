@@ -3,6 +3,8 @@
 // Rota #/repertorio ou #/repertorio/<id>.
 import { OBRAS, PERIODOS, TECNICAS_REP, COMPOSITORES, NIVEIS_REP, obraPorId, nomePeriodo, nomeTecnicaRep } from '../curso/repertorio.js';
 import { Config } from '../db.js';
+import { partituraDaObra, ligar, desligar, buscaIMSLP, vinculos } from '../obrapartitura.js';
+import { todasAsPecas } from '../biblioteca.js';
 import { acharAula } from '../curso/curriculo.js';
 
 function el(tag, classe, texto) {
@@ -32,6 +34,7 @@ export function montar(raiz, ir, arg) {
 
   async function lista() {
     const reg = await Config.obter(CHAVE, {});
+    const comPartitura = await vinculos();   // quais obras já têm partitura ligada
     if (encerrada) return;
     tela.innerHTML = '';
     tela.className = 'tela exerc-tela';
@@ -114,6 +117,7 @@ export function montar(raiz, ir, arg) {
         selos.append(el('span', 'selo-aula disc', nomePeriodo(o.periodo)));
         selos.append(el('span', 'selo-aula disc', o.tom));
         selos.append(el('span', 'selo-aula disc', '⏱ ' + o.minutos + ' min'));
+        if (comPartitura[o.id]) selos.append(el('span', 'selo-aula selo-part', '♪ partitura'));
         c.append(selos);
         c.onclick = () => ficha(o.id);
         grade.append(c);
@@ -181,6 +185,77 @@ export function montar(raiz, ir, arg) {
       });
       corpo.append(l);
     }
+
+    // ------------------------------------------------------------ partitura
+    // O catálogo não traz as notas (ver js/obrapartitura.js para o porquê).
+    // Esta seção é a ponte: importe o arquivo uma vez e a obra passa a ser
+    // tocável aqui dentro, com cursor e tablatura.
+    const secPart = el('section', 'obra-partitura');
+    secPart.append(el('h2', 'rotulo-grupo titulo-bloco', 'Partitura'));
+    const corpoPart = el('div');
+    corpoPart.append(el('p', 'cartao-desc', 'Procurando…'));
+    secPart.append(corpoPart);
+    corpo.append(secPart);
+
+    (async () => {
+      const lig = await partituraDaObra(o.id);
+      if (encerrada) return;
+      corpoPart.innerHTML = '';
+
+      if (lig) {
+        corpoPart.append(el('p', 'texto-bloco', 'Partitura ligada a esta obra: ' + lig.peca.titulo + '.'));
+        const acoes = el('div', 'bloco-botoes');
+        const bt = el('button', 'botao-principal', '▶ Tocar esta obra');
+        bt.onclick = async () => { await Config.guardar('part.peca', lig.id); ir('partituras'); };
+        const bd = el('button', 'botao-texto', 'Desligar esta partitura');
+        bd.onclick = async () => { await desligar(o.id); if (!encerrada) ficha(o.id); };
+        acoes.append(bt, bd);
+        corpoPart.append(acoes);
+        return;
+      }
+
+      corpoPart.append(el('p', 'texto-bloco', 'Esta obra ainda não tem partitura no app. '
+        + 'Ela é domínio público, então a partitura é gratuita e legal de baixar — '
+        + 'o app não escreve as notas de cabeça porque uma nota errada numa peça que você vai '
+        + 'decorar é pior do que partitura nenhuma.'));
+
+      const passos = el('ol', 'passos-bloco');
+      ['Baixe a partitura em PDF ou MusicXML (o IMSLP tem quase todas, de graça).',
+       'Volte aqui e toque em “Importar a partitura desta obra”.',
+       'Depois de importada, ela fica colada nesta obra: cursor, tablatura e metrônomo.']
+        .forEach((t) => passos.append(el('li', '', t)));
+      corpoPart.append(passos);
+
+      const acoes = el('div', 'bloco-botoes');
+      const bImslp = el('a', 'botao-sec', '↗ Procurar no IMSLP');
+      bImslp.href = buscaIMSLP(o);
+      bImslp.target = '_blank'; bImslp.rel = 'noopener noreferrer';
+      const bImp = el('button', 'botao-principal', 'Importar a partitura desta obra');
+      bImp.onclick = () => ir('importar/' + o.id);
+      acoes.append(bImp, bImslp);
+      corpoPart.append(acoes);
+
+      // Se a peça já estiver na biblioteca, dá para ligar sem reimportar.
+      const pecas = await todasAsPecas();
+      if (encerrada || !pecas.length) return;
+      const ja = el('div', 'config-linha obra-ligar');
+      const sel = document.createElement('select');
+      sel.className = 'campo-sel';
+      sel.setAttribute('aria-label', 'Escolher uma partitura já importada');
+      sel.append(new Option('Já importei — escolher da minha biblioteca…', ''));
+      pecas.forEach((pc) => sel.append(new Option(pc.titulo + (pc.pacote ? ' · ' + pc.pacote : ''), pc.id)));
+      sel.onchange = async () => {
+        if (!sel.value) return;
+        await ligar(o.id, sel.value);
+        if (!encerrada) ficha(o.id);
+      };
+      ja.append(sel);
+      corpoPart.append(ja);
+    })().catch(() => {
+      if (encerrada) return;
+      corpoPart.innerHTML = '';
+      corpoPart.append(el('p', 'texto-bloco', 'Não consegui ler a sua biblioteca de partituras agora.'));
+    });
 
     const ferramentas = el('div', 'bloco-botoes');
     const bm = el('button', 'botao-sec', 'Abrir o metrônomo');
