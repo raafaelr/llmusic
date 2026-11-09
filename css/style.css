@@ -1545,3 +1545,50 @@ button, .chip, a.botao-sec, .botao-sec, .botao-principal, label.config-linha {
   .tela { max-width: 900px; }
   .texto-bloco, .bloco-fig + p, .dica { max-width: 68ch; }
 }
+
+/* ===================================================================
+   RÉGUA DE ÍCONES (menu lateral em tela larga)
+   Só aparece com espaço para ela; no celular a aba e a gaveta bastam.
+   A gaveta já abre por cima, então nada aqui desloca a página.
+   =================================================================== */
+.menu-regua { display: none; }
+
+@media (min-width: 760px) {
+  .menu-aba { display: none; }
+
+  .menu-regua {
+    position: fixed; left: 0; top: 0; bottom: 0;
+    z-index: 45;
+    display: flex; flex-direction: column; align-items: center;
+    gap: var(--e-1);
+    width: 56px;
+    padding: var(--e-3) 0;
+    background: var(--vl-verde-floresta);
+    border-right: 1px solid var(--linha-controle);
+  }
+  .regua-bt {
+    width: 44px; height: 44px;
+    display: flex; align-items: center; justify-content: center;
+    border: 0; border-radius: var(--r-md);
+    background: transparent;
+    color: var(--vl-cinza-papel);
+    font-size: 20px; line-height: 1;
+    cursor: pointer;
+    transition: background var(--t-rapida), color var(--t-rapida);
+  }
+  .regua-bt:hover { background: rgba(243, 239, 227, 0.12); color: var(--vl-marfim); }
+  .regua-bt:focus-visible { outline: 2px solid var(--vl-dourado); outline-offset: -2px; }
+  .regua-bt.ativo { background: rgba(243, 239, 227, 0.16); color: var(--vl-dourado); }
+  .regua-fixar { margin-top: auto; font-size: 17px; }
+  .regua-fixar.ativo { color: var(--vl-dourado); }
+
+  /* O conteúdo começa depois da régua. A gaveta abre por cima dele. */
+  body { padding-left: 56px; }
+  .menu-gaveta { left: 56px; }
+  .estudo-barra { left: 56px; }
+}
+
+/* No Modo Estudo a régua some junto com o resto da navegação. */
+:root[data-estudo] .menu-regua { display: none; }
+:root[data-estudo] body { padding-left: 0; }
+.aviso-revisao { display: block; margin: var(--e-3) 0 0; color: var(--destaque); font-weight: 600; text-align: left; padding-left: 0; }

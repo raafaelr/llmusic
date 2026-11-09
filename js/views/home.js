@@ -9,8 +9,10 @@
 import { Pratica, Config } from '../db.js';
 import { hojeISO, minutosTexto } from '../pratica.js';
 import { sequenciaAtual } from '../habitos.js';
-import { MAPA, carregarTodos } from '../curso/curriculo.js';
-import { carregarFichas, proximaAula, proximaPratica, pedeViolao, progressoDoNivel, estadoDaFicha } from '../curso/progresso.js';
+import { carregarTodos, todasAsAulas } from '../curso/curriculo.js';
+import { quadroGeral, autoavaliacoes } from '../curso/habilidades.js';
+import { EXERCICIOS } from '../curso/exercicios.js';
+import { carregarFichas, proximaAula, proximaPratica, pedeViolao, estadoDaFicha } from '../curso/progresso.js';
 import { rotinaPorId, SEMANA_PADRAO, DIAS } from '../curso/plano.js';
 import { roseta, clave, ramo, marcaDagua } from '../grafismos.js';
 
@@ -21,51 +23,11 @@ function el(tag, classe, texto) {
   return e;
 }
 
-// Atalhos, agrupados nas cinco áreas da plataforma.
-const AREAS = [
-  {
-    nome: 'Aprendizado', desc: 'O curso, do zero ao aperfeiçoamento',
-    itens: [
-      ['curso', 'Grade curricular', '8 níveis, 167 aulas'],
-      ['exercicios', 'Exercícios', '49 exercícios com critério'],
-      ['avaliacoes', 'Avaliações', 'Provas e avaliação prática'],
-      ['tutor', 'Tutor', 'Diagnóstico e recomendações']
-    ]
-  },
-  {
-    nome: 'Estúdio de prática', desc: 'As ferramentas para usar com o violão na mão',
-    itens: [
-      ['metronomo', 'Metrônomo', 'Compassos e subdivisões'],
-      ['afinador', 'Afinador', 'Microfone e diapasão'],
-      ['braco', 'Braço virtual', 'Notas no braço'],
-      ['partituras', 'Partituras', 'Tocar lendo, com cursor'],
-      ['leitura', 'Leitura', 'Primeira vista infinita'],
-      ['ritmo', 'Ritmo', 'Leitura rítmica no tempo']
-    ]
-  },
-  {
-    nome: 'Biblioteca', desc: 'Repertório, técnicas e referência',
-    itens: [
-      ['repertorio', 'Repertório', '44 obras em domínio público'],
-      ['tecnicas', 'Técnicas', '23 técnicas do violão'],
-      ['materiais', 'Materiais', 'Tabelas, métodos e direitos'],
-      ['teoria', 'Teoria', 'Lições curtas com quiz'],
-      ['caged', 'CAGED', 'Ferramenta e aulas'],
-      ['importar', 'Importar tablatura', 'PDF, Guitar Pro, texto']
-    ]
-  },
-  {
-    nome: 'Minha evolução', desc: 'Onde você está e o que já dominou',
-    itens: [
-      ['painel', 'Meu progresso', 'Níveis, disciplinas e pontos fracos'],
-      ['habilidades', 'Minhas habilidades', '17 habilidades e o que revisar hoje'],
-      ['plano', 'Plano de estudos', 'Rotina, metas e sessões'],
-      ['habitos', 'Hábitos', 'Sequência de dias'],
-      ['auditoria', 'Auditoria curricular', 'Cobertura do curso'],
-      ['config', 'Configurações', 'Tema, letra e acessibilidade'],
-      ['atualizar', 'Atualizar e backup', 'Versão do app e cópia do progresso']
-    ]
-  }
+// Acesso rápido às ferramentas de prática. O resto da navegação é do menu
+// lateral — repetir 17 atalhos aqui só alongava a rolagem do painel.
+const FERRAMENTAS = [
+  ['metronomo', 'Metrônomo'], ['afinador', 'Afinador'], ['braco', 'Braço'],
+  ['partituras', 'Partituras'], ['leitura', 'Leitura'], ['ritmo', 'Ritmo']
 ];
 
 function saudacao() {
@@ -105,7 +67,7 @@ export function montar(raiz, ir) {
   // ---------------------------------------------------------------- números
   const faixa = el('section', 'faixa-numeros');
   const numeros = {};
-  [['hoje', 'Hoje'], ['sequencia', 'Sequência'], ['nivel', 'Nível'], ['dominadas', 'Aulas dominadas']]
+  [['hoje', 'Hoje'], ['sequencia', 'Sequência'], ['dominadas', 'Aulas dominadas'], ['habilidades', 'Habilidades']]
     .forEach(([id, rotulo]) => {
       const c = el('div', 'numero');
       const v = el('span', 'numero-valor', '—');
@@ -125,24 +87,20 @@ export function montar(raiz, ir) {
   tela.append(rotina);
 
   // ---------------------------------------------------------------- áreas
-  AREAS.forEach((area) => {
-    const sec = el('section', 'area');
-    const cab = el('div', 'area-cab');
-    cab.append(clave());
-    cab.append(el('h2', 'area-nome', area.nome));
-    cab.append(el('p', 'area-desc', area.desc));
-    sec.append(cab);
-    const grade = el('div', 'grade grade-atalhos');
-    area.itens.forEach(([rota, nome, desc]) => {
-      const c = el('button', 'cartao atalho');
-      c.append(el('h3', 'cartao-nome', nome));
-      c.append(el('p', 'cartao-desc', desc));
-      c.onclick = () => ir(rota);
-      grade.append(c);
-    });
-    sec.append(grade);
-    tela.append(sec);
+  const ferr = el('section', 'area');
+  const cabF = el('div', 'area-cab');
+  cabF.append(clave());
+  cabF.append(el('h2', 'area-nome', 'Ferramentas'));
+  cabF.append(el('p', 'area-desc', 'Para usar com o violão na mão'));
+  ferr.append(cabF);
+  const chipsF = el('div', 'chips');
+  FERRAMENTAS.forEach(([rota, nome]) => {
+    const b = el('button', 'chip', nome);
+    b.onclick = () => ir(rota);
+    chipsF.append(b);
   });
+  ferr.append(chipsF);
+  tela.append(ferr);
 
   const rodape = el('footer', 'saguao-rodape');
   rodape.append(ramo());
@@ -189,13 +147,22 @@ export function montar(raiz, ir) {
     const dominadas = Object.values(fichas).filter((f) => f.dominada).length;
     numeros.dominadas.textContent = String(dominadas);
 
-    // nível atual: o primeiro que ainda não está 100%
-    let atual = niveis[0];
-    for (const n of niveis) {
-      const p = progressoDoNivel(n, fichas);
-      if (p.pct < 100) { atual = n; break; }
+    const quadros = quadroGeral({
+      aulas: todasAsAulas(niveis), fichas, exercicios: EXERCICIOS,
+      regExerc: await Config.obter('exercicios.registro', {}),
+      autos: await autoavaliacoes()
+    });
+    if (encerrada) return;
+    const dom = quadros.filter((q) => q.estado === 'dominado').length;
+    const rev = quadros.filter((q) => q.estado === 'revisao').length;
+    numeros.habilidades.textContent = dom + '/' + quadros.length;
+    if (rev) {
+      const aviso = el('button', 'botao-texto aviso-revisao',
+        '⟳ ' + rev + (rev === 1 ? ' habilidade pede' : ' habilidades pedem') + ' revisão hoje');
+      aviso.onclick = () => ir('habilidades');
+      faixa.after(aviso);
     }
-    numeros.nivel.textContent = 'N' + atual.n;
+
 
     const prox = proximaAula(niveis, fichas);
     retomarCorpo.innerHTML = '';
