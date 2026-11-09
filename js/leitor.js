@@ -139,8 +139,8 @@ export function criarLeitor(ondePor, corpo) {
     if (!vozes.length) {
       selVoz.append(new Option('Nenhuma voz em português instalada', ''));
       selVoz.disabled = true;
-      dica.textContent = 'Seu aparelho não tem voz em português. No Android: Ajustes → '
-        + 'Gerenciamento geral → Idioma → Conversão de texto em voz → instale o português do Brasil.';
+      dica.textContent = 'Seu aparelho não tem voz em português instalada. Procure por '
+        + '"texto em voz" na busca dos Ajustes do Android e instale os dados de voz do português.';
       return;
     }
     selVoz.disabled = false;
@@ -148,8 +148,9 @@ export function criarLeitor(ondePor, corpo) {
     const salva = vozes.findIndex((v) => v.name === (vozEscolhida && vozEscolhida.name));
     selVoz.selectedIndex = salva >= 0 ? salva : 0;
     vozEscolhida = vozes[selVoz.selectedIndex];
-    dica.textContent = 'As vozes "naturais" do Google soam bem melhor que as antigas. '
-      + 'Dá para baixá-las em Ajustes → Conversão de texto em voz → Google → Instalar dados de voz.';
+    dica.textContent = 'A qualidade vem do aparelho, não do app. Para ter mais opções aqui, '
+      + 'procure por "texto em voz" na busca dos Ajustes e instale os dados de voz — as vozes '
+      + 'recentes soam bem melhor que as antigas. Trocou de mecanismo? Feche e abra o app.';
   }
   selVoz.onchange = async () => {
     vozEscolhida = vozes[Number(selVoz.value)] || vozes[0];

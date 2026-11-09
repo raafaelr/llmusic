@@ -102,16 +102,23 @@ export function montar(raiz, ir, arg) {
 
     // ---- os blocos ----
     const corpo = el('div', 'aula-corpo');
+
+    // Lugar reservado para o leitor em voz alta, logo abaixo do cabeçalho:
+    // no fim da aula o botão obrigaria a rolar o texto inteiro para começar
+    // a ouvi-lo. Ele só é montado depois dos blocos, porque o texto lido sai
+    // do que está desenhado.
+    const ondeLeitor = el('div');
+    tela.append(ondeLeitor);
     (aula.blocos || []).forEach((b) => {
       try { corpo.append(render.bloco(b)); }
       catch (e) { corpo.append(el('p', 'dica', 'Não consegui mostrar um trecho desta aula.')); }
     });
     tela.append(corpo);
 
-    // Leitor em voz alta: só nas aulas de ler. Nas que pedem o violão o
-    // conteúdo é diagrama, e ouvir sozinho não ensina.
+    // Só nas aulas de ler: nas que pedem o violão o conteúdo é diagrama, e
+    // ouvir sozinho não ensina.
     if (!pedeViolao(aula)) {
-      try { pararLeitor = criarLeitor(corpo, corpo); } catch { /* sem voz no aparelho */ }
+      try { pararLeitor = criarLeitor(ondeLeitor, corpo); } catch { /* sem voz no aparelho */ }
     }
 
     // ---- fecho: questionário e avaliação prática ----
