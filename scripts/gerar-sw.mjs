@@ -25,6 +25,9 @@ const SO_CONFERIR = process.argv.includes('--conferir');
 
 // Pastas que nunca entram no cache.
 const PASTAS_FORA = new Set(['.git', '.github', 'node_modules', 'scripts', 'android', 'docs', 'ferramentas']);
+// Os ícones do lançador só existem para o APK; o app web nunca os pede, e
+// guardá-los offline seria peso morto.
+const CAMINHOS_FORA = new Set(['icons/android']);
 // Extensões que o app precisa ter offline.
 const EXTENSOES = new Set(['.html', '.css', '.js', '.mjs', '.woff2', '.svg', '.png', '.webmanifest', '.json']);
 // Arquivos soltos que não fazem parte do app.
@@ -35,7 +38,7 @@ function varrer(dir, achados = []) {
     const caminho = join(dir, nome);
     const rel = relative(RAIZ, caminho).split(sep).join('/');
     if (statSync(caminho).isDirectory()) {
-      if (!PASTAS_FORA.has(nome) && !nome.startsWith('.')) varrer(caminho, achados);
+      if (!PASTAS_FORA.has(nome) && !nome.startsWith('.') && !CAMINHOS_FORA.has(rel)) varrer(caminho, achados);
       continue;
     }
     if (ARQUIVOS_FORA.has(rel) || nome.startsWith('.')) continue;

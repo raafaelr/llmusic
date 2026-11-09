@@ -42,3 +42,16 @@ print("build.gradle: assinatura fixa aplicada")
 FIM
 fi
 grep -n "llmusic_fixa" "$G" || echo "AVISO: nao consegui aplicar a assinatura no build.gradle"
+
+# ---------------------------------------------------------------- ícones
+# Sem isto o APK sai com o ícone padrão do Capacitor. Os arquivos foram
+# gerados por scripts/gerar-icones.sh e estão versionados em icons/android.
+RES=android/app/src/main/res
+if [ -d "$RES" ] && [ -d icons/android ]; then
+  # tira os padrões que colidiriam (o Capacitor põe a frente em drawable/)
+  rm -f "$RES"/drawable*/ic_launcher_foreground.* "$RES"/drawable*/ic_launcher_background.* 2>/dev/null || true
+  cp -R icons/android/. "$RES"/
+  echo "Ícones instalados:"; ls "$RES"/mipmap-xxxhdpi/ 2>/dev/null
+else
+  echo "AVISO: não achei $RES ou icons/android — ícone do app não foi trocado"
+fi
