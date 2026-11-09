@@ -91,6 +91,7 @@
   --suave: #A3B3A7;
   --linha: #33443A;
   --linha-forte: #46594C;
+  --linha-controle: #627D6B;   /* borda de campo e botão: 3:1 contra o fundo (WCAG 1.4.11) */
   --destaque: #C9A86B;          /* dourado, clareado para contraste no escuro */
   --sobre-destaque: #121714;
   --acao: #5C8570;              /* verde musical, clareado: botão principal */
@@ -116,7 +117,9 @@
     --suave: #5B6A5F;
     --linha: #D9D4C8;
     --linha-forte: #C3BCAB;
-    --destaque: #8A6B30;
+  --linha-controle: #8A7D5F;   /* borda de campo e botão: 3:1 contra o fundo (WCAG 1.4.11) */
+  --linha-controle: #8A7D5F;   /* borda de campo e botão: 3:1 contra o fundo (WCAG 1.4.11) */
+    --destaque: #86682F;
     --sobre-destaque: #FCFAF4;
     --acao: #496D5B;
     --sobre-acao: #F3EFE3;
@@ -141,7 +144,8 @@
   --suave: #5B6A5F;
   --linha: #D9D4C8;
   --linha-forte: #C3BCAB;
-  --destaque: #8A6B30;
+  --linha-controle: #8A7D5F;   /* borda de campo e botão: 3:1 contra o fundo (WCAG 1.4.11) */
+  --destaque: #86682F;
   --sobre-destaque: #FCFAF4;
   --acao: #496D5B;
   --sobre-acao: #F3EFE3;
@@ -1409,3 +1413,135 @@ a.botao-sec { text-decoration: none; text-align: center; }
 .tabela-linha:nth-child(odd) { background: var(--superficie-2); }
 .tabela-linha strong { text-align: right; white-space: normal; color: var(--ok); }
 .tabela-linha strong.perigo { color: var(--ruim); }
+
+/* ===================================================================
+   GRAFISMOS (js/grafismos.js)
+   Desenhos que marcam seção, emolduram conteúdo musical e dão rosto a
+   telas vazias. Herdam a cor do texto e valem nos dois temas.
+   =================================================================== */
+
+/* Marca d'água: fica atrás do conteúdo, nunca disputa com ele. */
+.marca-dagua {
+  position: absolute;
+  inset: auto -28px -36px auto;
+  width: 160px; height: 160px;
+  color: var(--destaque);
+  opacity: 0.10;
+  pointer-events: none;
+  z-index: 0;
+}
+.marca-dagua svg { width: 100%; height: 100%; }
+:root[data-tema='escuro'] .marca-dagua { opacity: 0.13; }
+
+/* O saguão passa a ter a roseta ao fundo. */
+.saguao { position: relative; overflow: hidden; }
+.saguao > *:not(.marca-dagua) { position: relative; z-index: 1; }
+
+/* Tela vazia: o violão desenhado em vez de uma frase solta. */
+.tela-vazia {
+  display: flex; flex-direction: column; align-items: center; gap: var(--e-3);
+  padding: var(--e-8) var(--e-4);
+  text-align: center;
+  color: var(--suave);
+}
+.grafismo-violao { width: 56px; height: 140px; opacity: 0.4; }
+.tela-vazia-texto { max-width: 36ch; margin: 0; font-size: var(--txt-sm); line-height: 1.6; }
+
+/* Moldura fina em volta do conteúdo musical. Todo diagrama e toda pauta das
+   aulas sai como <figure class="bloco-fig">; emoldurar dá a eles a borda de
+   uma página impressa em vez de flutuarem soltos no meio do texto.
+   O filete dourado só entra nos que são notação de verdade (pauta e
+   tablatura), não em qualquer desenho — senão vira enfeite. */
+.bloco-fig.emoldurado {
+  position: relative;
+  padding: var(--e-4) var(--e-3) var(--e-3);
+  margin-top: var(--e-3);
+  border: 1px solid var(--linha);
+  border-radius: var(--r-md);
+  background: var(--superficie);
+  background-image: var(--papel);
+}
+.bloco-fig.emoldurado.notacao::before {
+  content: '';
+  position: absolute; top: 0; left: var(--e-4); right: var(--e-4);
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--destaque), transparent);
+  opacity: 0.5;
+}
+/* A rolagem da partitura ganha a mesma moldura. */
+.tab-rolagem {
+  border: 1px solid var(--linha);
+  border-radius: var(--r-md);
+  background-image: var(--papel);
+}
+
+/* Marca de seção com clave, para os títulos de área da tela inicial. */
+.area-cab { position: relative; padding-left: 22px; }
+.grafismo-clave {
+  position: absolute; left: 0; top: 2px;
+  width: 14px; height: 34px;
+  color: var(--destaque);
+  opacity: 0.55;
+}
+
+/* O ramo fecha a tela inicial, no lugar de um rodapé vazio. */
+.saguao-rodape { position: relative; text-align: center; }
+.grafismo-ramo { width: 22px; height: 54px; color: var(--vl-verde-salvia); opacity: 0.5; }
+:root[data-tema='claro'] .grafismo-ramo { color: var(--vl-verde-musical); opacity: 0.4; }
+
+/* Pauta em SVG, quando se quer o divisor mais presente que o .pauta-divisor. */
+.grafismo-pauta { display: block; width: 100%; height: 16px; color: var(--linha-forte); margin: var(--e-5) 0; }
+
+/* ===================================================================
+   FASE 6 — ACESSIBILIDADE
+   Bordas de controle, foco visível e alvos de toque.
+   =================================================================== */
+
+/* Campos e botões secundários usam a borda de controle, que tem 3:1 contra
+   o fundo nos dois temas (WCAG 1.4.11). A borda decorativa dos cartões
+   continua leve de propósito: ela não delimita nada que se opere. */
+.campo-num, .campo-sel, .campo-texto,
+input[type='number'], input[type='text'], input[type='search'], select, textarea,
+.botao-sec, .chip, .estudo-entrar {
+  border-color: var(--linha-controle);
+}
+
+/* Foco visível em tudo que recebe foco, e nunca removido sem substituto.
+   Duas camadas: o traço dourado e um halo escuro/claro por trás, para o
+   foco aparecer tanto sobre o fundo quanto sobre o verde dos botões. */
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--destaque);
+  outline-offset: 2px;
+  border-radius: var(--r-sm);
+}
+/* Quem já define o próprio foco mantém o seu; isto é só a rede de segurança. */
+
+/* Alvo de toque: 44px é o mínimo confortável com o violão na mão.
+   Vale para tudo que se toca, menos o que está dentro de texto corrido. */
+button, .chip, a.botao-sec, .botao-sec, .botao-principal, label.config-linha {
+  min-height: 44px;
+}
+.botao-texto, .link-aula { min-height: 36px; }
+.chip { display: inline-flex; align-items: center; }
+
+/* Pular para o conteúdo: primeiro foco da página, escondido até receber foco. */
+.pular-para-conteudo {
+  position: absolute; left: -9999px; top: 0; z-index: 100;
+  padding: var(--e-3) var(--e-4);
+  background: var(--acao); color: var(--sobre-acao);
+  border-radius: 0 0 var(--r-md) 0;
+  font-weight: 600;
+}
+.pular-para-conteudo:focus { left: 0; }
+
+/* Tablet e computador: o conteúdo para de esticar e a leitura fica no
+   comprimento de linha certo. Em telas largas as grades ganham colunas. */
+@media (min-width: 760px) {
+  .tela { max-width: 760px; margin: 0 auto; }
+  .grade-atalhos { grid-template-columns: repeat(3, 1fr); }
+  .faixa-numeros { gap: var(--e-5); }
+}
+@media (min-width: 1100px) {
+  .tela { max-width: 900px; }
+  .texto-bloco, .bloco-fig + p, .dica { max-width: 68ch; }
+}

@@ -12,8 +12,10 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+  <!-- Primeiro foco do teclado: pula o menu e vai direto ao conteúdo. -->
+  <a class="pular-para-conteudo" href="#app">Pular para o conteúdo</a>
   <!-- Toda tela do app é desenhada dentro desta div pelo JavaScript (js/main.js). -->
-  <div id="app"></div>
+  <div id="app" tabindex="-1"></div>
   <noscript>O LLMusic precisa de JavaScript para funcionar.</noscript>
   <script type="module" src="js/main.js"></script>
 </body>

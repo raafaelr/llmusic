@@ -12,6 +12,7 @@ import { sequenciaAtual } from '../habitos.js';
 import { MAPA, carregarTodos } from '../curso/curriculo.js';
 import { carregarFichas, proximaAula, proximaPratica, pedeViolao, progressoDoNivel, estadoDaFicha } from '../curso/progresso.js';
 import { rotinaPorId, SEMANA_PADRAO, DIAS } from '../curso/plano.js';
+import { roseta, clave, ramo, marcaDagua } from '../grafismos.js';
 
 function el(tag, classe, texto) {
   const e = document.createElement(tag);
@@ -90,6 +91,7 @@ export function montar(raiz, ir) {
   marca.append(logo, nomes);
   capa.append(marca);
   capa.append(el('p', 'saguao-ola', saudacao() + '. Pronto para estudar?'));
+  marcaDagua(capa, roseta());
   tela.append(capa);
 
   // ---------------------------------------------------------------- retomar
@@ -126,6 +128,7 @@ export function montar(raiz, ir) {
   AREAS.forEach((area) => {
     const sec = el('section', 'area');
     const cab = el('div', 'area-cab');
+    cab.append(clave());
     cab.append(el('h2', 'area-nome', area.nome));
     cab.append(el('p', 'area-desc', area.desc));
     sec.append(cab);
@@ -142,6 +145,7 @@ export function montar(raiz, ir) {
   });
 
   const rodape = el('footer', 'saguao-rodape');
+  rodape.append(ramo());
   rodape.append(el('p', 'citacao', 'Trinta minutos hoje valem mais que três horas no domingo.'));
   tela.append(rodape);
 

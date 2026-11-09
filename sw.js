@@ -7,8 +7,8 @@
 // A versão abaixo é a impressão digital do conteúdo: mudou um byte, muda ela,
 // e o celular troca o cache velho pelo novo sozinho.
 //
-// Arquivos no cache: 124
-const VERSAO = 'llmusic-08cbc13b1ff6';
+// Arquivos no cache: 125
+const VERSAO = 'llmusic-1b2184fd0e1e';
 
 const ARQUIVOS = [
   './',
@@ -74,6 +74,7 @@ const ARQUIVOS = [
   './js/curso/tutor.js',
   './js/db.js',
   './js/estudo.js',
+  './js/grafismos.js',
   './js/habitos.js',
   './js/importar/ascii.js',
   './js/importar/gp.js',

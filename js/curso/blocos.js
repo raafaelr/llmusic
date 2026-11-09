@@ -34,8 +34,14 @@ function svgNovo(classe, rotulo) {
   if (rotulo) s.setAttribute('aria-label', rotulo);
   return s;
 }
+// Diagramas que são notação musical de verdade levam o filete dourado;
+// os outros desenhos ficam só com a moldura.
+const NOTACAO = new Set(['pauta-svg', 'tab-aula', 'diag-figuras', 'diag-compasso']);
+
 function figura(svg, legenda, extra) {
-  const f = el('figure', 'bloco-fig');
+  const classe = (svg && svg.getAttribute && svg.getAttribute('class')) || '';
+  const ehNotacao = classe.split(/\s+/).some((c) => NOTACAO.has(c));
+  const f = el('figure', 'bloco-fig emoldurado' + (ehNotacao ? ' notacao' : ''));
   f.append(svg);
   if (extra) f.append(extra);
   if (legenda) f.append(el('figcaption', 'legenda', legenda));

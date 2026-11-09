@@ -34,3 +34,6 @@ jobs:
 
       - name: Currículo está íntegro
         run: node scripts/validar-curso.mjs
+
+      - name: Contraste em dia nos dois temas
+        run: node scripts/conferir-contraste.mjs
