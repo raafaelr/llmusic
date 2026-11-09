@@ -1,3 +1,5 @@
 node_modules/
 www/
-android/
+/android/      # só o projeto Android gerado na raiz.
+               # Sem a barra, isto também ignorava icons/android,
+               # e os ícones do lançador nunca subiam.

@@ -53,5 +53,17 @@ if [ -d "$RES" ] && [ -d icons/android ]; then
   cp -R icons/android/. "$RES"/
   echo "Ícones instalados:"; ls "$RES"/mipmap-xxxhdpi/ 2>/dev/null
 else
-  echo "AVISO: não achei $RES ou icons/android — ícone do app não foi trocado"
+  # Falha de propósito: um aviso ignorado foi o que fez o APK sair com o
+  # ícone do Capacitor sem ninguém notar.
+  echo "ERRO: não achei $RES ou icons/android — o APK sairia com o ícone padrão."
+  [ -d icons/android ] || echo "  icons/android não existe (os arquivos estão versionados?)"
+  [ -d "$RES" ] || echo "  $RES não existe (o projeto Android não foi criado?)"
+  exit 1
 fi
+
+# Confere que chegaram mesmo, em vez de confiar no cp.
+for d in mdpi hdpi xhdpi xxhdpi xxxhdpi; do
+  [ -f "$RES/mipmap-$d/ic_launcher.png" ] || { echo "ERRO: falta mipmap-$d/ic_launcher.png"; exit 1; }
+done
+[ -f "$RES/mipmap-anydpi-v26/ic_launcher.xml" ] || { echo "ERRO: falta o ícone adaptativo"; exit 1; }
+echo "Ícones conferidos nas 5 densidades e no adaptativo." 
