@@ -1258,3 +1258,90 @@ input[type=range] { width: 100%; height: 44px; accent-color: var(--destaque); ba
   .estudo-bt { min-height: 44px; }
   :root[data-estudo] .tela { padding-bottom: 76px; }
 }
+
+/* Alternativa prática na tela inicial: quando a próxima aula é de papel,
+   o atalho para a próxima aula em que se toca aparece logo abaixo. */
+.retomar-alternativa {
+  margin-top: var(--e-4);
+  padding-top: var(--e-3);
+  border-top: 1px solid var(--linha);
+}
+.retomar-alternativa .rotulo-grupo { margin-bottom: var(--e-1); }
+.retomar-alternativa .botao-texto {
+  padding-left: 0;
+  text-align: left;
+  color: var(--destaque);
+  font-weight: 600;
+}
+
+/* Autoavaliação prática por grau, no lugar da caixa de "consigo / não consigo". */
+.auto-item .corpo { display: flex; flex-direction: column; gap: var(--e-2); }
+.auto-graus { margin-top: var(--e-1); gap: var(--e-2); }
+.auto-graus .chip { font-size: var(--txt-xs); }
+.auto-graus .chip.ativo.grau-nao { background: var(--linha-forte); color: var(--texto); border-color: var(--linha-forte); }
+.auto-graus .chip.ativo.grau-devagar { background: var(--madeira); color: var(--sobre-acao); border-color: var(--madeira); }
+.auto-graus .chip.ativo.grau-ritmo { background: var(--destaque); color: var(--sobre-acao); border-color: var(--destaque); }
+.auto-graus .chip.ativo.grau-fluido { background: var(--acao); color: var(--sobre-acao); border-color: var(--acao); }
+
+/* ===================================================================
+   CONFERÊNCIA DE POSTURA E ESPELHO
+   =================================================================== */
+.postura-capa, .espelho-capa {
+  position: fixed; inset: 0; z-index: 80;
+  display: flex; align-items: center; justify-content: center;
+  padding: var(--e-4);
+  background: rgba(18, 23, 20, 0.72);
+  backdrop-filter: blur(2px);
+}
+.postura-caixa, .espelho-caixa {
+  width: 100%; max-width: 560px;
+  max-height: calc(100vh - var(--e-8));
+  overflow-y: auto;
+  padding: var(--e-5);
+  border: 1px solid var(--linha-forte);
+  border-radius: var(--r-lg);
+  background: var(--superficie);
+  box-shadow: var(--sombra);
+}
+.postura-titulo, .espelho-titulo {
+  font-family: var(--fonte-titulo);
+  font-size: var(--txt-xl);
+  margin: 0 0 var(--e-1);
+}
+.postura-lista { display: flex; flex-direction: column; gap: var(--e-3); margin: var(--e-4) 0; }
+.postura-item {
+  display: flex; align-items: flex-start; gap: var(--e-3);
+  padding-bottom: var(--e-3);
+  border-bottom: 1px solid var(--linha);
+}
+.postura-item:last-child { border-bottom: 0; padding-bottom: 0; }
+.postura-item strong { display: block; font-size: var(--txt-sm); }
+.postura-item .cartao-desc { display: block; margin-top: 2px; }
+.postura-fig {
+  flex: 0 0 auto;
+  width: 58px; height: 52px;
+  color: var(--destaque);
+}
+
+.espelho-cab { display: flex; align-items: baseline; justify-content: space-between; gap: var(--e-3); }
+.espelho-palco { display: flex; gap: var(--e-3); margin: var(--e-3) 0; }
+.espelho-video {
+  flex: 1 1 60%;
+  width: 100%; max-height: 54vh;
+  border-radius: var(--r-md);
+  background: var(--superficie-2);
+  transform: scaleX(-1);          /* espelhado, como um espelho de verdade */
+  object-fit: cover;
+}
+.espelho-ref {
+  flex: 0 0 34%;
+  display: flex; flex-direction: column; gap: var(--e-2); align-items: center;
+  text-align: center;
+}
+.espelho-ref .postura-fig { width: 72px; height: 72px; }
+
+@media (max-width: 480px) {
+  .postura-caixa, .espelho-caixa { padding: var(--e-4); }
+  .espelho-palco { flex-direction: column; }
+  .espelho-ref { flex: 1 1 auto; flex-direction: row; text-align: left; }
+}

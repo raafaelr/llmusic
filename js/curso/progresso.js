@@ -130,6 +130,38 @@ export function proximaAula(niveis, fichas) {
   return null;
 }
 
+// Blocos que só existem numa aula em que você pega o violão.
+const BLOCOS_COM_VIOLAO = new Set(['tocar', 'tab', 'violao', 'mao', 'postura', 'braco', 'acorde']);
+
+// A aula é de pegar o violão, ou é de papel e lápis?
+export function pedeViolao(aula) {
+  return (aula.blocos || []).some((b) => BLOCOS_COM_VIOLAO.has(b.t));
+}
+
+// A próxima aula liberada em que você toca.
+//
+// Por que isto existe: os pré-requisitos do curso NÃO são lineares — em boa
+// parte do curso dá para seguir pela teoria ou pela prática, na ordem que você
+// quiser. Mas a lista do currículo tem uma ordem, e "proximaAula" segue ela:
+// no nível 1, isso põe oito aulas seguidas de leitura (quase duas horas) entre
+// você e o módulo em que se toca, mesmo essas aulas não sendo exigidas.
+// Para quem estuda sozinho, é assim que a vontade acaba. Então, quando a
+// próxima aula é de papel, a tela inicial também oferece a próxima em que se
+// toca — as duas estão liberadas, e a escolha é sua.
+export function proximaPratica(niveis, fichas) {
+  for (const n of niveis) {
+    for (const m of n.modulos || []) {
+      for (const a of m.aulas || []) {
+        const e = estadoDaFicha(fichas[a.id]);
+        if (e !== 'dominada' && pedeViolao(a) && liberada(a, fichas)) {
+          return { nivel: n, modulo: m, aula: a, estado: e };
+        }
+      }
+    }
+  }
+  return null;
+}
+
 // Pontos fracos: aulas estudadas cujo questionário ficou abaixo da nota mínima,
 // e aulas dominadas há muito tempo que merecem revisão.
 export function pontosFracos(niveis, fichas, limite = 5) {

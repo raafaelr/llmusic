@@ -22,6 +22,21 @@ const C_PRATICA = 'avaliacoes.pratica'; // avaliação prática confirmada por n
 
 const QUESTOES_PROVA = 12;
 
+// Graus da autoavaliação prática.
+//
+// Antes aqui havia uma caixa de "consigo / não consigo". Marcar uma caixa é
+// fácil demais, e quem estuda sozinho acaba marcando o que quase consegue.
+// Com graus, você é obrigado a dizer COMO tocou — e a pergunta já ensina o que
+// observar: som limpo, ritmo mantido, andamento. O peso de cada grau entra na
+// média, então tocar travando não aprova nível nenhum.
+const GRAUS = [
+  { id: 'nao', rotulo: 'Ainda não', peso: 0, ajuda: 'Não consigo executar este item hoje.' },
+  { id: 'devagar', rotulo: 'Só devagar', peso: 0.35, ajuda: 'Saio do começo ao fim, mas bem devagar e com paradas.' },
+  { id: 'ritmo', rotulo: 'No ritmo, com erros', peso: 0.7, ajuda: 'Mantenho a pulsação, erro algumas notas e sigo sem parar.' },
+  { id: 'fluido', rotulo: 'Com fluidez', peso: 1, ajuda: 'Som limpo, ritmo firme, sem travar — e consigo repetir.' }
+];
+const pesoDoGrau = (id) => (GRAUS.find((g) => g.id === id) || { peso: 0 }).peso;
+
 function embaralhar(lista) {
   const a = lista.slice();
   for (let i = a.length - 1; i > 0; i--) {
@@ -277,9 +292,9 @@ export function montar(raiz, ir, arg) {
     topo.append(voltar, el('h1', 'titulo-tela', 'Avaliação prática — Nível ' + n));
     tela.append(topo);
 
-    tela.append(el('p', 'dica', 'Esta é uma autoavaliação orientada. Toque cada item com o violão na mão e '
-      + 'marque apenas o que você consegue executar agora, segundo o critério descrito. '
-      + 'Marcar sem conseguir só engana você mesmo — e o app vai considerar o nível concluído sem que ele esteja.'));
+    tela.append(el('p', 'dica', 'Esta é uma autoavaliação orientada: o app não escuta você tocar. '
+      + 'Toque cada item com o violão na mão e diga como saiu, segundo o critério descrito. '
+      + 'Responder melhor do que a verdade só engana você mesmo — o nível fica marcado como concluído sem estar.'));
     tela.append(el('p', 'auto-criterio', 'Critério do nível: ' + nivel.criterio));
 
     if (!itens.length) {
@@ -287,23 +302,44 @@ export function montar(raiz, ir, arg) {
       return;
     }
 
-    const marcados = { ...salvo.marcados };
+    // Versões antigas guardavam "true" (marquei / não marquei). Agora cada
+    // item tem grau, então um "true" antigo vira o grau mais alto.
+    const marcados = {};
+    Object.entries(salvo.marcados || {}).forEach(([id, v]) => {
+      marcados[id] = (v === true ? 'fluido' : v);
+    });
+
     const lista = el('div', 'grupo');
-    itens.forEach((it, k) => {
-      const caixa = el('div', 'plano-bloco' + (marcados[it.aula] ? ' feito' : ''));
-      const cx = document.createElement('input');
-      cx.type = 'checkbox'; cx.checked = !!marcados[it.aula];
-      cx.setAttribute('aria-label', it.texto);
-      cx.onchange = () => {
-        if (cx.checked) marcados[it.aula] = true; else delete marcados[it.aula];
-        caixa.classList.toggle('feito', cx.checked);
-        atualizar();
-      };
-      caixa.append(cx);
+    itens.forEach((it) => {
+      const caixa = el('div', 'plano-bloco auto-item');
       const corpo = el('div', 'corpo');
       corpo.append(el('strong', '', it.texto));
       corpo.append(el('span', 'cartao-desc', 'Módulo ' + it.modulo + ' · ' + it.titulo));
       if (it.criterio) corpo.append(el('span', 'cartao-desc', 'Critério: ' + it.criterio));
+
+      const graus = el('div', 'chips auto-graus');
+      graus.setAttribute('role', 'radiogroup');
+      graus.setAttribute('aria-label', it.texto);
+      GRAUS.forEach((g) => {
+        const b = el('button', 'chip grau-' + g.id, g.rotulo);
+        const marcar = () => {
+          marcados[it.aula] = g.id;
+          [...graus.children].forEach((c) => {
+            const ativo = c === b;
+            c.classList.toggle('ativo', ativo);
+            c.setAttribute('aria-checked', String(ativo));
+          });
+          atualizar();
+        };
+        b.setAttribute('role', 'radio');
+        b.setAttribute('aria-checked', String(marcados[it.aula] === g.id));
+        if (marcados[it.aula] === g.id) b.classList.add('ativo');
+        b.title = g.ajuda;
+        b.onclick = marcar;
+        graus.append(b);
+      });
+      corpo.append(graus);
+
       const abrir = el('button', 'link-aula', 'Abrir a aula');
       abrir.onclick = () => ir('aula/' + it.aula);
       corpo.append(abrir);
@@ -315,18 +351,27 @@ export function montar(raiz, ir, arg) {
     const resumo = el('p', 'legenda', '');
     const salvar = el('button', 'botao-principal', 'Registrar a avaliação prática');
     const fb = el('p', 'feedback', '');
+
+    // A nota é a média do quanto você consegue executar, não a contagem de
+    // caixas marcadas: tocar devagar e travando vale menos que tocar fluido.
+    function media() {
+      const soma = itens.reduce((s, it) => s + pesoDoGrau(marcados[it.aula]), 0);
+      return itens.length ? soma / itens.length : 0;
+    }
     function atualizar() {
-      const feitos = Object.keys(marcados).length;
-      const pct = feitos / itens.length;
-      resumo.textContent = feitos + ' de ' + itens.length + ' itens confirmados ('
-        + Math.round(pct * 100) + '%). Mínimo para aprovação: ' + Math.round(NOTA_MINIMA * 100) + '%.';
+      const respondidos = itens.filter((it) => marcados[it.aula]).length;
+      const m = media();
+      resumo.textContent = respondidos + ' de ' + itens.length + ' itens avaliados · '
+        + 'domínio médio ' + Math.round(m * 100) + '%. '
+        + 'Mínimo para aprovação: ' + Math.round(NOTA_MINIMA * 100) + '%.';
     }
     atualizar();
     salvar.onclick = async () => {
-      const feitos = Object.keys(marcados).length;
-      const aprovado = (feitos / itens.length) >= NOTA_MINIMA;
+      const m = media();
+      const feitos = itens.filter((it) => marcados[it.aula] === 'fluido').length;
+      const aprovado = m >= NOTA_MINIMA;
       const atual = await Config.obter(C_PRATICA, {});
-      atual[n] = { marcados, aprovado, total: itens.length, feitos, em: new Date().toISOString() };
+      atual[n] = { marcados, aprovado, total: itens.length, feitos, media: m, em: new Date().toISOString() };
       await Config.guardar(C_PRATICA, atual);
       await Avaliacoes.registrar({ tipo: 'pratica-nivel', alvo: 'n' + n, titulo: 'Avaliação prática do Nível ' + n, acertos: feitos, total: itens.length });
       if (encerrada) return;

@@ -5,6 +5,7 @@
 // verdade e fica guardada no aparelho.
 import { TEMAS, TAMANHOS, trocarTema, trocarTamanho, trocarMovimento, lerTema, lerTamanho, lerMovimento } from '../tema.js';
 import { Config } from '../db.js';
+import { deveConferir, ligarConferencia, abrirEspelho } from '../postura.js';
 
 function el(tag, classe, texto) {
   const e = document.createElement(tag);
@@ -23,6 +24,7 @@ export function montar(raiz, ir) {
     const tamanho = await lerTamanho();
     const semAnim = await lerMovimento();
     const meta = await Config.obter('habitos.meta', 15);
+    const conferir = await deveConferir();
     if (encerrada) return;
 
     tela.innerHTML = '';
@@ -98,6 +100,27 @@ export function montar(raiz, ir) {
     linhaMeta.append(inp, el('span', '', 'minutos por dia'), salvar, fb);
     sec4.append(linhaMeta);
     tela.append(sec4);
+
+    // ----------------------------------------------------------- postura
+    const secP = el('section', 'grupo');
+    secP.append(el('h2', 'rotulo-grupo', 'Postura'));
+    secP.append(el('p', 'dica', 'Estudando sozinho, ninguém corrige a sua postura — e vício de postura '
+      + 'não dói no primeiro mês, dói no segundo ano. O app lembra e deixa você olhar; '
+      + 'ele não analisa a imagem da câmera.'));
+    const linhaP = el('label', 'config-linha');
+    const cxP = document.createElement('input');
+    cxP.type = 'checkbox'; cxP.checked = !!conferir;
+    cxP.onchange = async () => { await ligarConferencia(cxP.checked); };
+    linhaP.append(cxP);
+    const txtP = el('div');
+    txtP.append(el('strong', '', 'Conferir a postura ao entrar no Modo Estudo'));
+    txtP.append(el('span', 'cartao-desc', 'Cinco itens com desenho, antes de cada sessão.'));
+    linhaP.append(txtP);
+    secP.append(linhaP);
+    const btEsp = el('button', 'botao-sec', '◉ Abrir o espelho agora');
+    btEsp.onclick = () => abrirEspelho();
+    secP.append(btEsp);
+    tela.append(secP);
 
     // ------------------------------------------------------------- dados
     const sec5 = el('section', 'grupo');

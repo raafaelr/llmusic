@@ -11,6 +11,7 @@
 import { Metronomo, limitarBpm } from './metronome.js';
 import { comecarPratica, pararPratica } from './pratica.js';
 import { Config } from './db.js';
+import { conferirPostura, deveConferir } from './postura.js';
 
 // Telas que fazem sentido no modo estudo (as que a gente usa tocando).
 const ROTAS_ESTUDO = new Set(['aula', 'exercicios', 'tecnicas', 'partituras', 'leitura', 'ritmo', 'braco']);
@@ -140,7 +141,11 @@ export function criarEstudo(ir) {
   }
 
   // ---------------------------------------------------------------- entrar/sair
-  function entrar() {
+  async function entrar() {
+    if (ligado) return;
+    // A conferência de postura vem antes de tudo: é o único momento em que
+    // você ainda não começou a tocar errado nesta sessão.
+    try { if (await deveConferir()) await conferirPostura(); } catch { /* segue */ }
     if (ligado) return;
     ligado = true;
     document.documentElement.setAttribute('data-estudo', '');

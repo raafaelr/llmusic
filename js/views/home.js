@@ -10,7 +10,7 @@ import { Pratica, Config } from '../db.js';
 import { hojeISO, minutosTexto } from '../pratica.js';
 import { sequenciaAtual } from '../habitos.js';
 import { MAPA, carregarTodos } from '../curso/curriculo.js';
-import { carregarFichas, proximaAula, progressoDoNivel, estadoDaFicha } from '../curso/progresso.js';
+import { carregarFichas, proximaAula, proximaPratica, pedeViolao, progressoDoNivel, estadoDaFicha } from '../curso/progresso.js';
 import { rotinaPorId, SEMANA_PADRAO, DIAS } from '../curso/plano.js';
 
 function el(tag, classe, texto) {
@@ -218,6 +218,23 @@ export function montar(raiz, ir) {
     b2.onclick = () => ir('curso');
     acoes.append(b1, b2);
     retomarCorpo.append(acoes);
+
+    // Se a próxima aula é de papel e lápis, oferece também a próxima em que se
+    // toca. As duas estão liberadas: os pré-requisitos do curso não são uma
+    // fila única, e quem estuda sozinho não deve passar duas horas lendo antes
+    // de encostar no instrumento.
+    if (!pedeViolao(prox.aula)) {
+      const pratica = proximaPratica(niveis, fichas);
+      if (pratica && pratica.aula.id !== prox.aula.id) {
+        const atalho = el('div', 'retomar-alternativa');
+        atalho.append(el('p', 'rotulo-grupo', 'Ou pegue o violão agora'));
+        const bp = el('button', 'botao-texto', '♪ ' + pratica.aula.titulo
+          + ' · ' + pratica.aula.minutos + ' min');
+        bp.onclick = () => ir('aula/' + pratica.aula.id);
+        atalho.append(bp);
+        retomarCorpo.append(atalho);
+      }
+    }
   })().catch(() => {
     if (encerrada) return;
     retomarCorpo.innerHTML = '';

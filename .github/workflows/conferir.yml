@@ -1,0 +1,36 @@
+# Confere o app a cada envio para o GitHub.
+#
+# São duas conferências, e as duas pegam erros que passam despercebidos no
+# computador e só aparecem no celular:
+#
+#  1. O service worker está em dia? Se eu criei um arquivo e esqueci de pôr no
+#     cache, o app quebra offline. Se mudei um arquivo e esqueci de subir a
+#     versão, o celular continua servindo o conteúdo velho.
+#  2. O currículo está íntegro? Identificadores repetidos, pré-requisito
+#     apontando para a frente, aula sem quiz — coisas que só quebrariam na
+#     hora de estudar.
+#
+# Se qualquer uma falhar, aparece um ✗ vermelho no commit no GitHub.
+name: Conferir
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  conferir:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Service worker está em dia
+        run: node scripts/gerar-sw.mjs --conferir
+
+      - name: Currículo está íntegro
+        run: node scripts/validar-curso.mjs
