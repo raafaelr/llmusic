@@ -163,3 +163,44 @@ verdade e o que ainda vai ser escrito.
 O IndexedDB passou da versão 1 para a 2. As gavetas `config` e `pratica` continuam iguais;
 foram criadas três novas: `progresso` (uma ficha por aula), `sessoes` e `avaliacoes`.
 Backups antigos continuam funcionando: as gavetas novas simplesmente não vêm no arquivo.
+
+## As áreas novas (Repertório, Plano, Avaliações, Tutor e Materiais)
+
+Cinco telas foram acrescentadas, todas seguindo o mesmo padrão das anteriores: um
+arquivo de **dados** em `js/curso/` e um arquivo de **tela** em `js/views/`, com a rota
+registrada em `js/main.js` e o item no menu de `js/menu.js`.
+
+| Rota | Dados | Tela |
+|---|---|---|
+| `#/repertorio` | `js/curso/repertorio.js` | `js/views/repertorio.js` |
+| `#/plano` | `js/curso/plano.js` | `js/views/plano.js` |
+| `#/avaliacoes` | (usa currículo e progresso) | `js/views/avaliacoes.js` |
+| `#/tutor` | `js/curso/tutor.js` | `js/views/tutor.js` |
+| `#/materiais` | (conteúdo na própria tela) | `js/views/materiais.js` |
+
+Três coisas valem a pena entender no código:
+
+**A prova de nível** (`js/views/avaliacoes.js`) não tem um banco de perguntas próprio.
+Ela percorre as aulas do nível, pega os questionários das que você **já estudou** e sorteia
+doze perguntas. Isso evita duas coisas: perguntar sobre o que você ainda não viu e manter
+duas listas de perguntas que podem divergir.
+
+**O tutor** (`js/curso/tutor.js`) é uma árvore de decisão mais um glossário mais um gerador
+de planos. Não há modelo de linguagem nem chamada de rede: a função `montarPlano` calcula
+a escada de andamento a partir do BPM que você informa, e o diagnóstico é uma busca na
+lista `SINTOMAS`. A tela diz isso em voz alta, porque chamar de "IA" o que é uma árvore de
+`if` seria enganoso.
+
+**O cronômetro do plano** (`js/views/plano.js`) reaproveita `js/pratica.js`, o mesmo módulo
+que a tela de Hábitos já usava. Por isso o tempo contado no Plano aparece na sequência de
+dias sem nenhum código novo: os dois leem a mesma gaveta `pratica`.
+
+### O validador do curso
+
+Fora do app, existe um script que abre todas as aulas e confere, uma por uma: ids únicos e
+no padrão, pré-requisitos existentes e apontando para trás, presença de objetivo,
+disciplinas e assuntos cobertos, no mínimo cinco blocos, questionário com quatro perguntas
+ou mais, avaliação prática completa, pelo menos uma representação visual e pelo menos uma
+atividade prática, além da sintaxe dos blocos de pauta, tablatura, braço e acorde. Ele
+termina imprimindo a cobertura curricular. É esse script que sustenta a afirmação de que
+as 167 aulas têm teoria, visual e prática — em vez de confiar na memória de quem escreveu.

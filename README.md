@@ -46,8 +46,36 @@ Também fazem parte do curso:
 
 - **Biblioteca de Técnicas** (`#/tecnicas`): as 23 técnicas do violão clássico, cada uma
   com passo a passo, digitação, exercícios, erros comuns e critérios de autoavaliação.
-- **Central de Exercícios** (`#/exercicios`): exercícios filtráveis por nível, disciplina,
+- **Central de Exercícios** (`#/exercicios`): 49 exercícios filtráveis por nível, disciplina,
   técnica, dificuldade, tempo e objetivo, com registro de prática e de andamento atingido.
+- **Repertório** (`#/repertorio`): 44 obras **em domínio público**, do Renascimento ao
+  século XX, com filtros por período, nível, tonalidade, técnica e compositor, ficha de
+  estudo, aulas relacionadas e registro do seu estágio em cada peça.
+- **Meu Plano de Estudos** (`#/plano`): cinco rotinas prontas (20, 30, 45, 60 e 90 minutos)
+  com blocos marcáveis, cronômetro, plano semanal editável, metas e histórico de sessões.
+- **Avaliações** (`#/avaliacoes`): prova teórica de cada nível, com questões sorteadas entre
+  as aulas já estudadas (mínimo de 75%), e avaliação prática a partir dos critérios de
+  domínio das aulas, com histórico.
+- **Tutor pedagógico** (`#/tutor`): diagnóstico por sintoma, recomendação do que estudar,
+  glossário, gerador de plano de exercício e panorama por disciplina. É **baseado em regras**
+  e roda offline — não é um chat de IA e não escuta você tocar; isso está escrito na tela.
+- **Biblioteca de Materiais** (`#/materiais`): tabelas de consulta rápida (afinação, figuras,
+  armaduras, cifras, termos italianos, símbolos do violão, ornamentos), catálogo de métodos
+  e guia prático de direito autoral.
 
-Estado atual: **Níveis 1, 2 e 3 completos** (66 aulas). Níveis 4 a 8 mapeados, com
-conteúdo em preparação — acompanhe pela tela de Auditoria.
+Estado atual: **os 8 níveis estão completos** — 233 de 233 assuntos da grade, 167 aulas,
+verificados por um validador automático que confere, em cada aula, teoria, representação
+visual, atividade prática, questionário com no mínimo quatro perguntas e avaliação prática
+com critério de domínio.
+
+## Direito autoral
+
+O repositório é público, então nada protegido entra aqui:
+
+- A Biblioteca de Repertório só lista obras em **domínio público**, com o ano de morte do
+  autor declarado em cada ficha.
+- Os compositores ainda protegidos (Villa-Lobos, Rodrigo, Brouwer) têm aulas próprias que
+  ensinam a linguagem e preparam a técnica com **exercícios originais**, sem reproduzir
+  partitura, e indicam a edição licenciada.
+- Os exemplos musicais escritos nas aulas são de obras em domínio público ou foram
+  compostos para este curso.
