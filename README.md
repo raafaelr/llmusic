@@ -79,3 +79,21 @@ O repositório é público, então nada protegido entra aqui:
   partitura, e indicam a edição licenciada.
 - Os exemplos musicais escritos nas aulas são de obras em domínio público ou foram
   compostos para este curso.
+
+## Auditoria
+
+[`AUDITORIA.md`](AUDITORIA.md) confere item a item o que foi pedido contra o
+que existe no código, com cinco estados possíveis — e diz, em cada um, se foi
+validado por teste, por medição, ou se apenas funciona no navegador sem teste
+que o cubra. Termina com o que falta, em ordem de valor, e com o que nunca
+vai existir e por quê.
+
+## Conferências automáticas
+
+Rodam a cada envio para o GitHub (workflow `Conferir`):
+
+```
+node scripts/gerar-sw.mjs --conferir     # o cache offline está completo e com a versão certa
+node scripts/validar-curso.mjs           # o currículo está íntegro
+node scripts/conferir-contraste.mjs      # o contraste passa na WCAG nos dois temas
+```
