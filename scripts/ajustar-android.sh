@@ -4,6 +4,7 @@
 set -e
 M=android/app/src/main/AndroidManifest.xml
 add_perm() { grep -q "$1" "$M" || sed -i "s#<application#<uses-permission android:name=\"$1\" />\n    <application#" "$M"; }
+add_perm android.permission.CAMERA
 add_perm android.permission.RECORD_AUDIO
 add_perm android.permission.MODIFY_AUDIO_SETTINGS
 add_perm android.permission.POST_NOTIFICATIONS
@@ -11,3 +12,33 @@ add_perm android.permission.SCHEDULE_EXACT_ALARM
 add_perm android.permission.WAKE_LOCK
 grep -q 'android:screenOrientation' "$M" || sed -i 's#<activity#<activity android:screenOrientation="fullUser"#' "$M"
 echo "Manifest ajustado:"; grep -n "uses-permission\|screenOrientation" "$M"
+
+# Assinatura: aponta explicitamente para a chave do repositório.
+# Copiar a chave para ~/.android/debug.keystore NÃO basta — o plugin do
+# Android procura em outros lugares conforme o ambiente, e no GitHub ele
+# acabou assinando com uma chave própria. Declarando aqui não há dúvida.
+G=android/app/build.gradle
+if ! grep -q "llmusic_fixa" "$G"; then
+  python3 - "$G" <<'FIM'
+import re, sys
+caminho = sys.argv[1]
+t = open(caminho).read()
+assinatura = """
+    signingConfigs {
+        llmusic_fixa {
+            storeFile file("$rootDir/../chaves/debug.keystore")
+            storePassword "android"
+            keyAlias "androiddebugkey"
+            keyPassword "android"
+        }
+    }
+"""
+t = t.replace("android {", "android {" + assinatura, 1)
+t = re.sub(r"buildTypes\s*\{",
+           "buildTypes {\n        debug {\n            signingConfig signingConfigs.llmusic_fixa\n        }",
+           t, count=1)
+open(caminho, "w").write(t)
+print("build.gradle: assinatura fixa aplicada")
+FIM
+fi
+grep -n "llmusic_fixa" "$G" || echo "AVISO: nao consegui aplicar a assinatura no build.gradle"

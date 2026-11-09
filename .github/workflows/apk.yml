@@ -54,11 +54,23 @@ jobs:
         working-directory: android
         run: ./gradlew assembleDebug --no-daemon
 
+      # Confere de verdade: se o APK não estiver assinado com a chave do
+      # repositório, o build FALHA aqui. Sem este teste, uma assinatura
+      # trocada passa despercebida e só aparece no celular, na hora de
+      # instalar por cima — quando já é tarde.
       - name: Conferir a assinatura do APK
         run: |
           APK=android/app/build/outputs/apk/debug/app-debug.apk
           AS=$(ls "$ANDROID_HOME"/build-tools/*/apksigner | tail -1)
-          "$AS" verify --print-certs "$APK" | grep -i "SHA-256 digest" | head -1
+          ESPERADO=$(keytool -exportcert -keystore chaves/debug.keystore -alias androiddebugkey -storepass android 2>/dev/null | sha256sum | cut -d' ' -f1)
+          OBTIDO=$("$AS" verify --print-certs "$APK" | grep -im1 "certificate SHA-256 digest" | sed 's/.*: *//' | tr -d ' ')
+          echo "esperado: $ESPERADO"
+          echo "obtido:   $OBTIDO"
+          if [ "$ESPERADO" != "$OBTIDO" ]; then
+            echo "::error::O APK nao foi assinado com chaves/debug.keystore. Instalar por cima vai falhar."
+            exit 1
+          fi
+          echo "Assinatura confere.
 
       - name: Guardar APK
         uses: actions/upload-artifact@v4
