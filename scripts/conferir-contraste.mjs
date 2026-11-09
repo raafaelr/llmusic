@@ -63,7 +63,20 @@ const PARES = [
   ['linha-controle', 'superficie-2', 'borda de campo no cartão destacado', 3.0]
 ];
 
+// As bolinhas do braço não mudam com o tema, então são conferidas uma vez
+// só, todas contra o rótulo escuro. Foi aqui que um rótulo claro sobre cor
+// média passou meses com contraste 1,8 no tema claro.
+const PONTOS = ['raiz', 'neutro', 'alvo', 'certo', 'errado', 'quase'];
 let falhas = 0;
+console.log('--- BOLINHAS DO BRAÇO (sem tema) ---');
+for (const nome of PONTOS) {
+  const fundo = escuro['--pt-' + nome], texto = escuro['--pt-rotulo'];
+  if (!fundo || !texto) { console.log(`  ?      falta --pt-${nome} ou --pt-rotulo`); falhas++; continue; }
+  const r = razao(texto, fundo);
+  if (r < 4.5) falhas++;
+  console.log(`  ${r >= 4.5 ? 'ok   ' : 'BAIXO'} ${r.toFixed(2).padStart(5)} (alvo 4.5)  rótulo sobre ${nome}  ${texto} sobre ${fundo}`);
+}
+
 for (const [nome, tokens] of [['ESCURO (Concerto Noturno)', escuro], ['CLARO (Conservatório Clássico)', claro]]) {
   console.log('\n--- ' + nome + ' ---');
   for (const [fg, bg, desc, alvo] of PARES) {

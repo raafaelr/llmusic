@@ -76,6 +76,12 @@
   --e-5: 20px; --e-6: 24px; --e-8: 32px; --e-10: 40px;
 
   /* ---- Raios ---- */
+  /* Cores das bolinhas do braço. Fixas de propósito: são do diagrama, não da
+     interface. Todas claras o bastante para o rótulo escuro (≥4,5 pela WCAG). */
+  --pt-raiz: #F3EFE3;  --pt-neutro: #D9D4C8;  --pt-alvo: #B49358;
+  --pt-certo: #7FBF95; --pt-errado: #DD8A72;  --pt-quase: #E8C87A;
+  --pt-rotulo: #292D2A;
+
   --r-sm: 8px; --r-md: 12px; --r-lg: 16px; --r-xl: 20px; --r-pill: 999px;
 
   /* ---- Transições (respeitam movimento reduzido mais abaixo) ---- */
@@ -426,11 +432,11 @@ input[type=range] { width: 100%; height: 44px; accent-color: var(--destaque); ba
 .toque { fill: transparent; cursor: pointer; }
 .celula.fora { opacity: 0.25; pointer-events: none; }
 .ponto { fill: transparent; stroke: none; }
-.ponto.alvo { fill: var(--destaque); }
-.ponto.certo { fill: var(--ok); }
-.ponto.errado { fill: var(--ruim); }
-.ponto.quase { fill: var(--quase); }
-.ponto-txt { font-size: 10px; font-weight: 700; fill: var(--fundo); pointer-events: none; }
+.ponto.alvo { fill: var(--pt-alvo); }
+.ponto.certo { fill: var(--pt-certo); }
+.ponto.errado { fill: var(--pt-errado); }
+.ponto.quase { fill: var(--pt-quase); }
+.ponto-txt { font-size: 15px; font-weight: 700; fill: var(--pt-rotulo); pointer-events: none; }
 .feedback { text-align: center; min-height: 1.45em; font-weight: 600; color: var(--suave); }
 .feedback.certo { color: var(--ok); } .feedback.errado { color: var(--ruim); } .feedback.quase { color: var(--quase); }
 .placar { text-align: center; color: var(--suave); font-family: var(--mono); font-size: 14px; }
@@ -581,9 +587,11 @@ input[type=range] { width: 100%; height: 44px; accent-color: var(--destaque); ba
 .info-caged { font-size: 17px; font-weight: 600; min-height: 2.6em; }
 .ponto.f-C { fill: #4C9BE8; } .ponto.f-A { fill: #E86F9A; } .ponto.f-G { fill: #7BC86C; }
 .ponto.f-E { fill: #B58CF0; } .ponto.f-D { fill: #E8A24C; }
-.ponto.neutro { fill: var(--suave); }
+.ponto.neutro { fill: var(--pt-neutro); }
 .ponto.fraco { opacity: 0.35; }
-.ponto.raiz { stroke: var(--texto); stroke-width: 4; }
+/* A raiz precisa de preenchimento: só com o anel, o rótulo escuro caía
+   sobre a madeira escura e sumia. O anel continua marcando que é a raiz. */
+.ponto.raiz { fill: var(--pt-raiz); stroke: var(--pt-alvo); stroke-width: 3; }
 .barra-pestana { fill: color-mix(in srgb, var(--texto) 18%, transparent); stroke: var(--suave); stroke-width: 2; stroke-dasharray: 5 4; }
 .bt-aulas { min-height: 44px; padding: 0 14px; margin-left: auto; font-size: 14px; }
 .acoes-caged { grid-template-columns: 1fr 1.6fr; }
@@ -1446,6 +1454,12 @@ a.botao-sec { text-decoration: none; text-align: center; }
 }
 .grafismo-violao { width: 56px; height: 140px; opacity: 0.4; }
 .tela-vazia-texto { max-width: 36ch; margin: 0; font-size: var(--txt-sm); line-height: 1.6; }
+
+/* O braço tem largura mínima: num celular estreito ele rola na horizontal
+   em vez de encolher a ponto de os rótulos das notas ficarem ilegíveis.
+   A rolagem é interna, não empurra a página. */
+.bloco-fig:has(.braco-svg) { overflow-x: auto; }
+.braco-svg { min-width: 440px; }
 
 /* Moldura fina em volta do conteúdo musical. Todo diagrama e toda pauta das
    aulas sai como <figure class="bloco-fig">; emoldurar dá a eles a borda de

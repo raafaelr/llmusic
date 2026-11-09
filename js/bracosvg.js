@@ -9,8 +9,13 @@ function sv(tag, attrs, pai) {
 }
 
 export function criarBraco(svg, { casas = 12, aoToque = null } = {}) {
-  const L = 1000, X0 = 60, DY = 35, Y0 = 28, A = 244;
-  const passo = (L - X0 - 10) / casas;
+  // O viewBox acompanha o número de casas. Antes era sempre 1000 de largura,
+  // então um braço de 7 casas era desenhado espalhado e depois espremido para
+  // caber na tela do celular — e os rótulos dentro das bolinhas chegavam a
+  // 7 pixels, ilegíveis. Com a largura proporcional, a escala é bem maior.
+  const PASSO = 82, X0 = 60, DY = 35, Y0 = 28, A = 244;
+  const passo = PASSO;
+  const L = X0 + casas * passo + 10;
   const xCasa = (c) => (c === 0 ? X0 - 28 : X0 + (c - 0.5) * passo);
   const yCorda = (corda) => Y0 + (corda - 1) * DY;
   svg.innerHTML = '';
@@ -40,8 +45,8 @@ export function criarBraco(svg, { casas = 12, aoToque = null } = {}) {
     let g = pontos.get(chave);
     if (!g) {
       g = sv('g', { class: 'bolinha' }, camada);
-      g.__c = sv('circle', { cx: xCasa(casa), cy: yCorda(corda), r: 14 }, g);
-      g.__t = sv('text', { x: xCasa(casa), y: yCorda(corda) + 4, class: 'ponto-txt', 'text-anchor': 'middle' }, g);
+      g.__c = sv('circle', { cx: xCasa(casa), cy: yCorda(corda), r: 15 }, g);
+      g.__t = sv('text', { x: xCasa(casa), y: yCorda(corda) + 5, class: 'ponto-txt', 'text-anchor': 'middle' }, g);
       pontos.set(chave, g);
     }
     g.__c.setAttribute('class', 'ponto ' + classe);
