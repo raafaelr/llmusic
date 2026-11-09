@@ -4,7 +4,7 @@
 export function nativo() {
   return !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
 }
-function plugin(nome) {
+export function plugin(nome) {
   return window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins[nome];
 }
 

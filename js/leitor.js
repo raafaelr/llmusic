@@ -14,6 +14,65 @@
 // qualquer bloco novo passa a ser lido sem mexer aqui.
 import { Config } from './db.js';
 import { icone, botaoIcone } from './icones.js';
+import { plugin } from './nativo.js';
+
+// DOIS MOTORES DE VOZ, UM PARA CADA LUGAR
+//
+// No navegador e no PWA: speechSynthesis, que já vem no Chrome.
+// No APK: o WebView do Android NÃO tem speechSynthesis — é limitação antiga
+// e conhecida do WebView, não defeito do app. Lá a fala sai pelo plugin
+// TextToSpeech do Capacitor, que fala pelo mecanismo nativo do Android (o
+// mesmo das vozes que você instala nos Ajustes).
+//
+// Os dois têm a mesma forma aqui dentro: listar vozes, falar um trecho,
+// calar. O resto do leitor não sabe qual está em uso.
+function motorNativo() {
+  const tts = plugin('TextToSpeech');
+  if (!tts) return null;
+  return {
+    nome: 'nativo',
+    async vozes() {
+      const r = await tts.getSupportedVoices();
+      return (r.voices || []).map((v, i) => ({ name: v.name || v.voiceURI || ('Voz ' + i), lang: v.lang, indice: i }));
+    },
+    // Resolve quando terminar de falar; rejeita se for interrompido.
+    falar(texto, voz, velocidade) {
+      return tts.speak({
+        text: texto,
+        lang: (voz && voz.lang) || 'pt-BR',
+        rate: velocidade,
+        pitch: 1,
+        volume: 1,
+        voice: voz && typeof voz.indice === 'number' ? voz.indice : undefined,
+        category: 'playback'
+      });
+    },
+    calar() { return tts.stop().catch(() => {}); }
+  };
+}
+
+function motorWeb() {
+  const fala = window.speechSynthesis;
+  if (!fala) return null;
+  return {
+    nome: 'web',
+    fala,
+    async vozes() {
+      return fala.getVoices().map((v) => ({ name: v.name, lang: v.lang, local: v.localService, bruta: v }));
+    },
+    falar(texto, voz, velocidade) {
+      return new Promise((resolve, reject) => {
+        const u = new SpeechSynthesisUtterance(texto);
+        if (voz && voz.bruta) { u.voice = voz.bruta; u.lang = voz.lang; } else u.lang = 'pt-BR';
+        u.rate = velocidade;
+        u.onend = resolve;
+        u.onerror = (ev) => reject(new Error(ev.error || 'erro'));
+        fala.speak(u);
+      });
+    },
+    calar() { try { fala.cancel(); } catch { /* cancelar vazio irrita alguns navegadores */ } }
+  };
+}
 
 const C_VOZ = 'leitor.voz';
 const C_VEL = 'leitor.velocidade';
@@ -59,8 +118,11 @@ function extrair(corpo) {
 }
 
 export function criarLeitor(ondePor, corpo) {
-  const fala = window.speechSynthesis;
-  if (!fala) return null;                 // navegador sem voz: nada a montar
+  // No APK o motor nativo; no navegador o da web. Sem nenhum dos dois não há
+  // o que montar — e aí o botão simplesmente não aparece, em vez de aparecer
+  // e não funcionar.
+  const motor = motorNativo() || motorWeb();
+  if (!motor) return null;
 
   const partes = extrair(corpo);
   if (!partes.length) return null;
@@ -132,9 +194,10 @@ export function criarLeitor(ondePor, corpo) {
   ondePor.append(caixa);
 
   // -------------------------------------------------------------- vozes
-  function carregarVozes() {
-    vozes = fala.getVoices().filter((v) => /^pt([-_]BR)?/i.test(v.lang));
-    if (!vozes.length) vozes = fala.getVoices().filter((v) => /^pt/i.test(v.lang));
+  async function carregarVozes() {
+    const todas = await motor.vozes().catch(() => []);
+    vozes = todas.filter((v) => /^pt([-_]BR)?/i.test(v.lang || ''));
+    if (!vozes.length) vozes = todas.filter((v) => /^pt/i.test(v.lang || ''));
     selVoz.innerHTML = '';
     if (!vozes.length) {
       selVoz.append(new Option('Nenhuma voz em português instalada', ''));
@@ -144,7 +207,7 @@ export function criarLeitor(ondePor, corpo) {
       return;
     }
     selVoz.disabled = false;
-    vozes.forEach((v, k) => selVoz.append(new Option(v.name + (v.localService ? '' : ' (precisa de internet)'), String(k))));
+    vozes.forEach((v, k) => selVoz.append(new Option(v.name + (v.local === false ? ' (precisa de internet)' : ''), String(k))));
     const salva = vozes.findIndex((v) => v.name === (vozEscolhida && vozEscolhida.name));
     selVoz.selectedIndex = salva >= 0 ? salva : 0;
     vozEscolhida = vozes[selVoz.selectedIndex];
@@ -157,7 +220,10 @@ export function criarLeitor(ondePor, corpo) {
     await Config.guardar(C_VOZ, vozEscolhida ? vozEscolhida.name : '').catch(() => {});
     if (tocando) { silenciar(); dizer(); }
   };
-  if (typeof fala.addEventListener === 'function') fala.addEventListener('voiceschanged', carregarVozes);
+  // No motor da web a lista chega atrasada; no nativo já vem pronta.
+  if (motor.nome === 'web' && typeof motor.fala.addEventListener === 'function') {
+    motor.fala.addEventListener('voiceschanged', carregarVozes);
+  }
 
   // ------------------------------------------------------------- leitura
   function destacar() {
@@ -173,22 +239,21 @@ export function criarLeitor(ondePor, corpo) {
     if (encerrado || i >= partes.length) return terminar();
     destacar();
     const minha = ++geracao;
-    const u = new SpeechSynthesisUtterance(partes[i].texto);
-    if (vozEscolhida && vozEscolhida.lang) { u.voice = vozEscolhida; u.lang = vozEscolhida.lang; }
-    else u.lang = 'pt-BR';
-    u.rate = velocidade;
-    u.onend = () => { if (encerrado || minha !== geracao || !tocando) return; i++; dizer(); };
-    u.onerror = (ev) => {
-      if (encerrado || minha !== geracao) return;
-      if (ev.error === 'interrupted' || ev.error === 'canceled') return;
-      tocando = false; marcarTocando();
-      dica.textContent = 'A leitura parou (' + ev.error + '). Toque em Ouvir para continuar.';
-    };
-    fala.speak(u);
+    motor.falar(partes[i].texto, vozEscolhida, velocidade).then(
+      () => { if (encerrado || minha !== geracao || !tocando) return; i++; dizer(); },
+      (e) => {
+        if (encerrado || minha !== geracao) return;
+        const m = String((e && e.message) || e);
+        if (/interrupt|cancel/i.test(m)) return;
+        tocando = false; marcarTocando();
+        dica.textContent = 'A leitura parou (' + m + '). Toque em Ouvir para continuar.';
+      }
+    );
   }
 
-  // Cancela o que está falando e invalida os retornos pendentes.
-  function silenciar() { geracao++; fala.cancel(); }
+  // Cala a voz e invalida os retornos pendentes: parar uma locução faz o
+  // motor avisar que ela "terminou", e sem isto o leitor avançaria sozinho.
+  function silenciar() { geracao++; motor.calar(); }
 
   function marcarTocando() {
     btTocar.textContent = '';
@@ -215,7 +280,7 @@ export function criarLeitor(ondePor, corpo) {
   abrir.onclick = () => {
     painel.hidden = !painel.hidden;
     abrir.setAttribute('aria-expanded', String(!painel.hidden));
-    if (!painel.hidden && !vozes.length) carregarVozes();
+    if (!painel.hidden && !vozes.length) carregarVozes().catch(() => {});
   };
   abrir.setAttribute('aria-expanded', 'false');
 
@@ -224,7 +289,8 @@ export function criarLeitor(ondePor, corpo) {
     velocidade = await Config.obter(C_VEL, 1);
     if (encerrado) return;
     vozEscolhida = { name: nome };
-    carregarVozes();
+    await carregarVozes();
+    if (encerrado) return;
     const k = [0.8, 0.9, 1, 1.1, 1.25].indexOf(velocidade);
     if (k >= 0) velLinha.children[k].classList.add('ativo');
     progresso.textContent = partes.length + ' trechos nesta aula.';
@@ -234,7 +300,10 @@ export function criarLeitor(ondePor, corpo) {
   // Sair da tela com a voz falando seria o pior defeito possível.
   return () => {
     encerrado = true;
-    try { geracao++; fala.cancel(); } catch { /* alguns navegadores reclamam ao cancelar vazio */ }
-    if (typeof fala.removeEventListener === 'function') fala.removeEventListener('voiceschanged', carregarVozes);
+    geracao++;
+    try { motor.calar(); } catch { /* nada falando */ }
+    if (motor.nome === 'web' && typeof motor.fala.removeEventListener === 'function') {
+      motor.fala.removeEventListener('voiceschanged', carregarVozes);
+    }
   };
 }
