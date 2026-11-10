@@ -64,7 +64,7 @@ const CLAVE_SOL = 'M30,100 C19,99 9,107 10,118 C11,131 23,140 35,136 C49,131 55,
   + ' C34,56 31,76 31,100 C31,124 34,142 34,152 C34,166 28,174 18,173 C8,172 4,163 8,155';
 
 function desenharClave(g, x) {
-  const escala = 1;
+  const escala = 0.85;
   const gx = sv('g', { transform: `translate(${x - 8} ${yDe(2) - 100 * escala}) scale(${escala})`, class: 'clave-path' }, g);
   sv('path', { d: CLAVE_SOL, fill: 'none', 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }, gx);
   sv('circle', { cx: 30, cy: 100, r: 5 }, gx);
@@ -92,9 +92,9 @@ function desenharArmadura(g, x, armadura) {
 }
 
 function desenharFormula(g, x, [num, den]) {
-  const a = sv('text', { x, y: yDe(6) + 7, class: 'formula', 'text-anchor': 'middle' }, g);
+  const a = sv('text', { x, y: yDe(6) + 15, class: 'formula', 'text-anchor': 'middle' }, g);
   a.textContent = num;
-  const b = sv('text', { x, y: yDe(2) + 7, class: 'formula', 'text-anchor': 'middle' }, g);
+  const b = sv('text', { x, y: yDe(2) + 15, class: 'formula', 'text-anchor': 'middle' }, g);
   b.textContent = den;
 }
 
@@ -123,10 +123,13 @@ function desenharPausa(g, x, fig) {
 }
 
 // ---------- uma nota ----------
+// A cabeça de nota tem exatamente a altura de um espaço da pauta (2H) e fica
+// inclinada 20°: é assim nas editoras, e é o que faz a nota "assentar" na linha
+// em vez de parecer uma bolinha solta. Antes ela tinha 62% da altura do espaço.
 function cabeca(g, x, y, fig, classe) {
   const aberta = fig === 'semibreve' || fig === 'minima';
   sv('ellipse', {
-    cx: x, cy: y, rx: fig === 'semibreve' ? 11 : 9.5, ry: 7.5,
+    cx: x, cy: y, rx: fig === 'semibreve' ? 18.5 : 15.5, ry: 11.5,
     class: 'cabeca' + (aberta ? ' cabeca-aberta' : '') + (classe ? ' ' + classe : ''),
     transform: `rotate(-20 ${x} ${y})`
   }, g);
@@ -135,10 +138,10 @@ function cabeca(g, x, y, fig, classe) {
 function ganchos(g, x, yFim, paraCima, fig) {
   const n = fig === 'semicolcheia' ? 2 : fig === 'fusa' ? 3 : 1;
   for (let i = 0; i < n; i++) {
-    const y = yFim + (paraCima ? 1 : -1) * i * 9;
+    const y = yFim + (paraCima ? 1 : -1) * i * 17;
     const d = paraCima
-      ? `M${x},${y} c9,4 12,11 10,20 c-1,-7 -4,-11 -10,-13 z`
-      : `M${x},${y} c9,-4 12,-11 10,-20 c-1,7 -4,11 -10,13 z`;
+      ? `M${x},${y} c16,7 21,20 18,36 c-2,-13 -7,-20 -18,-23 z`
+      : `M${x},${y} c16,-7 21,-20 18,-36 c-2,13 -7,20 -18,23 z`;
     sv('path', { d, class: 'gancho' }, g);
   }
 }
@@ -311,7 +314,7 @@ function desenharCompasso(pai, comp, x0, largura, cfg) {
     const { n, i, x } = e;
     if (e.pausa) {
       desenharPausa(g, x, n.pausa);
-      if (n.ponto) sv('circle', { cx: x + 14, cy: yDe(5), r: 2.6, class: 'ponto-aum' }, g);
+      if (n.ponto) sv('circle', { cx: x + 20, cy: yDe(5), r: 3.6, class: 'ponto-aum' }, g);
       if (n.texto) rotulo(g, x, n.texto, cfg.yNomes);
       return;
     }
@@ -321,18 +324,18 @@ function desenharCompasso(pai, comp, x0, largura, cfg) {
 
     info.forEach((it, k) => {
       const y = yDe(it.pos);
-      linhasSupl(it.pos).forEach((p) => sv('line', { x1: x - 17, x2: x + 17, y1: yDe(p), y2: yDe(p), class: 'linha-pauta linha-supl' }, gN));
+      linhasSupl(it.pos).forEach((p) => sv('line', { x1: x - 23, x2: x + 23, y1: yDe(p), y2: yDe(p), class: 'linha-pauta linha-supl' }, gN));
       if (it.acc || n.bequadro) {
-        const t = sv('text', { x: x - 22 - k * 13, y: y + 7, class: 'acidente', 'text-anchor': 'middle' }, gN);
+        const t = sv('text', { x: x - 32 - k * 18, y: y + 16, class: 'acidente', 'text-anchor': 'middle' }, gN);
         t.textContent = n.bequadro ? '♮' : it.acc > 0 ? '♯' : '♭';
       }
       cabeca(gN, x, y, fig, n.cabeca);
-      if (n.ponto) sv('circle', { cx: x + 16, cy: y - (it.pos % 2 === 0 ? 6 : 0), r: 2.6, class: 'ponto-aum' }, gN);
+      if (n.ponto) sv('circle', { cx: x + 24, cy: y - (it.pos % 2 === 0 ? 12 : 0), r: 3.6, class: 'ponto-aum' }, gN);
     });
 
     if (fig !== 'semibreve') {
       const yAlto = yDe(info[info.length - 1].pos), yBaixo = yDe(info[0].pos);
-      const xh = paraCima ? x + 8.6 : x - 8.6;
+      const xh = paraCima ? x + 14.5 : x - 14.5;
       const comprimento = 7 * H;
       const yFim = paraCima ? yAlto - comprimento : yBaixo + comprimento;
       sv('line', { x1: xh, x2: xh, y1: paraCima ? yBaixo : yAlto, y2: yFim, class: 'haste' }, gN);
@@ -360,7 +363,7 @@ function desenharCompasso(pai, comp, x0, largura, cfg) {
     }
     if (n.texto) rotulo(g, x, n.texto, cfg.yNomes + (cfg.nomes ? 20 : 0));
     if (cfg.aoClicar) {
-      const r = sv('rect', { x: x - 16, y: Y_TOPO - 24, width: 32, height: (Y_BASE - Y_TOPO) + 48, class: 'toque' }, g);
+      const r = sv('rect', { x: x - 22, y: Y_TOPO - 24, width: 32, height: (Y_BASE - Y_TOPO) + 48, class: 'toque' }, g);
       r.onclick = () => cfg.aoClicar(i, n);
     }
   });
@@ -391,7 +394,7 @@ function desenharCompasso(pai, comp, x0, largura, cfg) {
     const menor = gr.map((i) => notas[i].fig).reduce((a, b) => (VALOR[b] < VALOR[a] ? b : a), 'colcheia');
     const extras = menor === 'fusa' ? 2 : menor === 'semicolcheia' ? 1 : 0;
     for (let k = 1; k <= extras; k++) {
-      const d = (cima ? 1 : -1) * k * 9;
+      const d = (cima ? 1 : -1) * k * 17;
       sv('line', { x1: xa, x2: xb, y1: ya + d, y2: yb + d, class: 'viga' }, g);
     }
   });

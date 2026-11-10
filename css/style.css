@@ -748,7 +748,7 @@ input[type=range] { width: 100%; height: 44px; accent-color: var(--destaque); ba
 
 /* ---------- Notação musical (js/musica/notacao.js) ---------- */
 .pauta-svg { width: 100%; height: auto; display: block; background: var(--superficie); border-radius: var(--r-md); padding: 6px 0; }
-.pauta-svg .linha-pauta { stroke: var(--texto); stroke-width: 1.3; }
+.pauta-svg .linha-pauta { stroke: var(--texto); stroke-width: 1.8; }
 .pauta-svg .linha-supl { stroke-width: 1.6; }
 .pauta-svg .barra-compasso { stroke: var(--texto); stroke-width: 1.6; }
 .pauta-svg .barra-final { stroke-width: 4.5; }
@@ -757,14 +757,14 @@ input[type=range] { width: 100%; height: 44px; accent-color: var(--destaque); ba
 .clave-path circle { fill: var(--texto); }
 .clave-oit { fill: var(--texto); font-size: 18px; font-weight: 700; }
 .pauta-svg .cabeca { fill: var(--texto); stroke: none; }
-.pauta-svg .cabeca-aberta { fill: none; stroke: var(--texto); stroke-width: 4; }
-.pauta-svg .haste { stroke: var(--texto); stroke-width: 2.2; }
-.pauta-svg .viga { stroke: var(--texto); stroke-width: 6.5; stroke-linecap: butt; }
+.pauta-svg .cabeca-aberta { fill: none; stroke: var(--texto); stroke-width: 5.5; }
+.pauta-svg .haste { stroke: var(--texto); stroke-width: 3.4; }
+.pauta-svg .viga { stroke: var(--texto); stroke-width: 11; stroke-linecap: butt; }
 .pauta-svg .gancho { fill: var(--texto); }
 .pauta-svg .ponto-aum { fill: var(--texto); }
-.pauta-svg .acidente { fill: var(--texto); font-size: 30px; font-weight: 600; }
+.pauta-svg .acidente { fill: var(--texto); font-size: 46px; font-weight: 600; }
 .pauta-svg .arm { font-size: 28px; }
-.pauta-svg .formula { fill: var(--texto); font-size: 30px; font-weight: 800; }
+.pauta-svg .formula { fill: var(--texto); font-size: 44px; font-weight: 800; }
 .pauta-svg .pausa-fig { fill: var(--texto); }
 .pauta-svg .pausa-haste { stroke: var(--texto); stroke-width: 2.6; fill: none; }
 .pauta-svg .nome-nota-pauta { fill: var(--suave); font-size: 17px; }
@@ -807,13 +807,20 @@ input[type=range] { width: 100%; height: 44px; accent-color: var(--destaque); ba
 .v-cavalete { fill: var(--linha); stroke: var(--texto); stroke-width: 1.6; }
 .v-rastilho { fill: var(--texto); }
 .v-corda { stroke: var(--texto); opacity: .85; }
+.v-fenda { fill: var(--fundo); stroke: var(--texto); stroke-width: 1.2; }
+.v-eixo { stroke: var(--suave); stroke-width: 3; stroke-linecap: round; }
+.v-botao { fill: var(--suave); stroke: none; }
 .v-guia { stroke: var(--suave); stroke-width: 1; stroke-dasharray: 3 3; }
 .v-rotulo { fill: var(--texto); font-size: 14px; font-weight: 600; }
 .diag-violao .apagado { opacity: .25; }
 .diag-violao .aceso { stroke: var(--destaque); }
 .diag-violao .v-escala.aceso, .diag-violao .v-boca.aceso { fill: var(--destaque); }
 
-.mao-palma { fill: var(--superficie-2); stroke: var(--texto); stroke-width: 2.4; }
+.mao-palma { fill: var(--superficie-2); stroke: var(--texto); stroke-width: 2.4; stroke-linejoin: round; }
+/* repintada por cima, sem traço, só para sumir com as junções dos dedos dentro da palma */
+.mao-palma-cheia { fill: var(--superficie-2); stroke: none; }
+.mao-dobra { fill: none; stroke: var(--texto); stroke-width: 1.3; opacity: .5; }
+.mao-unha { fill: var(--linha); stroke: var(--texto); stroke-width: 1.2; }
 .mao-polegar { fill: none; stroke: var(--texto); stroke-width: 2.4; }
 .mao-ponta { fill: var(--linha); stroke: var(--texto); stroke-width: 1.6; }
 .mao-ponta.aceso { fill: var(--destaque); }

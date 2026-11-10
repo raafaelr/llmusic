@@ -70,62 +70,93 @@ export function descreverAcorde(cordas) {
 // ===========================================================================
 // partes: lista de ids a destacar. Se vazia, mostra todas com rótulo.
 export const PARTES_VIOLAO = [
-  { id: 'cabeca', nome: 'Mão (cabeça)', x: 60, y: 126, lx: 54, ly: 44, desc: 'A ponta do braço, onde ficam as tarraxas.' },
-  { id: 'tarraxas', nome: 'Tarraxas', x: 44, y: 207, lx: 36, ly: 316, desc: 'As engrenagens que esticam ou afrouxam cada corda. É com elas que se afina.' },
-  { id: 'pestana', nome: 'Pestana', x: 121, y: 143, lx: 150, ly: 44, desc: 'A peça branca no fim do braço: é onde começa a parte que vibra de cada corda.' },
-  { id: 'braco', nome: 'Braço', x: 180, y: 195, lx: 170, ly: 316, desc: 'A parte comprida onde a mão esquerda trabalha.' },
-  { id: 'escala', nome: 'Escala', x: 250, y: 150, lx: 262, ly: 44, desc: 'A madeira escura colada sobre o braço, onde você aperta as cordas.' },
-  { id: 'trastes', nome: 'Trastes', x: 306, y: 191, lx: 310, ly: 316, desc: 'As barrinhas de metal. O espaço entre dois trastes é uma casa.' },
-  { id: 'tampo', nome: 'Tampo', x: 440, y: 92, lx: 420, ly: 44, desc: 'A tampa da frente. É ela que vibra e faz quase todo o som.' },
-  { id: 'boca', nome: 'Boca', x: 506, y: 218, lx: 500, ly: 316, desc: 'O buraco redondo. O som sai por ali depois de ressoar dentro da caixa.' },
-  { id: 'cordas', nome: 'Cordas', x: 600, y: 150, lx: 600, ly: 44, desc: 'Seis cordas. No violão clássico, as três mais agudas são de náilon.' },
-  { id: 'cavalete', nome: 'Cavalete', x: 726, y: 202, lx: 700, ly: 316, desc: 'A peça onde as cordas são amarradas. Leva a vibração para o tampo.' },
-  { id: 'corpo', nome: 'Corpo (caixa)', x: 830, y: 240, lx: 834, ly: 44, desc: 'A caixa de ressonância, que amplifica a vibração das cordas.' }
+  { id: 'cabeca', nome: 'Mão (cabeça)', x: 60, y: 138, lx: 56, ly: 44, desc: 'A ponta do braço, onde ficam as tarraxas.' },
+  { id: 'tarraxas', nome: 'Tarraxas', x: 40, y: 212, lx: 44, ly: 316, desc: 'As engrenagens que esticam ou afrouxam cada corda. É com elas que se afina.' },
+  { id: 'pestana', nome: 'Pestana', x: 169, y: 147, lx: 170, ly: 44, desc: 'A peça branca no fim do braço: é onde começa a parte que vibra de cada corda.' },
+  { id: 'braco', nome: 'Braço', x: 250, y: 196, lx: 250, ly: 316, desc: 'A parte comprida onde a mão esquerda trabalha.' },
+  { id: 'escala', nome: 'Escala', x: 330, y: 148, lx: 330, ly: 44, desc: 'A madeira escura colada sobre o braço, onde você aperta as cordas.' },
+  { id: 'trastes', nome: 'Trastes', x: 400, y: 196, lx: 400, ly: 316, desc: 'As barrinhas de metal. O espaço entre dois trastes é uma casa.' },
+  { id: 'tampo', nome: 'Tampo', x: 520, y: 110, lx: 500, ly: 44, desc: 'A tampa da frente. É ela que vibra e faz quase todo o som.' },
+  { id: 'boca', nome: 'Boca', x: 605, y: 209, lx: 605, ly: 316, desc: 'O buraco redondo. O som sai por ali depois de ressoar dentro da caixa.' },
+  { id: 'cordas', nome: 'Cordas', x: 660, y: 162, lx: 680, ly: 44, desc: 'Seis cordas. No violão clássico, as três mais agudas são de náilon.' },
+  { id: 'cavalete', nome: 'Cavalete', x: 748, y: 256, lx: 740, ly: 316, desc: 'A peça onde as cordas são amarradas. Leva a vibração para o tampo.' },
+  { id: 'corpo', nome: 'Corpo (caixa)', x: 858, y: 250, lx: 858, ly: 316, desc: 'A caixa de ressonância, que amplifica a vibração das cordas.' }
 ];
 
 // Desenha o violão inteiro (corpo, braço, cabeça, cordas) em coordenadas locais
 // de 0 a 900 na horizontal e 0 a 340 na vertical, com a cabeça à esquerda.
 // A anatomia e a postura usam o mesmo desenho, só que em tamanhos diferentes.
+// O desenho está em escala: um violão clássico tem 1000 mm de comprimento total,
+// então aqui 1 mm vale 0,9 unidade e o instrumento ocupa a caixa inteira (900 x 340),
+// com a linha das cordas no meio (y = 170). As medidas são as de um clássico padrão:
+// escala 650, corpo 487 de comprimento, bojo superior 278, cintura 243, bojo inferior
+// 368, pestana 52 de largura, boca 87 de diâmetro, 59 entre as cordas no cavalete.
+// Desenhar na medida certa custa o mesmo que desenhar no olho e sai parecido com um violão.
+const V = {
+  nut: 169.2,        // pestana (188 mm)
+  casa12: 461.7,     // onde o braço encontra o corpo (513 mm)
+  fimEscala: 558.9,  // a escala avança sobre o tampo até a 19ª casa
+  boca: 605.3, rBoca: 39.2,
+  rastilho: 754.2,   // 188 + 650 mm: o ponto que define a afinação
+  cy: 170, passo: 585 // 650 mm de escala x 0,9
+};
+// Contorno do corpo: curva passando por dezessete pontos medidos de um violão real.
+const CORPO_D = 'M461.7 107.0 470.3 91.2 478.9 79.9 487.5 71.2 496.1 64.6 504.7 59.4 513.3 55.0 521.9 51.7 530.5 49.3 539.0 47.3 547.6 45.7 556.2 44.9 564.8 45.1 573.4 45.6 582.0 46.5 590.6 47.4 599.2 48.6 607.8 50.4 616.4 52.4 625.0 54.2 633.6 55.8 642.2 57.5 650.8 59.0 659.4 60.2 668.0 60.6 676.6 60.0 685.1 58.2 693.7 55.7 702.3 52.7 710.9 49.7 719.5 45.6 728.1 40.4 736.7 34.7 745.3 28.9 753.9 23.0 762.5 15.6 771.1 8.6 779.7 4.6 788.3 4.5 796.9 4.8 805.5 5.4 814.1 6.2 822.7 7.9 831.2 11.2 839.8 15.3 848.4 19.9 857.0 25.9 865.6 33.8 874.2 45.8 882.8 64.2 891.4 93.1 900.0 170.0L900.0 170.0 891.4 246.9 882.8 275.8 874.2 294.2 865.6 306.2 857.0 314.1 848.4 320.1 839.8 324.7 831.2 328.8 822.7 332.1 814.1 333.8 805.5 334.6 796.9 335.2 788.3 335.5 779.7 335.4 771.1 331.4 762.5 324.4 753.9 317.0 745.3 311.1 736.7 305.3 728.1 299.6 719.5 294.4 710.9 290.3 702.3 287.3 693.7 284.3 685.1 281.8 676.6 280.0 668.0 279.4 659.4 279.8 650.8 281.0 642.2 282.5 633.6 284.2 625.0 285.8 616.4 287.6 607.8 289.6 599.2 291.4 590.6 292.6 582.0 293.5 573.4 294.4 564.8 294.9 556.2 295.1 547.6 294.3 539.0 292.7 530.5 290.7 521.9 288.3 513.3 285.0 504.7 280.6 496.1 275.4 487.5 268.8 478.9 260.1 470.3 248.8 461.7 233.0Z';
+// Cabeça fendida, como a de um violão clássico: 185 mm, alargando de 52 para 78.
+const CABECA_D = 'M169.2,146.6 C158.4,146.6 151.2,140.3 144,138.5 C108,135.8 63,134.9 36,134.9'
+  + ' C16.2,134.9 5.4,141.2 5.4,155.6 L5.4,184.4 C5.4,198.8 16.2,205.1 36,205.1'
+  + ' C63,205.1 108,204.2 144,201.5 C151.2,199.7 158.4,193.4 169.2,193.4 Z';
+
+// Distância da pestana até o traste n. Cada casa é 1/2^(1/12) da anterior: é essa
+// fórmula que faz as casas irem ficando menores, e não um espaçamento igual.
+export function xDoTraste(n) { return V.nut + V.passo * (1 - Math.pow(2, -n / 12)); }
+
 export function silhuetaViolao(g, { comDetalhe = true } = {}) {
-  sv('path', {
-    d: 'M340,89 C356,71 420,61 460,64 C500,67 516,83 540,91 C558,97 566,96 580,96'
-     + ' C596,96 604,85 628,71 C660,52 700,41 740,43 C796,46 846,75 870,115'
-     + ' C882,135 886,153 886,170 C886,187 882,205 870,225 C846,265 796,294 740,297'
-     + ' C700,299 660,288 628,269 C604,255 596,244 580,244 C566,244 558,243 540,249'
-     + ' C516,257 500,273 460,276 C420,279 356,269 340,251 Z',
-    class: 'v-corpo', 'data-id': 'corpo'
-  }, g);
-  sv('rect', { x: 118, y: 146, width: 228, height: 48, rx: 5, class: 'v-braco', 'data-id': 'braco' }, g);
-  sv('rect', { x: 126, y: 149, width: 220, height: 42, rx: 3, class: 'v-escala', 'data-id': 'escala' }, g);
-  sv('rect', { x: 116, y: 143, width: 9, height: 54, rx: 2, class: 'v-pestana', 'data-id': 'pestana' }, g);
-  sv('path', { d: 'M118,144 L38,126 C22,122 16,138 16,170 C16,202 22,218 38,214 L118,196 Z', class: 'v-cabeca', 'data-id': 'cabeca' }, g);
-  sv('circle', { cx: 506, cy: 170, r: 56, class: 'v-roseta', 'data-id': 'boca' }, g);
-  sv('circle', { cx: 506, cy: 170, r: 48, class: 'v-boca', 'data-id': 'boca' }, g);
-  sv('rect', { x: 676, y: 138, width: 100, height: 64, rx: 7, class: 'v-cavalete', 'data-id': 'cavalete' }, g);
+  sv('path', { d: CORPO_D, class: 'v-corpo', 'data-id': 'corpo' }, g);
+  sv('path', { d: CABECA_D, class: 'v-cabeca', 'data-id': 'cabeca' }, g);
+  // o braço vai se alargando da pestana (52 mm) até a 12ª casa (62 mm)
+  sv('path', { d: `M${V.nut},146.6 L${V.casa12},142.1 L${V.casa12},197.9 L${V.nut},193.4 Z`, class: 'v-braco', 'data-id': 'braco' }, g);
+  sv('path', { d: `M${V.casa12},142.1 L${V.fimEscala},140.3 L${V.fimEscala},199.7 L${V.casa12},197.9 Z`, class: 'v-escala', 'data-id': 'escala' }, g);
+  sv('rect', { x: V.nut - 4.5, y: 145.7, width: 5, height: 48.6, rx: 1.5, class: 'v-pestana', 'data-id': 'pestana' }, g);
+  sv('circle', { cx: V.boca, cy: V.cy, r: V.rBoca, class: 'v-boca', 'data-id': 'boca' }, g);
+  sv('circle', { cx: V.boca, cy: V.cy, r: V.rBoca + 4, class: 'v-roseta', 'data-id': 'boca' }, g);
+  // cavalete de 185 mm, com o rastilho em cima do ponto que define a escala
+  sv('path', { d: `M721.8,86.7 L774,86.7 L779.4,99.3 L779.4,240.7 L774,253.3 L721.8,253.3 L716.4,240.7 L716.4,99.3 Z`, class: 'v-cavalete', 'data-id': 'cavalete' }, g);
   if (!comDetalhe) return g;
-  sv('rect', { x: 686, y: 146, width: 11, height: 48, rx: 3, class: 'v-rastilho', 'data-id': 'cavalete' }, g);
-  for (let i = 0; i < 3; i++) {
-    sv('circle', { cx: 44 + i * 25, cy: 133, r: 6, class: 'v-tarraxa', 'data-id': 'tarraxas' }, g);
-    sv('circle', { cx: 44 + i * 25, cy: 207, r: 6, class: 'v-tarraxa', 'data-id': 'tarraxas' }, g);
+  sv('circle', { cx: V.boca, cy: V.cy, r: V.rBoca + 13, class: 'v-roseta', 'data-id': 'boca' }, g);
+  sv('rect', { x: V.rastilho - 1.8, y: 141, width: 3.6, height: 58, rx: 1, class: 'v-rastilho', 'data-id': 'cavalete' }, g);
+  for (let lado = -1; lado <= 1; lado += 2) {
+    sv('rect', { x: 23.4, y: V.cy + lado * 22.5 - 5.4, width: 93.6, height: 10.8, rx: 5.4, class: 'v-fenda', 'data-id': 'cabeca' }, g);
+    for (let k = 0; k < 3; k++) {
+      const xr = 39.6 + k * 28.8;
+      sv('circle', { cx: xr, cy: V.cy + lado * 22.5, r: 6.5, class: 'v-tarraxa', 'data-id': 'tarraxas' }, g);
+      sv('line', { x1: xr, x2: xr, y1: V.cy + lado * 22.5, y2: V.cy + lado * 39.6, class: 'v-eixo', 'data-id': 'tarraxas' }, g);
+      sv('ellipse', { cx: xr, cy: V.cy + lado * 43.2, rx: 4.5, ry: 6.3, class: 'v-botao', 'data-id': 'tarraxas' }, g);
+    }
   }
-  for (let i = 1; i <= 10; i++) {
-    const x = 126 + i * 20;
-    sv('line', { x1: x, x2: x, y1: 149, y2: 191, class: 'v-traste', 'data-id': 'trastes' }, g);
+  for (let n = 1; n <= 19; n++) {
+    const x = xDoTraste(n);
+    const meia = x <= V.casa12 ? 23.4 + (x - V.nut) / (V.casa12 - V.nut) * 4.5 : 29.7;
+    sv('line', { x1: x, x2: x, y1: V.cy - meia, y2: V.cy + meia, class: 'v-traste', 'data-id': 'trastes' }, g);
   }
+  // as cordas abrem de 43 mm na pestana para 59 mm no cavalete, e vão engrossando
   for (let i = 0; i < 6; i++) {
-    sv('line', { x1: 120, x2: 692, y1: 152 + i * 7.2, y2: 148 + i * 9.2, class: 'v-corda', 'data-id': 'cordas', 'stroke-width': 0.9 + i * 0.4 }, g);
+    const f = i / 5 - 0.5;
+    sv('line', { x1: V.nut - 2, x2: V.rastilho, y1: V.cy + f * 38.7, y2: V.cy + f * 53.1, class: 'v-corda', 'data-id': 'cordas', 'stroke-width': 0.8 + i * 0.38 }, g);
+    sv('line', { x1: 39.6, x2: V.nut - 2, y1: V.cy + f * 21, y2: V.cy + f * 38.7, class: 'v-corda', 'data-id': 'cordas', 'stroke-width': 0.7 + i * 0.28 }, g);
   }
   return g;
 }
 
 export function anatomiaViolao(svg, { destacar = [], rotulos = true } = {}) {
-  const L = 900, A = 340;
+  // O violão ocupa 900 x 340; a folga em volta é para os rótulos não caírem
+  // em cima do corpo, que nesta escala chega quase na borda de cima e de baixo.
+  const OFX = 20, OFY = 44;
   svg.innerHTML = '';
-  svg.setAttribute('viewBox', `0 0 ${L} ${A}`);
+  svg.setAttribute('viewBox', '0 0 940 428');
   svg.setAttribute('class', 'diag-violao');
-  const g = sv('g', {}, svg);
+  const g = sv('g', { transform: `translate(${OFX} ${OFY})` }, svg);
   silhuetaViolao(g);
-  sv('path', { d: 'M360,104 C380,92 426,86 458,88 C470,89 478,93 486,98', class: 'v-brilho' }, g);
 
   if (destacar.length) {
     g.querySelectorAll('[data-id]').forEach((e) => {
@@ -135,8 +166,10 @@ export function anatomiaViolao(svg, { destacar = [], rotulos = true } = {}) {
   if (rotulos) {
     const alvos = destacar.length ? PARTES_VIOLAO.filter((p) => destacar.includes(p.id)) : PARTES_VIOLAO;
     alvos.forEach((p) => {
-      sv('line', { x1: p.x, x2: p.lx, y1: p.y, y2: p.ly + (p.ly < 120 ? 8 : -12), class: 'v-guia' }, svg);
-      txt(svg, p.lx, p.ly, p.nome, 'v-rotulo');
+      const cima = p.ly < 120;
+      const ly = cima ? 30 : 412;
+      sv('line', { x1: p.x + OFX, x2: p.lx + OFX, y1: p.y + OFY, y2: ly + (cima ? 8 : -12), class: 'v-guia' }, svg);
+      txt(svg, p.lx + OFX, ly, p.nome, 'v-rotulo');
     });
   }
   return svg;
@@ -161,27 +194,97 @@ export const DEDOS_ESQ = [
 
 // Desenha uma mão estilizada vista de cima, com os dedos nomeados.
 // lado: 'direita' (p i m a c) ou 'esquerda' (1 2 3 4, com o polegar atrás).
+// Medidas de uma mão adulta (mm): mão 189 de comprimento, palma 107, largura 87.
+// Dedos, a partir da prega da palma: indicador 70, médio 80, anelar 75, mínimo 58,
+// polegar 65. Desenhar os quatro dedos iguais é o que fazia a mão antiga parecer
+// uma luva; aqui cada um tem o comprimento e a largura que tem na mão de verdade.
+const MAO_DEDOS = [
+  { k: 'i', bx: 158, by: 228, px: 150, py: 158, wb: 9.5, wp: 7.4, arco: -3 },
+  { k: 'm', bx: 181, by: 221, px: 180, py: 141, wb: 9.6, wp: 7.5, arco: 0 },
+  { k: 'a', bx: 204, by: 225, px: 209, py: 150, wb: 8.8, wp: 7.0, arco: 2.5 },
+  { k: 'c', bx: 224, by: 236, px: 236, py: 178, wb: 7.6, wp: 6.0, arco: 4 }
+];
+const MAO_POLEGAR = { k: 'p', bx: 152, by: 300, px: 92, py: 252, wb: 11, wp: 8, arco: -4 };
+const MAO_PALMA = 'M148 332 C141 316 140 300 142 284 C144 262 147 244 150 232'
+  + ' L168 227 L192 221 L214 225 L231 233 C236 248 238 268 236 288'
+  + ' C234 308 228 324 220 334 C206 342 162 342 148 332 Z';
+// a mão desenhada ocupa x 71..242 e y 111..342; isto a encaixa na metade esquerda
+// da figura, deixando a direita para a legenda
+const MAO_ESC = 1.3, MAO_OFX = -52.3, MAO_OFY = -126.3;
+const maoX = (x) => x * MAO_ESC + MAO_OFX;
+const maoY = (y) => y * MAO_ESC + MAO_OFY;
+
+// Dedo tapered: percorre a linha central e abre a largura para os dois lados,
+// terminando numa cúpula em vez de um corte reto.
+function dedoD({ bx, by, px, py, wb, wp, arco }) {
+  const mx = (bx + px) / 2 + arco, my = (by + py) / 2;
+  const P = [[bx, by], [mx, my], [px, py]], W = [wb, (wb + wp) / 2 * 1.02, wp];
+  const N = 12, cx = [], cy = [], w = [];
+  for (let i = 0; i < N; i++) {
+    const t = i / (N - 1), s = t * 2, j = Math.min(1, Math.floor(s)), u = s - j;
+    cx.push(P[j][0] + (P[j + 1][0] - P[j][0]) * u);
+    cy.push(P[j][1] + (P[j + 1][1] - P[j][1]) * u);
+    w.push(W[j] + (W[j + 1] - W[j]) * u);
+  }
+  let ux = cx[N - 1] - cx[N - 2], uy = cy[N - 1] - cy[N - 2];
+  const ul = Math.hypot(ux, uy) || 1; ux /= ul; uy /= ul;
+  [[0.5, 0.87], [0.8, 0.6], [0.97, 0.26]].forEach(([f, gg]) => {
+    cx.push(cx[N - 1] + ux * w[N - 1] * f); cy.push(cy[N - 1] + uy * w[N - 1] * f); w.push(w[N - 1] * gg);
+  });
+  const esq = [], dir = [];
+  for (let i = 0; i < cx.length; i++) {
+    const ax = cx[Math.min(i + 1, cx.length - 1)] - cx[Math.max(i - 1, 0)];
+    const ay = cy[Math.min(i + 1, cy.length - 1)] - cy[Math.max(i - 1, 0)];
+    const l = Math.hypot(ax, ay) || 1, nx = -ay / l, ny = ax / l;
+    esq.push([cx[i] + nx * w[i], cy[i] + ny * w[i]]);
+    dir.push([cx[i] - nx * w[i], cy[i] - ny * w[i]]);
+  }
+  const p = (a) => a.map(([x, y]) => `${x.toFixed(1)},${y.toFixed(1)}`).join(' L ');
+  return `M ${p(esq)} L ${p(dir.reverse())} Z`;
+}
+
 export function diagramaMao(svg, { lado = 'direita', destacar = [] } = {}) {
-  const L = 600, A = 340;
   svg.innerHTML = '';
-  svg.setAttribute('viewBox', `0 0 ${L} ${A}`);
+  svg.setAttribute('viewBox', '0 0 600 360');
   svg.setAttribute('class', 'diag-mao');
   const dir = lado === 'direita';
-  sv('path', { d: 'M150,320 C120,320 108,296 110,264 L118,170 C120,146 140,138 152,152 L166,170 L166,116'
-    + ' C166,98 192,98 192,116 L192,166 L196,106 C196,88 222,88 222,106 L222,166 L228,114'
-    + ' C228,96 254,96 254,114 L254,170 L262,132 C264,114 290,118 288,136 L280,216'
-    + ' C276,270 262,320 222,320 Z', class: 'mao-palma' }, svg);
-  sv('path', { d: 'M118,190 C96,178 72,190 66,212 C60,234 78,252 100,248 L124,242', class: 'mao-polegar' }, svg);
+  const g = sv('g', { transform: `translate(${MAO_OFX} ${MAO_OFY}) scale(${MAO_ESC})` }, svg);
+  sv('path', { d: dedoD(MAO_POLEGAR), class: 'mao-palma' }, g);
+  MAO_DEDOS.forEach((d) => sv('path', { d: dedoD(d), class: 'mao-palma' }, g));
+  sv('path', { d: MAO_PALMA, class: 'mao-palma' }, g);
+  sv('path', { d: MAO_PALMA, class: 'mao-palma-cheia' }, g);
+  // dobras das articulações e vãos entre os dedos: é o que faz ler como mão
+  MAO_DEDOS.forEach((d) => {
+    [[0.40, 1], [0.72, 0.86]].forEach(([f, esc]) => {
+      const x = d.bx + (d.px - d.bx) * f + d.arco * Math.sin(Math.PI * f);
+      const y = d.by + (d.py - d.by) * f;
+      const w = (d.wb + (d.wp - d.wb) * f) * esc;
+      sv('path', { d: `M${(x - w).toFixed(1)} ${y.toFixed(1)} Q${x.toFixed(1)} ${(y + 2.4).toFixed(1)} ${(x + w).toFixed(1)} ${y.toFixed(1)}`, class: 'mao-dobra' }, g);
+    });
+    sv('ellipse', {
+      cx: (d.px + (d.bx - d.px) * 0.045).toFixed(1), cy: (d.py + (d.by - d.py) * 0.045).toFixed(1),
+      rx: (d.wp * 0.7).toFixed(1), ry: (d.wp * 0.95).toFixed(1), class: 'mao-unha'
+    }, g);
+  });
+  for (let j = 0; j < 3; j++) {
+    const a = MAO_DEDOS[j], b = MAO_DEDOS[j + 1];
+    const mx = (a.bx + b.bx) / 2, my = (a.by + b.by) / 2;
+    sv('path', { d: `M${mx - 4} ${my + 1} Q${mx} ${my - 7} ${mx + 4} ${my + 1}`, class: 'mao-dobra' }, g);
+  }
+  sv('ellipse', { cx: 94.7, cy: 254.2, rx: 5.6, ry: 7.6, class: 'mao-unha' }, g);
 
   const dedos = dir ? DEDOS_DIR : DEDOS_ESQ;
-  const pontas = [{ x: 179, y: 106, k: 1 }, { x: 209, y: 96, k: 2 }, { x: 241, y: 104, k: 3 }, { x: 274, y: 126, k: 4 }];
   const polegar = dir ? DEDOS_DIR[0] : { s: 'P', nome: 'polegar', uso: 'fica atrás do braço, como apoio' };
   const marcar = (x, y, d, r) => {
     sv('circle', { cx: x, cy: y, r, class: 'mao-ponta' + (destacar.includes(d.s) ? ' aceso' : ''), 'data-dedo': d.s }, svg);
     txt(svg, x, y + 6, d.s, 'mao-letra');
   };
-  pontas.forEach((pt) => { const d = dedos[dir ? pt.k : pt.k - 1]; if (d) marcar(pt.x, pt.y, d, 17); });
-  marcar(78, 220, polegar, 18);
+  // a letra fica na ponta do dedo que ela nomeia, e não solta ao lado
+  MAO_DEDOS.forEach((d, j) => {
+    const dd = dedos[dir ? j + 1 : j];
+    if (dd) marcar(maoX(d.px), maoY(d.py - 19), dd, 14);
+  });
+  marcar(maoX(MAO_POLEGAR.px - 10), maoY(MAO_POLEGAR.py - 11), polegar, 14);
 
   // legenda ao lado: assim os nomes nunca se sobrepõem
   const lista = dir ? DEDOS_DIR : [polegar, ...DEDOS_ESQ];
@@ -230,12 +333,17 @@ export function diagramaPostura(svg, { tipo = 'classica' } = {}) {
   sv('circle', { cx: 212, cy: 56, r: 30, class: 'po-pele' }, svg);
 
   // o violão
+  // O violão agora é desenhado em escala real, com o corpo 28% mais alto que o
+  // desenho antigo; estas escalas o deixam do mesmo tamanho aparente de antes.
   const t = classica
-    ? 'translate(355 67) rotate(-40) scale(-0.372 0.372)'
-    : 'translate(392 150) rotate(-17) scale(-0.36 0.36)';
+    ? 'translate(338 97) rotate(-40) scale(-0.30 0.30)'
+    : 'translate(366 171) rotate(-17) scale(-0.29 0.29)';
   const gv = sv('g', { transform: t, class: 'po-guitarra' }, svg);
   silhuetaViolao(gv, { comDetalhe: false });
-  for (let i = 0; i < 6; i++) sv('line', { x1: 120, x2: 692, y1: 152 + i * 7.2, y2: 148 + i * 9.2, class: 'v-corda', 'stroke-width': 2.4 }, gv);
+  for (let i = 0; i < 6; i++) {
+    const f = i / 5 - 0.5;
+    sv('line', { x1: V.nut, x2: V.rastilho, y1: V.cy + f * 38.7, y2: V.cy + f * 53.1, class: 'v-corda', 'stroke-width': 2.4 }, gv);
+  }
 
   // braços por cima: o direito cai sobre o tampo, o esquerdo segura o braço do violão
   const maoD = classica ? [222, 262] : [214, 286];
