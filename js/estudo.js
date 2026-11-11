@@ -41,9 +41,32 @@ export function criarEstudo(ir) {
   // ---------------------------------------------------------------- botão
   const botao = botaoIcone('estudo-entrar', 'expandir', 'Modo Estudo');
   botao.setAttribute('aria-label', 'Entrar no Modo Estudo: esconde os menus e mostra a barra de prática');
-  botao.hidden = true;
   botao.onclick = () => entrar();
-  document.body.append(botao);
+  botao.hidden = true;
+
+  // O botão entra no corpo da tela, logo abaixo do cabeçalho, e não flutuando
+  // por cima dela. Antes ele era fixo no canto de baixo e tapava a linha do
+  // texto da aula que estivesse ali — e o texto da aula é o conteúdo do app.
+  // Cada tela é remontada do zero pelo roteador, então ele é recolocado a cada
+  // troca; por isso move, em vez de ser criado uma vez e ficar parado.
+  // A maioria das telas se desenha depois de ler o banco, então quando o
+  // roteador avisa da troca o cabeçalho ainda não existe. Em vez de chutar um
+  // tempo de espera, fica de olho no #app até o cabeçalho aparecer, e larga.
+  let espiao = null;
+  function colocar() {
+    const topo = document.querySelector('#app .topo');
+    if (!topo) return false;
+    topo.after(botao);
+    return true;
+  }
+  function mostrarBotao(sim) {
+    if (espiao) { espiao.disconnect(); espiao = null; }
+    botao.hidden = !sim;
+    if (!sim) { botao.remove(); return; }
+    if (colocar()) return;
+    espiao = new MutationObserver(() => { if (colocar()) { espiao.disconnect(); espiao = null; } });
+    espiao.observe(document.getElementById('app'), { childList: true, subtree: true });
+  }
 
   // ---------------------------------------------------------------- barra
   const barra = el('div', 'estudo-barra');
@@ -150,7 +173,7 @@ export function criarEstudo(ir) {
     if (ligado) return;
     ligado = true;
     document.documentElement.setAttribute('data-estudo', '');
-    botao.hidden = true;
+    mostrarBotao(false);
     barra.hidden = false;
     garantirMetro();
     inicio = Date.now();
@@ -169,7 +192,7 @@ export function criarEstudo(ir) {
     ligado = false;
     document.documentElement.removeAttribute('data-estudo');
     barra.hidden = true;
-    botao.hidden = !ROTAS_ESTUDO.has(rotaAtual);
+    mostrarBotao(ROTAS_ESTUDO.has(rotaAtual));
     if (metro && metro.rodando) { metro.parar(); bMetro.textContent = '▶'; bMetro.classList.remove('ligado'); }
     if (relogio) { clearInterval(relogio); relogio = null; }
     pararPratica();
@@ -198,7 +221,7 @@ export function criarEstudo(ir) {
       rotaAtual = rota;
       argAtual = arg;
       const vale = ROTAS_ESTUDO.has(rota);
-      botao.hidden = ligado || !vale;
+      mostrarBotao(!ligado && vale);
       if (!vale && ligado) sair();
       if (vale) descobrirVizinhos(rota, arg);
     },

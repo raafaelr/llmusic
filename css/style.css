@@ -123,8 +123,7 @@
     --suave: #5B6A5F;
     --linha: #D9D4C8;
     --linha-forte: #C3BCAB;
-  --linha-controle: #8A7D5F;   /* borda de campo e botão: 3:1 contra o fundo (WCAG 1.4.11) */
-  --linha-controle: #8A7D5F;   /* borda de campo e botão: 3:1 contra o fundo (WCAG 1.4.11) */
+    --linha-controle: #8A7D5F; /* borda de campo e botão: 3:1 contra o fundo (WCAG 1.4.11) */
     --destaque: #86682F;
     --sobre-destaque: #FCFAF4;
     --acao: #496D5B;
@@ -280,11 +279,14 @@ button.cartao:active { transform: translateY(1px); background: var(--superficie-
 
 /* ---------- Metrônomo ---------- */
 .metronomo { display: grid; gap: 16px; grid-template-columns: 1fr; }
-.topo { display: flex; align-items: center; gap: var(--e-2); margin-bottom: var(--e-2); }
-.topo .botao-texto { white-space: nowrap; flex: 0 0 auto; }
-.topo .titulo-tela { flex: 1 1 auto; min-width: 0; }
+/* Cabeçalho de tela: o botão de voltar fica na linha de cima, sozinho, e o
+   título embaixo. Lado a lado, um título de duas linhas passava por cima do
+   botão — e todo título longo do curso tem duas linhas a 360px. */
+.topo { display: flex; flex-wrap: wrap; align-items: center; gap: var(--e-1) var(--e-2); margin-bottom: var(--e-2); }
+.topo .botao-texto { white-space: nowrap; flex: 0 0 100%; justify-content: flex-start; text-align: left; }
+.topo .titulo-tela { flex: 1 1 100%; min-width: 0; }
 .titulo-tela { font-family: var(--fonte-titulo); font-size: var(--txt-xl); font-weight: 600; line-height: 1.1; }
-.botao-texto { background: none; border: 0; color: var(--acao); font-weight: 600; min-height: 48px; padding: 0 var(--e-3) 0 0; }
+.botao-texto { display: inline-flex; align-items: center; background: none; border: 0; color: var(--acao); font-weight: 600; min-height: 48px; padding: 0 var(--e-3) 0 0; }
 :root:not([data-tema='claro']) .botao-texto { color: var(--destaque); }
 .coluna { display: flex; flex-direction: column; gap: 14px;
   /* Item de grade/flex não encolhe abaixo do conteúdo sem isto: era por
@@ -711,8 +713,11 @@ input[type=range] { width: 100%; height: 44px; accent-color: var(--destaque); ba
 .aulas-caged .dica-bloco { background: color-mix(in srgb, var(--destaque) 14%, transparent); border-left: 4px solid var(--destaque); padding: 10px 12px; border-radius: var(--r-sm); line-height: 1.45; }
 .aulas-caged .lista-bloco { padding-left: 20px; line-height: 1.55; display: flex; flex-direction: column; gap: 4px; }
 .aulas-caged .bloco-tocar, .aulas-caged .bloco-check { display: flex; flex-direction: column; gap: 6px; border: 1px solid var(--linha); border-radius: var(--r-sm); padding: 10px; margin: 6px 0; }
-.aulas-caged .item-check { display: flex; gap: 10px; align-items: flex-start; min-height: 44px; align-items: center; }
-.aulas-caged .item-check input { width: 22px; height: 22px; flex: none; }
+/* Lista de "o que eu já fiz" das aulas. A regra era restrita a .aulas-caged e
+   por isso só valia nas aulas do CAGED: nas outras 167 aulas a caixinha ficava
+   com os 13px que o navegador dá por padrão. O rótulo inteiro é o alvo. */
+.item-check { display: flex; gap: 10px; align-items: center; min-height: 44px; }
+.item-check input { width: 22px; height: 22px; flex: none; }
 .cartao-exame { border-color: var(--destaque); }
 
 /* ---- Importar tablatura ---- */
@@ -729,12 +734,10 @@ input[type=range] { width: 100%; height: 44px; accent-color: var(--destaque); ba
 .acoes-cartao { display: flex; gap: 8px; flex-wrap: wrap; }
 @media (max-width: 420px) { .form-revisao { grid-template-columns: 1fr; } }
 
-/* ---- Menu lateral ---- */
-.menu-aba { position: fixed; left: 0; top: 50%; transform: translateY(-50%); z-index: 40; width: 22px; height: 72px; padding: 0; border: 1px solid var(--linha); border-left: 0; border-radius: 0 12px 12px 0; background: color-mix(in srgb, var(--superficie-2) 82%, transparent); color: var(--destaque); font-size: 22px; font-weight: 800; line-height: 1; opacity: .8; }
+/* ---- Menu ---- */
 .config-linha { display: flex; gap: var(--e-3); align-items: flex-start; padding: var(--e-3); border: 1px solid var(--linha); border-radius: var(--r-md); background: var(--superficie); }
 .config-linha input[type="checkbox"] { width: 22px; height: 22px; margin-top: 2px; flex: 0 0 auto; }
 .config-linha > div { display: flex; flex-direction: column; gap: 2px; }
-.menu-aba:active { opacity: 1; }
 .menu-veu { position: fixed; inset: 0; z-index: 50; background: rgba(0,0,0,.5); opacity: 0; transition: opacity .2s; }
 .menu-veu.aberta { opacity: 1; }
 .menu-gaveta { position: fixed; top: 0; bottom: 0; left: 0; z-index: 60; width: min(80vw, 300px); background: var(--vl-verde-floresta); color: var(--vl-marfim); border-right: 1px solid var(--destaque); transform: translateX(-100%); transition: transform .2s ease; overflow-y: auto; padding: 12px 10px calc(16px + env(safe-area-inset-bottom)); display: flex; flex-direction: column; gap: 2px; }
@@ -748,7 +751,7 @@ input[type=range] { width: 100%; height: 44px; accent-color: var(--destaque); ba
 .menu-item:active { background: rgba(243, 239, 227, 0.14); }
 .menu-item[aria-current="page"] { background: var(--vl-verde-musical); color: var(--vl-marfim); font-weight: 600; box-shadow: inset 3px 0 0 var(--vl-dourado); }
 .aviso-sair { position: fixed; left: 50%; bottom: calc(28px + env(safe-area-inset-bottom)); transform: translateX(-50%); z-index: 70; background: var(--superficie-2); color: var(--texto); border: 1px solid var(--linha); border-radius: var(--r-xl); padding: 10px 18px; font-size: 15px; }
-@media (orientation: landscape) and (max-height: 460px) { .menu-aba { height: 56px; } .menu-item { min-height: 40px; font-size: 16px; } }
+@media (orientation: landscape) and (max-height: 460px) { .menu-item { min-height: 40px; font-size: 16px; } }
 @media (prefers-reduced-motion: reduce) { .menu-gaveta, .menu-veu { transition: none; } }
 
 /* ---------- Notação musical (js/musica/notacao.js) ---------- */
@@ -1124,8 +1127,23 @@ input[type=range] { width: 100%; height: 44px; accent-color: var(--destaque); ba
 .tutor-fala { border: 1px solid var(--linha); border-radius: var(--r-md); padding: 12px 14px; background: var(--superficie-2); margin-bottom: 10px; }
 .tutor-fala.eu { border-color: var(--destaque); background: color-mix(in srgb, var(--destaque) 10%, var(--superficie-2)); }
 .tutor-opcoes { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
-.plano-bloco .corpo .link-aula { display: inline-block; margin-top: 4px; }
-.plano-bloco input[type="checkbox"] { flex: 0 0 auto; width: 20px; height: 20px; margin-top: 2px; }
+/* "Abrir: <exercício>" é o botão que leva para a prática do dia: é a ação da
+   rotina, não uma citação no meio do texto. Alinhado à esquerda com o resto do
+   bloco, e não centralizado como um botão de formulário. */
+.plano-bloco .corpo .link-aula {
+  display: inline-flex; align-items: center; justify-content: flex-start;
+  text-align: left; margin-top: var(--e-2);
+}
+/* Caixa de "concluí" da rotina: marcada com o violão na mão, muitas vezes sem
+   olhar com calma. A caixinha continua com 22px, que é o tamanho que se
+   enxerga; quem recebe o toque é o rótulo de 44 em volta dela. Padding na
+   própria caixa não serviria: o navegador ignora em input[type=checkbox]. */
+.plano-bloco input[type="checkbox"] { flex: 0 0 auto; width: 22px; height: 22px; }
+.cx-alvo {
+  flex: 0 0 auto; width: 44px; height: 44px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+}
 .plano-bloco .botao-sec.sm { flex: 0 0 auto; }
 
 /* ============================================================================
@@ -1185,19 +1203,17 @@ input[type=range] { width: 100%; height: 44px; accent-color: var(--destaque); ba
    que é navegação e decoração, e abre espaço para a partitura.
    =================================================================== */
 
-/* Botão de entrada: flutua no canto, discreto, acima do conteúdo. */
+/* Botão de entrada: fica no corpo da tela, abaixo do cabeçalho. */
 .estudo-entrar {
-  position: fixed;
-  right: var(--e-4);
-  bottom: calc(var(--e-4) + env(safe-area-inset-bottom, 0px));
-  z-index: 40;
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--e-2);
+  align-self: flex-start;
+  margin-bottom: var(--e-3);
   padding: var(--e-3) var(--e-5);
   border: 1px solid var(--linha-forte);
   border-radius: var(--r-pill);
   background: var(--superficie);
   color: var(--texto);
   font: 600 var(--txt-sm) / 1 var(--fonte);
-  box-shadow: var(--sombra);
   cursor: pointer;
   transition: background var(--t-rapida), border-color var(--t-rapida);
 }
@@ -1267,7 +1283,6 @@ input[type=range] { width: 100%; height: 44px; accent-color: var(--destaque); ba
 }
 
 /* ------------------------------------------- o que o modo esconde e abre */
-:root[data-estudo] .menu-aba,
 :root[data-estudo] .menu-fundo,
 :root[data-estudo] .saguao-rodape,
 :root[data-estudo] .pauta-divisor,
@@ -1561,11 +1576,17 @@ input[type='number'], input[type='text'], input[type='search'], select, textarea
 
 /* Alvo de toque: 44px é o mínimo confortável com o violão na mão.
    Vale para tudo que se toca, menos o que está dentro de texto corrido. */
-button, .chip, a.botao-sec, .botao-sec, .botao-principal, label.config-linha {
+button, .chip, a.botao-sec, .botao-sec, .botao-principal, label.config-linha,
+.link-aula, .campo-num, .campo-busca, input[type='search'], summary {
   min-height: 44px;
 }
-.botao-texto, .link-aula { min-height: 36px; }
-.chip { display: inline-flex; align-items: center; }
+/* summary é um alvo de toque como outro qualquer: precisa da altura inteira,
+   não só do tamanho da letra. O espaço vem de padding, e não de display:flex,
+   porque flex apaga o triangulinho que avisa que aquilo abre. */
+summary { padding-block: 13px; cursor: pointer; }
+/* Um chip de um dígito só ("1", "2") encolhia para 41px de largura. O mínimo
+   vale nos dois sentidos: 44 de altura não adianta se der 41 de largura. */
+.chip { display: inline-flex; align-items: center; min-width: 44px; justify-content: center; }
 
 /* Pular para o conteúdo: primeiro foco da página, escondido até receber foco. */
 .pular-para-conteudo {
@@ -1590,38 +1611,71 @@ button, .chip, a.botao-sec, .botao-sec, .botao-principal, label.config-linha {
 }
 
 /* ===================================================================
-   RÉGUA DE ÍCONES (menu lateral em tela larga)
-   Só aparece com espaço para ela; no celular a aba e a gaveta bastam.
-   A gaveta já abre por cima, então nada aqui desloca a página.
+   RÉGUA DE ÍCONES — as seis áreas do app
+   A mesma régua nas duas larguras, só que virada: no celular ela é uma
+   barra no rodapé, em tela larga uma coluna na lateral. Os botões, o que
+   cada um faz e a gaveta que abrem são exatamente os mesmos.
+
+   Antes, no celular, o menu abria por uma aba de 22px de largura grudada
+   na lateral, no meio da tela, por cima do conteúdo. Era o único caminho
+   para os 25 destinos e o pior alvo de toque do app.
+
+   Os dois formatos ficam cada um na sua media query, e nenhuma regra solta
+   fora delas, para um não sobrescrever o outro sem querer.
    =================================================================== */
-.menu-regua { display: none; }
+.menu-regua {
+  position: fixed; z-index: 45;
+  background: var(--vl-verde-floresta);
+}
+.regua-bt {
+  display: flex; align-items: center; justify-content: center;
+  border: 0; background: transparent; color: var(--vl-cinza-papel);
+  cursor: pointer;
+  transition: background var(--t-rapida), color var(--t-rapida);
+}
+.regua-bt.ativo { color: var(--vl-dourado); }
+.regua-bt:focus-visible { outline: 2px solid var(--vl-dourado); outline-offset: -3px; }
 
-@media (min-width: 760px) {
-  .menu-aba { display: none; }
-
+/* ---- Celular: barra no rodapé, seis áreas com nome ---- */
+@media (max-width: 759px) {
   .menu-regua {
-    position: fixed; left: 0; top: 0; bottom: 0;
-    z-index: 45;
+    left: 0; right: 0; bottom: 0;
+    display: grid; grid-template-columns: repeat(6, 1fr);
+    border-top: 1px solid var(--linha-controle);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  .regua-bt { flex-direction: column; gap: 2px; min-height: 56px; min-width: 0; padding: 6px 2px; }
+  /* A área atual: o nome em marfim, não em dourado. Dourado sobre o verde
+     floresta dá 3,93 — serve para um ícone (3:1), não para um rótulo de 10px
+     (4,5). Então o dourado fica no ícone e no filete, e o texto em marfim,
+     que dá 9,90. Medido com scripts/conferir-contraste.mjs. */
+  .regua-bt.ativo { color: var(--vl-marfim); background: rgba(243, 239, 227, 0.1); }
+  .regua-bt.ativo .ic-t { color: var(--vl-dourado); }
+  .regua-bt.ativo { box-shadow: inset 0 2px 0 var(--vl-dourado); }
+  .regua-txt {
+    font-size: 10px; line-height: 1.1; font-weight: 600;
+    max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  /* Fixar a gaveta aberta só faz sentido onde ela cabe ao lado do conteúdo. */
+  .regua-fixar { display: none; }
+  /* O conteúdo termina acima da barra, senão a última linha fica embaixo dela. */
+  body { padding-bottom: calc(56px + env(safe-area-inset-bottom, 0px)); }
+}
+
+/* ---- Tela larga: coluna na lateral, só ícone ---- */
+@media (min-width: 760px) {
+  .menu-regua {
+    left: 0; top: 0; bottom: 0;
     display: flex; flex-direction: column; align-items: center;
     gap: var(--e-1);
     width: 56px;
     padding: var(--e-3) 0;
-    background: var(--vl-verde-floresta);
     border-right: 1px solid var(--linha-controle);
   }
-  .regua-bt {
-    width: 44px; height: 44px;
-    display: flex; align-items: center; justify-content: center;
-    border: 0; border-radius: var(--r-md);
-    background: transparent;
-    color: var(--vl-cinza-papel);
-    font-size: 20px; line-height: 1;
-    cursor: pointer;
-    transition: background var(--t-rapida), color var(--t-rapida);
-  }
+  .regua-bt { width: 44px; height: 44px; border-radius: var(--r-md); font-size: 20px; line-height: 1; }
   .regua-bt:hover { background: rgba(243, 239, 227, 0.12); color: var(--vl-marfim); }
-  .regua-bt:focus-visible { outline: 2px solid var(--vl-dourado); outline-offset: -2px; }
-  .regua-bt.ativo { background: rgba(243, 239, 227, 0.16); color: var(--vl-dourado); }
+  .regua-bt.ativo { background: rgba(243, 239, 227, 0.16); }
+  .regua-txt { display: none; }
   .regua-fixar { margin-top: auto; font-size: 17px; }
   .regua-fixar.ativo { color: var(--vl-dourado); }
 
@@ -1633,7 +1687,7 @@ button, .chip, a.botao-sec, .botao-sec, .botao-principal, label.config-linha {
 
 /* No Modo Estudo a régua some junto com o resto da navegação. */
 :root[data-estudo] .menu-regua { display: none; }
-:root[data-estudo] body { padding-left: 0; }
+:root[data-estudo] body { padding-left: 0; padding-bottom: 0; }
 .aviso-revisao { display: block; margin: var(--e-3) 0 0; color: var(--destaque); font-weight: 600; text-align: left; padding-left: 0; }
 
 /* Ícones do Tabler (js/icones.js). Tamanho pelo CSS, cor por currentColor. */

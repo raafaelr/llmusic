@@ -139,7 +139,10 @@ export function montar(raiz, ir) {
         await Config.guardar(C_SESSAO, m);
         caixa.classList.toggle('feito', cx.checked);
       };
-      caixa.append(cx);
+      // O rótulo em volta é o que dá os 44px de alvo; a caixinha fica com 22.
+      const alvo = el('label', 'cx-alvo');
+      alvo.append(cx);
+      caixa.append(alvo);
       sec1.append(caixa);
     });
     tela.append(sec1);
@@ -230,7 +233,9 @@ export function montar(raiz, ir) {
         await Config.guardar(C_METAS, lista);
         if (!encerrada) desenhar();
       };
-      caixa.append(cx);
+      const alvoMeta = el('label', 'cx-alvo');
+      alvoMeta.append(cx);
+      caixa.append(alvoMeta);
       const corpo = el('div', 'corpo');
       corpo.append(el('strong', '', m.texto));
       if (m.prazo) corpo.append(el('span', 'cartao-desc', 'Prazo: ' + m.prazo));

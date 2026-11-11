@@ -1,14 +1,14 @@
-// Menu lateral.
+// Menu.
 //
-// Duas formas da mesma coisa, conforme a largura da tela:
-//  - celular: uma aba na borda abre a gaveta por cima do conteúdo;
-//  - tela larga: uma régua de ícones fica sempre visível e, ao tocar num
-//    ícone, a gaveta se abre por cima — sem deslocar nem redimensionar a
-//    página — já no grupo escolhido.
+// Uma régua com as seis áreas do app, na mesma ordem nas duas larguras:
+//  - celular: barra no rodapé, com ícone e nome curto;
+//  - tela larga: coluna de ícones na lateral.
+// Tocar numa área abre a gaveta já no grupo escolhido, por cima do conteúdo —
+// sem deslocar nem redimensionar a página. Início é tela única e vai direto.
 //
 // Fecha tocando fora, em "Fechar", no botão Voltar ou com Esc. Também abre
-// arrastando o dedo da borda esquerda. Fixada, fica aberta durante a
-// navegação, e a escolha é guardada no aparelho.
+// arrastando o dedo da borda esquerda. Fixada (só em tela larga), fica aberta
+// durante a navegação, e a escolha é guardada no aparelho.
 import { Config } from './db.js';
 import { icone } from './icones.js';
 
@@ -16,6 +16,10 @@ const C_FIXADO = 'ui.menuFixo';
 
 // Um ícone por grupo, na ordem de GRUPOS.
 const ICONES = ['inicio', 'aprendizado', 'estudio', 'biblioteca', 'evolucao', 'ajustes'];
+
+// Nome curto para a barra do celular: "Aprendizado" e "Estúdio de prática" não
+// cabem em 60px. O nome inteiro continua no title e no aria-label.
+const CURTOS = ['Início', 'Aprender', 'Estúdio', 'Biblioteca', 'Evolução', 'Ajustes'];
 
 const GRUPOS = [
   ['', [['', 'Início']]],
@@ -49,10 +53,6 @@ function el(tag, classe, texto) {
 }
 
 export function criarMenu(ir) {
-  const aba = el('button', 'menu-aba');
-  aba.append(icone('avancar'));
-  aba.setAttribute('aria-label', 'Abrir menu');
-  aba.setAttribute('aria-expanded', 'false');
   const veu = el('div', 'menu-veu');
   const gaveta = el('nav', 'menu-gaveta');
   gaveta.setAttribute('aria-label', 'Menu principal');
@@ -93,9 +93,10 @@ export function criarMenu(ir) {
   const botoesRegua = GRUPOS.map(([titulo], g) => {
     const nome = titulo || 'Início';
     const b = el('button', 'regua-bt');
-    b.append(icone(ICONES[g] || 'inicio'));
-    b.title = nome;                      // tooltip quando recolhida
+    b.append(icone(ICONES[g] || 'inicio'), el('span', 'regua-txt', CURTOS[g] || nome));
+    b.title = nome;                      // tooltip quando só o ícone aparece
     b.setAttribute('aria-label', nome);
+    b.setAttribute('aria-expanded', 'false');
     b.dataset.grupo = String(g);
     // Início é uma tela só: vai direto, sem abrir a gaveta para um item.
     b.onclick = () => { if (!titulo) { if (!fixado) fecharMenu(); ir(''); } else abrir(g); };
@@ -130,6 +131,11 @@ export function criarMenu(ir) {
     if (fixado) abrir();
   }).catch(() => {});
 
+  // Cada botão da régua é o que abre a gaveta, então todos contam o estado dela.
+  function anunciarAberta(sim) {
+    botoesRegua.forEach((b) => b.setAttribute('aria-expanded', String(sim)));
+  }
+
   const rotaAtual = () => location.hash.replace(/^#\/?/, '');
   function marcar() {
     const r = rotaAtual();
@@ -148,7 +154,7 @@ export function criarMenu(ir) {
     gaveta.hidden = false;
     veu.hidden = fixado;
     requestAnimationFrame(() => { gaveta.classList.add('aberta'); veu.classList.add('aberta'); });
-    aba.setAttribute('aria-expanded', 'true');
+    anunciarAberta(true);
     const doGrupo = grupo !== undefined && itens.find((b) => b.dataset.grupo === String(grupo));
     const atual = doGrupo || itens.find((b) => b.getAttribute('aria-current')) || itens[0];
     if (doGrupo && cabecalhos[grupo]) cabecalhos[grupo].scrollIntoView({ block: 'start' });
@@ -158,12 +164,13 @@ export function criarMenu(ir) {
     if (fixado) return false;
     if (gaveta.hidden) return false;
     gaveta.classList.remove('aberta'); veu.classList.remove('aberta');
-    aba.setAttribute('aria-expanded', 'false');
+    anunciarAberta(false);
     setTimeout(() => { if (!gaveta.classList.contains('aberta')) { gaveta.hidden = true; veu.hidden = true; } }, 220);
-    aba.focus({ preventScroll: true });
+    // O foco volta para o botão da área de onde a gaveta saiu; se nenhuma está
+    // marcada, para o primeiro. Antes voltava para a aba, que não existe mais.
+    (botoesRegua.find((b) => b.classList.contains('ativo')) || botoesRegua[0]).focus({ preventScroll: true });
     return true;
   }
-  aba.onclick = () => abrir();
   fechar.onclick = fecharMenu;
   veu.onclick = fecharMenu;
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') fecharMenu(); });
@@ -187,6 +194,6 @@ export function criarMenu(ir) {
   window.addEventListener('hashchange', () => { if (!gaveta.hidden) marcar(); marcarRegua(); });
   marcarRegua();
 
-  document.body.append(aba, regua, veu, gaveta);
+  document.body.append(regua, veu, gaveta);
   return { aberto: () => !gaveta.hidden, fechar: fecharMenu };
 }
