@@ -1,6 +1,6 @@
 // Meu Plano de Estudos: rotina do dia com cronômetro, plano semanal editável,
 // metas e histórico de sessões. Rota #/plano.
-import { ROTINAS, rotinaPorId, DIAS, DIAS_CURTO, SEMANA_PADRAO, METAS_SUGERIDAS } from '../curso/plano.js';
+import { ROTINAS, rotinaPorId, DIAS, DIAS_CURTO, SEMANA_PADRAO, METAS_SUGERIDAS, exercicioDoDia } from '../curso/plano.js';
 import { Config, Pratica, Sessoes } from '../db.js';
 import { hojeISO, comecarPratica, pararPratica, minutosTexto } from '../pratica.js';
 import { icone, botaoIcone } from '../icones.js';
@@ -15,6 +15,7 @@ function el(tag, classe, texto) {
 const C_SEMANA = 'plano.semana';
 const C_METAS = 'plano.metas';
 const C_SESSAO = 'plano.sessaoAtual';   // blocos marcados da sessão em andamento
+const C_EXERC = 'exercicios.registro'; // mesma gaveta que a Central de Exercícios usa
 
 // Datas dos últimos n dias, da mais antiga para a mais recente.
 function ultimosDias(n) {
@@ -44,6 +45,7 @@ export function montar(raiz, ir) {
     const semana = await Config.obter(C_SEMANA, SEMANA_PADRAO);
     const metas = await Config.obter(C_METAS, []);
     const marcados = await Config.obter(C_SESSAO, {});
+    const regExerc = await Config.obter(C_EXERC, {});
     const praticaTudo = await Pratica.todos();
     const sessoes = Object.values(await Sessoes.todos()).sort((a, b) => (a.em < b.em ? 1 : -1));
     if (encerrada) return;
@@ -103,6 +105,7 @@ export function montar(raiz, ir) {
     sec1.append(botoes);
 
     // blocos da rotina
+    const jaEscolhidos = [];   // para o exercício secundário não repetir o principal
     rotina.blocos.forEach((b, i) => {
       const chave = hojeISO() + '.' + rotina.id + '.' + i;
       const feito = !!marcados[chave];
@@ -111,7 +114,17 @@ export function montar(raiz, ir) {
       const corpo = el('div', 'corpo');
       corpo.append(el('strong', '', b.titulo));
       corpo.append(el('span', 'cartao-desc', b.o_que));
-      if (b.rota) {
+      // Blocos de técnica abrem direto no exercício do dia, em vez de jogarem o
+      // aluno na Central com a lista inteira para filtrar no meio da sessão.
+      const ex = b.tipos ? exercicioDoDia(b, { registro: regExerc, diaISO: hojeISO(), excluir: jaEscolhidos }) : null;
+      if (ex) {
+        jaEscolhidos.push(ex.id);
+        corpo.append(el('span', 'cartao-desc hoje-ex', 'Hoje: ' + ex.nome + ' · ' + ex.minutos
+          + ' min · ' + ex.dificuldade + '. Escolhido no rodízio, entre os que você menos praticou.'));
+        const l = el('button', 'link-aula', 'Abrir: ' + ex.nome);
+        l.onclick = () => ir('exercicios/' + ex.id);
+        corpo.append(l);
+      } else if (b.rota) {
         const l = el('button', 'link-aula', 'Abrir a ferramenta');
         l.onclick = () => ir(b.rota);
         corpo.append(l);

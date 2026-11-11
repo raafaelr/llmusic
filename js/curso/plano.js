@@ -1,3 +1,5 @@
+import { EXERCICIOS } from './exercicios.js';
+
 // Dados do Plano de Estudos: rotinas diárias prontas e plano semanal padrão.
 //
 // Uma rotina é uma sequência de blocos com duração e objetivo. O aluno escolhe
@@ -13,7 +15,7 @@ export const ROTINAS = [
     blocos: [
       { min: 5, titulo: 'Aquecimento', o_que: 'Cordas soltas com som pleno e uma escala lenta em duas oitavas. Sem velocidade, sem metrônomo. Atenção ao contato do dedo e à postura.', rota: 'afinador' },
       { min: 10, titulo: 'Técnica de mão direita', o_que: 'Arpejos: dez fórmulas do Op. 1 de Giuliani ou o padrão da peça que você estuda. Com metrônomo, anotando o andamento atingido.', rota: 'metronomo' },
-      { min: 10, titulo: 'Técnica de mão esquerda', o_que: 'Escalas, ligados, pestana ou mudanças de posição — um por dia, em rodízio. Com metrônomo e critério de domínio.', rota: 'exercicios' },
+      { min: 10, titulo: 'Técnica de mão esquerda', o_que: 'Escalas, ligados, pestana ou mudanças de posição — um por dia, em rodízio. Com metrônomo e critério de domínio.', tipos: ['escalas', 'cromatismos', 'independencia', 'coordenacao'], rota: 'exercicios' },
       { min: 5, titulo: 'Leitura à primeira vista', o_que: 'Material novo, todos os dias, sem parar. Mais fácil que o seu nível. Nunca repita a mesma peça de leitura na mesma semana.', rota: 'leitura' },
       { min: 20, titulo: 'Repertório', o_que: 'Dois ou três pontos de trabalho escolhidos antes de começar. Nada de tocar a peça inteira repetidamente: isso é execução, não estudo.', rota: 'repertorio' },
       { min: 5, titulo: 'Teoria ou percepção', o_que: 'Uma aula do curso, um exercício de percepção ou a análise de um trecho da peça que você estuda.', rota: 'curso' },
@@ -27,7 +29,7 @@ export const ROTINAS = [
     para: 'Para os dias corridos. Mantém o essencial: um pouco de técnica, repertório e leitura.',
     blocos: [
       { min: 3, titulo: 'Aquecimento', o_que: 'Cordas soltas e uma escala lenta.', rota: '' },
-      { min: 7, titulo: 'Técnica', o_que: 'Um único exercício, com metrônomo e objetivo claro.', rota: 'exercicios' },
+      { min: 7, titulo: 'Técnica', o_que: 'Um único exercício, com metrônomo e objetivo claro.', tipos: ['escalas', 'arpejos', 'cromatismos', 'coordenacao', 'independencia'], rota: 'exercicios' },
       { min: 15, titulo: 'Repertório', o_que: 'Um ponto de trabalho só, bem escolhido.', rota: 'repertorio' },
       { min: 5, titulo: 'Leitura', o_que: 'Um trecho novo, sem parar.', rota: 'leitura' }
     ]
@@ -51,7 +53,7 @@ export const ROTINAS = [
     blocos: [
       { min: 5, titulo: 'Aquecimento', o_que: 'Notas longas, som pleno, atenção à postura.', rota: '' },
       { min: 15, titulo: 'Técnica de mão direita', o_que: 'Arpejos e, se for o caso, tremolo ou rasgueado, com metrônomo.', rota: 'metronomo' },
-      { min: 15, titulo: 'Técnica de mão esquerda', o_que: 'Escalas em três oitavas, ligados, pestanas e mudanças de posição.', rota: 'exercicios' },
+      { min: 15, titulo: 'Técnica de mão esquerda', o_que: 'Escalas em três oitavas, ligados, pestanas e mudanças de posição.', tipos: ['escalas', 'cromatismos', 'independencia', 'coordenacao'], rota: 'exercicios' },
       { min: 10, titulo: 'Leitura à primeira vista', o_que: 'Duas peças novas, sem parar, com metrônomo.', rota: 'leitura' },
       { min: 30, titulo: 'Repertório', o_que: 'Três pontos de trabalho, escolhidos antes. Isolar, progredir, transferir.', rota: 'repertorio' },
       { min: 10, titulo: 'Execução completa', o_que: 'Uma peça inteira, sem parar, gravada. Tocar inteiro é uma habilidade diferente de tocar trechos.', rota: '' },
@@ -65,8 +67,8 @@ export const ROTINAS = [
     para: 'Para semanas em que o objetivo é destravar um problema técnico específico.',
     blocos: [
       { min: 5, titulo: 'Aquecimento', o_que: 'Sem metrônomo, som pleno.', rota: '' },
-      { min: 15, titulo: 'Exercício principal', o_que: 'O exercício que resolve o problema da semana: isolamento, progressão, critério.', rota: 'exercicios' },
-      { min: 10, titulo: 'Exercício secundário', o_que: 'Outra competência, em rodízio, para não perder o resto.', rota: 'exercicios' },
+      { min: 15, titulo: 'Exercício principal', o_que: 'O exercício que resolve o problema da semana: isolamento, progressão, critério.', tipos: ['escalas', 'arpejos', 'cromatismos', 'coordenacao', 'independencia'], rota: 'exercicios' },
+      { min: 10, titulo: 'Exercício secundário', o_que: 'Outra competência, em rodízio, para não perder o resto.', tipos: ['escalas', 'arpejos', 'cromatismos', 'coordenacao', 'independencia'], rota: 'exercicios' },
       { min: 10, titulo: 'Transferência', o_que: 'O trecho real da peça em que esse problema aparece.', rota: 'repertorio' },
       { min: 5, titulo: 'Tocar por prazer', o_que: 'Algo que já sai bem.', rota: '' }
     ]
@@ -74,6 +76,31 @@ export const ROTINAS = [
 ];
 
 export const rotinaPorId = (id) => ROTINAS.find((r) => r.id === id) || ROTINAS[0];
+
+// Escolhe o exercício do dia para um bloco da rotina.
+//
+// Por que isto existe: o bloco dizia "um por dia, em rodízio" e mandava o aluno
+// para a Central de Exercícios com a lista inteira aberta. Quem está no meio da
+// sessão, com o violão na mão, não quer filtrar nada — quer o exercício de hoje.
+//
+// Critério, nesta ordem:
+//  1. o menos praticado (o app já guarda quantas vezes cada um foi feito);
+//  2. entre esses, o de nível mais baixo — é o que faz a dificuldade subir
+//     sozinha: enquanto houver básico por fazer, vem o básico; quando tudo do
+//     nível tiver sido praticado uma vez, o rodízio sobe;
+//  3. no empate, um rodízio pela data, para dois dias seguidos não caírem no
+//     mesmo exercício só porque ambos estão zerados.
+export function exercicioDoDia(bloco, { registro = {}, diaISO = '', excluir = [] } = {}) {
+  if (!bloco || !bloco.tipos) return null;
+  const candidatos = EXERCICIOS.filter((e) => bloco.tipos.includes(e.tipo) && !excluir.includes(e.id));
+  if (!candidatos.length) return null;
+  const vezes = (e) => (registro[e.id] && registro[e.id].vezes) || 0;
+  const menosFeitos = candidatos.filter((e) => vezes(e) === Math.min(...candidatos.map(vezes)));
+  const nivelMin = Math.min(...menosFeitos.map((e) => e.nivel || 0));
+  const empatados = menosFeitos.filter((e) => (e.nivel || 0) === nivelMin);
+  const semente = [...String(diaISO)].reduce((a, c) => a + c.charCodeAt(0), 0);
+  return empatados[semente % empatados.length];
+}
 
 // Plano semanal padrão: qual é o foco de cada dia. O aluno pode editar.
 export const DIAS = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];

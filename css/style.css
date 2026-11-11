@@ -1109,6 +1109,8 @@ input[type=range] { width: 100%; height: 44px; accent-color: var(--destaque); ba
 .plano-bloco .min { flex: 0 0 56px; font-variant-numeric: tabular-nums; color: var(--suave); font-size: 14px; }
 .plano-bloco .corpo { flex: 1; min-width: 0; }
 .plano-bloco .corpo strong { display: block; }
+/* a linha que anuncia o exercício do dia precisa de linha própria */
+.plano-bloco .corpo .hoje-ex { display: block; margin-top: 4px; color: var(--destaque); }
 .plano-bloco.feito { border-color: var(--ok); }
 .plano-barra { height: 10px; border-radius: 6px; background: var(--superficie-2); overflow: hidden; border: 1px solid var(--linha); }
 .plano-barra > span { display: block; height: 100%; background: var(--destaque); }
