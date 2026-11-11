@@ -1,0 +1,609 @@
+<title>Três direções para o LLMusic</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Layout: uma coluna de leitura; as maquetes de celular ficam em trilhos de 360 px
+   que empilham no telefone. A paleta é a mesma do app (Villa-Lobos), tokens iguais,
+   para as maquetes serem fiéis e não uma aproximação. */
+:root {
+  --vl-verde-floresta:#263F35; --vl-verde-musical:#496D5B; --vl-verde-salvia:#879989;
+  --vl-marfim:#F3EFE3; --vl-dourado:#B49358; --vl-madeira:#986748;
+  --vl-grafite:#292D2A; --vl-cinza-papel:#D9D4C8; --vl-terracota:#A65F45;
+
+  --fundo:#F3EFE3; --fundo-alt:#EBE5D6; --superficie:#FCFAF4; --superficie-2:#EDE7D9;
+  --texto:#292D2A; --suave:#5B6A5F; --linha:#D9D4C8; --linha-forte:#C3BCAB;
+  --linha-controle:#8A7D5F; --destaque:#86682F; --sobre-destaque:#FCFAF4;
+  --acao:#496D5B; --sobre-acao:#F3EFE3; --madeira:#86583C;
+  --ok:#2E6B47; --ruim:#A65F45; --quase:#8A6B30;
+  --sombra:0 1px 2px rgba(41,45,42,.08), 0 8px 24px rgba(41,45,42,.07);
+
+  --fonte:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --fonte-titulo:'Cormorant Garamond','Iowan Old Style',Georgia,serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --fundo:#121714; --fundo-alt:#0E1310; --superficie:#1B2420; --superficie-2:#243029;
+    --texto:#F3EFE3; --suave:#A3B3A7; --linha:#33443A; --linha-forte:#46594C;
+    --linha-controle:#627D6B; --destaque:#C9A86B; --sobre-destaque:#121714;
+    --acao:#5C8570; --sobre-acao:#0E1310; --madeira:#B07E5C;
+    --ok:#7FBF95; --ruim:#DD8A72; --quase:#D8B463;
+    --sombra:0 1px 2px rgba(0,0,0,.4), 0 6px 18px rgba(0,0,0,.25);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --fundo:#121714; --fundo-alt:#0E1310; --superficie:#1B2420; --superficie-2:#243029;
+  --texto:#F3EFE3; --suave:#A3B3A7; --linha:#33443A; --linha-forte:#46594C;
+  --linha-controle:#627D6B; --destaque:#C9A86B; --sobre-destaque:#121714;
+  --acao:#5C8570; --sobre-acao:#0E1310; --madeira:#B07E5C;
+  --ok:#7FBF95; --ruim:#DD8A72; --quase:#D8B463;
+  --sombra:0 1px 2px rgba(0,0,0,.4), 0 6px 18px rgba(0,0,0,.25);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin:0; background:var(--fundo); color:var(--texto);
+  font-family:var(--fonte); font-size:16px; line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.pag {
+  max-width: 1120px; margin:0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 40px 72px;
+}
+h1,h2,h3 { font-family:var(--fonte-titulo); font-weight:600; text-wrap:balance; margin:0; line-height:1.15; }
+h1 { font-size:clamp(34px,7vw,52px); letter-spacing:-.01em; }
+h2 { font-size:clamp(26px,5vw,36px); }
+h3 { font-size:21px; }
+p { margin:0; max-width:66ch; }
+.sub { color:var(--suave); }
+.eyebrow {
+  font-size:12px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--suave); font-weight:600;
+}
+a { color:var(--destaque); }
+
+header.topo { display:flex; flex-direction:column; gap:14px; padding-bottom:28px; }
+.barra-tema { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+.bt-tema {
+  font:inherit; font-size:13px; font-weight:500; cursor:pointer;
+  background:var(--superficie); color:var(--texto);
+  border:1px solid var(--linha-controle); border-radius:999px;
+  padding:10px 16px; min-height:44px;
+}
+.bt-tema:hover { background:var(--superficie-2); }
+.bt-tema:focus-visible { outline:2px solid var(--destaque); outline-offset:2px; }
+
+section { padding-block: 40px; border-top:1px solid var(--linha); }
+section:first-of-type { border-top:0; }
+.cab-sec { display:flex; flex-direction:column; gap:10px; margin-bottom:26px; }
+
+/* ---- tabela de defeitos medidos ---- */
+.rolo { overflow-x:auto; margin-top:22px; }
+table { border-collapse:collapse; width:100%; min-width:620px; font-size:14.5px; }
+th, td { text-align:left; padding:11px 12px; border-bottom:1px solid var(--linha); vertical-align:top; }
+th { font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--suave); font-weight:600; }
+td.num { font-variant-numeric:tabular-nums; white-space:nowrap; color:var(--ruim); font-weight:600; }
+td code { font-family:ui-monospace,Menlo,Consolas,monospace; font-size:13px; color:var(--madeira); }
+
+/* ---- grade das direções ---- */
+.dir-cab { display:flex; flex-wrap:wrap; align-items:baseline; gap:12px; }
+.selo {
+  font-family:var(--fonte-titulo); font-size:30px; line-height:1;
+  color:var(--destaque); font-weight:700;
+}
+.dir-corpo { display:grid; gap:28px; grid-template-columns:1fr; margin-top:24px; }
+@media (min-width:900px) { .dir-corpo { grid-template-columns: 1fr 1fr; align-items:start; } }
+.telas { display:flex; gap:18px; flex-wrap:wrap; }
+.notas { display:flex; flex-direction:column; gap:20px; }
+.notas ul { margin:0; padding-left:1.1em; display:flex; flex-direction:column; gap:7px; }
+.notas li { max-width:60ch; }
+.custo {
+  display:flex; flex-wrap:wrap; gap:8px;
+}
+.tag {
+  font-size:12.5px; font-weight:600; padding:6px 11px; border-radius:999px;
+  border:1px solid var(--linha-forte); color:var(--suave); background:var(--superficie);
+}
+.tag.b { color:var(--ok); border-color:currentColor; }
+.tag.m { color:var(--quase); border-color:currentColor; }
+.tag.a { color:var(--ruim); border-color:currentColor; }
+
+/* ================= maquetes de celular ================= */
+.fone {
+  width:300px; flex:0 0 auto;
+  border:1px solid var(--linha-forte); border-radius:22px;
+  background:var(--fundo); box-shadow:var(--sombra);
+  overflow:hidden; display:flex; flex-direction:column;
+}
+.fone .rotulo {
+  font-size:11px; letter-spacing:.1em; text-transform:uppercase; font-weight:600;
+  color:var(--suave); padding:8px 12px; border-bottom:1px solid var(--linha);
+  background:var(--superficie-2);
+}
+.tela {
+  font-size:12.5px; line-height:1.45; height:482px; overflow:hidden;
+  display:flex; flex-direction:column; position:relative;
+}
+.tela .corpo { padding:12px; display:flex; flex-direction:column; gap:10px; overflow:hidden; flex:1; }
+.tela h4 { font-family:var(--fonte-titulo); font-size:21px; margin:0; font-weight:600; line-height:1.1; }
+.tela h5 { font-family:var(--fonte-titulo); font-size:16px; margin:0; font-weight:600; }
+.tela p { font-size:12.5px; margin:0; }
+.mini { font-size:10.5px; letter-spacing:.09em; text-transform:uppercase; color:var(--suave); font-weight:600; }
+.bt {
+  display:flex; align-items:center; justify-content:center; gap:6px;
+  min-height:40px; border-radius:10px; font-weight:600; font-size:13px;
+  background:var(--acao); color:var(--sobre-acao);
+}
+.bt.sec { background:transparent; color:var(--texto); border:1px solid var(--linha-controle); }
+.cx {
+  width:22px; height:22px; flex:0 0 auto; border-radius:6px;
+  border:2px solid var(--linha-controle);
+}
+.cx.on { background:var(--ok); border-color:var(--ok); }
+
+/* barra inferior comum a A e C */
+.tabs {
+  display:grid; grid-template-columns:repeat(4,1fr); gap:2px;
+  border-top:1px solid var(--linha); background:var(--superficie);
+  padding:6px 4px calc(6px + env(safe-area-inset-bottom, 0px));
+}
+.tabs span {
+  text-align:center; font-size:10px; font-weight:600; color:var(--suave);
+  padding:8px 2px; border-radius:8px;
+}
+.tabs span.on { color:var(--destaque); background:var(--superficie-2); }
+
+/* ---- Direção A: cartões, igual hoje, só alinhado ---- */
+.a-cartao {
+  border:1px solid var(--linha); border-radius:14px; background:var(--superficie);
+  padding:12px; display:flex; flex-direction:column; gap:8px;
+}
+.a-topo {
+  background:var(--fundo-alt); padding:12px; display:flex; flex-direction:column; gap:3px;
+  border-bottom:1px solid var(--linha);
+}
+.a-estat { display:grid; grid-template-columns:repeat(4,1fr); gap:6px; }
+.a-estat div {
+  border:1px solid var(--linha); border-radius:10px; padding:7px 4px; text-align:center;
+  background:var(--superficie);
+}
+.a-estat b { font-family:var(--fonte-titulo); font-size:18px; color:var(--destaque); display:block; }
+.a-estat small { font-size:9.5px; color:var(--suave); }
+
+/* ---- Direção B: caderno, sem caixas, regras finas ---- */
+.b-topo { padding:14px 12px 10px; display:flex; flex-direction:column; gap:2px; }
+.b-linha { border:0; border-top:1px solid var(--linha); margin:0; }
+.b-item { display:flex; gap:10px; align-items:flex-start; padding:9px 0; }
+.b-item .min {
+  font-variant-numeric:tabular-nums; color:var(--suave); font-size:11px;
+  width:40px; flex:0 0 auto; padding-top:2px;
+}
+.b-item .tx { flex:1; min-width:0; display:flex; flex-direction:column; gap:2px; }
+.b-trilho { height:3px; background:var(--linha); border-radius:2px; overflow:hidden; }
+.b-trilho i { display:block; height:100%; width:38%; background:var(--destaque); }
+.b-rodape {
+  border-top:1px solid var(--linha); background:var(--superficie);
+  padding:9px 12px calc(9px + env(safe-area-inset-bottom, 0px));
+}
+.b-leitura { font-size:13px; line-height:1.62; }
+
+/* ---- Direção C: estante, capas tipográficas ---- */
+.c-capa {
+  border-radius:14px; padding:14px; color:var(--vl-marfim);
+  background:linear-gradient(150deg, var(--vl-verde-floresta), var(--vl-verde-musical));
+  display:flex; flex-direction:column; gap:6px; min-height:132px;
+  border:1px solid rgba(180,147,88,.45);
+}
+.c-capa .n { font-family:var(--fonte-titulo); font-size:34px; line-height:1; color:var(--vl-dourado); }
+.c-capa .t { font-family:var(--fonte-titulo); font-size:19px; line-height:1.1; }
+.c-capa .d { font-size:11px; color:var(--vl-verde-salvia); }
+.c-prat { display:flex; gap:8px; overflow:hidden; }
+.c-lomb {
+  width:52px; flex:0 0 auto; height:92px; border-radius:8px;
+  background:var(--superficie-2); border:1px solid var(--linha);
+  display:flex; align-items:flex-end; justify-content:center; padding-bottom:6px;
+  font-family:var(--fonte-titulo); font-size:17px; color:var(--suave); position:relative; overflow:hidden;
+}
+.c-lomb i { position:absolute; left:0; right:0; bottom:0; background:var(--destaque); opacity:.26; }
+.c-faixa { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--linha); border-radius:10px; overflow:hidden; }
+.c-faixa div { background:var(--superficie); padding:8px 4px; text-align:center; }
+.c-faixa b { font-family:var(--fonte-titulo); font-size:17px; display:block; color:var(--texto); }
+.c-faixa small { font-size:9.5px; color:var(--suave); }
+
+.fecho { margin-top:16px; display:flex; flex-direction:column; gap:14px; }
+.fecho ol { margin:0; padding-left:1.2em; display:flex; flex-direction:column; gap:8px; }
+.aviso {
+  border-left:3px solid var(--quase); padding:12px 14px; background:var(--superficie);
+  border-radius:0 10px 10px 0; font-size:14.5px;
+}
+</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap">
+
+<div class="pag">
+
+<header class="topo">
+  <span class="eyebrow">Revisão de interface · 11 de novembro de 2026</span>
+  <h1>Três direções para o LLMusic</h1>
+  <p class="sub">A paleta Villa-Lobos não muda em nenhuma delas: as nove cores, o marfim, o verde floresta e o dourado continuam iguais, e os dois temas também. O que muda é o arranjo — onde as coisas ficam, quanto espaço ocupam e o que o app pede primeiro. Antes das direções, o que foi medido nas telas de hoje.</p>
+  <div class="barra-tema">
+    <button class="bt-tema" id="bt-tema" type="button">Ver no tema claro</button>
+    <span class="sub" style="font-size:13.5px">As maquetes usam os mesmos tokens do app, então trocam de tema junto.</span>
+  </div>
+</header>
+
+<section>
+  <div class="cab-sec">
+    <span class="eyebrow">Medido, não olhado</span>
+    <h2>O que já está errado hoje</h2>
+    <p class="sub">Levantado com o Chromium a 360 px, lendo o tamanho real de cada alvo de toque e a posição de cada elemento fixo nas sete telas principais. Isso vale para qualquer direção escolhida: são defeitos, não questão de gosto.</p>
+  </div>
+
+  <div class="rolo">
+  <table>
+    <thead>
+      <tr><th>O que</th><th>Medida</th><th>Onde</th><th>Por que importa</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Aba lateral do menu <code>.menu-aba</code></td>
+        <td class="num">22 × 72 px</td>
+        <td>Todas as sete telas</td>
+        <td>É o único jeito de abrir o menu e tem 22 px de largura, metade do mínimo. Fica fixa sobre o conteúdo, no meio da tela.</td>
+      </tr>
+      <tr>
+        <td>Alternativas do questionário <code>input[type=radio]</code></td>
+        <td class="num">13 × 13 px</td>
+        <td>Tela de aula, 7 por questão</td>
+        <td>O pior alvo do app inteiro. Responder uma questão é a ação mais repetida do curso.</td>
+      </tr>
+      <tr>
+        <td>Caixas de concluído da rotina</td>
+        <td class="num">20 × 20 px</td>
+        <td>Plano de estudos, 5 por dia</td>
+        <td>Marcadas com o violão na mão, sem olhar com calma.</td>
+      </tr>
+      <tr>
+        <td>Botão de voltar <code>.botao-texto</code></td>
+        <td class="num">36 px de altura</td>
+        <td>Seis telas</td>
+        <td>8 px abaixo do mínimo, e encostado no título, que quebra em duas linhas por cima dele.</td>
+      </tr>
+      <tr>
+        <td>Pílula do Modo Estudo <code>.estudo-entrar</code></td>
+        <td class="num">148 × 44 px, fixa</td>
+        <td>Aula e exercícios</td>
+        <td>Flutua opaca em cima do texto da aula e tapa a última linha visível.</td>
+      </tr>
+      <tr>
+        <td>Larguras de conteúdo diferentes</td>
+        <td class="num">4 recuos</td>
+        <td>Início: 16, 33, 38 e 72 px</td>
+        <td>O olho não encontra uma margem só. Na tela de aula o texto corrido vai de 16 a 344 e os cartões de 31 a 329.</td>
+      </tr>
+      <tr>
+        <td>Campo de minutos e busca</td>
+        <td class="num">34 e 41 px</td>
+        <td>Configurações, exercícios</td>
+        <td>Abaixo de 44 px, e os dois são de digitar com o aparelho na mão.</td>
+      </tr>
+      <tr>
+        <td><code>--linha-controle</code> declarada duas vezes</td>
+        <td class="num">linha 125</td>
+        <td><code>css/style.css</code>, tema claro</td>
+        <td>Inofensivo hoje, mas é a linha que alguém edita uma vez e não entende por que não mudou.</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="sub" style="margin-top:18px">O que está certo e fica como está: nenhuma tela rola para o lado a 360 px, o contraste passa nos dois temas, as fontes são locais (o app abre offline sem piscar) e o tema escuro é uma composição própria, não uma inversão do claro.</p>
+</section>
+
+<!-- ============================ A ============================ -->
+<section>
+  <div class="cab-sec">
+    <div class="dir-cab">
+      <span class="selo">A</span>
+      <h2>Afinar o que existe</h2>
+    </div>
+    <p class="sub">A identidade está pronta e funciona. Esta direção não redesenha nada: corrige os oito defeitos da tabela, troca a aba de 22 px por uma barra de quatro destinos embaixo e põe tudo numa margem só. Você reconhece o app no primeiro segundo; ele só para de escorregar na mão.</p>
+  </div>
+
+  <div class="dir-corpo">
+    <div class="telas">
+      <div class="fone">
+        <span class="rotulo">A · Início</span>
+        <div class="tela">
+          <div class="a-topo">
+            <span class="mini">Quarta · 11 de novembro</span>
+            <h4>Boa tarde, Rafael</h4>
+          </div>
+          <div class="corpo">
+            <div class="a-cartao">
+              <span class="mini">Continuar de onde parei</span>
+              <h5>De onde vem o violão</h5>
+              <p class="sub">Nível 1 · Módulo 1.1 · 12 min</p>
+              <div class="bt">Começar a aula</div>
+            </div>
+            <div class="a-estat">
+              <div><b>0'</b><small>Hoje</small></div>
+              <div><b>0</b><small>Sequência</small></div>
+              <div><b>0</b><small>Aulas</small></div>
+              <div><b>0/17</b><small>Habilidades</small></div>
+            </div>
+            <span class="mini">A rotina de hoje</span>
+            <div class="a-cartao" style="gap:6px">
+              <div style="display:flex;gap:9px;align-items:center"><span class="cx"></span><span>Aquecimento · 5 min</span></div>
+              <div style="display:flex;gap:9px;align-items:center"><span class="cx"></span><span>Exercício principal · 15 min</span></div>
+            </div>
+          </div>
+          <div class="tabs"><span class="on">Hoje</span><span>Curso</span><span>Prática</span><span>Mais</span></div>
+        </div>
+      </div>
+
+      <div class="fone">
+        <span class="rotulo">A · Aula</span>
+        <div class="tela">
+          <div class="a-topo">
+            <span class="mini">‹ Módulo 1.1</span>
+            <h4>De onde vem o violão</h4>
+          </div>
+          <div class="corpo">
+            <div style="display:flex;gap:6px"><div class="bt sec" style="flex:1">Ouvir a aula</div><div class="bt sec" style="flex:1">Modo Estudo</div></div>
+            <p>Antes de pôr a mão nas cordas, vale saber o que você está segurando. O violão não foi inventado por uma pessoa num dia.</p>
+            <h5>Os avós do violão</h5>
+            <p>Na Europa medieval já existiam instrumentos com caixa de madeira e cordas dedilhadas. Dois deles aparecem o tempo todo nos livros.</p>
+            <p class="sub">…</p>
+          </div>
+          <div class="tabs"><span>Hoje</span><span class="on">Curso</span><span>Prática</span><span>Mais</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="notas">
+      <div>
+        <h3>O que muda de verdade</h3>
+        <ul>
+          <li>Barra de quatro destinos embaixo, com 44 px de altura cada, no lugar da aba de 22 px grudada na lateral.</li>
+          <li>Uma margem só: 16 px para texto, cartão e figura, nas sete telas.</li>
+          <li>Rádios do questionário e caixas da rotina viram alvos de 44 px, sem crescer visualmente — a área clicável é que aumenta.</li>
+          <li>Título e botão de voltar em linhas separadas, então o título pode quebrar sem atropelar nada.</li>
+          <li>Modo Estudo sai de cima do texto e vira um botão no topo da aula, ao lado de Ouvir a aula.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>O que custa</h3>
+        <p>Quase tudo é CSS e o <code>menu.js</code>. Os blocos de aula, o currículo, o banco e a sincronização não são tocados. É a única direção que dá para fazer inteira numa sessão e gerar o APK no mesmo dia.</p>
+        <div class="custo">
+          <span class="tag b">Esforço baixo</span>
+          <span class="tag b">Risco baixo</span>
+          <span class="tag">~3 arquivos de CSS e menu</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ B ============================ -->
+<section>
+  <div class="cab-sec">
+    <div class="dir-cab">
+      <span class="selo">B</span>
+      <h2>Caderno de estudo</h2>
+    </div>
+    <p class="sub">Parte de uma ideia sobre o que o app é: um caderno de estudo, aberto no dia de hoje. A tela inicial deixa de ser um painel com números e vira a página de hoje — a aula, a rotina e nada competindo. As caixas somem quase todas; o que separa as coisas é um fio fino e o espaço em branco, como numa página de partitura. O dourado passa a significar uma coisa só: feito.</p>
+  </div>
+
+  <div class="dir-corpo">
+    <div class="telas">
+      <div class="fone">
+        <span class="rotulo">B · Hoje</span>
+        <div class="tela">
+          <div class="b-topo">
+            <span class="mini">Quarta, 11 de novembro · 45 min</span>
+            <h4 style="font-size:25px">Técnica de mão esquerda</h4>
+            <p class="sub" style="margin-top:4px">Foco técnico da semana. Transferência para a peça.</p>
+          </div>
+          <div class="corpo" style="gap:0;padding-top:0">
+            <div class="b-trilho" style="margin-bottom:12px"><i></i></div>
+            <div class="bt" style="margin-bottom:6px">Começar a praticar</div>
+            <hr class="b-linha">
+            <div class="b-item"><span class="min">5 min</span><span class="tx"><b>Aquecimento</b><span class="sub">Sem metrônomo, som pleno.</span></span><span class="cx on"></span></div>
+            <hr class="b-linha">
+            <div class="b-item"><span class="min">15 min</span><span class="tx"><b>Sincronia das duas mãos</b><span class="sub">Escolhido no rodízio, entre os que você menos praticou.</span></span><span class="cx"></span></div>
+            <hr class="b-linha">
+            <div class="b-item"><span class="min">10 min</span><span class="tx"><b>Exercício secundário</b><span class="sub">Outra competência, em manutenção.</span></span><span class="cx"></span></div>
+            <hr class="b-linha">
+            <div class="b-item"><span class="min">15 min</span><span class="tx"><b>De onde vem o violão</b><span class="sub">Aula de hoje · Nível 1</span></span><span class="cx"></span></div>
+          </div>
+          <div class="b-rodape" style="display:flex;justify-content:space-between">
+            <span class="mini">0 de 45 min</span><span class="mini" style="color:var(--destaque)">Curso · Prática · Mais</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="fone">
+        <span class="rotulo">B · Aula</span>
+        <div class="tela">
+          <div style="height:3px;background:var(--linha)"><i style="display:block;height:100%;width:22%;background:var(--destaque)"></i></div>
+          <div class="b-topo" style="padding-bottom:6px">
+            <span class="mini">‹ Módulo 1.1 · 12 min</span>
+            <h4 style="font-size:23px">De onde vem o violão</h4>
+          </div>
+          <div class="corpo b-leitura" style="padding-top:4px">
+            <p>Antes de pôr a mão nas cordas, vale saber o que você está segurando. O violão não foi inventado por uma pessoa num dia. Ele é o fim de uma longa fila de instrumentos de corda.</p>
+            <h5 style="margin-top:4px">Os avós do violão</h5>
+            <p>Na Europa medieval já existiam instrumentos com caixa de madeira e cordas dedilhadas. Dois deles aparecem o tempo todo nos livros de história.</p>
+            <p class="sub">…</p>
+          </div>
+          <div class="b-rodape"><div class="bt">Concluir a aula</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="notas">
+      <div>
+        <h3>O que muda de verdade</h3>
+        <ul>
+          <li>A tela inicial vira a rotina do dia. Os quatro números saem do topo e viram uma linha discreta no rodapé — eles são consequência do estudo, não o motivo de abrir o app.</li>
+          <li>A aula vira leitura: largura de linha controlada, entrelinha maior, e o botão de concluir sempre à mão no rodapé, sem precisar rolar até o fim.</li>
+          <li>Um fio fino no lugar de cada moldura. Só o que é ação ganha caixa.</li>
+          <li>Barra de progresso no topo da aula, que é a única informação que você quer de relance enquanto lê.</li>
+          <li>Dourado reservado para o que está concluído. Hoje ele aparece em número, borda, ícone e título ao mesmo tempo.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>O que custa</h3>
+        <p>Mexe no HTML de <code>home.js</code>, <code>plano.js</code> e <code>aula.js</code>, e em boa parte do <code>style.css</code>. Os blocos de aula continuam iguais, então as 167 aulas não são tocadas. Dá para fazer em duas etapas, com o app funcionando no meio do caminho.</p>
+        <div class="custo">
+          <span class="tag m">Esforço médio</span>
+          <span class="tag m">Risco médio</span>
+          <span class="tag">3 telas reescritas</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ C ============================ -->
+<section>
+  <div class="cab-sec">
+    <div class="dir-cab">
+      <span class="selo">C</span>
+      <h2>A estante</h2>
+    </div>
+    <p class="sub">A mais ambiciosa. Trata os oito níveis como uma estante de livros: cada nível ganha uma capa tipográfica em Cormorant, com o verde escurecendo conforme sobe, e a lombada enche de dourado à medida que você avança. É a direção que mais mostra progresso de longe, e a que mais depende de a tipografia estar impecável — se a capa ficar mal composta, o app inteiro parece mal composto.</p>
+  </div>
+
+  <div class="dir-corpo">
+    <div class="telas">
+      <div class="fone">
+        <span class="rotulo">C · Início</span>
+        <div class="tela">
+          <div class="corpo" style="padding-top:14px">
+            <span class="mini">Continuar</span>
+            <div class="c-capa">
+              <span class="n">I</span>
+              <span class="t">Fundamentos do violão</span>
+              <span class="d">Módulo 1.1 · De onde vem o violão</span>
+              <div style="margin-top:auto;height:3px;background:rgba(243,239,227,.22);border-radius:2px">
+                <i style="display:block;height:100%;width:8%;background:var(--vl-dourado)"></i>
+              </div>
+            </div>
+            <span class="mini">A estante</span>
+            <div class="c-prat">
+              <span class="c-lomb">I<i style="height:8%"></i></span>
+              <span class="c-lomb">II<i style="height:0"></i></span>
+              <span class="c-lomb">III<i style="height:0"></i></span>
+              <span class="c-lomb">IV<i style="height:0"></i></span>
+              <span class="c-lomb">V<i style="height:0"></i></span>
+            </div>
+            <div class="c-faixa">
+              <div><b>0'</b><small>Hoje</small></div>
+              <div><b>0</b><small>Sequência</small></div>
+              <div><b>0/17</b><small>Habilidades</small></div>
+            </div>
+          </div>
+          <div class="tabs"><span class="on">Início</span><span>Estante</span><span>Prática</span><span>Mais</span></div>
+        </div>
+      </div>
+
+      <div class="fone">
+        <span class="rotulo">C · Nível</span>
+        <div class="tela">
+          <div class="corpo" style="padding-top:14px">
+            <div class="c-capa" style="min-height:112px">
+              <span class="n">I</span>
+              <span class="t">Fundamentos do violão</span>
+              <span class="d">3 módulos · 21 aulas · 1 dominada</span>
+            </div>
+            <span class="mini">Módulo 1.1 · Conhecendo o violão</span>
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <div style="display:flex;gap:8px;align-items:center;border:1px solid var(--linha);border-radius:10px;padding:9px;background:var(--superficie)">
+                <span class="cx on"></span><span class="tx"><b>De onde vem o violão</b></span>
+              </div>
+              <div style="display:flex;gap:8px;align-items:center;border:1px solid var(--linha);border-radius:10px;padding:9px;background:var(--superficie)">
+                <span class="cx"></span><span><b>As partes do instrumento</b></span>
+              </div>
+              <div style="display:flex;gap:8px;align-items:center;border:1px solid var(--linha);border-radius:10px;padding:9px;background:var(--superficie)">
+                <span class="cx"></span><span><b>Como segurar o violão</b></span>
+              </div>
+            </div>
+          </div>
+          <div class="tabs"><span>Início</span><span class="on">Estante</span><span>Prática</span><span>Mais</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="notas">
+      <div>
+        <h3>O que muda de verdade</h3>
+        <ul>
+          <li>Oito capas de nível, cada uma com um verde próprio dentro da paleta, do verde sálvia ao verde floresta.</li>
+          <li>A estante substitui a grade do curso: o progresso de cada nível vira a altura do dourado na lombada, legível de longe.</li>
+          <li>Barra de quatro destinos embaixo, igual à direção A.</li>
+          <li>O dourado só aparece em progresso e conclusão. Em texto comum ele some.</li>
+          <li>Números do painel viram uma faixa de três, compacta, abaixo da estante.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>O que custa</h3>
+        <p>É a reescrita de <code>curso.js</code> e <code>home.js</code>, mais componentes novos de capa e lombada, mais o ajuste de contraste de oito fundos diferentes nos dois temas. O curso, o banco e a sincronização continuam intactos, mas é trabalho de várias sessões e precisa de conferência de contraste em cada capa.</p>
+        <div class="custo">
+          <span class="tag a">Esforço alto</span>
+          <span class="tag m">Risco médio</span>
+          <span class="tag">2 telas novas + 8 capas</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="cab-sec">
+    <span class="eyebrow">Para decidir</span>
+    <h2>Como escolher</h2>
+  </div>
+  <div class="fecho">
+    <ol>
+      <li><b>As correções da primeira tabela acontecem em qualquer caso.</b> Elas são a direção A inteira, e são também o primeiro passo da B e da C. Nenhuma das três começa por outro lugar.</li>
+      <li><b>A e B se somam.</b> Dá para fazer a A agora, usar o app por algumas semanas e decidir a B depois, sem jogar trabalho fora.</li>
+      <li><b>A C precisa da B antes.</b> A estante só faz sentido se a tela inicial já tiver parado de ser um painel de números.</li>
+    </ol>
+    <div class="aviso">
+      <b>O que não foi verificado:</b> as maquetes acima são desenhos feitos nesta página, não telas do app rodando. Elas usam os tokens reais da paleta e os textos reais do curso, mas não passaram pelo conferidor de contraste nem foram medidas a 360 px como as telas de hoje. Os verdes das capas da direção C, em particular, são uma ideia: ainda não calculei o contraste de nenhum deles contra o marfim nos dois temas. Os números de esforço são estimativa minha, não medição.
+    </div>
+  </div>
+</section>
+
+</div>
+
+<script>
+// Troca de tema. Guarda a escolha só para a comodidade de quem está lendo esta
+// página; se o navegador recusar o armazenamento, a página continua igual.
+(function () {
+  var bt = document.getElementById('bt-tema');
+  var raiz = document.documentElement;
+  function escuroAgora() {
+    var t = raiz.getAttribute('data-theme');
+    if (t) return t === 'dark';
+    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+  }
+  function pintar() {
+    bt.textContent = escuroAgora() ? 'Ver no tema claro' : 'Ver no tema escuro';
+  }
+  try {
+    var g = localStorage.getItem('llm-tema');
+    if (g === 'dark' || g === 'light') raiz.setAttribute('data-theme', g);
+  } catch (e) { /* sem armazenamento: vale o tema do sistema */ }
+  pintar();
+  bt.addEventListener('click', function () {
+    var novo = escuroAgora() ? 'light' : 'dark';
+    raiz.setAttribute('data-theme', novo);
+    try { localStorage.setItem('llm-tema', novo); } catch (e) {}
+    pintar();
+  });
+})();
+</script>
