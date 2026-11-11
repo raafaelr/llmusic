@@ -10,7 +10,9 @@ function el(tag, classe, texto) {
 }
 
 // opcoes: { tela, titulo, perguntas, chave (Config), textoVoltar, aoVoltar, aoDesenhar(desenho, svg) }
-export function rodarQuiz({ tela, titulo, perguntas, chave, textoVoltar = '‹ Lição', aoVoltar, aoDesenhar, aoNovaTentativa, aoFim = null, ativo = () => true }) {
+// proxima: { aoAvancar(), rotulo, exigeEstrelas } — opcional. Quando vem, o
+// resultado ganha um botão para seguir adiante sem voltar para a tela da aula.
+export function rodarQuiz({ tela, titulo, perguntas, chave, textoVoltar = '‹ Lição', aoVoltar, aoDesenhar, aoNovaTentativa, aoFim = null, ativo = () => true, proxima = null }) {
   let i = 0, acertos = 0, respondida = false;
   tela.innerHTML = '';
   tela.className = 'tela teoria quiz-tela';
@@ -77,7 +79,39 @@ export function rodarQuiz({ tela, titulo, perguntas, chave, textoVoltar = '‹ L
     const msg = el('p', 'fim-msg', acertos + ' de ' + perguntas.length + ' certas' + (e > antes ? ' · novo recorde!' : ''));
     const painel = el('div', 'painel-fim');
     const botoes = el('div', 'fim-botoes');
-    if (aoNovaTentativa) { const o = el('button', 'botao-principal', 'Tentar de novo'); o.onclick = aoNovaTentativa; botoes.append(o); }
+
+    // "Próxima aula" aqui no resultado poupa o usuário de voltar e rolar a tela
+    // inteira até o fim da aula. Com as três estrelas ele vai direto; abaixo
+    // disso o app pergunta antes, porque seguir com a teoria mal resolvida é
+    // justamente o que faz a aula seguinte parecer difícil demais.
+    const limite = proxima && proxima.exigeEstrelas != null ? proxima.exigeEstrelas : 3;
+    const direto = proxima && e >= limite;
+    let bProx = null;
+    if (proxima && proxima.aoAvancar) {
+      bProx = el('button', direto ? 'botao-principal' : 'botao-sec', proxima.rotulo || 'Próxima aula');
+      bProx.onclick = () => {
+        if (direto) return proxima.aoAvancar();
+        botoes.hidden = true;
+        const cf = el('div', 'fim-confirma');
+        cf.append(el('p', 'legenda', 'Você fez ' + e + ' de 3 estrelas neste questionário. '
+          + 'Quer tentar de novo antes de seguir?'));
+        const bb = el('div', 'fim-botoes');
+        if (aoNovaTentativa) {
+          const r = el('button', 'botao-principal', 'Refazer o questionário');
+          r.onclick = aoNovaTentativa; bb.append(r);
+        }
+        const av = el('button', 'botao-sec', 'Avançar mesmo assim');
+        av.onclick = () => proxima.aoAvancar(); bb.append(av);
+        cf.append(bb); painel.append(cf);
+      };
+    }
+
+    if (bProx && direto) botoes.append(bProx);
+    if (aoNovaTentativa) {
+      const o = el('button', direto ? 'botao-sec' : 'botao-principal', 'Tentar de novo');
+      o.onclick = aoNovaTentativa; botoes.append(o);
+    }
+    if (bProx && !direto) botoes.append(bProx);
     const vo = el('button', 'botao-sec', 'Voltar'); vo.onclick = aoVoltar; botoes.append(vo);
     painel.append(est, msg, botoes);
     tela.append(topo2, painel);

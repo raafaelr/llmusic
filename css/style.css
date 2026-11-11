@@ -499,6 +499,11 @@ input[type=range] { width: 100%; height: 44px; accent-color: var(--destaque); ba
 .estrelas { font-size: 48px; color: var(--destaque); line-height: 1; letter-spacing: 6px; }
 .fim-msg { color: var(--suave); }
 .fim-botoes { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+/* a pergunta que aparece ao tentar avançar com menos de 3 estrelas */
+.fim-confirma { display: flex; flex-direction: column; gap: 12px; align-items: center;
+  margin-top: 6px; padding: 16px; border: 1px solid var(--linha); border-radius: 14px;
+  background: var(--superficie); max-width: 44ch; }
+.fim-confirma .legenda { margin: 0; }
 .fim-botoes .botao-sec { padding: 0 20px; min-height: 52px; }
 .painel-fim .botao-principal { padding: 0 32px; }
 @media (orientation: landscape) and (max-height: 460px) {

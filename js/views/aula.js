@@ -139,25 +139,25 @@ export function montar(raiz, ir, arg) {
       p1.classList.add('feito');
       atualizarSelo();
     };
-    c1.append(b1); p1.append(c1); passos.append(p1);
+    c1.append(b1); p1.append(c1);
 
-    // 2. questionário
+    // 3. questionário (fica por último: primeiro o violão na mão, depois a teoria)
     const notaQuiz = ficha && ficha.quiz && ficha.quiz.total ? ficha.quiz.acertos / ficha.quiz.total : null;
     const quizOk = notaQuiz !== null && notaQuiz >= NOTA_MINIMA;
     const p2 = el('div', 'fecho-passo' + (quizOk ? ' feito' : ''));
-    p2.append(el('span', 'fecho-num', '2'));
+    p2.append(el('span', 'fecho-num', '3'));
     const c2 = el('div');
     c2.append(el('h3', 'subtitulo-bloco', 'Questionário teórico'));
     c2.append(el('p', 'legenda', (aula.quiz || []).length + ' perguntas. É preciso acertar ' + Math.round(NOTA_MINIMA * 100) + '% para considerar a aula dominada.'
       + (notaQuiz !== null ? ' Seu melhor resultado: ' + ficha.quiz.acertos + ' de ' + ficha.quiz.total + '.' : '')));
     const b2 = el('button', 'botao-principal', notaQuiz === null ? 'Fazer o questionário' : 'Refazer o questionário');
     b2.onclick = () => fazerQuiz();
-    c2.append(b2); p2.append(c2); passos.append(p2);
+    c2.append(b2); p2.append(c2);
 
-    // 3. avaliação prática
+    // 2. avaliação prática
     const autoOk = !!(ficha && ficha.autoavaliacao);
     const p3 = el('div', 'fecho-passo' + (autoOk ? ' feito' : ''));
-    p3.append(el('span', 'fecho-num', '3'));
+    p3.append(el('span', 'fecho-num', '2'));
     const c3 = el('div');
     const pr = aula.pratica || { titulo: 'Avaliação prática', itens: [], criterio: '' };
     c3.append(el('h3', 'subtitulo-bloco', pr.titulo));
@@ -197,7 +197,9 @@ export function montar(raiz, ir, arg) {
       atualizarSelo();
     };
     conferir();
-    c3.append(b3, fb3); p3.append(c3); passos.append(p3);
+    c3.append(b3, fb3); p3.append(c3);
+
+    passos.append(p1, p3, p2);
 
     fecho.append(passos);
     tela.append(fecho);
@@ -206,9 +208,10 @@ export function montar(raiz, ir, arg) {
     const acoes = el('div', 'acoes acoes-licao');
     const todas = (modulo.aulas || []);
     const i = todas.findIndex((x) => x.id === aula.id);
+    const proximaAula = (i >= 0 && i < todas.length - 1) ? todas[i + 1] : null;
     if (i > 0) { const b = botaoIcone('botao-sec', 'voltar', 'Aula anterior'); b.onclick = () => ir('aula/' + todas[i - 1].id); acoes.append(b); }
     const bm = el('button', 'botao-sec', 'Ver o módulo'); bm.onclick = () => ir('curso/' + nivel.n); acoes.append(bm);
-    if (i >= 0 && i < todas.length - 1) { const b = el('button', 'botao-principal', 'Próxima aula'); b.append(icone('avancar')); b.onclick = () => ir('aula/' + todas[i + 1].id); acoes.append(b); }
+    if (proximaAula) { const b = el('button', 'botao-principal', 'Próxima aula'); b.append(icone('avancar')); b.onclick = () => ir('aula/' + proximaAula.id); acoes.append(b); }
     tela.append(acoes);
 
     function atualizarSelo() {
@@ -243,6 +246,7 @@ export function montar(raiz, ir, arg) {
         aoVoltar: () => carregar(),
         aoNovaTentativa: () => fazerQuiz(),
         ativo: () => !encerrada,
+        proxima: proximaAula ? { aoAvancar: () => ir('aula/' + proximaAula.id) } : null,
         aoFim: async (acertos, total) => { await registrarQuiz(aula.id, aula.titulo, acertos, total); }
       });
       window.scrollTo(0, 0);
