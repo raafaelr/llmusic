@@ -1675,3 +1675,10 @@ button .ic-t, a .ic-t { margin-right: 0.1em; }
   box-shadow: 0 0 0 4px color-mix(in srgb, var(--destaque) 18%, transparent);
 }
 :root[data-sem-animacao] .lendo { box-shadow: none; outline: 2px solid var(--destaque); }
+
+/* Sincronização entre aparelhos: repositório e token, um por linha */
+.sinc-form { display: flex; flex-direction: column; gap: 8px; margin: 10px 0; }
+.sinc-form input { width: 100%; min-height: 48px; padding: 0 14px; font-size: 16px;
+  color: var(--texto); background: var(--superficie); border: 1px solid var(--linha-controle);
+  border-radius: 12px; font-family: inherit; }
+.sinc-form input:focus-visible { outline: 2px solid var(--destaque); outline-offset: 2px; }

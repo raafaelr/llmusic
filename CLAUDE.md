@@ -59,6 +59,13 @@ JavaScript puro, ES modules, **sem framework e sem build**. ~110 arquivos `.js`.
   `silhuetaViolao` é compartilhada com o diagrama de postura — mexeu nela, confira a postura.
 - `js/nativo.js` — ponte com o Capacitor. `nativo()`, `plugin(nome)`,
   `salvarNoCelular`, `compartilharArquivo`, `Lembretes`.
+- `js/sinc.js` — sincronização entre aparelhos por um repositório privado do
+  próprio dono, pela Contents API do GitHub. Baixa, funde e devolve; conflito
+  (409) refaz a fusão. O token mora só no aparelho e está em `CHAVES_PRIVADAS`
+  (js/db.js), que `Backup.exportar` remove — backup vai para Drive e WhatsApp.
+  `Backup.importar` **funde, não sobrescreve**: prática pelo maior, progresso
+  campo a campo (estudada OR, melhor quiz, autoavaliação mais recente), sessões
+  e avaliações por união, config pelo carimbo mais recente.
 - `js/icones.js` — ícones Tabler embutidos + aviso de licença.
 - `sw.js` — **gerado**. Nunca edite à mão.
 

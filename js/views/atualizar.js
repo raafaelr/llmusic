@@ -12,6 +12,7 @@ import { VERSAO_APP, ARQUIVOS_APP } from '../versao.js';
 import { Backup, Config } from '../db.js';
 import { icone, botaoIcone } from '../icones.js';
 import { nativo, salvarNoCelular, compartilharArquivo, PASTA, CAMINHO_HUMANO } from '../nativo.js';
+import { conectar, sincronizar, desconectar as desconectarSinc, estado as estadoSinc } from '../sinc.js';
 
 const REPO = 'raafaelr/llmusic';
 const API_RELEASE = 'https://api.github.com/repos/' + REPO + '/releases/tags/apk-latest';
@@ -50,6 +51,93 @@ export function montar(raiz, ir) {
   voltar.onclick = () => ir('');
   topo.append(voltar, el('h1', 'titulo-tela', 'Atualizar e backup'));
   tela.append(topo);
+
+  // ============================ 0. sincronização entre aparelhos
+  const secS = el('section', 'grupo');
+  secS.append(el('h2', 'rotulo-grupo titulo-bloco', 'Sincronizar entre aparelhos'));
+  secS.append(el('p', 'dica', 'Mantém o celular e o navegador com o mesmo progresso. O arquivo fica '
+    + 'num repositório privado SEU no GitHub — não há servidor nosso no meio, e ninguém além de você '
+    + 'tem acesso. Nada é apagado na junção: se os dois aparelhos avançaram, os dois avanços somam.'));
+  const estadoS = el('p', 'hab-tempo', 'Verificando…');
+  const msgS = el('p', 'feedback', '');
+  msgS.setAttribute('aria-live', 'polite');
+  const formS = el('div', 'sinc-form');
+  const inRepo = document.createElement('input');
+  inRepo.type = 'text'; inRepo.placeholder = 'dono/nome-do-repositorio'; inRepo.autocapitalize = 'off';
+  inRepo.spellcheck = false; inRepo.setAttribute('aria-label', 'Repositório privado, no formato dono barra nome');
+  const inTok = document.createElement('input');
+  inTok.type = 'password'; inTok.placeholder = 'token de acesso'; inTok.autocapitalize = 'off';
+  inTok.spellcheck = false; inTok.setAttribute('aria-label', 'Token de acesso do GitHub');
+  const acoesS = el('div', 'bloco-botoes');
+  const btConectar = el('button', 'botao-principal', 'Conectar');
+  const btAgora = botaoIcone('botao-principal', 'recarregar', 'Sincronizar agora');
+  const btSair = el('button', 'botao-sec', 'Desconectar');
+  formS.append(inRepo, inTok);
+  acoesS.append(btConectar, btAgora, btSair);
+  secS.append(estadoS, formS, acoesS, msgS);
+  secS.append(el('p', 'dica', 'Como preparar: crie um repositório PRIVADO vazio no GitHub (pode ser '
+    + '"llmusic-dados") e gere um fine-grained token com acesso só a ele e permissão de Conteúdo: '
+    + 'leitura e escrita. O token fica guardado só neste aparelho e nunca entra nos arquivos de backup.'));
+  tela.append(secS);
+
+  async function mostrarEstadoSinc() {
+    const e = await estadoSinc();
+    if (encerrada) return;
+    const ligado = !!(e.repo && e.temToken);
+    formS.hidden = ligado; btConectar.hidden = ligado;
+    btAgora.hidden = !ligado; btSair.hidden = !ligado;
+    if (!ligado) { estadoS.className = 'hab-tempo'; estadoS.textContent = 'Ainda não configurado neste aparelho.'; return; }
+    const d = diasDesde(e.em);
+    estadoS.className = d === null || d > 7 ? 'hab-tempo vencido' : 'hab-tempo';
+    estadoS.textContent = 'Ligado a ' + e.repo + '. Última sincronização: ' + quando(d) + '.';
+  }
+
+  btConectar.onclick = async () => {
+    msgS.className = 'feedback'; msgS.textContent = 'Conferindo o acesso…';
+    try {
+      await conectar(inRepo.value, inTok.value);
+      inTok.value = '';
+      const r = await sincronizar();
+      if (encerrada) return;
+      msgS.className = 'feedback certo';
+      msgS.textContent = r.primeiraVez
+        ? '✓ Conectado. Este aparelho enviou o seu progresso para o repositório.'
+        : '✓ Conectado e sincronizado.';
+      mostrarEstadoSinc();
+    } catch (e) {
+      if (encerrada) return;
+      msgS.className = 'feedback errado';
+      msgS.textContent = 'Não deu certo: ' + (e && e.message ? e.message : e);
+      mostrarEstadoSinc();
+    }
+  };
+
+  btAgora.onclick = async () => {
+    btAgora.disabled = true;
+    msgS.className = 'feedback'; msgS.textContent = 'Sincronizando…';
+    try {
+      const r = await sincronizar();
+      if (encerrada) return;
+      msgS.className = 'feedback certo';
+      msgS.textContent = '✓ Em dia. Chegaram deste repositório: ' + r.aulas + ' aulas, '
+        + r.sessoes + ' sessões, ' + r.avaliacoes + ' avaliações.';
+      mostrarEstadoSinc();
+    } catch (e) {
+      if (encerrada) return;
+      msgS.className = 'feedback errado';
+      msgS.textContent = 'Não consegui sincronizar: ' + (e && e.message ? e.message : e);
+    } finally { if (!encerrada) btAgora.disabled = false; }
+  };
+
+  btSair.onclick = async () => {
+    await desconectarSinc();
+    if (encerrada) return;
+    msgS.className = 'feedback';
+    msgS.textContent = 'Desconectado. O progresso continua aqui; só parou de sincronizar.';
+    mostrarEstadoSinc();
+  };
+
+  mostrarEstadoSinc();
 
   // =================================================== 1. backup primeiro
   const secB = el('section', 'grupo');

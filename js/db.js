@@ -97,14 +97,27 @@ async function lerTudo(loja) {
   }
 }
 
+// Chaves que a sincronização usa para si mesma. Nunca saem daqui: o token é
+// credencial, e os carimbos e o estado do último envio são de cada aparelho.
+export const CHAVES_PRIVADAS = ['sinc.token', 'sinc.carimbos', 'sinc.sha', 'sinc.em'];
+const C_CARIMBOS = 'sinc.carimbos';
+
 export const Config = {
   async obter(chave, padrao) {
     const v = await ler('config', chave);
     return v === undefined ? padrao : v;
   },
-  guardar(chave, valor) {
-    return gravar('config', chave, valor);
+  // Além do valor, guarda QUANDO esta chave mudou. É esse carimbo que permite,
+  // ao juntar dois aparelhos, saber qual preferência é a mais nova — sem ele a
+  // última sincronização ganharia sempre, mesmo trazendo um valor mais velho.
+  async guardar(chave, valor) {
+    await gravar('config', chave, valor);
+    if (CHAVES_PRIVADAS.includes(chave)) return;   // não carimba a si mesma
+    const c = (await ler('config', C_CARIMBOS)) || {};
+    c[chave] = new Date().toISOString();
+    await gravar('config', C_CARIMBOS, c);
   },
+  carimbos() { return ler('config', C_CARIMBOS).then((c) => c || {}); },
   todos() { return lerTudo('config'); }
 };
 
@@ -179,38 +192,96 @@ export const Avaliacoes = {
   }
 };
 
+// Junta duas fichas da mesma aula sem perder nada de nenhum dos dois lados.
+// Regra de cada campo, seguindo o que o próprio app já considera verdade:
+//   estudada        — basta ter sido marcada em um aparelho
+//   quiz            — fica o MELHOR resultado, como quando se refaz o quiz
+//   autoavaliacao   — fica a mais recente, porque é um retrato do momento
+//   visitas         — soma o que cada aparelho viu
+function fundirFicha(a, b) {
+  if (!a) return b;
+  if (!b) return a;
+  const nota = (q) => (q && q.total ? q.acertos / q.total : -1);
+  const maisNovo = (x, y) => (!x ? y : !y ? x : (String(x.em || '') >= String(y.em || '') ? x : y));
+  const recente = String(a.em || '') >= String(b.em || '') ? a : b;
+  return {
+    ...(recente === a ? b : a), ...recente,
+    estudada: !!(a.estudada || b.estudada),
+    quiz: nota(a.quiz) >= nota(b.quiz) ? a.quiz : b.quiz,
+    autoavaliacao: maisNovo(a.autoavaliacao, b.autoavaliacao),
+    visitas: Math.max(a.visitas || 0, b.visitas || 0),
+    em: String(a.em || '') >= String(b.em || '') ? a.em : b.em
+  };
+}
+
 // Backup completo em um objeto simples (vira um arquivo .json).
 export const Backup = {
   async exportar() {
+    const config = await Config.todos();
+    // O token de sincronização NUNCA entra no arquivo: o backup vai para o
+    // Drive, para o e-mail, para o WhatsApp — e levaria a credencial junto.
+    for (const k of CHAVES_PRIVADAS) delete config[k];
     return {
       formato: 'llmusic-backup', versao: 2, em: new Date().toISOString(),
-      config: await Config.todos(),
+      carimbos: await Config.carimbos(),
+      config,
       pratica: await Pratica.todos(),
       progresso: await Progresso.todos(),
       sessoes: await Sessoes.todos(),
       avaliacoes: await Avaliacoes.todos()
     };
   },
-  // Mescla: configurações do backup substituem as atuais; dias de prática ficam com o maior valor.
-  // Backups antigos (versão 1) continuam válidos: as gavetas novas simplesmente não vêm no arquivo.
+  // Junta um backup ao que já existe no aparelho, SEM apagar o que é mais novo.
+  //
+  // Antes isto sobrescrevia: restaurar um backup de ontem apagava o progresso de
+  // hoje. Com dois aparelhos sincronizando, o estrago seria diário. Agora cada
+  // gaveta tem a sua regra, e nenhuma delas perde informação:
+  //   pratica      o maior número de minutos de cada dia
+  //   progresso    ficha a ficha, campo a campo (ver fundirFicha)
+  //   sessoes      união: a chave é o instante, duas sessões nunca colidem
+  //   avaliacoes   união pelo mesmo motivo
+  //   config       vence quem tem o carimbo mais recente; sem carimbo, o local
+  //
+  // Backups antigos (versão 1, sem carimbos) continuam válidos: sem carimbo do
+  // lado de lá, o valor local é preservado, que é o comportamento seguro.
   async importar(obj) {
     if (!obj || obj.formato !== 'llmusic-backup' || typeof obj.config !== 'object' || typeof obj.pratica !== 'object') {
       throw new Error('Este arquivo não é um backup do LLMusic.');
     }
-    for (const k of Object.keys(obj.config)) await Config.guardar(k, obj.config[k]);
+    const meus = await Config.carimbos();
+    const deles = obj.carimbos || {};
+    let configs = 0;
+    for (const k of Object.keys(obj.config)) {
+      if (CHAVES_PRIVADAS.includes(k)) continue;
+      const atual = await Config.obter(k, undefined);
+      // só troca se o outro lado for comprovadamente mais novo, ou se aqui não existe
+      if (atual !== undefined && !(deles[k] && (!meus[k] || deles[k] > meus[k]))) continue;
+      await Config.guardar(k, obj.config[k]);
+      if (deles[k]) { const c = await Config.carimbos(); c[k] = deles[k]; await gravar('config', 'sinc.carimbos', c); }
+      configs++;
+    }
     for (const d of Object.keys(obj.pratica)) {
       if (/^\d{4}-\d{2}-\d{2}$/.test(d) && Number.isFinite(obj.pratica[d])) await Pratica.definirMaior(d, obj.pratica[d]);
     }
     let aulas = 0, sess = 0, avs = 0;
     if (obj.progresso && typeof obj.progresso === 'object') {
-      for (const id of Object.keys(obj.progresso)) { await gravar('progresso', id, obj.progresso[id]); aulas++; }
+      for (const id of Object.keys(obj.progresso)) {
+        const antes = await ler('progresso', id);
+        const nova = fundirFicha(antes || null, obj.progresso[id]);
+        await gravar('progresso', id, nova);
+        if (!antes || JSON.stringify(antes) !== JSON.stringify(nova)) aulas++;
+      }
     }
     if (obj.sessoes && typeof obj.sessoes === 'object') {
-      for (const k of Object.keys(obj.sessoes)) { await gravar('sessoes', k, obj.sessoes[k]); sess++; }
+      for (const k of Object.keys(obj.sessoes)) {
+        if ((await ler('sessoes', k)) === undefined) { await gravar('sessoes', k, obj.sessoes[k]); sess++; }
+      }
     }
     if (obj.avaliacoes && typeof obj.avaliacoes === 'object') {
-      for (const k of Object.keys(obj.avaliacoes)) { await gravar('avaliacoes', k, obj.avaliacoes[k]); avs++; }
+      for (const k of Object.keys(obj.avaliacoes)) {
+        if ((await ler('avaliacoes', k)) === undefined) { await gravar('avaliacoes', k, obj.avaliacoes[k]); avs++; }
+      }
     }
-    return { configs: Object.keys(obj.config).length, dias: Object.keys(obj.pratica).length, aulas, sessoes: sess, avaliacoes: avs };
+    return { configs, dias: Object.keys(obj.pratica).length, aulas, sessoes: sess, avaliacoes: avs };
   }
 };

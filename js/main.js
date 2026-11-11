@@ -31,6 +31,7 @@ import { criarMenu } from './menu.js';
 import { iniciarTema } from './tema.js';
 import { criarEstudo } from './estudo.js';
 import { nativo } from './nativo.js';
+import { sincronizarSePuder } from './sinc.js';
 
 const TELAS = {
   '': home,
@@ -125,6 +126,17 @@ if (nativo()) {
   const app = window.Capacitor.Plugins && window.Capacitor.Plugins.App;
   if (app && app.addListener) app.addListener('backButton', () => voltar());
 }
+
+// Sincronização entre aparelhos, quando configurada.
+//
+// O APK não roda em segundo plano, então só existem dois momentos: ao abrir e
+// ao sair. Ambos são silenciosos — sincronizar é pano de fundo e não pode
+// atrapalhar quem está estudando. Quem quiser ver o que aconteceu, e os erros,
+// tem a tela "Atualizar e backup".
+sincronizarSePuder();
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) sincronizarSePuder({ forcar: true });
+});
 
 // Registra o service worker (funciona offline). Só em endereço seguro (https ou localhost).
 if ('serviceWorker' in navigator) {
