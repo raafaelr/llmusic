@@ -8,12 +8,44 @@ export function plugin(nome) {
   return window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins[nome];
 }
 
-// Salva um texto como arquivo e abre o menu "Compartilhar" do Android (para guardar no Drive, e-mail...).
+// A pasta do app dentro de "Documentos". É pública: aparece em Meus Arquivos
+// (Samsung) ou Files > Documentos, e sobrevive à desinstalação do app.
+export const PASTA = 'LLMusic';
+export const CAMINHO_HUMANO = 'Documentos › ' + PASTA;
+
+// Salva um texto num arquivo de verdade, dentro de Documentos/LLMusic.
+//
+// Por que isto existe: no APK, a página roda dentro de um WebView, e ali o jeito
+// web de baixar arquivo (criar um link com "download" e clicar nele) NÃO faz nada.
+// O clique é engolido sem erro — por isso o app dizia "salvo" e não havia arquivo
+// nenhum. Quem grava em disco no Android é o plugin Filesystem.
+export async function salvarNoCelular(nomeArquivo, texto) {
+  const fs = plugin('Filesystem');
+  if (!fs) throw new Error('Filesystem indisponível');
+  const r = await fs.writeFile({
+    path: PASTA + '/' + nomeArquivo, data: texto,
+    directory: 'DOCUMENTS', encoding: 'utf8', recursive: true
+  });
+  return { uri: r.uri, caminho: CAMINHO_HUMANO + ' › ' + nomeArquivo };
+}
+
+// Abre o menu "Compartilhar" do Android com um arquivo já gravado.
+export async function compartilharUri(uri, nomeArquivo) {
+  const share = plugin('Share');
+  if (!share) throw new Error('compartilhar indisponível');
+  await share.share({ title: nomeArquivo, files: [uri], dialogTitle: 'Guardar backup do LLMusic' });
+}
+
+// Salva e já abre o compartilhamento. Se não der para gravar em Documentos
+// (aparelho antigo, permissão negada), cai no cache só para o arquivo sair daqui.
 export async function compartilharArquivo(nomeArquivo, texto) {
-  const fs = plugin('Filesystem'), share = plugin('Share');
-  if (!fs || !share) throw new Error('compartilhar indisponível');
-  const r = await fs.writeFile({ path: nomeArquivo, data: texto, directory: 'CACHE', encoding: 'utf8' });
-  await share.share({ title: nomeArquivo, files: [r.uri], dialogTitle: 'Guardar backup do LLMusic' });
+  const fs = plugin('Filesystem');
+  if (!fs) throw new Error('compartilhar indisponível');
+  let uri;
+  try { uri = (await salvarNoCelular(nomeArquivo, texto)).uri; }
+  catch { uri = (await fs.writeFile({ path: nomeArquivo, data: texto, directory: 'CACHE', encoding: 'utf8' })).uri; }
+  await compartilharUri(uri, nomeArquivo);
+  return uri;
 }
 
 export const Lembretes = {

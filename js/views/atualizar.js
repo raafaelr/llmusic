@@ -11,6 +11,7 @@
 import { VERSAO_APP, ARQUIVOS_APP } from '../versao.js';
 import { Backup, Config } from '../db.js';
 import { icone, botaoIcone } from '../icones.js';
+import { nativo, salvarNoCelular, compartilharArquivo, PASTA, CAMINHO_HUMANO } from '../nativo.js';
 
 const REPO = 'raafaelr/llmusic';
 const API_RELEASE = 'https://api.github.com/repos/' + REPO + '/releases/tags/apk-latest';
@@ -62,19 +63,25 @@ export function montar(raiz, ir) {
 
   const acoesBk = el('div', 'bloco-botoes');
   const btExportar = botaoIcone('botao-principal', 'baixar', 'Salvar backup agora');
+  const btEnviar = botaoIcone('botao-sec', 'enviar', 'Enviar para a nuvem');
+  btEnviar.hidden = !nativo();
   const rotImportar = el('label', 'botao-sec rotulo-arquivo', '⬆ Restaurar de um backup');
   const inpImportar = document.createElement('input');
   inpImportar.type = 'file'; inpImportar.accept = 'application/json,.json'; inpImportar.hidden = true;
   rotImportar.append(inpImportar);
-  acoesBk.append(btExportar, rotImportar);
+  acoesBk.append(btExportar, btEnviar, rotImportar);
   secB.append(acoesBk);
 
   const msgBk = el('p', 'feedback', '');
   msgBk.setAttribute('aria-live', 'polite');
   secB.append(msgBk);
 
-  secB.append(el('p', 'dica', 'Depois de salvar, mande o arquivo para você mesmo — e-mail, Google Drive, '
-    + 'o que for. No celular ele cai em Downloads, e Downloads some se você formatar o aparelho.'));
+  secB.append(el('p', 'dica', nativo()
+    ? 'No APK o arquivo é gravado em ' + CAMINHO_HUMANO + ' — abra o app Meus Arquivos, entre em '
+      + 'Documentos e procure a pasta ' + PASTA + '. Mesmo assim, mande uma cópia para você mesmo '
+      + '(Drive, e-mail): se o aparelho se perder, a pasta vai junto.'
+    : 'Depois de salvar, mande o arquivo para você mesmo — e-mail, Google Drive, o que for. '
+      + 'No computador ele cai em Downloads, e Downloads some se você formatar a máquina.'));
   tela.append(secB);
 
   async function mostrarEstadoBackup() {
@@ -87,28 +94,76 @@ export function montar(raiz, ir) {
     else if (d > 14) estadoBk.textContent += ' Já faz tempo — vale salvar outro.';
   }
 
+  // Monta o arquivo e devolve { nome, texto, kb }.
+  async function prepararBackup() {
+    const texto = JSON.stringify(await Backup.exportar(), null, 1);
+    return {
+      nome: 'llmusic-backup-' + new Date().toISOString().slice(0, 10) + '.json',
+      texto, kb: Math.max(1, Math.round(texto.length / 1024))
+    };
+  }
+
+  async function registrar() {
+    await Config.guardar(C_BACKUP, new Date().toISOString());
+    if (!encerrada) mostrarEstadoBackup();
+  }
+
+  function falhou(e) {
+    if (encerrada) return;
+    msgBk.textContent = 'Não consegui gerar o backup: ' + (e && e.message ? e.message : e);
+    msgBk.className = 'feedback errado';
+  }
+
   btExportar.onclick = async () => {
     msgBk.textContent = 'Preparando…'; msgBk.className = 'feedback';
     try {
-      const dados = await Backup.exportar();
-      const texto = JSON.stringify(dados, null, 1);
-      const nome = 'llmusic-backup-' + new Date().toISOString().slice(0, 10) + '.json';
-      const url = URL.createObjectURL(new Blob([texto], { type: 'application/json' }));
-      const a = document.createElement('a');
-      a.href = url; a.download = nome;
-      document.body.append(a); a.click(); a.remove();
-      setTimeout(() => URL.revokeObjectURL(url), 10000);
-      await Config.guardar(C_BACKUP, new Date().toISOString());
-      if (encerrada) return;
-      const kb = Math.max(1, Math.round(texto.length / 1024));
-      msgBk.textContent = '✓ ' + nome + ' salvo em Downloads (' + kb + ' KB). Guarde numa nuvem.';
+      const { nome, texto, kb } = await prepararBackup();
+      if (nativo()) {
+        // No APK o download do navegador não grava nada; quem escreve é o Filesystem.
+        let caminho;
+        try {
+          caminho = (await salvarNoCelular(nome, texto)).caminho;
+        } catch (e) {
+          // Se não der para gravar na pasta pública, abre o compartilhamento:
+          // é melhor o arquivo sair por ali do que ele ficar sem backup nenhum.
+          await compartilharArquivo(nome, texto);
+          await registrar();
+          if (encerrada) return;
+          msgBk.textContent = 'Não consegui gravar em ' + CAMINHO_HUMANO
+            + ' (' + (e && e.message ? e.message : e) + '), então abri o compartilhamento. '
+            + 'Escolha Drive, e-mail ou outro lugar para guardar.';
+          msgBk.className = 'feedback';
+          return;
+        }
+        await registrar();
+        if (encerrada) return;
+        msgBk.textContent = '✓ Salvo (' + kb + ' KB) em: ' + caminho
+          + '. Procure por "' + PASTA + '" no app Meus Arquivos, dentro de Documentos.';
+      } else {
+        const url = URL.createObjectURL(new Blob([texto], { type: 'application/json' }));
+        const a = document.createElement('a');
+        a.href = url; a.download = nome;
+        document.body.append(a); a.click(); a.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 10000);
+        await registrar();
+        if (encerrada) return;
+        msgBk.textContent = '✓ ' + nome + ' salvo em Downloads (' + kb + ' KB). Guarde numa nuvem.';
+      }
       msgBk.className = 'feedback certo';
-      mostrarEstadoBackup();
-    } catch (e) {
+    } catch (e) { falhou(e); }
+  };
+
+  btEnviar.onclick = async () => {
+    msgBk.textContent = 'Preparando…'; msgBk.className = 'feedback';
+    try {
+      const { nome, texto } = await prepararBackup();
+      await compartilharArquivo(nome, texto);
+      await registrar();
       if (encerrada) return;
-      msgBk.textContent = 'Não consegui gerar o backup: ' + (e && e.message ? e.message : e);
-      msgBk.className = 'feedback errado';
-    }
+      msgBk.textContent = 'Escolha onde guardar: Drive, e-mail, WhatsApp… O arquivo também ficou em '
+        + CAMINHO_HUMANO + '.';
+      msgBk.className = 'feedback certo';
+    } catch (e) { falhou(e); }
   };
 
   inpImportar.onchange = async () => {

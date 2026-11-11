@@ -1,7 +1,7 @@
 // Hábitos: sequência de dias, meta diária, calendário do mês e backup dos seus dados.
 import { Config, Pratica, Backup } from '../db.js';
 import { hojeISO, minutosTexto } from '../pratica.js';
-import { nativo, compartilharArquivo, Lembretes, lerHora } from '../nativo.js';
+import { nativo, compartilharArquivo, Lembretes, lerHora, CAMINHO_HUMANO } from '../nativo.js';
 import { sequenciaAtual, melhorSequencia, diasDoMes, semana, totalSegundos, nivelDoDia, dataDe } from '../habitos.js';
 import { botaoIcone } from '../icones.js';
 
@@ -111,7 +111,7 @@ export function montar(raiz, ir) {
   exp.onclick = async () => {
     const dados = await Backup.exportar();
     if (nativo()) {
-      try { await compartilharArquivo('llmusic-backup-' + hoje + '.json', JSON.stringify(dados, null, 2)); msg.textContent = 'Escolha onde guardar o backup (Drive, e-mail, WhatsApp...).'; }
+      try { await compartilharArquivo('llmusic-backup-' + hoje + '.json', JSON.stringify(dados, null, 2)); msg.textContent = 'Escolha onde guardar (Drive, e-mail, WhatsApp...). O arquivo também ficou em ' + CAMINHO_HUMANO + '.'; }
       catch (e) { msg.textContent = 'Não consegui abrir o compartilhamento.'; }
       return;
     }
