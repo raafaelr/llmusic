@@ -1,0 +1,577 @@
+<title>Cinco araras para o LLMusic</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap">
+<style>
+/* Layout: coluna de leitura; cada conceito é um bloco que carrega a própria
+   paleta em variáveis próprias, para a maquete ser pintada com as cores dele
+   e não com as da página. Os dois temas de cada conceito estão definidos. */
+:root {
+  --pg-fundo:#FAF8F4; --pg-sup:#FFFFFF; --pg-txt:#1C1A17; --pg-suave:#5A544C;
+  --pg-linha:#DCD6CC; --pg-forte:#B8AFA2; --pg-liz:#B3242E; --pg-livia:#2A4BA0;
+  --fonte:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --display:'Space Grotesk','Inter',system-ui,sans-serif;
+  --serif:'Cormorant Garamond','Iowan Old Style',Georgia,serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --pg-fundo:#121110; --pg-sup:#1B1917; --pg-txt:#F4F1EC; --pg-suave:#AFA79C;
+    --pg-linha:#332F2A; --pg-forte:#4D473F; --pg-liz:#F07A75; --pg-livia:#8FA9F2;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --pg-fundo:#121110; --pg-sup:#1B1917; --pg-txt:#F4F1EC; --pg-suave:#AFA79C;
+  --pg-linha:#332F2A; --pg-forte:#4D473F; --pg-liz:#F07A75; --pg-livia:#8FA9F2;
+  color-scheme: dark;
+}
+
+/* ---- paletas dos cinco conceitos, tema claro ---- */
+.k[data-k="1"]{--bg:#FBF7F0;--sup:#FFFFFF;--tx:#231F1C;--sv:#5A5048;--liz:#B3242E;--livia:#2A4BA0;--ouro:#8A6410;--ln:#7A6E63}
+.k[data-k="2"]{--bg:#F0F4F0;--sup:#FFFFFF;--tx:#16211D;--sv:#4E5F58;--liz:#A8372A;--livia:#1C5488;--ouro:#7A5A10;--ln:#6F7F78}
+.k[data-k="3"]{--bg:#FFFFFF;--sup:#F4F1EC;--tx:#1A1A1A;--sv:#56524C;--liz:#A81D2D;--livia:#1F3F91;--ouro:#7A5A0A;--ln:#767069}
+.k[data-k="4"]{--bg:#F2EADA;--sup:#FAF5EA;--tx:#231E18;--sv:#5C5345;--liz:#9E2B20;--livia:#243C86;--ouro:#7D5C12;--ln:#7C705D}
+.k[data-k="5"]{--bg:#FFFFFF;--sup:#F2F2F2;--tx:#000000;--sv:#4A4A4A;--liz:#A3122A;--livia:#15357F;--ouro:#6E5200;--ln:#6B6B6B}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .k[data-k="1"]{--bg:#141211;--sup:#1E1B19;--tx:#F6F1EA;--sv:#B3A89C;--liz:#F07A75;--livia:#8FA9F2;--ouro:#E8B64A;--ln:#6E645A}
+  :root:not([data-theme="light"]) .k[data-k="2"]{--bg:#0C1614;--sup:#15211E;--tx:#EFF3EE;--sv:#9FB3AC;--liz:#F58A6E;--livia:#7FB6E8;--ouro:#E8C25E;--ln:#5C7068}
+  :root:not([data-theme="light"]) .k[data-k="3"]{--bg:#101010;--sup:#1A1A1A;--tx:#F7F5F2;--sv:#B0ACA6;--liz:#F58275;--livia:#93B4F5;--ouro:#EFC24F;--ln:#6B6762}
+  :root:not([data-theme="light"]) .k[data-k="4"]{--bg:#171310;--sup:#221C17;--tx:#F2EADA;--sv:#B6A892;--liz:#F08A6F;--livia:#9BB2F0;--ouro:#E3B757;--ln:#6F6454}
+  :root:not([data-theme="light"]) .k[data-k="5"]{--bg:#000000;--sup:#111111;--tx:#FFFFFF;--sv:#C9C4BE;--liz:#FF8A7A;--livia:#9FC4FF;--ouro:#FFD24A;--ln:#8A8A8A}
+}
+:root[data-theme="dark"] .k[data-k="1"]{--bg:#141211;--sup:#1E1B19;--tx:#F6F1EA;--sv:#B3A89C;--liz:#F07A75;--livia:#8FA9F2;--ouro:#E8B64A;--ln:#6E645A}
+:root[data-theme="dark"] .k[data-k="2"]{--bg:#0C1614;--sup:#15211E;--tx:#EFF3EE;--sv:#9FB3AC;--liz:#F58A6E;--livia:#7FB6E8;--ouro:#E8C25E;--ln:#5C7068}
+:root[data-theme="dark"] .k[data-k="3"]{--bg:#101010;--sup:#1A1A1A;--tx:#F7F5F2;--sv:#B0ACA6;--liz:#F58275;--livia:#93B4F5;--ouro:#EFC24F;--ln:#6B6762}
+:root[data-theme="dark"] .k[data-k="4"]{--bg:#171310;--sup:#221C17;--tx:#F2EADA;--sv:#B6A892;--liz:#F08A6F;--livia:#9BB2F0;--ouro:#E3B757;--ln:#6F6454}
+:root[data-theme="dark"] .k[data-k="5"]{--bg:#000000;--sup:#111111;--tx:#FFFFFF;--sv:#C9C4BE;--liz:#FF8A7A;--livia:#9FC4FF;--ouro:#FFD24A;--ln:#8A8A8A}
+
+* { box-sizing: border-box; }
+body {
+  margin:0; background:var(--pg-fundo); color:var(--pg-txt);
+  font-family:var(--fonte); font-size:16px; line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.pag {
+  max-width:1120px; margin:0 auto;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));
+  padding-right:max(16px, env(safe-area-inset-right, 0px));
+  padding-block:40px 72px;
+}
+h1,h2 { font-family:var(--display); font-weight:700; margin:0; line-height:1.1; text-wrap:balance; letter-spacing:-.015em; }
+h1 { font-size:clamp(32px,6.5vw,50px); }
+h2 { font-size:clamp(24px,4.6vw,33px); }
+h3 { font-family:var(--fonte); font-size:17px; font-weight:600; margin:0; }
+p { margin:0; max-width:66ch; }
+.sub { color:var(--pg-suave); }
+.eyebrow { font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--pg-suave); font-weight:600; }
+code { font-family:ui-monospace,Menlo,Consolas,monospace; font-size:13px; }
+
+header.topo { display:flex; flex-direction:column; gap:14px; padding-bottom:10px; }
+.bt-tema {
+  font:inherit; font-size:13px; font-weight:500; cursor:pointer; min-height:44px;
+  background:var(--pg-sup); color:var(--pg-txt);
+  border:1px solid var(--pg-forte); border-radius:999px; padding:10px 16px;
+}
+.bt-tema:focus-visible { outline:2px solid var(--pg-livia); outline-offset:2px; }
+
+.irmas { display:grid; gap:14px; grid-template-columns:1fr; margin-top:8px; }
+@media (min-width:720px) { .irmas { grid-template-columns:1fr 1fr; } }
+.irma {
+  display:flex; gap:14px; align-items:flex-start;
+  padding:16px; border-radius:14px; border:1px solid var(--pg-linha); background:var(--pg-sup);
+}
+.irma .ave { flex:0 0 auto; }
+.irma b { display:block; font-family:var(--display); font-size:19px; }
+.irma span { font-size:14.5px; color:var(--pg-suave); }
+
+section.k { padding-block:40px; border-top:1px solid var(--pg-linha); }
+.k-cab { display:flex; flex-direction:column; gap:10px; margin-bottom:22px; }
+.k-num {
+  font-family:var(--display); font-size:13px; font-weight:700; letter-spacing:.1em;
+  color:var(--pg-suave);
+}
+.k-corpo { display:grid; gap:26px; grid-template-columns:1fr; align-items:start; }
+@media (min-width:860px) { .k-corpo { grid-template-columns:320px 1fr; } }
+
+/* ---- amostras de cor, com a medida ---- */
+.paleta { display:flex; flex-wrap:wrap; gap:7px; margin-top:16px; }
+.amostra {
+  display:flex; flex-direction:column; gap:3px; align-items:center;
+  font-size:11px; color:var(--pg-suave); width:76px;
+}
+.amostra i {
+  display:block; width:100%; height:34px; border-radius:7px;
+  border:1px solid var(--pg-forte);
+}
+.amostra b { font-variant-numeric:tabular-nums; font-size:11.5px; color:var(--pg-txt); font-weight:600; }
+.amostra b.baixo { color:#B3242E; }
+
+.melhorias { display:flex; flex-direction:column; gap:16px; }
+.melhoria { display:flex; gap:12px; align-items:flex-start; }
+.melhoria .bolha {
+  flex:0 0 auto; width:26px; height:26px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:12.5px; font-weight:700; font-family:var(--display);
+  background:var(--pg-sup); border:1px solid var(--pg-forte); color:var(--pg-txt);
+}
+.melhoria p { font-size:15px; margin-top:2px; }
+
+/* ================= maquetes ================= */
+.fone {
+  width:300px; max-width:100%;
+  border:1px solid var(--pg-forte); border-radius:22px; overflow:hidden;
+  background:var(--bg); color:var(--tx);
+  font-size:12.5px; line-height:1.45;
+}
+.fone .barra-topo {
+  font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; font-weight:600;
+  padding:7px 12px; color:var(--pg-suave); background:var(--pg-sup);
+  border-bottom:1px solid var(--pg-linha);
+}
+.tela { height:470px; display:flex; flex-direction:column; overflow:hidden; }
+.corpo { flex:1; padding:12px; display:flex; flex-direction:column; gap:10px; overflow:hidden; }
+.mini { font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--sv); font-weight:600; }
+.tt { font-family:var(--serif); font-size:21px; line-height:1.1; font-weight:600; }
+.tt-d { font-family:var(--display); font-size:19px; line-height:1.1; font-weight:700; }
+.sv { color:var(--sv); }
+.bt-m {
+  display:flex; align-items:center; justify-content:center; gap:6px;
+  min-height:38px; border-radius:9px; font-weight:600; font-size:13px;
+  background:var(--liz); color:var(--bg);
+}
+.bt-m.azul { background:var(--livia); }
+.bt-m.oco { background:transparent; color:var(--tx); border:1px solid var(--ln); }
+.tabs-m {
+  display:grid; grid-template-columns:repeat(5,1fr);
+  border-top:1px solid var(--ln); background:var(--sup);
+}
+.tabs-m span { text-align:center; font-size:9.5px; font-weight:600; color:var(--sv); padding:9px 2px; }
+.tabs-m span.on { color:var(--liz); box-shadow:inset 0 2px 0 var(--liz); }
+.fio { border:0; border-top:1px solid var(--ln); opacity:.5; margin:0; }
+.linha { display:flex; gap:9px; align-items:baseline; padding:7px 0; }
+.linha .m { flex:0 0 44px; font-size:10.5px; color:var(--sv); font-variant-numeric:tabular-nums; }
+.linha .n { flex:1; min-width:0; }
+
+/* balança das duas araras */
+.balanca { display:flex; height:12px; border-radius:6px; overflow:hidden; border:1px solid var(--ln); }
+.balanca i { display:block; height:100%; }
+.legenda-b { display:flex; justify-content:space-between; font-size:10.5px; color:var(--sv); }
+
+/* prancha ilustrada */
+.prancha {
+  border:1px solid var(--ln); border-radius:8px; padding:10px;
+  background:var(--sup); display:flex; gap:10px; align-items:center;
+}
+.prancha figcaption { font-family:var(--serif); font-size:14px; font-style:italic; }
+
+/* partitura do atril */
+.pauta-m { display:flex; flex-direction:column; gap:13px; padding:4px 0; }
+.pauta-m i { display:block; height:1px; background:var(--tx); opacity:.8; }
+.compasso { display:flex; justify-content:space-between; font-size:11px; color:var(--sv); }
+
+.fecho { display:flex; flex-direction:column; gap:16px; margin-top:18px; }
+.rolo { overflow-x:auto; }
+table { border-collapse:collapse; width:100%; min-width:600px; font-size:14.5px; }
+th,td { text-align:left; padding:11px 12px; border-bottom:1px solid var(--pg-linha); vertical-align:top; }
+th { font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--pg-suave); font-weight:600; }
+.aviso {
+  border-left:3px solid var(--pg-livia); padding:12px 14px; background:var(--pg-sup);
+  border-radius:0 10px 10px 0; font-size:14.5px;
+}
+</style>
+
+<div class="pag">
+
+<header class="topo">
+  <span class="eyebrow">Conceitos de interface · 11 de novembro de 2026</span>
+  <h1>Cinco araras para o LLMusic</h1>
+  <p class="sub">Cinco interfaces inteiras, cada uma com paleta própria, construídas a partir das duas araras. Nenhuma delas está no app: são para você olhar e escolher. Cada conceito traz também melhorias de uso que só fazem sentido dentro dele — a cor é o começo da ideia, não a ideia toda.</p>
+  <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+    <button class="bt-tema" id="bt-tema" type="button">Ver no tema claro</button>
+    <span class="sub" style="font-size:13.5px">As dez paletas (cinco conceitos, dois temas) trocam junto.</span>
+  </div>
+
+  <div class="irmas">
+    <div class="irma">
+      <svg class="ave" width="52" height="52" viewBox="0 0 52 52" role="img" aria-label="Arara-vermelha">
+        <path d="M34 8c-9 0-16 7-16 16 0 6 3 10 3 15 0 4-3 6-3 9h7c0-4 2-6 4-10 3-6 11-9 11-18 0-7-3-12-6-12z" fill="#B3242E"/>
+        <path d="M22 24c-5 3-9 9-10 16 4-1 8-4 11-8z" fill="#E8A200"/>
+        <path d="M27 34c-3 4-4 9-4 14h5c0-5 1-9 3-13z" fill="#2A4BA0"/>
+        <circle cx="33" cy="17" r="2.1" fill="#FBF7F0"/><circle cx="33" cy="17" r=".9" fill="#231F1C"/>
+        <path d="M40 16c3 0 5 2 5 5s-3 5-6 4z" fill="#3A332C"/>
+      </svg>
+      <div>
+        <b>Liz · a arara</b>
+        <span>Arara-vermelha. Escarlate, dourado nas asas, azul nas pontas. É a cor do que se toca: prática, técnica, repertório.</span>
+      </div>
+    </div>
+    <div class="irma">
+      <svg class="ave" width="52" height="52" viewBox="0 0 52 52" role="img" aria-label="Arara-azul">
+        <path d="M34 8c-9 0-16 7-16 16 0 6 3 10 3 15 0 4-3 6-3 9h7c0-4 2-6 4-10 3-6 11-9 11-18 0-7-3-12-6-12z" fill="#2A4BA0"/>
+        <path d="M22 24c-5 3-9 9-10 16 4-1 8-4 11-8z" fill="#1C3473"/>
+        <circle cx="33" cy="17" r="3" fill="#E8B64A"/><circle cx="33" cy="17" r="1.1" fill="#141211"/>
+        <path d="M40 16c3 0 5 2 5 5s-3 5-6 4z" fill="#2B2620"/>
+        <path d="M37 23c2 1 3 2 3 4-2 0-3-1-4-2z" fill="#E8B64A"/>
+      </svg>
+      <div>
+        <b>Lívia · a arara-azul</b>
+        <span>Arara-azul-de-lear, azul-cobalto com o anel amarelo no olho. É a cor do que se sabe: teoria, leitura, percepção.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="aviso" style="margin-top:6px">
+    <b>Duas cores, um aluno só.</b> As araras são a linguagem visual do app e uma homenagem às suas filhas — não viram dois perfis nem duas contas. O app continua com um dono, um progresso, um banco. Essa regra não muda em nenhum dos cinco conceitos.
+  </div>
+</header>
+
+<!-- ======================= 1 ======================= -->
+<section class="k" data-k="1">
+  <div class="k-cab">
+    <span class="k-num">Conceito 1</span>
+    <h2>Duas araras</h2>
+    <p class="sub">A paleta Villa-Lobos continua por baixo — marfim, papel, tipografia de conservatório —, mas o verde e o dourado saem do papel de destaque e entram as duas irmãs. E elas não são enfeite: cada uma significa uma coisa. Escarlate é o que se toca; azul é o que se sabe. Toda aula, todo exercício e toda habilidade do curso pertence a uma das duas famílias, e a tela passa a responder a uma pergunta que hoje ela não responde: <em>estou equilibrado, ou faz duas semanas que só leio?</em></p>
+    <div class="paleta">
+      <span class="amostra" data-tok="bg"><i style="background:var(--bg)"></i>Papel<b>·</b></span>
+      <span class="amostra" data-tok="tx"><i style="background:var(--tx)"></i>Tinta<b>·</b></span>
+      <span class="amostra" data-tok="liz"><i style="background:var(--liz)"></i>Escarlate<b>·</b></span>
+      <span class="amostra" data-tok="livia"><i style="background:var(--livia)"></i>Cobalto<b>·</b></span>
+      <span class="amostra" data-tok="ouro"><i style="background:var(--ouro)"></i>Dourado<b>·</b></span>
+    </div>
+  </div>
+  <div class="k-corpo">
+    <div class="fone">
+      <span class="barra-topo">1 · Início</span>
+      <div class="tela">
+        <div class="corpo">
+          <span class="mini">Quarta, 11 de novembro</span>
+          <span class="tt">A semana em duas cores</span>
+          <div class="balanca">
+            <i style="background:var(--liz);width:34%"></i>
+            <i style="background:var(--livia);width:66%"></i>
+          </div>
+          <div class="legenda-b"><span>Tocar · 52 min</span><span>Saber · 98 min</span></div>
+          <p class="sv" style="font-size:12px">Faz nove dias que você não pega o violão para uma aula de técnica. A próxima prática está liberada.</p>
+          <div class="bt-m">Pegar o violão agora</div>
+          <hr class="fio">
+          <span class="mini">Continuar</span>
+          <span class="tt-d" style="font-size:16px">A mão esquerda</span>
+          <span class="sv" style="font-size:11.5px">Nível 1 · Módulo 1.2 · 14 min · família escarlate</span>
+          <div class="bt-m oco">Continuar a aula</div>
+          <hr class="fio">
+          <div class="linha"><span class="m">0/17</span><span class="n sv">Habilidades dominadas</span></div>
+        </div>
+        <div class="tabs-m"><span class="on">Início</span><span>Curso</span><span>Hoje</span><span>Exerc.</span><span>Menu</span></div>
+      </div>
+    </div>
+    <div class="melhorias">
+      <h3>O que melhora no uso</h3>
+      <div class="melhoria"><span class="bolha">1</span><p><b>A balança da semana.</b> Hoje o app mostra minutos totais. Dois alunos com 150 minutos podem ter estudado coisas completamente diferentes — um só leu, o outro só tocou. A balança mostra isso em meio segundo, e é o tipo de desequilíbrio que ninguém percebe sozinho.</p></div>
+      <div class="melhoria"><span class="bolha">2</span><p><b>As doze disciplinas viram duas famílias.</b> Doze rótulos iguais na tela não formam um mapa. Agrupadas em "tocar" e "saber", viram.</p></div>
+      <div class="melhoria"><span class="bolha">3</span><p><b>O app passa a sugerir pelo que falta.</b> "Pegar o violão agora" aparece porque a semana pendeu para o azul, não porque é o próximo item de uma fila.</p></div>
+      <div class="melhoria"><span class="bolha">4</span><p><b>Dourado só para conclusão</b>, como já está hoje. Com duas cores semânticas, uma terceira cor competindo estragaria as duas.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 2 ======================= -->
+<section class="k" data-k="2">
+  <div class="k-cab">
+    <span class="k-num">Conceito 2</span>
+    <h2>Mata ao entardecer</h2>
+    <p class="sub">Parte de um fato sobre quando você estuda: depois que a casa silencia. A paleta é a mata no fim da tarde — verde profundo quase preto, e as araras aparecendo como as duas únicas cores quentes, do jeito que uma ave aparece contra a folhagem escura. É um app feito para a luz baixa e para uma mão só, porque a outra está no braço do violão.</p>
+    <div class="paleta">
+      <span class="amostra" data-tok="bg"><i style="background:var(--bg)"></i>Mata<b>·</b></span>
+      <span class="amostra" data-tok="tx"><i style="background:var(--tx)"></i>Névoa<b>·</b></span>
+      <span class="amostra" data-tok="liz"><i style="background:var(--liz)"></i>Arara<b>·</b></span>
+      <span class="amostra" data-tok="livia"><i style="background:var(--livia)"></i>Arara-azul<b>·</b></span>
+      <span class="amostra" data-tok="ouro"><i style="background:var(--ouro)"></i>Amarelo<b>·</b></span>
+    </div>
+  </div>
+  <div class="k-corpo">
+    <div class="fone">
+      <span class="barra-topo">2 · Praticando</span>
+      <div class="tela">
+        <div class="corpo" style="justify-content:space-between">
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <span class="mini">Bloco 2 de 5 · Técnica de mão esquerda</span>
+            <span class="tt-d">Sincronia das duas mãos</span>
+            <span class="sv" style="font-size:12px">72 bpm · sem metrônomo sonoro</span>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:6px">
+            <div style="width:124px;height:124px;border-radius:50%;border:3px solid var(--liz);display:flex;align-items:center;justify-content:center">
+              <span style="font-family:var(--display);font-size:38px;font-weight:700">8:12</span>
+            </div>
+            <span class="sv" style="font-size:11px">o círculo pulsa no andamento</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:7px">
+            <div class="bt-m">Pausar</div>
+            <div style="display:flex;gap:7px">
+              <div class="bt-m oco" style="flex:1">− bpm</div>
+              <div class="bt-m oco" style="flex:1">+ bpm</div>
+            </div>
+            <div class="bt-m oco">Próximo bloco</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="melhorias">
+      <h3>O que melhora no uso</h3>
+      <div class="melhoria"><span class="bolha">1</span><p><b>Metrônomo visual.</b> Um círculo que pulsa no andamento, para praticar com a casa dormindo sem fone. O som continua lá para quem quiser.</p></div>
+      <div class="melhoria"><span class="bolha">2</span><p><b>Tema noturno por horário.</b> Entra sozinho ao anoitecer e sai de manhã, com a opção de travar num dos dois. É um ajuste que ninguém lembra de fazer manualmente todo dia.</p></div>
+      <div class="melhoria"><span class="bolha">3</span><p><b>Tudo que se toca na metade de baixo.</b> Com o violão no colo, o alto da tela é longe. Nesta direção nenhum controle de prática fica acima da metade.</p></div>
+      <div class="melhoria"><span class="bolha">4</span><p><b>A sessão é uma tela só.</b> Hoje a prática é uma lista para marcar; aqui é um bloco de cada vez, com o tempo correndo e um botão para o próximo.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 3 ======================= -->
+<section class="k" data-k="3">
+  <div class="k-cab">
+    <span class="k-num">Conceito 3</span>
+    <h2>Penas e pauta</h2>
+    <p class="sub">O oposto do conceito 2: branco de papel de edição, tipografia como estrutura e quase nenhuma cor — as araras entram só onde há informação, em filetes finos e nos números. A referência não é a ave inteira, é a <em>pena</em>: uma listra de cor num fundo claro. É a direção para quem passa mais tempo lendo a aula do que mexendo no app.</p>
+    <div class="paleta">
+      <span class="amostra" data-tok="bg"><i style="background:var(--bg)"></i>Papel<b>·</b></span>
+      <span class="amostra" data-tok="tx"><i style="background:var(--tx)"></i>Tinta<b>·</b></span>
+      <span class="amostra" data-tok="liz"><i style="background:var(--liz)"></i>Pena rubra<b>·</b></span>
+      <span class="amostra" data-tok="livia"><i style="background:var(--livia)"></i>Pena azul<b>·</b></span>
+      <span class="amostra" data-tok="ouro"><i style="background:var(--ouro)"></i>Âmbar<b>·</b></span>
+    </div>
+  </div>
+  <div class="k-corpo">
+    <div class="fone">
+      <span class="barra-topo">3 · Aula, modo leitura</span>
+      <div class="tela">
+        <div style="height:3px;background:var(--sup)"><i style="display:block;height:100%;width:34%;background:var(--liz)"></i></div>
+        <div class="corpo" style="gap:8px">
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            <span class="mini" style="color:var(--liz)">● de onde vem</span>
+            <span class="mini">○ os avós</span>
+            <span class="mini">○ torres</span>
+            <span class="mini">○ hoje</span>
+          </div>
+          <hr class="fio">
+          <span class="tt" style="font-size:24px">De onde vem o violão</span>
+          <p style="font-size:13.5px;line-height:1.66">Antes de pôr a mão nas cordas, vale saber o que você está segurando. O violão não foi inventado por uma pessoa num dia. Ele é o fim de uma longa fila de instrumentos de corda.</p>
+          <p style="font-size:13.5px;line-height:1.66">Na Europa medieval já existiam instrumentos com caixa de madeira e cordas dedilhadas.</p>
+          <p class="sv" style="font-size:12px">…</p>
+        </div>
+        <div style="border-top:1px solid var(--ln);padding:9px 12px;display:flex;gap:9px;align-items:center">
+          <span class="sv" style="flex:1;font-size:11.5px">Seção 1 de 4 · 3 min restantes</span>
+          <span class="bt-m" style="padding:0 14px">Seguir</span>
+        </div>
+      </div>
+    </div>
+    <div class="melhorias">
+      <h3>O que melhora no uso</h3>
+      <div class="melhoria"><span class="bolha">1</span><p><b>Índice das seções no alto.</b> Uma aula de 14 minutos tem quatro ou cinco seções. Hoje só dá para chegar nelas rolando; aqui elas são pontos tocáveis, e o ponto cheio diz onde você está.</p></div>
+      <div class="melhoria"><span class="bolha">2</span><p><b>Progresso por seção, não por rolagem.</b> "Seção 1 de 4" diz algo; "34% da página" não diz nada quando o fim da página é o questionário.</p></div>
+      <div class="melhoria"><span class="bolha">3</span><p><b>Tempo restante de leitura</b>, calculado do texto que falta. Serve para decidir se dá para terminar antes de dormir.</p></div>
+      <div class="melhoria"><span class="bolha">4</span><p><b>Modo leitura de verdade:</b> uma coluna, sem navegação, sem selos, sem cartões. Volta tudo ao sair.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 4 ======================= -->
+<section class="k" data-k="4">
+  <div class="k-cab">
+    <span class="k-num">Conceito 4</span>
+    <h2>Caderno de campo</h2>
+    <p class="sub">Um caderno de naturalista: papel creme, tinta ferrogálica, pranchas de aves desenhadas à mão com legenda em itálico. Cada nível do curso ganha a sua prancha — a ave começa a lápis e vai sendo colorida conforme você domina as aulas, até ficar inteira. É a direção mais afetiva das cinco, e a única em que o progresso vira uma coleção para as meninas verem.</p>
+    <div class="paleta">
+      <span class="amostra" data-tok="bg"><i style="background:var(--bg)"></i>Creme<b>·</b></span>
+      <span class="amostra" data-tok="tx"><i style="background:var(--tx)"></i>Ferrogálica<b>·</b></span>
+      <span class="amostra" data-tok="liz"><i style="background:var(--liz)"></i>Carmim<b>·</b></span>
+      <span class="amostra" data-tok="livia"><i style="background:var(--livia)"></i>Ultramar<b>·</b></span>
+      <span class="amostra" data-tok="ouro"><i style="background:var(--ouro)"></i>Ocre<b>·</b></span>
+    </div>
+  </div>
+  <div class="k-corpo">
+    <div class="fone">
+      <span class="barra-topo">4 · Nível e anotação</span>
+      <div class="tela">
+        <div class="corpo">
+          <figure class="prancha" style="margin:0">
+            <svg width="66" height="78" viewBox="0 0 52 62" role="img" aria-label="Prancha do nível 1, colorida pela metade">
+              <path d="M34 8c-9 0-16 7-16 16 0 6 3 10 3 15 0 4-3 6-3 9h7c0-4 2-6 4-10 3-6 11-9 11-18 0-7-3-12-6-12z" fill="var(--liz)" opacity=".45"/>
+              <path d="M34 8c-9 0-16 7-16 16 0 6 3 10 3 15" fill="none" stroke="var(--tx)" stroke-width="1.1"/>
+              <path d="M21 39c0 4-3 6-3 9h7c0-4 2-6 4-10 3-6 11-9 11-18 0-7-3-12-6-12" fill="none" stroke="var(--tx)" stroke-width="1.1"/>
+              <path d="M22 24c-5 3-9 9-10 16 4-1 8-4 11-8z" fill="none" stroke="var(--tx)" stroke-width="1"/>
+              <circle cx="33" cy="17" r="2" fill="none" stroke="var(--tx)"/>
+              <path d="M40 16c3 0 5 2 5 5s-3 5-6 4" fill="none" stroke="var(--tx)" stroke-width="1.1"/>
+              <path d="M8 55h36" stroke="var(--tx)" stroke-width=".6" opacity=".5"/>
+            </svg>
+            <figcaption>Prancha I — <i>Ara macao</i><br><span class="sv" style="font-size:11px">12 de 26 aulas. A ave se completa aos 26.</span></figcaption>
+          </figure>
+          <hr class="fio">
+          <span class="mini">Minha anotação nesta aula</span>
+          <div style="border:1px solid var(--ln);border-radius:8px;padding:9px;background:var(--sup);font-size:12px;line-height:1.5">
+            A pestana no 2º traste ainda abafa a 2ª corda. Tentar aproximar o cotovelo do corpo. <span class="sv">— 9 nov</span>
+          </div>
+          <div class="bt-m oco">Escrever outra anotação</div>
+          <hr class="fio">
+          <div class="linha"><span class="m">9 nov</span><span class="n">Pestana · 20 min</span></div>
+          <div class="linha"><span class="m">8 nov</span><span class="n">Leitura à primeira vista · 10 min</span></div>
+        </div>
+        <div class="tabs-m"><span>Início</span><span class="on">Curso</span><span>Hoje</span><span>Exerc.</span><span>Menu</span></div>
+      </div>
+    </div>
+    <div class="melhorias">
+      <h3>O que melhora no uso</h3>
+      <div class="melhoria"><span class="bolha">1</span><p><b>Anotações pessoais em qualquer aula e exercício.</b> É o item de maior valor que ainda falta no app, e cai naturalmente aqui: um caderno de campo é feito de margens escritas à mão.</p></div>
+      <div class="melhoria"><span class="bolha">2</span><p><b>O progresso vira coleção.</b> Oito pranchas que se completam. Uma barra de 46% não se mostra para ninguém; uma prancha quase pronta, sim — e elas são para a Liz e a Lívia verem.</p></div>
+      <div class="melhoria"><span class="bolha">3</span><p><b>Histórico em forma de diário.</b> O que foi praticado em cada dia, com a anotação daquele dia ao lado. Hoje o histórico é um número por data.</p></div>
+      <div class="melhoria"><span class="bolha">4</span><p><b>Exportar o caderno.</b> As anotações de um nível saem num PDF que dá para imprimir e levar para uma aula presencial.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 5 ======================= -->
+<section class="k" data-k="5">
+  <div class="k-cab">
+    <span class="k-num">Conceito 5</span>
+    <h2>Tocar no escuro</h2>
+    <p class="sub">Preto absoluto, tipografia grande e as araras como as únicas três cores da tela. Não é estilo: é um app para ficar aberto na estante de partitura, a um metro e meio dos olhos, enquanto as duas mãos estão ocupadas. Tudo aqui é grande, imóvel e legível de longe, e a interface some assim que a música começa.</p>
+    <div class="paleta">
+      <span class="amostra" data-tok="bg"><i style="background:var(--bg)"></i>Fundo<b>·</b></span>
+      <span class="amostra" data-tok="tx"><i style="background:var(--tx)"></i>Texto<b>·</b></span>
+      <span class="amostra" data-tok="liz"><i style="background:var(--liz)"></i>Arara<b>·</b></span>
+      <span class="amostra" data-tok="livia"><i style="background:var(--livia)"></i>Arara-azul<b>·</b></span>
+      <span class="amostra" data-tok="ouro"><i style="background:var(--ouro)"></i>Amarelo<b>·</b></span>
+    </div>
+  </div>
+  <div class="k-corpo">
+    <div class="fone">
+      <span class="barra-topo">5 · Na estante</span>
+      <div class="tela">
+        <div class="corpo" style="gap:14px">
+          <div style="display:flex;justify-content:space-between;align-items:baseline">
+            <span class="tt-d" style="font-size:17px">Estudo nº 1</span>
+            <span style="font-family:var(--display);font-size:26px;font-weight:700;color:var(--liz)">84</span>
+          </div>
+          <div class="pauta-m"><i></i><i></i><i></i><i></i><i></i></div>
+          <div class="compasso"><span>compasso 9</span><span style="color:var(--livia)">de 32</span></div>
+          <div class="pauta-m"><i></i><i></i><i></i><i></i><i></i></div>
+          <div class="compasso"><span>rolando sozinho</span><span>▌▌▌</span></div>
+          <div style="display:flex;gap:8px;margin-top:auto">
+            <div class="bt-m" style="flex:1;min-height:56px;font-size:15px">Parar</div>
+            <div class="bt-m azul" style="flex:1;min-height:56px;font-size:15px">Marcar</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="melhorias">
+      <h3>O que melhora no uso</h3>
+      <div class="melhoria"><span class="bolha">1</span><p><b>Partitura que rola sozinha no andamento do metrônomo.</b> Vira a página para você, que está com as duas mãos ocupadas — o problema mais antigo de quem estuda sozinho com uma estante.</p></div>
+      <div class="melhoria"><span class="bolha">2</span><p><b>Alvos de 56 px e um gesto por tela.</b> Acima dos 44 px que o app usa hoje, porque aqui o toque é de relance, sem olhar.</p></div>
+      <div class="melhoria"><span class="bolha">3</span><p><b>"Marcar" sem parar de tocar.</b> Um toque grava o compasso em que você tropeçou; no fim da sessão o app mostra os pontos a trabalhar.</p></div>
+      <div class="melhoria"><span class="bolha">4</span><p><b>Tipografia até 200% sem quebrar.</b> É a direção que resolve de vez a leitura a distância, e serve de base para um modo de alta legibilidade no app inteiro.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="k" data-k="1" style="--bg:transparent">
+  <div class="k-cab">
+    <span class="eyebrow">Para decidir</span>
+    <h2>As cinco lado a lado</h2>
+  </div>
+  <div class="rolo">
+    <table>
+      <thead><tr><th>Conceito</th><th>A aposta</th><th>Serve melhor se…</th><th>Esforço</th></tr></thead>
+      <tbody>
+        <tr><td><b>1 Duas araras</b></td><td>Cor com significado: tocar × saber</td><td>…você quer que o app aponte o seu desequilíbrio sozinho</td><td>Médio</td></tr>
+        <tr><td><b>2 Mata ao entardecer</b></td><td>Um app para a luz baixa e uma mão</td><td>…você estuda quase sempre à noite, com a casa dormindo</td><td>Médio</td></tr>
+        <tr><td><b>3 Penas e pauta</b></td><td>Tipografia no lugar da cor</td><td>…a maior parte do seu tempo é lendo as aulas</td><td>Baixo</td></tr>
+        <tr><td><b>4 Caderno de campo</b></td><td>Progresso como coleção, e anotações</td><td>…você quer algo para mostrar à Liz e à Lívia</td><td>Alto</td></tr>
+        <tr><td><b>5 Tocar no escuro</b></td><td>Legibilidade a um metro e meio</td><td>…o celular fica na estante enquanto você toca</td><td>Alto</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="fecho">
+    <p>Os conceitos 1 e 3 convivem: um é o sistema de cor, o outro é o tratamento do texto. O 2 e o 5 brigam entre si, porque os dois querem ser o estado da tela enquanto você toca. O 4 é o único que traz dados novos ao app — anotações — e por isso é o de maior esforço e o de maior valor duradouro.</p>
+    <div class="aviso">
+      <b>O que não foi verificado:</b> o número debaixo de cada amostra não está digitado ali — a página lê a cor que o navegador está realmente usando e calcula a razão de contraste contra o fundo daquele conceito, na hora, nos dois temas. Nas dez paletas (cinco conceitos × dois temas) nenhuma ficou abaixo de 4,5; se alguma ficar, o número aparece em vermelho. O que <em>não</em> foi verificado: nada disto foi testado numa tela de verdade a 360 px, as maquetes são desenhos desta página e não telas do app, os rótulos de esforço são estimativa minha, e as melhorias de uso de cada conceito são propostas — algumas, como a partitura que rola sozinha e o tempo restante de leitura, dependem de dados que o app ainda não guarda.
+    </div>
+  </div>
+</section>
+
+</div>
+
+<script>
+// Os números debaixo de cada amostra não são digitados: a página lê a cor que
+// o navegador está realmente usando naquele tema e calcula a razão de
+// contraste contra o fundo do conceito, pela fórmula da WCAG. Assim o número
+// nunca fica mentindo depois de alguém mexer numa cor, e ele acompanha a
+// troca de tema junto com a maquete.
+function luminancia(rgb) {
+  const c = rgb.map(function (v) {
+    v = v / 255;
+    return v <= 0.04045 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+  });
+  return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
+}
+// As variáveis do CSS devolvem o que está escrito ali: aqui elas são hex.
+// Deixo o caso rgb() também, porque é o que viria de getComputedStyle('color')
+// se um dia alguém trocar a forma de ler.
+function paraRGB(cor) {
+  const t = String(cor).trim();
+  if (t[0] === '#') {
+    const h = t.length === 4
+      ? t[1] + t[1] + t[2] + t[2] + t[3] + t[3]
+      : t.slice(1, 7);
+    return [0, 2, 4].map(function (i) { return parseInt(h.slice(i, i + 2), 16); });
+  }
+  const m = t.match(/-?[\d.]+/g);
+  return m ? m.slice(0, 3).map(Number) : [0, 0, 0];
+}
+function razao(a, b) {
+  const la = luminancia(paraRGB(a)), lb = luminancia(paraRGB(b));
+  return (Math.max(la, lb) + 0.05) / (Math.min(la, lb) + 0.05);
+}
+function medirPaletas() {
+  document.querySelectorAll('section.k').forEach(function (sec) {
+    const cs = getComputedStyle(sec);
+    const fundo = cs.getPropertyValue('--bg');
+    sec.querySelectorAll('.amostra').forEach(function (am) {
+      const tok = am.dataset.tok;
+      const alvo = am.querySelector('b');
+      if (!alvo) return;
+      if (tok === 'bg') { alvo.textContent = 'fundo'; alvo.classList.remove('baixo'); return; }
+      const r = razao(cs.getPropertyValue('--' + tok), fundo);
+      alvo.textContent = r.toFixed(2).replace('.', ',');
+      alvo.classList.toggle('baixo', r < 4.5);
+      am.title = 'Contraste contra o fundo deste conceito: ' + r.toFixed(2) + ':1 (mínimo 4,5)';
+    });
+  });
+}
+
+// Troca de tema só para quem está lendo esta página.
+(function () {
+  var bt = document.getElementById('bt-tema');
+  var raiz = document.documentElement;
+  function escuro() {
+    var t = raiz.getAttribute('data-theme');
+    if (t) return t === 'dark';
+    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+  }
+  function pintar() { bt.textContent = escuro() ? 'Ver no tema claro' : 'Ver no tema escuro'; }
+  try {
+    var g = localStorage.getItem('araras-tema');
+    if (g === 'dark' || g === 'light') raiz.setAttribute('data-theme', g);
+  } catch (e) { /* sem armazenamento: vale o tema do sistema */ }
+  pintar();
+  medirPaletas();
+  bt.addEventListener('click', function () {
+    var novo = escuro() ? 'light' : 'dark';
+    raiz.setAttribute('data-theme', novo);
+    try { localStorage.setItem('araras-tema', novo); } catch (e) {}
+    pintar();
+    medirPaletas();
+  });
+  // Se o sistema trocar de tema sozinho e a página estiver em "automático".
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function () {
+    if (!raiz.getAttribute('data-theme')) { pintar(); medirPaletas(); }
+  });
+})();
+</script>
