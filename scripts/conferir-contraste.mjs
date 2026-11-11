@@ -77,6 +77,21 @@ for (const nome of PONTOS) {
   console.log(`  ${r >= 4.5 ? 'ok   ' : 'BAIXO'} ${r.toFixed(2).padStart(5)} (alvo 4.5)  rótulo sobre ${nome}  ${texto} sobre ${fundo}`);
 }
 
+// As oito capas de nível também não mudam com o tema: uma capa de livro é a
+// mesma com a luz acesa ou apagada. São misturas entre --vl-verde-musical e
+// --vl-verde-floresta, e por cima delas vai o marfim. Lidas direto do CSS,
+// para o dia em que alguém escurecer ou clarear a escala.
+const CAPAS = [...css.matchAll(/\.capa-n(\d)\s*\{\s*--capa:\s*(#[0-9A-Fa-f]{6})/g)]
+  .map((m) => [Number(m[1]), m[2]]);
+console.log('\n--- CAPAS DE NÍVEL (sem tema) ---');
+if (CAPAS.length !== 8) { console.log(`  ?      esperava 8 capas .capa-nN, achei ${CAPAS.length}`); falhas++; }
+for (const [n, cor] of CAPAS) {
+  const marfim = escuro['--vl-marfim'];
+  const r = razao(marfim, cor);
+  if (r < 4.5) falhas++;
+  console.log(`  ${r >= 4.5 ? 'ok   ' : 'BAIXO'} ${r.toFixed(2).padStart(5)} (alvo 4.5)  marfim na capa do nível ${n}  ${marfim} sobre ${cor}`);
+}
+
 for (const [nome, tokens] of [['ESCURO (Concerto Noturno)', escuro], ['CLARO (Conservatório Clássico)', claro]]) {
   console.log('\n--- ' + nome + ' ---');
   for (const [fg, bg, desc, alvo] of PARES) {

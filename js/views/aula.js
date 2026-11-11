@@ -26,11 +26,19 @@ export function montar(raiz, ir, arg) {
   let render = null;
   let dados = null;
 
+  // Ouvintes presos ao <window>, que a tela precisa soltar ao sair. Como a
+  // aula se redesenha (ao voltar do questionário, por exemplo), a lista é
+  // esvaziada a cada desenho, senão sobra um ouvinte por visita.
+  let limpezas = [];
+
   function limpar() {
     if (render) { render.fechar(); render = null; }
+    limpezas.forEach((f) => f());
+    limpezas = [];
   }
 
   async function carregar() {
+    limpar();
     tela.innerHTML = '';
     tela.append(el('p', 'dica', 'Carregando a aula…'));
     dados = await acharAula(arg);
@@ -60,6 +68,14 @@ export function montar(raiz, ir, arg) {
 
     tela.innerHTML = '';
     tela.className = 'tela aula-tela';
+
+    // Trilho de leitura: o quanto da aula já passou. É a única informação que
+    // interessa de relance enquanto se lê, e fica grudado no alto da tela.
+    const trilho = el('div', 'aula-trilho');
+    trilho.setAttribute('aria-hidden', 'true');
+    const trilhoCheio = document.createElement('i');
+    trilho.append(trilhoCheio);
+    tela.append(trilho);
 
     const topo = el('header', 'topo');
     const voltar = botaoIcone('botao-texto', 'voltar', 'Módulo ' + modulo.id);
@@ -214,14 +230,62 @@ export function montar(raiz, ir, arg) {
     if (proximaAula) { const b = el('button', 'botao-principal', 'Próxima aula'); b.append(icone('avancar')); b.onclick = () => ir('aula/' + proximaAula.id); acoes.append(b); }
     tela.append(acoes);
 
+    // ---- o que falta, sempre à mão ----
+    // Antes era preciso rolar a aula inteira para descobrir o que ainda
+    // faltava para concluí-la. Esta barra gruda no rodapé enquanto se lê e
+    // diz o passo que falta; o botão leva até ele. Quando não falta nada,
+    // vira o caminho para a próxima aula.
+    const rodape = el('div', 'aula-rodape');
+    const oQueFalta = el('span', 'falta');
+    const bIr = el('button', 'botao-principal', 'Ir');
+    rodape.append(oQueFalta, bIr);
+    tela.append(rodape);
+
+    function atualizarRodape() {
+      const f = fichas[aula.id] || {};
+      const nota = f.quiz && f.quiz.total ? f.quiz.acertos / f.quiz.total : null;
+      const falta = [];
+      if (!f.estudada) falta.push('a leitura');
+      if (!f.autoavaliacao) falta.push('a prática');
+      if (nota === null || nota < NOTA_MINIMA) falta.push('o questionário');
+
+      if (!falta.length) {
+        rodape.classList.add('pronta');
+        oQueFalta.textContent = 'Aula dominada.';
+        bIr.textContent = proximaAula ? 'Próxima aula' : 'Ver o módulo';
+        bIr.onclick = () => ir(proximaAula ? 'aula/' + proximaAula.id : 'curso/' + nivel.n);
+        return;
+      }
+      rodape.classList.remove('pronta');
+      oQueFalta.textContent = 'Falta ' + falta.join(', ').replace(/,([^,]*)$/, ' e$1') + '.';
+      bIr.textContent = 'Concluir';
+      bIr.onclick = () => fecho.scrollIntoView({ block: 'start', behavior: 'smooth' });
+    }
+    atualizarRodape();
+
     function atualizarSelo() {
       Progresso.obter(aula.id).then((f) => {
         if (encerrada) return;
         const e = estadoDaFicha(f);
         const s = selos.querySelector('[class*="estado-"]');
         if (s) { s.className = 'selo-aula estado-' + e; s.textContent = ESTADOS[e].sinal + ' ' + ESTADOS[e].nome; }
+        // A barra do rodapé lê a mesma ficha: atualiza junto, senão continua
+        // pedindo um passo que você acabou de dar.
+        fichas[aula.id] = f;
+        atualizarRodape();
       });
     }
+
+    // Quanto da página já passou. Em passive, e sem contas no listener além
+    // de uma divisão: isto roda a cada quadro de rolagem.
+    function aoRolar() {
+      const alto = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = alto > 0 ? Math.min(100, Math.max(0, (window.scrollY / alto) * 100)) : 0;
+      trilhoCheio.style.width = pct.toFixed(1) + '%';
+    }
+    window.addEventListener('scroll', aoRolar, { passive: true });
+    limpezas.push(() => window.removeEventListener('scroll', aoRolar));
+    aoRolar();
 
     // No conteúdo das aulas a resposta certa é sempre a primeira opção, porque assim
     // fica fácil de escrever e de revisar. Aqui elas são embaralhadas, senão o aluno

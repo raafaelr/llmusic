@@ -10,12 +10,30 @@ function el(tag, classe, texto) {
   if (texto !== undefined) e.textContent = texto;
   return e;
 }
-function barra(pct) {
-  const b = el('div', 'barra-prog');
-  const f = el('div', 'barra-prog-fill');
-  f.style.width = Math.max(2, pct) + '%';
-  b.append(f);
-  return b;
+// Os oito níveis em algarismo romano. São oito e param no VIII: uma tabela
+// resolve, e uma função de conversão geral seria código para um caso que não
+// existe. O romano é só para a capa; o número continua escrito por extenso
+// logo ao lado, porque nem todo mundo lê VII de relance.
+const ROMANOS = ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII'];
+
+// A capa do nível: algarismo, título, objetivo e o quanto já foi dominado.
+// O verde escurece do nível 1 ao 8 (classe .capa-nN, em css/style.css).
+export function capaNivel(n, prog) {
+  const capa = el('button', 'capa-nivel capa-n' + n.n + (n.pronto ? '' : ' futuro'));
+  capa.append(el('span', 'capa-romano', ROMANOS[n.n] || String(n.n)));
+  capa.append(el('span', 'capa-titulo', n.titulo));
+  if (n.objetivo) capa.append(el('span', 'capa-obj', n.objetivo));
+  if (n.pronto && prog) {
+    capa.append(el('span', 'capa-conta', 'Nível ' + n.n + ' · ' + prog.dominadas + ' de ' + prog.total + ' aulas dominadas'));
+    const t = el('div', 'capa-trilho');
+    const i = document.createElement('i');
+    i.style.width = Math.max(0, Math.min(100, prog.pct)) + '%';
+    t.append(i);
+    capa.append(t);
+  } else {
+    capa.append(el('span', 'capa-conta', 'Nível ' + n.n + ' · conteúdo em preparação'));
+  }
+  return capa;
 }
 
 export function montar(raiz, ir, arg) {
@@ -52,26 +70,34 @@ export function montar(raiz, ir, arg) {
     acoes.append(bp, bd, ba);
     tela.append(acoes);
 
+    // A estante: as oito lombadas, cada uma enchendo de dourado conforme o
+    // nível avança. Serve para ver de longe onde se está e para pular direto,
+    // sem rolar oito capas. O dourado fica aqui, e não na capa: sobre a capa
+    // ele daria 2,00 de contraste no nível 1; sobre a superfície da página,
+    // passa. (Conferido em scripts/conferir-contraste.mjs.)
+    const estante = el('nav', 'estante');
+    estante.setAttribute('aria-label', 'Os oito níveis');
+    niveis.forEach((n) => {
+      const p = progressoDoNivel(n, fichas);
+      const l = el('button', 'lombada');
+      const cheio = document.createElement('i');
+      cheio.style.height = (n.pronto ? Math.max(0, Math.min(100, p.pct)) : 0) + '%';
+      l.append(cheio, el('span', '', ROMANOS[n.n] || String(n.n)));
+      l.title = 'Nível ' + n.n + ' — ' + n.titulo;
+      l.setAttribute('aria-label', l.title + (n.pronto ? ': ' + p.pct + '% dominado' : ': em preparação'));
+      if (abertos.has(n.n)) l.setAttribute('aria-current', 'page');
+      l.onclick = () => { abertos.clear(); abertos.add(n.n); desenhar(); };
+      estante.append(l);
+    });
+    tela.append(estante);
+
     niveis.forEach((n) => {
       const prog = progressoDoNivel(n, fichas);
       const cartao = el('section', 'nivel-cartao' + (n.pronto ? '' : ' nivel-futuro'));
-      const cab = el('button', 'nivel-cab');
+      const cab = capaNivel(n, prog);
       cab.setAttribute('aria-expanded', String(abertos.has(n.n)));
-      const info = el('div', 'nivel-info');
-      info.append(el('span', 'nivel-num', 'Nível ' + n.n));
-      info.append(el('h2', 'nivel-titulo', n.titulo));
-      info.append(el('p', 'nivel-obj', n.objetivo));
-      const lado = el('div', 'nivel-lado');
-      if (n.pronto) {
-        lado.append(el('span', 'nivel-pct', prog.pct + '%'));
-        lado.append(el('span', 'nivel-cont', prog.dominadas + '/' + prog.total + ' aulas'));
-      } else {
-        lado.append(el('span', 'selo-aula planejado', 'conteúdo em preparação'));
-      }
-      cab.append(info, lado);
       cab.onclick = () => { if (abertos.has(n.n)) abertos.delete(n.n); else abertos.add(n.n); desenhar(); };
       cartao.append(cab);
-      if (n.pronto) cartao.append(barra(prog.pct));
 
       if (abertos.has(n.n)) {
         const corpo = el('div', 'nivel-corpo');

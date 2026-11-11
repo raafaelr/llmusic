@@ -12,7 +12,8 @@ import { sequenciaAtual } from '../habitos.js';
 import { carregarTodos, todasAsAulas } from '../curso/curriculo.js';
 import { quadroGeral, autoavaliacoes } from '../curso/habilidades.js';
 import { EXERCICIOS } from '../curso/exercicios.js';
-import { carregarFichas, proximaAula, proximaPratica, pedeViolao, estadoDaFicha } from '../curso/progresso.js';
+import { carregarFichas, proximaAula, proximaPratica, pedeViolao, estadoDaFicha, progressoDoNivel } from '../curso/progresso.js';
+import { capaNivel } from './curso.js';
 import { rotinaPorId, SEMANA_PADRAO, DIAS } from '../curso/plano.js';
 import { roseta, clave, ramo, marcaDagua } from '../grafismos.js';
 
@@ -64,6 +65,15 @@ export function montar(raiz, ir) {
   retomar.append(retomarCorpo);
   tela.append(retomar);
 
+  // ---------------------------------------------------------------- rotina
+  // A rotina vem antes dos números: é o que você faz hoje. Os números são
+  // consequência e ficam mais abaixo, discretos.
+  const rotina = el('section', 'grupo');
+  rotina.append(el('h2', 'rotulo-grupo', 'A rotina de hoje'));
+  const rotinaCorpo = el('div');
+  rotina.append(rotinaCorpo);
+  tela.append(rotina);
+
   // ---------------------------------------------------------------- números
   const faixa = el('section', 'faixa-numeros');
   const numeros = {};
@@ -76,15 +86,6 @@ export function montar(raiz, ir) {
       faixa.append(c);
     });
   tela.append(faixa);
-
-  tela.append(Object.assign(document.createElement('hr'), { className: 'pauta-divisor' }));
-
-  // ---------------------------------------------------------------- rotina
-  const rotina = el('section', 'grupo');
-  rotina.append(el('h2', 'rotulo-grupo', 'A rotina de hoje'));
-  const rotinaCorpo = el('div');
-  rotina.append(rotinaCorpo);
-  tela.append(rotina);
 
   // ---------------------------------------------------------------- áreas
   const ferr = el('section', 'area');
@@ -126,17 +127,30 @@ export function montar(raiz, ir) {
     const doDia = semana[new Date().getDay()] || SEMANA_PADRAO[new Date().getDay()];
     const r = rotinaPorId(doDia.rotina);
     rotinaCorpo.innerHTML = '';
-    const cr = el('button', 'cartao');
-    cr.append(el('h3', 'cartao-nome', DIAS[new Date().getDay()] + ' · ' + r.nome));
-    cr.append(el('p', 'cartao-desc', doDia.foco));
+    rotinaCorpo.append(el('p', 'rotina-foco', DIAS[new Date().getDay()] + ' · ' + r.nome + ' — ' + r.minutos + ' min'));
+    rotinaCorpo.append(el('p', 'cartao-desc', doDia.foco));
     const barra = el('div', 'plano-barra');
     const pre = el('span');
     pre.style.width = Math.min(100, Math.round((seg / (r.minutos * 60)) * 100)) + '%';
     barra.append(pre);
-    cr.append(barra);
-    cr.append(el('p', 'cartao-desc', minutosTexto(seg) + ' de ' + r.minutos + ' min'));
-    cr.onclick = () => ir('plano');
-    rotinaCorpo.append(cr);
+    rotinaCorpo.append(barra);
+    rotinaCorpo.append(el('p', 'cartao-desc', minutosTexto(seg) + ' de ' + r.minutos + ' min'));
+
+    // Os passos do dia, em linhas separadas por fio. Aqui só se lê: marcar o
+    // que foi feito é no Plano de Estudos, que é dono desse estado. Mostrar a
+    // caixinha nos dois lugares exigiria manter o mesmo dado em duas telas.
+    const lista = el('ul', 'rotina-passos');
+    (r.blocos || []).forEach((b) => {
+      const li = el('li');
+      li.append(el('span', 'min', b.min + ' min'));
+      li.append(el('span', 'nome', b.titulo));
+      lista.append(li);
+    });
+    if (lista.children.length) rotinaCorpo.append(lista);
+
+    const bp = el('button', 'botao-principal', 'Começar a praticar');
+    bp.onclick = () => ir('plano');
+    rotinaCorpo.append(bp);
   })().catch(() => {});
 
   (async () => {
@@ -175,8 +189,14 @@ export function montar(raiz, ir) {
       return;
     }
     const estado = estadoDaFicha(fichas[prox.aula.id]);
+    // A capa do nível em que você está: é o livro aberto na sua mão, e leva
+    // para a estante naquele nível. O mesmo desenho da grade curricular,
+    // montado pela mesma função — dois desenhos iguais viram dois diferentes.
+    const capa = capaNivel(prox.nivel, progressoDoNivel(prox.nivel, fichas));
+    capa.onclick = () => ir('curso/' + prox.nivel.n);
+    retomarCorpo.append(capa);
     retomarCorpo.append(el('p', 'retomar-caminho',
-      'Nível ' + prox.nivel.n + ' · Módulo ' + prox.modulo.id + ' · ' + prox.modulo.titulo));
+      'Módulo ' + prox.modulo.id + ' · ' + prox.modulo.titulo));
     retomarCorpo.append(el('h2', 'retomar-titulo', prox.aula.titulo));
     retomarCorpo.append(el('p', 'cartao-desc', prox.aula.objetivo || prox.aula.resumo || ''));
     const selos = el('div', 'aula-selos');

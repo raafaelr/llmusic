@@ -251,17 +251,22 @@ button.cartao:active { transform: translateY(1px); background: var(--superficie-
 .retomar-titulo { font-family: var(--fonte-titulo); font-size: var(--txt-xl); font-weight: 600; line-height: 1.1; }
 .retomar .bloco-botoes { margin-top: var(--e-2); }
 
-/* faixa de números: hoje, sequência, nível, aulas dominadas */
+/* Faixa de números. Eram quatro caixas douradas no alto da tela, a primeira
+   coisa que se via. São consequência do estudo, não o motivo de abrir o app:
+   agora é uma linha discreta, sem moldura, separada por fios, e o dourado
+   saiu daqui — ele passou a querer dizer uma coisa só, "concluído". */
 .faixa-numeros {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--e-2);
-  margin: var(--e-4) 0 0;
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  margin: var(--e-5) 0 0;
+  border-top: 1px solid var(--linha);
+  border-bottom: 1px solid var(--linha);
 }
 .numero {
-  display: flex; flex-direction: column; align-items: center; gap: 2px;
-  padding: var(--e-3) var(--e-1); background: var(--superficie); border: 1px solid var(--linha);
-  border-radius: var(--r-md); text-align: center;
+  display: flex; flex-direction: column; align-items: center; gap: 1px;
+  padding: var(--e-3) var(--e-1); text-align: center;
 }
-.numero-valor { font-family: var(--fonte-titulo); font-size: var(--txt-lg); font-weight: 700; color: var(--destaque); line-height: 1; font-variant-numeric: lining-nums tabular-nums; }
+.numero + .numero { border-left: 1px solid var(--linha); }
+.numero-valor { font-family: var(--fonte-titulo); font-size: var(--txt-md); font-weight: 600; color: var(--texto); line-height: 1; font-variant-numeric: lining-nums tabular-nums; }
 .numero-rotulo { font-size: 11px; color: var(--suave); letter-spacing: 0.02em; }
 
 /* áreas de atalho */
@@ -913,8 +918,14 @@ input[type=range] { width: 100%; height: 44px; accent-color: var(--destaque); ba
 
 /* ---- grade curricular ---- */
 .curso-acoes { margin-bottom: 14px; flex-wrap: wrap; }
-.nivel-cartao { background: var(--superficie); border: 1px solid var(--linha); border-radius: var(--r-lg); padding: 14px; margin-bottom: 12px; }
-.nivel-cartao.nivel-futuro { opacity: .85; }
+/* O nível é a capa mais, quando aberto, o conteúdo embaixo dela. A moldura
+   saiu: a capa já é um objeto, e uma caixa em volta de uma caixa não separa
+   mais nada. */
+.nivel-cartao { margin-bottom: var(--e-4); }
+.nivel-corpo { margin-top: var(--e-3); padding: 0 var(--e-1); }
+
+/* O cabeçalho antigo de nível continua vivo na auditoria curricular, que é
+   uma tabela de cobertura do currículo e não uma estante. */
 .nivel-cab { display: flex; gap: 12px; align-items: flex-start; justify-content: space-between; width: 100%; background: none; border: 0; padding: 0; text-align: left; }
 .nivel-info { flex: 1; min-width: 0; }
 .nivel-num { font-size: 12px; color: var(--suave); text-transform: uppercase; letter-spacing: .06em; }
@@ -923,7 +934,6 @@ input[type=range] { width: 100%; height: 44px; accent-color: var(--destaque); ba
 .nivel-lado { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; flex-shrink: 0; }
 .nivel-pct { font-size: 22px; font-weight: 800; color: var(--destaque); }
 .nivel-cont { font-size: 12px; color: var(--suave); }
-.nivel-corpo { margin-top: 12px; border-top: 1px solid var(--linha); padding-top: 12px; }
 .nivel-criterio { font-size: 14px; color: var(--suave); background: var(--superficie-2); padding: 10px 12px; border-radius: var(--r-sm); margin-top: 10px; }
 .modulo-bloco { margin-bottom: 18px; }
 .modulo-cab { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
@@ -1107,14 +1117,21 @@ input[type=range] { width: 100%; height: 44px; accent-color: var(--destaque); ba
 .campo-texto:focus-visible { outline: 2px solid var(--destaque); outline-offset: 2px; }
 
 /* ---- Plano de Estudos ---- */
-.plano-bloco { display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; border: 1px solid var(--linha);
-  border-radius: var(--r-md); background: var(--superficie-2); margin-bottom: 8px; }
+/* Cada passo da rotina era um cartão com moldura e fundo próprio. Numa lista
+   de cinco passos iguais, cinco molduras não separam nada — um fio separa.
+   O que continua com caixa é o que é ação: os botões. */
+.plano-bloco { display: flex; align-items: flex-start; gap: 10px; padding: var(--e-3) 0;
+  border-bottom: 1px solid var(--linha); background: none; }
+.plano-bloco:first-of-type { border-top: 1px solid var(--linha); }
 .plano-bloco .min { flex: 0 0 56px; font-variant-numeric: tabular-nums; color: var(--suave); font-size: 14px; }
 .plano-bloco .corpo { flex: 1; min-width: 0; }
 .plano-bloco .corpo strong { display: block; }
 /* a linha que anuncia o exercício do dia precisa de linha própria */
 .plano-bloco .corpo .hoje-ex { display: block; margin-top: 4px; color: var(--destaque); }
-.plano-bloco.feito { border-color: var(--ok); }
+/* Feito: o dourado é o sinal, e só aqui. O texto continua com o contraste
+   do tema — a cor é um reforço do "✓", nunca a única informação. */
+.plano-bloco.feito { box-shadow: inset 3px 0 0 var(--destaque); padding-left: var(--e-3); }
+.plano-bloco.feito .corpo strong { color: var(--suave); }
 .plano-barra { height: 10px; border-radius: 6px; background: var(--superficie-2); overflow: hidden; border: 1px solid var(--linha); }
 .plano-barra > span { display: block; height: 100%; background: var(--destaque); }
 .plano-semana { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin: 8px 0; }
@@ -1736,3 +1753,116 @@ button .ic-t, a .ic-t { margin-right: 0.1em; }
   color: var(--texto); background: var(--superficie); border: 1px solid var(--linha-controle);
   border-radius: 12px; font-family: inherit; }
 .sinc-form input:focus-visible { outline: 2px solid var(--destaque); outline-offset: 2px; }
+
+/* ============================================================================
+   CADERNO DE ESTUDO E ESTANTE
+   Duas ideias que entraram juntas:
+
+   - Caderno: a aula é para ser lida. Comprimento de linha controlado,
+     entrelinha maior, uma barra de progresso no alto e o passo que falta
+     sempre à mão no rodapé, sem precisar rolar até o fim para achá-lo.
+   - Estante: os oito níveis são livros. Cada um tem uma capa com o algarismo
+     romano e uma lombada que enche conforme você avança.
+
+   Sobre as cores das capas: são oito misturas entre duas cores que já existem
+   na paleta, verde-musical e verde-floresta. Não entrou nenhum verde novo.
+   O marfim por cima dá de 5,04 (nível 1) a 9,90 (nível 8) — todas passam os
+   4,5 da WCAG, conferido em scripts/conferir-contraste.mjs. O dourado por
+   cima da capa daria 2,00 no nível 1, então na capa o preenchimento de
+   progresso é marfim; o dourado fica na lombada, que vive sobre a superfície
+   da página, onde ele é legível.
+   ========================================================================= */
+
+/* ---- a aula como leitura ---- */
+.aula-trilho {
+  position: sticky; top: 0; z-index: 30;
+  height: 3px; background: var(--linha); margin: calc(var(--e-4) * -1) calc(var(--e-4) * -1) 0;
+}
+.aula-trilho i { display: block; height: 100%; background: var(--destaque); width: 0; transition: width var(--t-media); }
+.aula-corpo { font-size: var(--txt-md); line-height: 1.68; max-width: 64ch; }
+.aula-corpo p { margin-bottom: var(--e-4); }
+
+/* O passo que falta, sempre alcançável. Fica acima da barra de navegação. */
+.aula-rodape {
+  position: sticky;
+  bottom: calc(56px + env(safe-area-inset-bottom, 0px));
+  z-index: 29;
+  margin: var(--e-5) calc(var(--e-4) * -1) 0;
+  padding: var(--e-3) var(--e-4) calc(var(--e-3) + env(safe-area-inset-bottom, 0px));
+  background: var(--fundo);
+  border-top: 1px solid var(--linha);
+  display: flex; align-items: center; gap: var(--e-3);
+}
+.aula-rodape .falta {
+  flex: 1; min-width: 0; font-size: var(--txt-sm); color: var(--suave);
+  /* Uma linha só: a barra fica na frente do texto da aula o tempo todo, e
+     cada linha a mais aqui é uma linha a menos de leitura. */
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.aula-rodape .botao-principal { flex: 0 0 auto; }
+.aula-rodape.pronta { border-top-color: var(--destaque); }
+@media (min-width: 760px) { .aula-rodape { bottom: 0; } }
+
+/* ---- capa de nível ---- */
+.capa-nivel {
+  --capa: var(--vl-verde-musical);
+  display: flex; flex-direction: column; gap: var(--e-1);
+  width: 100%; text-align: left;
+  padding: var(--e-4);
+  border: 1px solid var(--linha-controle);
+  border-radius: var(--r-md);
+  background: var(--capa);
+  color: var(--vl-marfim);
+  cursor: pointer;
+}
+.capa-n1 { --capa: #496D5B; } .capa-n2 { --capa: #446656; }
+.capa-n3 { --capa: #3F6050; } .capa-n4 { --capa: #3A594B; }
+.capa-n5 { --capa: #355345; } .capa-n6 { --capa: #304C40; }
+.capa-n7 { --capa: #2B463A; } .capa-n8 { --capa: #263F35; }
+.capa-romano {
+  font-family: var(--fonte-titulo); font-size: var(--txt-2xl); font-weight: 700;
+  line-height: .9; color: var(--vl-marfim);
+}
+.capa-titulo { font-family: var(--fonte-titulo); font-size: var(--txt-lg); font-weight: 600; line-height: 1.1; color: var(--vl-marfim); }
+.capa-obj { font-size: var(--txt-xs); color: var(--vl-cinza-papel); }
+.capa-conta { font-size: var(--txt-xs); color: var(--vl-cinza-papel); font-variant-numeric: tabular-nums; }
+.capa-trilho { height: 4px; border-radius: 2px; background: rgba(243, 239, 227, 0.25); overflow: hidden; margin-top: var(--e-2); }
+.capa-trilho i { display: block; height: 100%; background: var(--vl-marfim); }
+.capa-nivel.futuro { opacity: .72; }
+
+/* ---- a estante: as oito lombadas, com o progresso em dourado ---- */
+.estante { display: flex; gap: var(--e-2); overflow-x: auto; padding-bottom: var(--e-2); }
+.lombada {
+  position: relative; overflow: hidden;
+  flex: 0 0 auto; width: 44px; min-height: 64px;
+  display: flex; align-items: center; justify-content: center;
+  padding: var(--e-2) 0;
+  border: 1px solid var(--linha); border-radius: var(--r-sm);
+  background: var(--superficie); color: var(--suave);
+  font-family: var(--fonte-titulo); font-size: var(--txt-md); font-weight: 600;
+  cursor: pointer;
+}
+.lombada i {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  background: var(--destaque); opacity: .28;
+}
+.lombada span { position: relative; }
+.lombada[aria-current='page'] { border-color: var(--destaque); color: var(--texto); }
+
+/* Os passos do dia na tela inicial: só leitura, fio entre um e outro. */
+.rotina-foco { font-family: var(--fonte-titulo); font-size: var(--txt-md); font-weight: 600; }
+.rotina-passos { list-style: none; margin: var(--e-3) 0; padding: 0; border-top: 1px solid var(--linha); }
+.rotina-passos li {
+  display: flex; gap: var(--e-3); align-items: baseline;
+  padding: var(--e-2) 0; border-bottom: 1px solid var(--linha);
+}
+.rotina-passos .min { flex: 0 0 52px; font-size: var(--txt-xs); color: var(--suave); font-variant-numeric: tabular-nums; }
+.rotina-passos .nome { flex: 1; min-width: 0; }
+/* Na retomada a capa é o começo do cartão, e encosta nas bordas dele. */
+.retomar .capa-nivel { margin-bottom: var(--e-2); }
+
+/* A retomada deixou de ser um cartão: a capa do nível já é o objeto da tela,
+   e uma moldura dourada em volta de uma capa é caixa dentro de caixa. Sobra
+   o rótulo, a capa e o que se faz com ela. */
+.retomar.cartao { border: 0; background: none; padding: 0; }
+.retomar.cartao-destaque::before { display: none; }
