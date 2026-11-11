@@ -1,0 +1,509 @@
+<title>Mais cinco paletas para o LLMusic</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap">
+<style>
+/* Layout: coluna de leitura; cada conceito carrega a própria paleta em
+   variáveis, nos dois temas, e a maquete é pintada com elas. Os números de
+   contraste são calculados pela própria página (ver o script no fim). */
+:root {
+  --pg-fundo:#FAF8F4; --pg-sup:#FFFFFF; --pg-txt:#1C1A17; --pg-suave:#5A544C;
+  --pg-linha:#DCD6CC; --pg-forte:#B8AFA2; --pg-marca:#6B2D2A;
+  --fonte:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --display:'Space Grotesk','Inter',system-ui,sans-serif;
+  --serif:'Cormorant Garamond','Iowan Old Style',Georgia,serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --pg-fundo:#121110; --pg-sup:#1B1917; --pg-txt:#F4F1EC; --pg-suave:#AFA79C;
+    --pg-linha:#332F2A; --pg-forte:#4D473F; --pg-marca:#E08B77;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --pg-fundo:#121110; --pg-sup:#1B1917; --pg-txt:#F4F1EC; --pg-suave:#AFA79C;
+  --pg-linha:#332F2A; --pg-forte:#4D473F; --pg-marca:#E08B77;
+  color-scheme: dark;
+}
+
+/* ---- as cinco paletas, tema claro ---- */
+.k[data-k="6"]{--bg:#F6EEDF;--sup:#FDF8EE;--tx:#241A12;--sv:#5E4B3A;--a1:#6B2D2A;--a2:#2F4A52;--a3:#7A5A16;--ln:#80705C}
+.k[data-k="7"]{--bg:#FCFCFA;--sup:#F0EFEA;--tx:#15161A;--sv:#4F5560;--a1:#1B3C8C;--a2:#A02020;--a3:#6B5A12;--ln:#73798A}
+.k[data-k="8"]{--bg:#FFFFFF;--sup:#EDF2F8;--tx:#121A26;--sv:#48566B;--a1:#17458F;--a2:#A33B1E;--a3:#6F5A12;--ln:#6E7C92}
+.k[data-k="9"]{--bg:#FAF4EF;--sup:#FFFFFF;--tx:#1E1216;--sv:#5E4A44;--a1:#8A2232;--a2:#6E5A1E;--a3:#8A4E12;--ln:#7F6A62}
+.k[data-k="10"]{--bg:#F4F0E6;--sup:#FBF8F1;--tx:#232420;--sv:#5A5A4E;--a1:#8C4A20;--a2:#3C5340;--a3:#75601A;--ln:#7B7869}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .k[data-k="6"]{--bg:#17100C;--sup:#231810;--tx:#F6EEDF;--sv:#BBA68C;--a1:#E08B77;--a2:#8FBDC9;--a3:#DEB45F;--ln:#73604B}
+  :root:not([data-theme="light"]) .k[data-k="7"]{--bg:#0E1013;--sup:#171A1F;--tx:#F3F4F6;--sv:#A8AFBB;--a1:#8FB0F5;--a2:#F08A8A;--a3:#DCC05C;--ln:#6B7382}
+  :root:not([data-theme="light"]) .k[data-k="8"]{--bg:#0B1119;--sup:#141D28;--tx:#EFF4FA;--sv:#A3B2C4;--a1:#8CB4F0;--a2:#F0906C;--a3:#E0BE58;--ln:#5E6E82}
+  :root:not([data-theme="light"]) .k[data-k="9"]{--bg:#120B0E;--sup:#1D1317;--tx:#F7EFE6;--sv:#BCA79B;--a1:#E79A8C;--a2:#E3BC6A;--a3:#D7A94F;--ln:#705A52}
+  :root:not([data-theme="light"]) .k[data-k="10"]{--bg:#15160F;--sup:#1F2118;--tx:#F0EDE0;--sv:#AFAE98;--a1:#E09A62;--a2:#9BBE9E;--a3:#D9BC63;--ln:#6B6B58}
+}
+:root[data-theme="dark"] .k[data-k="6"]{--bg:#17100C;--sup:#231810;--tx:#F6EEDF;--sv:#BBA68C;--a1:#E08B77;--a2:#8FBDC9;--a3:#DEB45F;--ln:#73604B}
+:root[data-theme="dark"] .k[data-k="7"]{--bg:#0E1013;--sup:#171A1F;--tx:#F3F4F6;--sv:#A8AFBB;--a1:#8FB0F5;--a2:#F08A8A;--a3:#DCC05C;--ln:#6B7382}
+:root[data-theme="dark"] .k[data-k="8"]{--bg:#0B1119;--sup:#141D28;--tx:#EFF4FA;--sv:#A3B2C4;--a1:#8CB4F0;--a2:#F0906C;--a3:#E0BE58;--ln:#5E6E82}
+:root[data-theme="dark"] .k[data-k="9"]{--bg:#120B0E;--sup:#1D1317;--tx:#F7EFE6;--sv:#BCA79B;--a1:#E79A8C;--a2:#E3BC6A;--a3:#D7A94F;--ln:#705A52}
+:root[data-theme="dark"] .k[data-k="10"]{--bg:#15160F;--sup:#1F2118;--tx:#F0EDE0;--sv:#AFAE98;--a1:#E09A62;--a2:#9BBE9E;--a3:#D9BC63;--ln:#6B6B58}
+
+* { box-sizing: border-box; }
+body {
+  margin:0; background:var(--pg-fundo); color:var(--pg-txt);
+  font-family:var(--fonte); font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased;
+}
+.pag {
+  max-width:1120px; margin:0 auto;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));
+  padding-right:max(16px, env(safe-area-inset-right, 0px));
+  padding-block:40px 72px;
+}
+h1,h2 { font-family:var(--display); font-weight:700; margin:0; line-height:1.1; text-wrap:balance; letter-spacing:-.015em; }
+h1 { font-size:clamp(32px,6.5vw,50px); }
+h2 { font-size:clamp(24px,4.6vw,33px); }
+h3 { font-size:17px; font-weight:600; margin:0; }
+p { margin:0; max-width:66ch; }
+.sub { color:var(--pg-suave); }
+.eyebrow { font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--pg-suave); font-weight:600; }
+code { font-family:ui-monospace,Menlo,Consolas,monospace; font-size:13px; }
+.bt-tema {
+  font:inherit; font-size:13px; font-weight:500; cursor:pointer; min-height:44px;
+  background:var(--pg-sup); color:var(--pg-txt);
+  border:1px solid var(--pg-forte); border-radius:999px; padding:10px 16px;
+}
+.bt-tema:focus-visible { outline:2px solid var(--pg-marca); outline-offset:2px; }
+header.topo { display:flex; flex-direction:column; gap:14px; padding-bottom:12px; }
+
+section.k { padding-block:40px; border-top:1px solid var(--pg-linha); }
+.k-cab { display:flex; flex-direction:column; gap:10px; margin-bottom:22px; }
+.k-num { font-family:var(--display); font-size:13px; font-weight:700; letter-spacing:.1em; color:var(--pg-suave); }
+.aposta {
+  font-family:var(--display); font-size:17px; font-weight:500;
+  padding-left:14px; border-left:3px solid var(--pg-marca); max-width:60ch;
+}
+.k-corpo { display:grid; gap:26px; grid-template-columns:1fr; align-items:start; }
+@media (min-width:860px) { .k-corpo { grid-template-columns:320px 1fr; } }
+
+.paleta { display:flex; flex-wrap:wrap; gap:7px; margin-top:16px; }
+.amostra { display:flex; flex-direction:column; gap:3px; align-items:center; font-size:11px; color:var(--pg-suave); width:76px; }
+.amostra i { display:block; width:100%; height:34px; border-radius:7px; border:1px solid var(--pg-forte); }
+.amostra b { font-variant-numeric:tabular-nums; font-size:11.5px; color:var(--pg-txt); font-weight:600; }
+.amostra b.baixo { color:#A02020; }
+
+.melhorias { display:flex; flex-direction:column; gap:16px; }
+.melhoria { display:flex; gap:12px; align-items:flex-start; }
+.melhoria .bolha {
+  flex:0 0 auto; width:26px; height:26px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:12.5px; font-weight:700; font-family:var(--display);
+  background:var(--pg-sup); border:1px solid var(--pg-forte); color:var(--pg-txt);
+}
+.melhoria p { font-size:15px; margin-top:2px; }
+
+/* ---- maquetes ---- */
+.fone {
+  width:300px; max-width:100%;
+  border:1px solid var(--pg-forte); border-radius:22px; overflow:hidden;
+  background:var(--bg); color:var(--tx); font-size:12.5px; line-height:1.45;
+}
+.fone .barra-topo {
+  font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; font-weight:600;
+  padding:7px 12px; color:var(--pg-suave); background:var(--pg-sup); border-bottom:1px solid var(--pg-linha);
+}
+.tela { height:470px; display:flex; flex-direction:column; overflow:hidden; }
+.corpo { flex:1; padding:12px; display:flex; flex-direction:column; gap:10px; overflow:hidden; }
+.mini { font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--sv); font-weight:600; }
+.tt { font-family:var(--serif); font-size:22px; line-height:1.1; font-weight:600; }
+.tt-d { font-family:var(--display); font-size:18px; line-height:1.1; font-weight:700; }
+.sv { color:var(--sv); }
+.bt-m {
+  display:flex; align-items:center; justify-content:center; gap:6px;
+  min-height:38px; border-radius:9px; font-weight:600; font-size:13px;
+  background:var(--a1); color:var(--bg);
+}
+.bt-m.oco { background:transparent; color:var(--tx); border:1px solid var(--ln); }
+.tabs-m { display:grid; grid-template-columns:repeat(5,1fr); border-top:1px solid var(--ln); background:var(--sup); }
+.tabs-m span { text-align:center; font-size:9.5px; font-weight:600; color:var(--sv); padding:9px 2px; }
+.tabs-m span.on { color:var(--a1); box-shadow:inset 0 2px 0 var(--a1); }
+.fio { border:0; border-top:1px solid var(--ln); opacity:.55; margin:0; }
+.linha { display:flex; gap:9px; align-items:baseline; padding:6px 0; }
+.linha .m { flex:0 0 58px; font-size:10.5px; color:var(--sv); font-variant-numeric:tabular-nums; }
+.linha .n { flex:1; min-width:0; }
+
+/* 6 — ficha do instrumento */
+.ficha { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--ln); border:1px solid var(--ln); border-radius:8px; overflow:hidden; }
+.ficha div { background:var(--sup); padding:7px 8px; }
+.ficha b { display:block; font-size:14px; font-variant-numeric:tabular-nums; }
+.ficha span { font-size:10px; color:var(--sv); }
+
+/* 7 — notas críticas */
+.critica { display:flex; gap:8px; font-size:11.5px; padding:6px 0; border-bottom:1px solid var(--ln); }
+.critica .mk { flex:0 0 18px; font-weight:700; color:var(--a2); font-family:var(--serif); font-size:15px; }
+
+/* 8 — grade de azulejos */
+.azulejos { display:grid; grid-template-columns:repeat(7,1fr); gap:4px; }
+.azulejos i {
+  display:block; aspect-ratio:1; border-radius:4px;
+  background:var(--sup); border:1px solid var(--ln);
+}
+.azulejos i[data-n="1"]{ background:color-mix(in srgb, var(--a1) 25%, var(--sup)); }
+.azulejos i[data-n="2"]{ background:color-mix(in srgb, var(--a1) 55%, var(--sup)); }
+.azulejos i[data-n="3"]{ background:var(--a1); }
+.azulejos i[data-n="x"]{ background:color-mix(in srgb, var(--a2) 55%, var(--sup)); }
+
+/* 9 — programa de recital */
+.programa { display:flex; flex-direction:column; }
+.programa .pç { display:flex; gap:10px; padding:8px 0; border-bottom:1px solid var(--ln); align-items:baseline; }
+.programa .nº { font-family:var(--serif); font-size:16px; color:var(--a2); flex:0 0 16px; }
+.programa .du { font-size:10.5px; color:var(--sv); font-variant-numeric:tabular-nums; }
+
+.fecho { display:flex; flex-direction:column; gap:14px; margin-top:16px; }
+.rolo { overflow-x:auto; }
+table { border-collapse:collapse; width:100%; min-width:640px; font-size:14.5px; }
+th,td { text-align:left; padding:11px 12px; border-bottom:1px solid var(--pg-linha); vertical-align:top; }
+th { font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--pg-suave); font-weight:600; }
+.aviso {
+  border-left:3px solid var(--pg-marca); padding:12px 14px; background:var(--pg-sup);
+  border-radius:0 10px 10px 0; font-size:14.5px;
+}
+</style>
+
+<div class="pag">
+
+<header class="topo">
+  <span class="eyebrow">Conceitos 6 a 10 · 11 de novembro de 2026</span>
+  <h1>Mais cinco paletas para o LLMusic</h1>
+  <p class="sub">Estes cinco não vêm das araras. Cada um parte de um lugar diferente do mundo do violão — a madeira do instrumento, a edição de partitura, o azulejo, a sala de concerto, o cerrado — e cada paleta puxa consigo uma ideia de uso que só faz sentido ali. As araras cabem como acento em qualquer um deles, menos no 7, que vive de ter duas cores e só duas.</p>
+  <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+    <button class="bt-tema" id="bt-tema" type="button">Ver no tema claro</button>
+    <span class="sub" style="font-size:13.5px">Os números debaixo das amostras são calculados pela página, no tema que estiver valendo.</span>
+  </div>
+</header>
+
+<!-- ======================= 6 ======================= -->
+<section class="k" data-k="6">
+  <div class="k-cab">
+    <span class="k-num">Conceito 6</span>
+    <h2>Jacarandá e abeto</h2>
+    <p class="aposta">O app tem as cores do instrumento que está no seu colo.</p>
+    <p class="sub">Jacarandá no fundo escuro, tampo de abeto no claro, ébano nas linhas, madrepérola nos detalhes e o bronze das cordas como terceiro tom. É a direção mais literal das dez: abrir o app é abrir o estojo. E ela leva a uma consequência que nenhuma outra leva — se o app tem a cara do instrumento, ele devia também <em>conhecer</em> o seu instrumento.</p>
+    <div class="paleta">
+      <span class="amostra" data-tok="bg"><i style="background:var(--bg)"></i>Tampo<b>·</b></span>
+      <span class="amostra" data-tok="tx"><i style="background:var(--tx)"></i>Ébano<b>·</b></span>
+      <span class="amostra" data-tok="a1"><i style="background:var(--a1)"></i>Jacarandá<b>·</b></span>
+      <span class="amostra" data-tok="a2"><i style="background:var(--a2)"></i>Madrepérola<b>·</b></span>
+      <span class="amostra" data-tok="a3"><i style="background:var(--a3)"></i>Bronze<b>·</b></span>
+    </div>
+  </div>
+  <div class="k-corpo">
+    <div class="fone">
+      <span class="barra-topo">6 · Meu violão</span>
+      <div class="tela">
+        <div class="corpo">
+          <span class="mini">Meu instrumento</span>
+          <span class="tt">Violão de estudo</span>
+          <div class="ficha">
+            <div><b>650 mm</b><span>escala</span></div>
+            <div><b>52 mm</b><span>pestana</span></div>
+            <div><b>3,8 / 3,0</b><span>ação 12ª (mi / mi)</span></div>
+            <div><b>Tensão alta</b><span>encordoamento</span></div>
+          </div>
+          <p class="sv" style="font-size:11.5px">Todos os diagramas do app passam a ser desenhados nestas medidas, e não nas de um violão genérico.</p>
+          <hr class="fio">
+          <span class="mini">Manutenção</span>
+          <div class="linha"><span class="m">há 41 dias</span><span class="n">Troca de cordas <span class="sv">· costuma trocar a cada 60</span></span></div>
+          <div class="linha"><span class="m">há 7 meses</span><span class="n">Limpeza do braço</span></div>
+          <div class="linha"><span class="m">—</span><span class="n sv">Regulagem de ação</span></div>
+          <div class="bt-m oco">Registrar troca de cordas</div>
+        </div>
+        <div class="tabs-m"><span>Início</span><span>Curso</span><span>Hoje</span><span>Exerc.</span><span class="on">Menu</span></div>
+      </div>
+    </div>
+    <div class="melhorias">
+      <h3>O que melhora no uso</h3>
+      <div class="melhoria"><span class="bolha">1</span><p><b>Os diagramas passam a ser do seu violão.</b> O app já desenha o braço em escala real, mas de um instrumento de referência. Com escala, pestana e ação informadas uma vez, cada diagrama de braço e de postura sai com as medidas certas — e a distância entre trastes que você vê na tela é a que a sua mão encontra.</p></div>
+      <div class="melhoria"><span class="bolha">2</span><p><b>Caderneta de manutenção.</b> Troca de cordas, limpeza, regulagem. Cordas velhas afinam mal e atrapalham o ouvido de quem está aprendendo a afinar — e ninguém lembra de quando trocou.</p></div>
+      <div class="melhoria"><span class="bolha">3</span><p><b>O afinador aprende o instrumento.</b> Sabendo o encordoamento e a última troca, ele pode avisar quando a afinação começa a escapar mais rápido que o normal.</p></div>
+      <div class="melhoria"><span class="bolha">4</span><p><b>Um segundo instrumento.</b> Se um dia entrar um violão melhor, as medidas e a caderneta são por instrumento, e os diagramas acompanham.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 7 ======================= -->
+<section class="k" data-k="7">
+  <div class="k-cab">
+    <span class="k-num">Conceito 7</span>
+    <h2>Edição urtext</h2>
+    <p class="aposta">Cada peça que você estuda é uma edição sua, com notas de rodapé.</p>
+    <p class="sub">Papel quase branco, tinta quase preta, um azul editorial e um vermelho de revisão — as duas cores que existem numa partitura anotada por professor. Nada mais. A ideia é que o seu estudo de uma peça não é um progresso percentual: é um conjunto de <em>decisões</em>. Qual dedilhado você escolheu, em que andamento parou, onde mudou de ideia e por quê. Hoje isso mora na sua cabeça.</p>
+    <div class="paleta">
+      <span class="amostra" data-tok="bg"><i style="background:var(--bg)"></i>Papel<b>·</b></span>
+      <span class="amostra" data-tok="tx"><i style="background:var(--tx)"></i>Tinta<b>·</b></span>
+      <span class="amostra" data-tok="a1"><i style="background:var(--a1)"></i>Azul editorial<b>·</b></span>
+      <span class="amostra" data-tok="a2"><i style="background:var(--a2)"></i>Vermelho de revisão<b>·</b></span>
+      <span class="amostra" data-tok="a3"><i style="background:var(--a3)"></i>Marca-texto<b>·</b></span>
+    </div>
+  </div>
+  <div class="k-corpo">
+    <div class="fone">
+      <span class="barra-topo">7 · Peça em estudo</span>
+      <div class="tela">
+        <div class="corpo" style="gap:8px">
+          <span class="mini">Em estudo desde 14 de setembro</span>
+          <span class="tt" style="font-size:24px">Estudo nº 1</span>
+          <span class="sv" style="font-size:11.5px">Compassos 1–16 · andamento alvo 92 · melhor hoje 84</span>
+          <hr class="fio">
+          <span class="mini" style="color:var(--a1)">Minhas notas críticas</span>
+          <div class="critica"><span class="mk">c.4</span><span>Dedilhado <b>i-m-a</b> em vez de <b>p-i-m</b>. O polegar atrasava a 2ª semicolcheia.</span></div>
+          <div class="critica"><span class="mk">c.9</span><span>Mudança de posição com o 2º dedo guia. Antes eu saltava e perdia o legato.</span></div>
+          <div class="critica"><span class="mk">c.13</span><span><span style="color:var(--a2)">Revisto em 2 nov:</span> voltei ao dedilhado original. O outro cansava a mão.</span></div>
+          <hr class="fio">
+          <div style="display:flex;gap:7px">
+            <div class="bt-m oco" style="flex:1">Ver histórico</div>
+            <div class="bt-m" style="flex:1">Nova nota</div>
+          </div>
+        </div>
+        <div class="tabs-m"><span>Início</span><span>Curso</span><span>Hoje</span><span class="on">Peças</span><span>Menu</span></div>
+      </div>
+    </div>
+    <div class="melhorias">
+      <h3>O que melhora no uso</h3>
+      <div class="melhoria"><span class="bolha">1</span><p><b>Notas por compasso, não por peça.</b> "Estudar o Estudo nº 1" não é uma tarefa; "resolver a mudança de posição do compasso 9" é. A nota fica presa ao compasso e reaparece quando você volta nele.</p></div>
+      <div class="melhoria"><span class="bolha">2</span><p><b>Histórico de decisões.</b> Quando você muda um dedilhado, a decisão antiga não some — fica datada, com o motivo. Daqui a seis meses isso é a diferença entre lembrar e redescobrir.</p></div>
+      <div class="melhoria"><span class="bolha">3</span><p><b>Andamento alvo e melhor do dia</b> lado a lado, por trecho. É o registro que falta hoje no metrônomo: ele mede, mas não guarda.</p></div>
+      <div class="melhoria"><span class="bolha">4</span><p><b>Duas cores e só duas.</b> Azul para o que é seu, vermelho para o que é revisão. Qualquer terceira cor aqui quebraria a convenção que torna a tela legível de relance.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 8 ======================= -->
+<section class="k" data-k="8">
+  <div class="k-cab">
+    <span class="k-num">Conceito 8</span>
+    <h2>Azulejo</h2>
+    <p class="aposta">O seu mês inteiro cabe numa parede de azulejos.</p>
+    <p class="sub">Cobalto sobre branco, com o terracota de telha como contraponto — o azulejo português que virou brasileiro. A paleta é alegre sem ser infantil, e sugere a própria forma de mostrar o tempo: ladrilho por ladrilho. Um mês de estudo vira um painel, e um painel é algo que se olha de longe e se entende inteiro, coisa que uma lista de datas não faz.</p>
+    <div class="paleta">
+      <span class="amostra" data-tok="bg"><i style="background:var(--bg)"></i>Cal<b>·</b></span>
+      <span class="amostra" data-tok="tx"><i style="background:var(--tx)"></i>Manganês<b>·</b></span>
+      <span class="amostra" data-tok="a1"><i style="background:var(--a1)"></i>Cobalto<b>·</b></span>
+      <span class="amostra" data-tok="a2"><i style="background:var(--a2)"></i>Telha<b>·</b></span>
+      <span class="amostra" data-tok="a3"><i style="background:var(--a3)"></i>Ouro velho<b>·</b></span>
+    </div>
+  </div>
+  <div class="k-corpo">
+    <div class="fone">
+      <span class="barra-topo">8 · Novembro</span>
+      <div class="tela">
+        <div class="corpo">
+          <span class="tt-d">Novembro</span>
+          <span class="sv" style="font-size:11.5px">11 dias de estudo · 4 h 25 · mais longo: 55 min</span>
+          <div class="azulejos" aria-hidden="true">
+            <i></i><i></i><i data-n="1"></i><i data-n="2"></i><i data-n="3"></i><i data-n="2"></i><i></i>
+            <i data-n="1"></i><i data-n="3"></i><i data-n="2"></i><i></i><i data-n="x"></i><i data-n="2"></i><i data-n="1"></i>
+            <i data-n="2"></i><i></i><i data-n="1"></i><i data-n="2"></i><i data-n="3"></i><i data-n="x"></i><i></i>
+            <i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;font-size:10.5px" class="sv">
+            <span>▪ mais escuro = mais tempo</span>
+            <span style="color:var(--a2)">▪ apresentação</span>
+          </div>
+          <hr class="fio">
+          <span class="mini">Repertório por tonalidade</span>
+          <div class="linha"><span class="m" style="color:var(--a1)">Mi menor</span><span class="n">2 peças · 3 exercícios</span></div>
+          <div class="linha"><span class="m" style="color:var(--a1)">Lá menor</span><span class="n">1 peça</span></div>
+          <div class="linha"><span class="m sv">Dó maior</span><span class="n sv">nenhuma ainda</span></div>
+        </div>
+        <div class="tabs-m"><span>Início</span><span>Curso</span><span>Hoje</span><span>Exerc.</span><span class="on">Menu</span></div>
+      </div>
+    </div>
+    <div class="melhorias">
+      <h3>O que melhora no uso</h3>
+      <div class="melhoria"><span class="bolha">1</span><p><b>O mês como painel.</b> Um ladrilho por dia, mais escuro quanto mais tempo. Buracos de uma semana aparecem na hora, e é a informação que a sequência de dias esconde: uma sequência quebrada vira zero e some.</p></div>
+      <div class="melhoria"><span class="bolha">2</span><p><b>Dias marcados.</b> Uma cor diferente para o dia em que houve apresentação, aula com professor ou gravação. O painel vira memória, não só contagem.</p></div>
+      <div class="melhoria"><span class="bolha">3</span><p><b>Repertório agrupado por tonalidade.</b> Mostra os buracos do aprendizado — nunca ter tocado nada em dó maior é uma informação útil, e hoje ela não aparece em lugar nenhum.</p></div>
+      <div class="melhoria"><span class="bolha">4</span><p><b>Um painel por ano, para imprimir.</b> Doze faixas de ladrilhos numa folha. É o tipo de coisa que se prega na parede.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 9 ======================= -->
+<section class="k" data-k="9">
+  <div class="k-cab">
+    <span class="k-num">Conceito 9</span>
+    <h2>Noite de concerto</h2>
+    <p class="aposta">Tudo o que você estuda está indo para algum lugar: um programa.</p>
+    <p class="sub">Veludo bordô, latão, a luz âmbar do refletor e o quase-preto da plateia. É uma paleta cerimoniosa, e de propósito: ela empurra o app para uma ideia que falta no estudo de quem aprende sozinho — um <em>destino</em>. Não uma barra de progresso, mas uma data, um programa com ordem e duração, e um ensaio geral que vai do começo ao fim sem parar.</p>
+    <div class="paleta">
+      <span class="amostra" data-tok="bg"><i style="background:var(--bg)"></i>Plateia<b>·</b></span>
+      <span class="amostra" data-tok="tx"><i style="background:var(--tx)"></i>Texto<b>·</b></span>
+      <span class="amostra" data-tok="a1"><i style="background:var(--a1)"></i>Bordô<b>·</b></span>
+      <span class="amostra" data-tok="a2"><i style="background:var(--a2)"></i>Latão<b>·</b></span>
+      <span class="amostra" data-tok="a3"><i style="background:var(--a3)"></i>Âmbar<b>·</b></span>
+    </div>
+  </div>
+  <div class="k-corpo">
+    <div class="fone">
+      <span class="barra-topo">9 · Meu programa</span>
+      <div class="tela">
+        <div class="corpo">
+          <span class="mini">Para a Liz e a Lívia · 24 de dezembro</span>
+          <span class="tt" style="font-size:25px">Programa de Natal</span>
+          <span class="sv" style="font-size:11.5px">faltam 43 dias · 11 min de música</span>
+          <hr class="fio">
+          <div class="programa">
+            <div class="pç"><span class="nº">I</span><span class="n" style="flex:1">Estudo nº 1 <span class="sv">· de cor</span></span><span class="du">2:10</span></div>
+            <div class="pç"><span class="nº">II</span><span class="n" style="flex:1">Lágrima <span class="sv">· com partitura</span></span><span class="du">3:05</span></div>
+            <div class="pç"><span class="nº">III</span><span class="n" style="flex:1">Valsa <span style="color:var(--a1)">· insegura nos c. 20–28</span></span><span class="du">2:40</span></div>
+            <div class="pç"><span class="nº">IV</span><span class="n" style="flex:1">Noite feliz <span class="sv">· de cor</span></span><span class="du">3:00</span></div>
+          </div>
+          <div class="bt-m" style="margin-top:auto">Ensaio geral · sem parar</div>
+          <span class="sv" style="font-size:10.5px;text-align:center">toca do começo ao fim e marca onde travou</span>
+        </div>
+      </div>
+    </div>
+    <div class="melhorias">
+      <h3>O que melhora no uso</h3>
+      <div class="melhoria"><span class="bolha">1</span><p><b>Um programa com data.</b> Tocar para as filhas no Natal é um objetivo melhor do que "dominar o nível 2", porque tem prazo e tem plateia. O app passa a organizar a prática em função dele.</p></div>
+      <div class="melhoria"><span class="bolha">2</span><p><b>Ensaio geral.</b> Um modo que toca o programa inteiro na ordem, com o cronômetro correndo e sem permitir repetir — porque no dia não dá. Ao fim, lista onde você travou. Estudar trecho isolado e tocar inteiro são duas habilidades diferentes, e só a primeira é treinada hoje.</p></div>
+      <div class="melhoria"><span class="bolha">3</span><p><b>Duração real do programa.</b> Somada das peças. Quem monta programa pela primeira vez sempre erra para mais.</p></div>
+      <div class="melhoria"><span class="bolha">4</span><p><b>Estado por peça: de cor, com partitura, insegura.</b> Três estados honestos, que dizem mais do que uma porcentagem e são o que de fato decide a ordem do programa.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 10 ======================= -->
+<section class="k" data-k="10">
+  <div class="k-cab">
+    <span class="k-num">Conceito 10</span>
+    <h2>Cerrado seco</h2>
+    <p class="aposta">Menos app. O suficiente para você largar o celular e ir tocar.</p>
+    <p class="sub">Ocre, terra queimada, verde-acinzentado de folha dura: as cores do cerrado no fim da seca, todas de baixa saturação. É a única das dez que se propõe a <em>diminuir</em> a interface. Sem sequência de dias, sem conquistas, sem números grandes — uma frase dizendo o que fazer hoje e o resto a um toque de distância. É uma posição pedagógica, não uma estética: recompensa diária transforma estudo em pontuação.</p>
+    <div class="paleta">
+      <span class="amostra" data-tok="bg"><i style="background:var(--bg)"></i>Areia<b>·</b></span>
+      <span class="amostra" data-tok="tx"><i style="background:var(--tx)"></i>Carvão<b>·</b></span>
+      <span class="amostra" data-tok="a1"><i style="background:var(--a1)"></i>Terra queimada<b>·</b></span>
+      <span class="amostra" data-tok="a2"><i style="background:var(--a2)"></i>Folha dura<b>·</b></span>
+      <span class="amostra" data-tok="a3"><i style="background:var(--a3)"></i>Capim<b>·</b></span>
+    </div>
+  </div>
+  <div class="k-corpo">
+    <div class="fone">
+      <span class="barra-topo">10 · Início</span>
+      <div class="tela">
+        <div class="corpo" style="justify-content:center;gap:20px;padding:20px">
+          <span class="mini">Quarta-feira</span>
+          <span class="tt" style="font-size:27px;line-height:1.18">Hoje são 45 minutos de técnica de mão esquerda, e a aula sobre a mão esquerda.</span>
+          <div class="bt-m" style="min-height:48px">Começar</div>
+          <div style="display:flex;gap:7px">
+            <div class="bt-m oco" style="flex:1">Trocar o dia</div>
+            <div class="bt-m oco" style="flex:1">Tudo</div>
+          </div>
+          <p class="sv" style="font-size:11.5px;text-align:center;margin-top:8px">Sem sequência, sem medalha, sem gráfico. Os números existem e ficam em "Tudo", para quando você quiser olhar.</p>
+        </div>
+      </div>
+    </div>
+    <div class="melhorias">
+      <h3>O que melhora no uso</h3>
+      <div class="melhoria"><span class="bolha">1</span><p><b>Uma frase, um botão.</b> A tela inicial responde "o que eu faço agora?" em uma frase e some do caminho. Tudo o mais continua existindo, atrás de um toque.</p></div>
+      <div class="melhoria"><span class="bolha">2</span><p><b>Fim da sequência de dias.</b> Uma sequência premia abrir o app, não estudar bem, e castiga quem viajou. Quem estuda sozinho por anos precisa de constância, não de medo de quebrar a corrente.</p></div>
+      <div class="melhoria"><span class="bolha">3</span><p><b>Os números viram relatório, não painel.</b> Ficam todos juntos numa tela que você abre quando quer — tipicamente uma vez por mês, que é quando eles de fato dizem alguma coisa.</p></div>
+      <div class="melhoria"><span class="bolha">4</span><p><b>Baixa saturação de propósito.</b> Nada na tela compete com a partitura e com o instrumento. É a paleta que menos cansa em sessão longa.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="k" data-k="7" style="--bg:transparent">
+  <div class="k-cab">
+    <span class="eyebrow">Para decidir</span>
+    <h2>As cinco lado a lado</h2>
+  </div>
+  <div class="rolo">
+    <table>
+      <thead><tr><th>Conceito</th><th>Vem de</th><th>O que acrescenta ao app</th><th>Esforço</th></tr></thead>
+      <tbody>
+        <tr><td><b>6 Jacarandá e abeto</b></td><td>A madeira do instrumento</td><td>Diagramas nas medidas do seu violão e caderneta de manutenção</td><td>Médio</td></tr>
+        <tr><td><b>7 Edição urtext</b></td><td>A partitura anotada</td><td>Notas por compasso e histórico das suas decisões de dedilhado</td><td>Alto</td></tr>
+        <tr><td><b>8 Azulejo</b></td><td>O azulejo luso-brasileiro</td><td>O mês como painel e o repertório agrupado por tonalidade</td><td>Baixo</td></tr>
+        <tr><td><b>9 Noite de concerto</b></td><td>A sala de concerto</td><td>Programa com data e ensaio geral sem parar</td><td>Alto</td></tr>
+        <tr><td><b>10 Cerrado seco</b></td><td>O cerrado na seca</td><td>Tira coisas: sequência, medalhas, painel de números</td><td>Baixo</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="fecho">
+    <p>O <b>10</b> é o único que briga com todos os outros, porque a aposta dele é remover o que os demais acrescentam — vale escolher ele <em>ou</em> os outros, não os dois. O <b>8</b> e o <b>9</b> se somam bem: um olha para trás, o outro para a frente. O <b>6</b> é o que mais aproveita o que já existe no código, porque o app já desenha o braço em escala real — falta só ele perguntar as suas medidas. E o <b>7</b> é o de maior valor para quem vai estudar a mesma peça durante meses, que é exatamente o caso do violão clássico.</p>
+    <div class="aviso">
+      <b>O que não foi verificado:</b> os números debaixo das amostras são calculados pela própria página, lendo a cor que o navegador está usando — nas dez paletas (cinco conceitos × dois temas) nenhuma combinação de texto ficou abaixo de 4,5. Fora isso: as maquetes são desenhos desta página e não telas do app a 360 px; os rótulos de esforço são estimativa minha; e boa parte das melhorias depende de dados que o app ainda não guarda — compassos marcados nas peças, duração das obras, medidas do seu instrumento. Nada disto foi programado: é material para você escolher.
+    </div>
+  </div>
+</section>
+
+</div>
+
+<script>
+// Os números debaixo de cada amostra não são digitados: a página lê a cor que
+// o navegador está realmente usando e calcula a razão de contraste contra o
+// fundo daquele conceito, pela fórmula da WCAG. Assim o número não fica
+// mentindo se alguém mexer numa cor, e ele acompanha a troca de tema.
+function luminancia(rgb) {
+  const c = rgb.map(function (v) {
+    v = v / 255;
+    return v <= 0.04045 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+  });
+  return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
+}
+function paraRGB(cor) {
+  const t = String(cor).trim();
+  if (t[0] === '#') {
+    const h = t.length === 4 ? t[1] + t[1] + t[2] + t[2] + t[3] + t[3] : t.slice(1, 7);
+    return [0, 2, 4].map(function (i) { return parseInt(h.slice(i, i + 2), 16); });
+  }
+  const m = t.match(/-?[\d.]+/g);
+  return m ? m.slice(0, 3).map(Number) : [0, 0, 0];
+}
+function razao(a, b) {
+  const la = luminancia(paraRGB(a)), lb = luminancia(paraRGB(b));
+  return (Math.max(la, lb) + 0.05) / (Math.min(la, lb) + 0.05);
+}
+function medirPaletas() {
+  document.querySelectorAll('section.k').forEach(function (sec) {
+    const cs = getComputedStyle(sec);
+    const fundo = cs.getPropertyValue('--bg');
+    sec.querySelectorAll('.amostra').forEach(function (am) {
+      const tok = am.dataset.tok;
+      const alvo = am.querySelector('b');
+      if (!alvo) return;
+      if (tok === 'bg') { alvo.textContent = 'fundo'; alvo.classList.remove('baixo'); return; }
+      const r = razao(cs.getPropertyValue('--' + tok), fundo);
+      alvo.textContent = r.toFixed(2).replace('.', ',');
+      alvo.classList.toggle('baixo', r < 4.5);
+      am.title = 'Contraste contra o fundo deste conceito: ' + r.toFixed(2) + ':1 (mínimo 4,5)';
+    });
+  });
+}
+
+(function () {
+  var bt = document.getElementById('bt-tema');
+  var raiz = document.documentElement;
+  function escuro() {
+    var t = raiz.getAttribute('data-theme');
+    if (t) return t === 'dark';
+    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+  }
+  function pintar() { bt.textContent = escuro() ? 'Ver no tema claro' : 'Ver no tema escuro'; }
+  try {
+    var g = localStorage.getItem('paletas-tema');
+    if (g === 'dark' || g === 'light') raiz.setAttribute('data-theme', g);
+  } catch (e) { /* sem armazenamento: vale o tema do sistema */ }
+  pintar();
+  medirPaletas();
+  bt.addEventListener('click', function () {
+    var novo = escuro() ? 'light' : 'dark';
+    raiz.setAttribute('data-theme', novo);
+    try { localStorage.setItem('paletas-tema', novo); } catch (e) {}
+    pintar();
+    medirPaletas();
+  });
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function () {
+    if (!raiz.getAttribute('data-theme')) { pintar(); medirPaletas(); }
+  });
+})();
+</script>
