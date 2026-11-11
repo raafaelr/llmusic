@@ -1,25 +1,37 @@
 // Menu.
 //
-// Uma régua com as seis áreas do app, na mesma ordem nas duas larguras:
-//  - celular: barra no rodapé, com ícone e nome curto;
-//  - tela larga: coluna de ícones na lateral.
-// Tocar numa área abre a gaveta já no grupo escolhido, por cima do conteúdo —
-// sem deslocar nem redimensionar a página. Início é tela única e vai direto.
+// Duas coisas diferentes, e é importante não confundir:
 //
-// Fecha tocando fora, em "Fechar", no botão Voltar ou com Esc. Também abre
-// arrastando o dedo da borda esquerda. Fixada (só em tela larga), fica aberta
-// durante a navegação, e a escolha é guardada no aparelho.
+//  1. A RÉGUA é navegação. Cada botão leva direto a uma tela — nada abre, nada
+//     se desdobra, você chega onde o nome diz. São as cinco telas em que se
+//     passa o tempo, mais o botão que abre a gaveta. No celular é a barra do
+//     rodapé, com ícone e nome; em tela larga, a coluna de ícones da lateral.
+//  2. A GAVETA é o índice: as 25 telas do app, separadas por área. Chega-se a
+//     ela pelo botão "Menu" da régua ou arrastando o dedo da borda esquerda.
+//
+// Antes, cada botão da régua abria a gaveta no grupo correspondente. Quem
+// tocava em "Biblioteca" esperava ir para algum lugar e recebia um menu — a
+// régua parecia navegação e era um sumário.
+//
+// A gaveta fecha tocando fora, em "Fechar", no botão Voltar ou com Esc.
+// Fixada (só em tela larga), fica aberta durante a navegação, e a escolha é
+// guardada no aparelho.
 import { Config } from './db.js';
 import { icone } from './icones.js';
 
 const C_FIXADO = 'ui.menuFixo';
 
-// Um ícone por grupo, na ordem de GRUPOS.
-const ICONES = ['inicio', 'aprendizado', 'estudio', 'biblioteca', 'evolucao', 'ajustes'];
-
-// Nome curto para a barra do celular: "Aprendizado" e "Estúdio de prática" não
-// cabem em 60px. O nome inteiro continua no title e no aria-label.
-const CURTOS = ['Início', 'Aprender', 'Estúdio', 'Biblioteca', 'Evolução', 'Ajustes'];
+// A régua. "menu: true" é o único botão que não navega: abre a gaveta.
+// O nome curto é o que cabe embaixo do ícone em 60px de largura; o nome
+// inteiro fica no title e no aria-label, para o leitor de tela.
+const BARRA = [
+  { rota: '', ic: 'inicio', curto: 'Início', nome: 'Início' },
+  { rota: 'curso', ic: 'aprendizado', curto: 'Curso', nome: 'Grade curricular' },
+  { rota: 'plano', ic: 'relogio', curto: 'Hoje', nome: 'Meu Plano de Estudos' },
+  { rota: 'exercicios', ic: 'estudio', curto: 'Exercícios', nome: 'Central de Exercícios' },
+  { rota: 'painel', ic: 'evolucao', curto: 'Progresso', nome: 'Meu progresso' },
+  { menu: true, ic: 'menu', curto: 'Menu', nome: 'Abrir o menu com todas as telas' }
+];
 
 const GRUPOS = [
   ['', [['', 'Início']]],
@@ -72,12 +84,10 @@ export function criarMenu(ir) {
   gaveta.append(cab);
 
   const itens = [];
-  const cabecalhos = [];   // o título de cada grupo, para a régua rolar até ele
   GRUPOS.forEach(([titulo, lista], g) => {
     const marca = el('p', 'menu-grupo', titulo || 'Início');
     if (!titulo) marca.hidden = true;
     gaveta.append(marca);
-    cabecalhos[g] = marca;
     lista.forEach(([rota, texto]) => {
       const b = el('button', 'menu-item', texto);
       b.dataset.rota = rota;
@@ -89,17 +99,25 @@ export function criarMenu(ir) {
 
   // ------------------------------------------------------------- a régua
   const regua = el('nav', 'menu-regua');
-  regua.setAttribute('aria-label', 'Áreas do app');
-  const botoesRegua = GRUPOS.map(([titulo], g) => {
-    const nome = titulo || 'Início';
+  regua.setAttribute('aria-label', 'Navegação principal');
+  let btMenu = null;
+  const botoesRegua = BARRA.map((d) => {
     const b = el('button', 'regua-bt');
-    b.append(icone(ICONES[g] || 'inicio'), el('span', 'regua-txt', CURTOS[g] || nome));
-    b.title = nome;                      // tooltip quando só o ícone aparece
-    b.setAttribute('aria-label', nome);
-    b.setAttribute('aria-expanded', 'false');
-    b.dataset.grupo = String(g);
-    // Início é uma tela só: vai direto, sem abrir a gaveta para um item.
-    b.onclick = () => { if (!titulo) { if (!fixado) fecharMenu(); ir(''); } else abrir(g); };
+    b.append(icone(d.ic), el('span', 'regua-txt', d.curto));
+    b.title = d.nome;                    // tooltip quando só o ícone aparece
+    b.setAttribute('aria-label', d.nome);
+    if (d.menu) {
+      btMenu = b;
+      b.setAttribute('aria-expanded', 'false');
+      // Só abre: com a gaveta aberta, o véu cobre a barra e quem fecha é ele.
+      b.onclick = () => abrir();
+    } else {
+      b.dataset.rota = d.rota;
+      b.onclick = () => {
+        if (!fixado) fecharMenu();
+        if (rotaAtual() !== d.rota) ir(d.rota);
+      };
+    }
     regua.append(b);
     return b;
   });
@@ -131,9 +149,9 @@ export function criarMenu(ir) {
     if (fixado) abrir();
   }).catch(() => {});
 
-  // Cada botão da régua é o que abre a gaveta, então todos contam o estado dela.
+  // Só o botão "Menu" abre alguma coisa, então só ele conta o estado da gaveta.
   function anunciarAberta(sim) {
-    botoesRegua.forEach((b) => b.setAttribute('aria-expanded', String(sim)));
+    if (btMenu) btMenu.setAttribute('aria-expanded', String(sim));
   }
 
   const rotaAtual = () => location.hash.replace(/^#\/?/, '');
@@ -141,23 +159,25 @@ export function criarMenu(ir) {
     const r = rotaAtual();
     itens.forEach((b) => { if (b.dataset.rota === r) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current'); });
   }
+  // A régua marca a tela em que você está, e só ela: a rota tem de bater com a
+  // do botão. Numa tela que não está na régua (o afinador, por exemplo),
+  // nenhum botão fica aceso — é melhor do que acender o errado.
   function marcarRegua() {
     const r = rotaAtual();
-    const dela = itens.find((b) => b.dataset.rota === r);
-    const g = dela ? dela.dataset.grupo : null;
-    botoesRegua.forEach((b) => b.classList.toggle('ativo', b.dataset.grupo === g));
+    botoesRegua.forEach((b) => {
+      const dele = b.dataset.rota !== undefined && b.dataset.rota === r;
+      b.classList.toggle('ativo', dele);
+      if (dele) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current');
+    });
   }
 
-  // grupo: índice na régua. Sem ele, abre como antes.
-  function abrir(grupo) {
+  function abrir() {
     marcar();
     gaveta.hidden = false;
     veu.hidden = fixado;
     requestAnimationFrame(() => { gaveta.classList.add('aberta'); veu.classList.add('aberta'); });
     anunciarAberta(true);
-    const doGrupo = grupo !== undefined && itens.find((b) => b.dataset.grupo === String(grupo));
-    const atual = doGrupo || itens.find((b) => b.getAttribute('aria-current')) || itens[0];
-    if (doGrupo && cabecalhos[grupo]) cabecalhos[grupo].scrollIntoView({ block: 'start' });
+    const atual = itens.find((b) => b.getAttribute('aria-current')) || itens[0];
     atual.focus({ preventScroll: true });
   }
   function fecharMenu() {
@@ -166,9 +186,8 @@ export function criarMenu(ir) {
     gaveta.classList.remove('aberta'); veu.classList.remove('aberta');
     anunciarAberta(false);
     setTimeout(() => { if (!gaveta.classList.contains('aberta')) { gaveta.hidden = true; veu.hidden = true; } }, 220);
-    // O foco volta para o botão da área de onde a gaveta saiu; se nenhuma está
-    // marcada, para o primeiro. Antes voltava para a aba, que não existe mais.
-    (botoesRegua.find((b) => b.classList.contains('ativo')) || botoesRegua[0]).focus({ preventScroll: true });
+    // O foco volta para quem abriu a gaveta: o botão "Menu".
+    (btMenu || botoesRegua[0]).focus({ preventScroll: true });
     return true;
   }
   fechar.onclick = fecharMenu;
