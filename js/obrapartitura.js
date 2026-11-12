@@ -13,6 +13,7 @@
 //
 // Aqui mora só o vínculo: { id da obra: id da peça na biblioteca }.
 import { Config } from './db.js';
+import { termoDeBusca } from './curso/repertorio.js';
 import { todasAsPecas } from './biblioteca.js';
 
 const CHAVE = 'repertorio.partituras';
@@ -48,12 +49,30 @@ export async function desligar(obraId) {
   await Config.guardar(CHAVE, v);
 }
 
-// Endereço de busca no IMSLP para uma obra. O IMSLP é a biblioteca pública de
-// partituras em domínio público; a busca já vai com o compositor junto para
-// não cair em homônimo.
+// As buscas prontas, na ordem de quanto o app aproveita cada formato.
+//
+// Todas usam termoDeBusca(), e não o título da tela: o app é em português e
+// esses sites são em inglês. "Estudo em Dó maior (Op. 27)" não acha nada;
+// "Carulli Op. 27" acha. Ver o comentário de termoDeBusca, em
+// js/curso/repertorio.js.
+// O IMSLP é um caso à parte: a busca dele é por título de página de obra
+// ("24 Études, Op.48 (Giuliani, Mauro)"), então palavra descritiva a mais
+// derruba o resultado em vez de refinar. Quando o termo tem opus ou número de
+// catálogo, manda só o sobrenome do compositor e esse número, que é o que a
+// página tem no título.
+function termoIMSLP(obra) {
+  const t = obra.busca || '';
+  const cat = t.match(/\b(?:Op\.|BWV|WoO)\s*\d+(?:\s*No\.\s*\d+)?/i);
+  // Corta o termo logo depois do número de catálogo e joga fora o resto, que
+  // é descrição. Cortar é melhor do que remontar com o sobrenome: "Agustín
+  // Barrios Mangoré" tem duas palavras de sobrenome e a última é o apelido
+  // guarani, então pegar a última palavra dava "Mangoré Op. 8".
+  if (!cat) return termoDeBusca(obra);
+  return t.slice(0, cat.index + cat[0].length);
+}
+
 export function buscaIMSLP(obra) {
-  const termo = encodeURIComponent(obra.titulo + ' ' + obra.compositor);
-  return 'https://imslp.org/index.php?search=' + termo + '&title=Special%3ASearch';
+  return 'https://imslp.org/index.php?search=' + encodeURIComponent(termoIMSLP(obra)) + '&title=Special%3ASearch';
 }
 
 // O IMSLP é a fonte certa para a MÚSICA e quase sempre a errada para o
@@ -62,24 +81,22 @@ export function buscaIMSLP(obra) {
 // linhas e números em texto, e numa partitura as notas são desenho sobre
 // cinco linhas. Um PDF desses cai no caminho de copiar à mão.
 //
-// Em MusicXML ou Guitar Pro o AlphaTab lê completo, com o ritmo exato. Daí
-// estas duas buscas: a primeira procura o arquivo em qualquer lugar, a
-// segunda no MuseScore, que é onde mais se acha violão clássico.
+// Em MusicXML ou Guitar Pro o AlphaTab lê completo, com o ritmo exato.
 export function buscaMusicXML(obra) {
-  const termo = encodeURIComponent('"' + obra.titulo + '" ' + obra.compositor + ' musicxml OR "guitar pro" violão');
-  return 'https://duckduckgo.com/?q=' + termo;
+  const termo = termoDeBusca(obra) + ' musicxml OR "guitar pro"';
+  return 'https://duckduckgo.com/?q=' + encodeURIComponent(termo);
 }
 
+// Sem filtro de instrumento na URL: o número que eu tinha posto aqui era o do
+// trombone baixo, e o filtro errado zerava a busca. O instrumento vai no
+// texto, que é à prova de mudança de catálogo do site.
 export function buscaMuseScore(obra) {
-  const termo = encodeURIComponent(obra.titulo + ' ' + obra.compositor);
-  return 'https://musescore.com/sheetmusic?text=' + termo + '&instrument=25';
+  return 'https://musescore.com/sheetmusic?text=' + encodeURIComponent(termoDeBusca(obra));
 }
 
 // O Classtab publica milhares de tablaturas de violão clássico em texto puro
 // — o formato "e|--0--3--|". O app lê esse texto direto: dá para copiar da
-// página e colar na tela de importar, sem baixar arquivo nenhum. Para boa
-// parte destas 44 obras é o caminho mais curto que existe.
+// página e colar na tela de importar, sem baixar arquivo nenhum.
 export function buscaClasstab(obra) {
-  const termo = encodeURIComponent('site:classtab.org ' + obra.compositor + ' ' + obra.titulo);
-  return 'https://duckduckgo.com/?q=' + termo;
+  return 'https://duckduckgo.com/?q=' + encodeURIComponent('site:classtab.org ' + termoDeBusca(obra));
 }

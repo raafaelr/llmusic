@@ -46,7 +46,7 @@ export const TECNICAS_REP = [
 export const OBRAS = [
   // ---------------------------------------------------------------- Renascimento
   {
-    id: 'milan-pavana1', titulo: 'Pavana nº 1', compositor: 'Luis de Milán', morte: 1561, morteAprox: true,
+    id: 'milan-pavana1', busca: 'Luys Milan Pavana No. 1 vihuela', titulo: 'Pavana nº 1', compositor: 'Luis de Milán', morte: 1561, morteAprox: true,
     periodo: 'renascimento', nivel: 3, tom: 'Mi menor', minutos: 2,
     tecnicas: ['acordes', 'ritmo'],
     sobre: 'Dança de corte espanhola do século XVI, escrita originalmente para vihuela. Acordes em blocos com uma melodia simples no topo.',
@@ -104,7 +104,7 @@ export const OBRAS = [
     aulas: ['n5.2.4', 'n6.1.10']
   },
   {
-    id: 'bach-bwv996-bourree', titulo: 'Bourrée (Suíte BWV 996)', compositor: 'Johann Sebastian Bach', morte: 1750,
+    id: 'bach-bwv996-bourree', busca: 'Bach BWV 996 Bourree guitar', titulo: 'Bourrée (Suíte BWV 996)', compositor: 'Johann Sebastian Bach', morte: 1750,
     periodo: 'barroco', nivel: 4, tom: 'Mi menor', minutos: 2,
     tecnicas: ['polifonia', 'ligado'],
     sobre: 'A porta de entrada no Bach violonístico: duas vozes claras, forma binária e extensão curta.',
@@ -119,7 +119,7 @@ export const OBRAS = [
     aulas: ['n5.3.1', 'n6.3.1']
   },
   {
-    id: 'bach-bwv999', titulo: 'Prelúdio BWV 999', compositor: 'Johann Sebastian Bach', morte: 1750,
+    id: 'bach-bwv999', busca: 'Bach BWV 999 Prelude C minor guitar', titulo: 'Prelúdio BWV 999', compositor: 'Johann Sebastian Bach', morte: 1750,
     periodo: 'barroco', nivel: 5, tom: 'Ré menor', minutos: 3,
     tecnicas: ['arpejo', 'polifonia'],
     sobre: 'Prelúdio em arpejo contínuo escrito para alaúde. A harmonia inteira está contida num único padrão de mão direita.',
@@ -133,7 +133,7 @@ export const OBRAS = [
     aulas: ['n5.3.1', 'n6.3.1']
   },
   {
-    id: 'bach-bwv1007-prelude', titulo: 'Prelúdio da Suíte nº 1 BWV 1007', compositor: 'Johann Sebastian Bach', morte: 1750,
+    id: 'bach-bwv1007-prelude', busca: 'Bach BWV 1007 Prelude cello suite guitar', titulo: 'Prelúdio da Suíte nº 1 BWV 1007', compositor: 'Johann Sebastian Bach', morte: 1750,
     periodo: 'barroco', nivel: 5, tom: 'Ré maior (transcrição)', minutos: 3,
     tecnicas: ['arpejo', 'posicao'],
     sobre: 'Originalmente para violoncelo. No violão costuma ser tocado em Ré maior, aproveitando as cordas soltas.',
@@ -147,7 +147,7 @@ export const OBRAS = [
     aulas: ['n6.3.1']
   },
   {
-    id: 'bach-bwv997-sarabande', titulo: 'Sarabanda (Suíte BWV 997)', compositor: 'Johann Sebastian Bach', morte: 1750,
+    id: 'bach-bwv997-sarabande', busca: 'Bach BWV 997 Sarabande lute suite', titulo: 'Sarabanda (Suíte BWV 997)', compositor: 'Johann Sebastian Bach', morte: 1750,
     periodo: 'barroco', nivel: 6, tom: 'Lá menor', minutos: 4,
     tecnicas: ['polifonia', 'melodia'],
     sobre: 'Sarabanda lenta e ornamentada, de grande densidade harmônica.',
@@ -161,7 +161,7 @@ export const OBRAS = [
     aulas: ['n6.3.1']
   },
   {
-    id: 'bach-bwv1000-fuga', titulo: 'Fuga BWV 1000', compositor: 'Johann Sebastian Bach', morte: 1750,
+    id: 'bach-bwv1000-fuga', busca: 'Bach BWV 1000 Fugue lute', titulo: 'Fuga BWV 1000', compositor: 'Johann Sebastian Bach', morte: 1750,
     periodo: 'barroco', nivel: 8, tom: 'Lá menor', minutos: 8,
     tecnicas: ['polifonia', 'pestana', 'posicao'],
     sobre: 'Transcrição para alaúde da fuga da Sonata BWV 1001. Três vozes reais do começo ao fim, com estreito e pedal final.',
@@ -175,7 +175,7 @@ export const OBRAS = [
     aulas: ['n6.1.1', 'n6.3.1']
   },
   {
-    id: 'weiss-fantasia', titulo: 'Fantasia em Mi menor', compositor: 'Silvius Leopold Weiss', morte: 1750,
+    id: 'weiss-fantasia', busca: 'Silvius Leopold Weiss Fantasia E minor lute guitar', titulo: 'Fantasia em Mi menor', compositor: 'Silvius Leopold Weiss', morte: 1750,
     periodo: 'barroco', nivel: 6, tom: 'Mi menor', minutos: 5,
     tecnicas: ['polifonia', 'melodia', 'posicao'],
     sobre: 'Weiss foi o maior alaudista do barroco tardio e contemporâneo de Bach. Sua música passa muito bem para o violão.',
@@ -189,7 +189,7 @@ export const OBRAS = [
     aulas: ['n6.1.10', 'n6.3.1']
   },
   {
-    id: 'devisee-sarabande', titulo: 'Sarabanda em Ré menor', compositor: 'Robert de Visée', morte: 1733, morteAprox: true,
+    id: 'devisee-sarabande', busca: 'Robert de Visee Sarabande D minor guitar', titulo: 'Sarabanda em Ré menor', compositor: 'Robert de Visée', morte: 1733, morteAprox: true,
     periodo: 'barroco', nivel: 3, tom: 'Ré menor', minutos: 2,
     tecnicas: ['acordes', 'melodia'],
     sobre: 'Peça curta e expressiva da guitarra barroca francesa, muito usada como primeira incursão no repertório barroco.',
@@ -205,7 +205,7 @@ export const OBRAS = [
 
   // ---------------------------------------------------------------- Clássico
   {
-    id: 'carulli-op27-1', titulo: 'Estudo em Dó maior (Op. 27)', compositor: 'Ferdinando Carulli', morte: 1841,
+    id: 'carulli-op27-1', busca: 'Carulli Op. 27 study C major guitar', titulo: 'Estudo em Dó maior (Op. 27)', compositor: 'Ferdinando Carulli', morte: 1841,
     periodo: 'classico', nivel: 2, tom: 'Dó maior', minutos: 1,
     tecnicas: ['arpejo', 'acordes'],
     sobre: 'Um dos primeiros estudos do método de Carulli: arpejo simples sobre harmonia básica.',
@@ -219,7 +219,7 @@ export const OBRAS = [
     aulas: ['n4.3.1']
   },
   {
-    id: 'carcassi-op60-1', titulo: 'Estudo nº 1 (Op. 60)', compositor: 'Matteo Carcassi', morte: 1853,
+    id: 'carcassi-op60-1', busca: 'Carcassi Op. 60 No. 1 etude guitar', titulo: 'Estudo nº 1 (Op. 60)', compositor: 'Matteo Carcassi', morte: 1853,
     periodo: 'classico', nivel: 4, tom: 'Dó maior', minutos: 2,
     tecnicas: ['arpejo', 'posicao'],
     sobre: 'O primeiro dos 25 estudos melódicos e progressivos, o conjunto mais usado no ensino intermediário.',
@@ -233,7 +233,7 @@ export const OBRAS = [
     aulas: ['n4.3.3']
   },
   {
-    id: 'carcassi-op60-3', titulo: 'Estudo nº 3 (Op. 60)', compositor: 'Matteo Carcassi', morte: 1853,
+    id: 'carcassi-op60-3', busca: 'Carcassi Op. 60 No. 3 etude guitar', titulo: 'Estudo nº 3 (Op. 60)', compositor: 'Matteo Carcassi', morte: 1853,
     periodo: 'classico', nivel: 4, tom: 'Lá maior', minutos: 2,
     tecnicas: ['arpejo', 'pestana'],
     sobre: 'Estudo em arpejo com pestanas frequentes, muito usado para consolidar a mão esquerda.',
@@ -247,7 +247,7 @@ export const OBRAS = [
     aulas: ['n4.2.3', 'n4.3.3']
   },
   {
-    id: 'sor-op60-14', titulo: 'Estudo nº 14 (Op. 60)', compositor: 'Fernando Sor', morte: 1839,
+    id: 'sor-op60-14', busca: 'Fernando Sor Op. 60 No. 14 study guitar', titulo: 'Estudo nº 14 (Op. 60)', compositor: 'Fernando Sor', morte: 1839,
     periodo: 'classico', nivel: 3, tom: 'Dó maior', minutos: 1,
     tecnicas: ['melodia', 'acordes'],
     sobre: 'Estudo curto e elegante, típico da escrita de Sor: melodia simples sobre acompanhamento discreto.',
@@ -261,7 +261,7 @@ export const OBRAS = [
     aulas: ['n4.3.2', 'n5.3.2']
   },
   {
-    id: 'sor-op31-20', titulo: 'Estudo nº 20 (Op. 31)', compositor: 'Fernando Sor', morte: 1839,
+    id: 'sor-op31-20', busca: 'Fernando Sor Op. 31 No. 20 study guitar', titulo: 'Estudo nº 20 (Op. 31)', compositor: 'Fernando Sor', morte: 1839,
     periodo: 'classico', nivel: 5, tom: 'Lá maior', minutos: 2,
     tecnicas: ['polifonia', 'ligado'],
     sobre: 'Estudo de escrita polifônica, com vozes bem definidas e condução cuidadosa.',
@@ -275,7 +275,7 @@ export const OBRAS = [
     aulas: ['n5.2.8', 'n5.3.2']
   },
   {
-    id: 'sor-op35-22', titulo: 'Estudo nº 22 (Op. 35) — "Lição"', compositor: 'Fernando Sor', morte: 1839,
+    id: 'sor-op35-22', busca: 'Fernando Sor Op. 35 No. 22 study B minor guitar', titulo: 'Estudo nº 22 (Op. 35) — "Lição"', compositor: 'Fernando Sor', morte: 1839,
     periodo: 'classico', nivel: 5, tom: 'Si menor', minutos: 3,
     tecnicas: ['melodia', 'arpejo', 'pestana'],
     sobre: 'Um dos estudos mais tocados de Sor, lírico e de grande apelo musical.',
@@ -289,7 +289,7 @@ export const OBRAS = [
     aulas: ['n5.3.2']
   },
   {
-    id: 'sor-op9-mozart', titulo: 'Variações sobre um tema de Mozart, Op. 9', compositor: 'Fernando Sor', morte: 1839,
+    id: 'sor-op9-mozart', busca: 'Fernando Sor Op. 9 Variations on a Theme by Mozart', titulo: 'Variações sobre um tema de Mozart, Op. 9', compositor: 'Fernando Sor', morte: 1839,
     periodo: 'classico', nivel: 7, tom: 'Mi maior', minutos: 9,
     tecnicas: ['escala', 'arpejo', 'ligado', 'posicao'],
     sobre: 'A obra-prima de Sor e uma das peças mais tocadas do repertório de concerto. Introdução, tema de A Flauta Mágica, cinco variações e coda.',
@@ -303,7 +303,7 @@ export const OBRAS = [
     aulas: ['n5.1.8', 'n5.3.2']
   },
   {
-    id: 'giuliani-op1', titulo: '120 Arpejos, Op. 1', compositor: 'Mauro Giuliani', morte: 1829,
+    id: 'giuliani-op1', busca: 'Giuliani Op. 1 120 right hand studies arpeggios', titulo: '120 Arpejos, Op. 1', compositor: 'Mauro Giuliani', morte: 1829,
     periodo: 'classico', nivel: 3, tom: 'Dó maior / Sol maior', minutos: 15,
     tecnicas: ['arpejo'],
     sobre: 'Cento e vinte fórmulas de mão direita sobre a mesma progressão de dois compassos. O material de mão direita mais usado no mundo.',
@@ -317,7 +317,7 @@ export const OBRAS = [
     aulas: ['n4.2.2', 'n5.2.2', 'n5.3.2']
   },
   {
-    id: 'giuliani-op48-5', titulo: 'Estudo nº 5 (Op. 48)', compositor: 'Mauro Giuliani', morte: 1829,
+    id: 'giuliani-op48-5', busca: 'Giuliani Op. 48 No. 5 etude guitar', titulo: 'Estudo nº 5 (Op. 48)', compositor: 'Mauro Giuliani', morte: 1829,
     periodo: 'classico', nivel: 5, tom: 'Dó maior', minutos: 2,
     tecnicas: ['escala', 'posicao'],
     sobre: 'Estudo de escalas rápidas, com mudanças de posição frequentes.',
@@ -331,7 +331,7 @@ export const OBRAS = [
     aulas: ['n5.2.1', 'n5.3.2']
   },
   {
-    id: 'aguado-op6-estudo', titulo: 'Estudo em Lá menor (Op. 6)', compositor: 'Dionisio Aguado', morte: 1849,
+    id: 'aguado-op6-estudo', busca: 'Dionisio Aguado Op. 6 study A minor guitar', titulo: 'Estudo em Lá menor (Op. 6)', compositor: 'Dionisio Aguado', morte: 1849,
     periodo: 'classico', nivel: 4, tom: 'Lá menor', minutos: 2,
     tecnicas: ['arpejo', 'ligado'],
     sobre: 'Estudo do método de Aguado, com progressão técnica rigorosa.',
@@ -345,7 +345,7 @@ export const OBRAS = [
     aulas: ['n4.2.4']
   },
   {
-    id: 'coste-op38-barcarolle', titulo: 'Barcarolle (Op. 51)', compositor: 'Napoléon Coste', morte: 1883,
+    id: 'coste-op38-barcarolle', busca: 'Napoleon Coste Barcarolle Op. 51 guitar', titulo: 'Barcarolle (Op. 51)', compositor: 'Napoléon Coste', morte: 1883,
     periodo: 'romantico', nivel: 6, tom: 'Lá maior', minutos: 4,
     tecnicas: ['melodia', 'arpejo'],
     sobre: 'Coste foi o maior violonista francês do século XIX e aluno de Sor. Esta barcarola tem o balanço característico do gênero.',
@@ -389,7 +389,7 @@ export const OBRAS = [
     aulas: ['n4.3.4', 'n5.3.3']
   },
   {
-    id: 'tarrega-pavana', titulo: 'Estudo em Mi maior (Pavana)', compositor: 'Francisco Tárrega', morte: 1909,
+    id: 'tarrega-pavana', busca: 'Tarrega Estudio en Mi mayor Pavana guitar', titulo: 'Estudo em Mi maior (Pavana)', compositor: 'Francisco Tárrega', morte: 1909,
     periodo: 'romantico', nivel: 5, tom: 'Mi maior', minutos: 3,
     tecnicas: ['pestana', 'polifonia'],
     sobre: 'Estudo de caráter nobre, com pestanas longas e condução de vozes.',
@@ -431,7 +431,7 @@ export const OBRAS = [
     aulas: ['n5.2.3', 'n5.3.3']
   },
   {
-    id: 'mertz-romanze', titulo: 'Romanze (Bardenklänge)', compositor: 'Johann Kaspar Mertz', morte: 1856,
+    id: 'mertz-romanze', busca: 'Mertz Romanze Bardenklange guitar', titulo: 'Romanze (Bardenklänge)', compositor: 'Johann Kaspar Mertz', morte: 1856,
     periodo: 'romantico', nivel: 6, tom: 'Mi maior', minutos: 4,
     tecnicas: ['melodia', 'arpejo', 'posicao'],
     sobre: 'Mertz escreveu o repertório romântico mais pianístico do violão. Esta romanza é lírica e de grande extensão de registro.',
@@ -473,7 +473,7 @@ export const OBRAS = [
     aulas: ['n5.3.6']
   },
   {
-    id: 'granados-danza5', titulo: 'Danza Española nº 5 (Andaluza)', compositor: 'Enrique Granados', morte: 1916,
+    id: 'granados-danza5', busca: 'Granados Danza Espanola No. 5 Andaluza guitar', titulo: 'Danza Española nº 5 (Andaluza)', compositor: 'Enrique Granados', morte: 1916,
     periodo: 'romantico', nivel: 6, tom: 'Mi menor / Mi maior', minutos: 5,
     tecnicas: ['rasgueado', 'melodia', 'ritmo'],
     sobre: 'Transcrição clássica do repertório pianístico espanhol. Alterna seções rítmicas com uma seção central cantada.',
@@ -487,7 +487,7 @@ export const OBRAS = [
     aulas: ['n5.2.4', 'n5.3.6']
   },
   {
-    id: 'nazareth-odeon', titulo: 'Odeon (tango brasileiro)', compositor: 'Ernesto Nazareth', morte: 1934,
+    id: 'nazareth-odeon', busca: 'Ernesto Nazareth Odeon tango guitar', titulo: 'Odeon (tango brasileiro)', compositor: 'Ernesto Nazareth', morte: 1934,
     periodo: 'moderno', nivel: 5, tom: 'Dó maior', minutos: 3,
     tecnicas: ['ritmo', 'acordes', 'melodia'],
     sobre: 'Um dos tangos brasileiros mais famosos de Nazareth, escrito para piano e amplamente transcrito para violão.',
@@ -545,7 +545,7 @@ export const OBRAS = [
     aulas: ['n5.3.5']
   },
   {
-    id: 'barrios-julia', titulo: 'Julia Florida (Barcarola)', compositor: 'Agustín Barrios Mangoré', morte: 1944,
+    id: 'barrios-julia', busca: 'Barrios Julia Florida Barcarola guitar', titulo: 'Julia Florida (Barcarola)', compositor: 'Agustín Barrios Mangoré', morte: 1944,
     periodo: 'moderno', nivel: 6, tom: 'Ré maior', minutos: 4,
     tecnicas: ['melodia', 'arpejo'],
     sobre: 'Barcarola lírica, com acompanhamento ondulante e melodia longa.',
@@ -559,7 +559,7 @@ export const OBRAS = [
     aulas: ['n5.3.5']
   },
   {
-    id: 'barrios-vals3', titulo: 'Vals Op. 8 nº 3', compositor: 'Agustín Barrios Mangoré', morte: 1944,
+    id: 'barrios-vals3', busca: 'Barrios Vals Op. 8 No. 3 guitar', titulo: 'Vals Op. 8 nº 3', compositor: 'Agustín Barrios Mangoré', morte: 1944,
     periodo: 'moderno', nivel: 7, tom: 'Si menor / Ré maior', minutos: 5,
     tecnicas: ['arpejo', 'escala', 'melodia'],
     sobre: 'Valsa de concerto com três seções e grande variedade técnica.',
@@ -629,7 +629,7 @@ export const OBRAS = [
     aulas: ['n5.2.1', 'n5.3.5']
   },
   {
-    id: 'ponce-preludio1', titulo: 'Prelúdio nº 1 (24 Prelúdios)', compositor: 'Manuel Ponce', morte: 1948,
+    id: 'ponce-preludio1', busca: 'Manuel Ponce Preludio No. 1 24 Preludios guitar', titulo: 'Prelúdio nº 1 (24 Prelúdios)', compositor: 'Manuel Ponce', morte: 1948,
     periodo: 'moderno', nivel: 4, tom: 'Dó maior', minutos: 1,
     tecnicas: ['arpejo', 'acordes'],
     sobre: 'Primeiro dos 24 prelúdios curtos de Ponce, excelentes para estudo e para programa.',
@@ -643,7 +643,7 @@ export const OBRAS = [
     aulas: ['n6.3.4']
   },
   {
-    id: 'ponce-folia', titulo: 'Variations sur Folia de España et Fugue', compositor: 'Manuel Ponce', morte: 1948,
+    id: 'ponce-folia', busca: 'Ponce Variations sur Folia de Espana et Fugue guitar', titulo: 'Variations sur Folia de España et Fugue', compositor: 'Manuel Ponce', morte: 1948,
     periodo: 'moderno', nivel: 8, tom: 'Ré menor', minutos: 25,
     tecnicas: ['escala', 'arpejo', 'polifonia', 'pestana'],
     sobre: 'Vinte variações sobre a Folia de España seguidas de uma fuga. Uma das maiores obras do repertório violonístico.',
@@ -657,7 +657,7 @@ export const OBRAS = [
     aulas: ['n6.1.1', 'n6.3.4']
   },
   {
-    id: 'ponce-suite-la', titulo: 'Suite en La menor ("de Weiss")', compositor: 'Manuel Ponce', morte: 1948,
+    id: 'ponce-suite-la', busca: 'Ponce Suite in A minor Weiss guitar', titulo: 'Suite en La menor ("de Weiss")', compositor: 'Manuel Ponce', morte: 1948,
     periodo: 'moderno', nivel: 6, tom: 'Lá menor', minutos: 12,
     tecnicas: ['polifonia', 'arpejo', 'ritmo'],
     sobre: 'Pastiche barroco que Ponce escreveu a pedido de Segovia, apresentado durante anos como obra inédita de Weiss.',
@@ -680,6 +680,17 @@ export const obraPorId = (id) => OBRAS.find((o) => o.id === id) || null;
 // existe, então nesses casos a frase sai com "por volta de". Para o domínio
 // público não muda nada: qualquer um deles morreu há séculos.
 export const anoDaMorte = (obra) => (obra.morteAprox ? 'por volta de ' : '') + obra.morte;
+
+// O que digitar num site de partitura. Os títulos aqui estão em português
+// porque o app é em português — mas "Estudo em Dó maior (Op. 27)" não existe
+// em nenhum catálogo do mundo: a peça é indexada como "Carulli Op. 27".
+//
+// Então 28 das 44 obras têm um campo "busca" com o nome internacional, quase
+// sempre compositor + opus ou número de catálogo, que é como essas peças são
+// de fato catalogadas. As outras 16 têm título que já é nome próprio e não se
+// traduz — Lágrima, La Catedral, Asturias, Sons de Carrilhões — e para essas
+// o próprio título serve.
+export const termoDeBusca = (obra) => obra.busca || (obra.titulo + ' ' + obra.compositor);
 export const COMPOSITORES = [...new Set(OBRAS.map((o) => o.compositor))].sort();
 export const NIVEIS_REP = [...new Set(OBRAS.map((o) => o.nivel))].sort((a, b) => a - b);
 export const nomePeriodo = (id) => (PERIODOS.find((p) => p.id === id) || { nome: id }).nome;
