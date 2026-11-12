@@ -1866,3 +1866,10 @@ button .ic-t, a .ic-t { margin-right: 0.1em; }
    o rótulo, a capa e o que se faz com ela. */
 .retomar.cartao { border: 0; background: none; padding: 0; }
 .retomar.cartao-destaque::before { display: none; }
+
+/* Aviso de formato na obra do repertório: é informação que evita trabalho
+   perdido, então tem o peso de um aviso e não o de uma nota de rodapé. */
+.aviso-formato { border-left: 3px solid var(--quase); padding-left: var(--e-3); }
+
+/* Confirmação depois de guardar uma tablatura: fica no alto e se destaca. */
+.status-ok { color: var(--ok); font-weight: 600; }

@@ -5,8 +5,8 @@ import { achatar, tempoPorCompasso, validarPacote } from '../pecas.js';
 import { tocarNota } from '../violao.js';
 import { minhasPecas, salvarMinha, removerMinha, pacoteDasMinhas, instalarPacote, ID_MINHAS } from '../biblioteca.js';
 import { lerAscii, paraAscii } from '../importar/ascii.js';
-import { ligar, buscaIMSLP } from '../obrapartitura.js';
-import { obraPorId } from '../curso/repertorio.js';
+import { ligar, buscaIMSLP, buscaMusicXML, buscaMuseScore, buscaClasstab } from '../obrapartitura.js';
+import { obraPorId, anoDaMorte } from '../curso/repertorio.js';
 import { montarPosicional } from '../importar/posicional.js';
 import { icone, botaoIcone } from '../icones.js';
 
@@ -66,22 +66,34 @@ export function montar(raiz, ir, arg) {
       faixa.append(el('p', 'rotulo-grupo', 'Importando a partitura de'));
       faixa.append(el('h2', 'cartao-nome', obra.titulo));
       faixa.append(el('p', 'cartao-desc', obra.compositor + ' · ' + obra.tom
-        + ' · domínio público (autor falecido em ' + obra.morte + ')'));
+        + ' · domínio público (autor falecido em ' + anoDaMorte(obra) + ')'));
       faixa.append(el('p', 'cartao-desc', 'Ao guardar, o arquivo fica ligado a esta obra: '
         + 'abrir a obra no Repertório passa a abrir a partitura.'));
-      const lk = (() => { const a = el('a', 'botao-sec'); a.append(icone('link-externo'), document.createTextNode(' Procurar no IMSLP')); return a; })();
-      lk.href = buscaIMSLP(obra); lk.target = '_blank'; lk.rel = 'noopener noreferrer';
-      faixa.append(lk);
+      // Os mesmos três caminhos do Repertório, na mesma ordem: primeiro os
+      // formatos que o app lê inteiros, e o IMSLP por último, com o aviso de
+      // que ele é PDF.
+      const link = (rotulo, href) => {
+        const a = el('a', 'botao-sec');
+        a.append(icone('link-externo'), document.createTextNode(' ' + rotulo));
+        a.href = href; a.target = '_blank'; a.rel = 'noopener noreferrer';
+        return a;
+      };
+      const busca = el('div', 'bloco-botoes');
+      busca.append(link('MusicXML e Guitar Pro', buscaMusicXML(obra)), link('MuseScore', buscaMuseScore(obra)), link('Classtab (texto)', buscaClasstab(obra)), link('IMSLP (PDF)', buscaIMSLP(obra)));
+      faixa.append(busca);
       intro.append(faixa);
     }
     intro.append(el('p', 'dica', 'Escolha um arquivo e o app converte para a tela Partituras, onde você ouve e toca junto. Tudo é feito no seu celular, sem internet.'));
     const lista = el('ul', 'lista-bloco');
     [
+      // Na ordem do que funciona melhor. O caso que mais frustra — PDF de
+      // partitura — está por último e dito com todas as letras, em vez de a
+      // pessoa descobrir depois de baixar.
+      'Guitar Pro (.gp3 .gp4 .gp5 .gpx .gp), MusicXML (.xml .musicxml .mxl) e AlphaTex (.tex): leitura completa, com o ritmo exato. É o melhor formato de longe.',
       'PDF com tablatura em texto (e|--0--3--|): lê as notas e deduz o ritmo.',
       'PDF feito por Guitar Pro, MuseScore e similares (números sobre 6 linhas): lê as casas e deduz o ritmo.',
-      'Arquivos Guitar Pro (.gp3 .gp4 .gp5 .gpx .gp), MusicXML (.xml .musicxml .mxl) e AlphaTex (.tex): leitura completa, com ritmo exato.',
       'Arquivo de texto (.txt) ou texto colado da internet.',
-      'PDF só de imagem (digitalizado ou foto): não dá para ler os números sozinho. O app mostra a imagem ao lado de um editor para você copiar.'
+      'PDF de partitura — pauta de 5 linhas com as notas desenhadas — o app NÃO lê. Ele reconhece tablatura: seis linhas e números. O mesmo vale para PDF digitalizado e foto. Nesses casos ele mostra a imagem ao lado de um editor para você copiar à mão.'
     ].forEach((t) => lista.append(el('li', '', t)));
     intro.append(lista);
     const arq = document.createElement('input');
@@ -93,6 +105,9 @@ export function montar(raiz, ir, arg) {
     const status = el('p', 'dica', msg);
     status.setAttribute('aria-live', 'polite');
     status.id = 'status-importar';
+    // A confirmação vai para o alto da tela. No fim da lista de formatos ela
+    // ficava abaixo do que cabe na tela, e ninguém via.
+    if (msg) { status.className = 'dica status-ok'; intro.prepend(status); }
     const ta = el('textarea', 'area-tab');
     ta.rows = 6; ta.placeholder = 'Ou cole aqui uma tablatura em texto...'; ta.setAttribute('aria-label', 'Tablatura em texto');
     ta.spellcheck = false;
@@ -106,7 +121,9 @@ export function montar(raiz, ir, arg) {
     const bNovo = el('button', 'botao-sec', '✍ Criar do zero');
     bNovo.onclick = () => revisao({ tipo: 'ascii', texto: 'Minha tablatura\n\n' + MODELO + '\n', peca: lerAscii('Minha tablatura\n\n' + MODELO + '\n').peca || { id: 'imp-' + Date.now().toString(36), titulo: 'Minha tablatura', nivel: 'Criada por mim', bpm: 80, compasso: [4, 4], dica: '', compassos: [{ acorde: '', eventos: [{ t: 0, d: 4, n: [], silencio: true }] }] }, avisos: [], novo: true });
     acoes.append(bTxt, bNovo);
-    intro.append(bArq, arq, status, ta, acoes);
+    // Sem mensagem, o "status" fica aqui no meio, vazio, só para o leitor de
+    // tela anunciar o que acontecer depois. Com mensagem, ele já subiu.
+    intro.append(bArq, arq, ...(msg ? [] : [status]), ta, acoes);
     tela.append(topo, intro);
 
     const sec = el('section', 'coluna');
@@ -277,7 +294,11 @@ export function montar(raiz, ir, arg) {
         const idCompleto = await salvarMinha(peca);
         if (obra) await ligar(obra.id, idCompleto);
         if (ir_) { await Config.guardar('part.peca', idCompleto); ir('partituras'); }
-        else if (obra) inicio('✓ Guardada e ligada à obra "' + obra.titulo + '".');
+        // Veio da ficha de uma obra: volta para ela. Lá a partitura já aparece
+        // ligada, e ver o resultado vale mais do que ler que deu certo.
+        // (Antes ficava aqui, com a confirmação 400px abaixo do rodapé da
+        // tela: a pessoa guardava e parecia que nada tinha acontecido.)
+        else if (obra) ir('repertorio/' + obra.id);
         else inicio('✓ Guardada em Minhas tablaturas: ' + peca.titulo);
       } catch (e) { msg.textContent = 'Não consegui guardar: ' + e.message; }
     }

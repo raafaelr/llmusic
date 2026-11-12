@@ -55,3 +55,31 @@ export function buscaIMSLP(obra) {
   const termo = encodeURIComponent(obra.titulo + ' ' + obra.compositor);
   return 'https://imslp.org/index.php?search=' + termo + '&title=Special%3ASearch';
 }
+
+// O IMSLP é a fonte certa para a MÚSICA e quase sempre a errada para o
+// FORMATO: o que está lá é, na maioria, PDF digitalizado de uma edição
+// antiga. O importador do app lê tablatura, não partitura — ele procura seis
+// linhas e números em texto, e numa partitura as notas são desenho sobre
+// cinco linhas. Um PDF desses cai no caminho de copiar à mão.
+//
+// Em MusicXML ou Guitar Pro o AlphaTab lê completo, com o ritmo exato. Daí
+// estas duas buscas: a primeira procura o arquivo em qualquer lugar, a
+// segunda no MuseScore, que é onde mais se acha violão clássico.
+export function buscaMusicXML(obra) {
+  const termo = encodeURIComponent('"' + obra.titulo + '" ' + obra.compositor + ' musicxml OR "guitar pro" violão');
+  return 'https://duckduckgo.com/?q=' + termo;
+}
+
+export function buscaMuseScore(obra) {
+  const termo = encodeURIComponent(obra.titulo + ' ' + obra.compositor);
+  return 'https://musescore.com/sheetmusic?text=' + termo + '&instrument=25';
+}
+
+// O Classtab publica milhares de tablaturas de violão clássico em texto puro
+// — o formato "e|--0--3--|". O app lê esse texto direto: dá para copiar da
+// página e colar na tela de importar, sem baixar arquivo nenhum. Para boa
+// parte destas 44 obras é o caminho mais curto que existe.
+export function buscaClasstab(obra) {
+  const termo = encodeURIComponent('site:classtab.org ' + obra.compositor + ' ' + obra.titulo);
+  return 'https://duckduckgo.com/?q=' + termo;
+}

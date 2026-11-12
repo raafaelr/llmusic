@@ -2,12 +2,20 @@
 //
 // Só entram aqui obras cujo autor morreu há mais de 70 anos (regra brasileira),
 // de modo que a partitura pode ser procurada, copiada, tocada e gravada
-// livremente. Obras ainda protegidas (Villa-Lobos, Rodrigo, Brouwer, Ponce
-// em alguns países, compositores vivos) NÃO entram nesta lista: elas são
-// estudadas nas aulas de repertório, pela linguagem e pela técnica.
+// livremente. Obras ainda protegidas (Villa-Lobos, Rodrigo, Brouwer,
+// compositores vivos) NÃO entram nesta lista: elas são estudadas nas aulas
+// de repertório, pela linguagem e pela técnica.
+//
+// Ponce esteve nessa lista de exclusão por engano, por causa do prazo
+// mexicano de vida + 100 anos. Ele não se aplica: o México nunca aplicou as
+// extensões retroativamente, e quem morreu antes de 1952 já estava em
+// domínio público quando o prazo foi esticado. Ponce morreu em 1948.
 //
 // Campos de cada obra:
 //   id, titulo, compositor, morte (ano), periodo, nivel (1 a 8),
+//   morteAprox (opcional): true quando o ano não é conhecido e o que existe
+//     é estimativa. Ver anoDaMorte(), no fim deste arquivo.
+
 //   tom, minutos (duração aproximada), tecnicas (slugs da lista abaixo),
 //   sobre (o que é a peça), ensina (o que ela desenvolve),
 //   estudar (passos concretos de estudo), aulas (ids de aulas relacionadas)
@@ -38,7 +46,7 @@ export const TECNICAS_REP = [
 export const OBRAS = [
   // ---------------------------------------------------------------- Renascimento
   {
-    id: 'milan-pavana1', titulo: 'Pavana nº 1', compositor: 'Luis de Milán', morte: 1561,
+    id: 'milan-pavana1', titulo: 'Pavana nº 1', compositor: 'Luis de Milán', morte: 1561, morteAprox: true,
     periodo: 'renascimento', nivel: 3, tom: 'Mi menor', minutos: 2,
     tecnicas: ['acordes', 'ritmo'],
     sobre: 'Dança de corte espanhola do século XVI, escrita originalmente para vihuela. Acordes em blocos com uma melodia simples no topo.',
@@ -52,7 +60,7 @@ export const OBRAS = [
     aulas: ['n6.1.10']
   },
   {
-    id: 'narvaez-guardame', titulo: 'Diferencias sobre Guárdame las vacas', compositor: 'Luys de Narváez', morte: 1549,
+    id: 'narvaez-guardame', titulo: 'Diferencias sobre Guárdame las vacas', compositor: 'Luys de Narváez', morte: 1550, morteAprox: true,
     periodo: 'renascimento', nivel: 4, tom: 'Dó maior', minutos: 3,
     tecnicas: ['escala', 'polifonia'],
     sobre: 'Conjunto de variações sobre a progressão da romanesca, prima da Folia. Uma das obras mais tocadas do repertório renascentista.',
@@ -181,7 +189,7 @@ export const OBRAS = [
     aulas: ['n6.1.10', 'n6.3.1']
   },
   {
-    id: 'devisee-sarabande', titulo: 'Sarabanda em Ré menor', compositor: 'Robert de Visée', morte: 1733,
+    id: 'devisee-sarabande', titulo: 'Sarabanda em Ré menor', compositor: 'Robert de Visée', morte: 1733, morteAprox: true,
     periodo: 'barroco', nivel: 3, tom: 'Ré menor', minutos: 2,
     tecnicas: ['acordes', 'melodia'],
     sobre: 'Peça curta e expressiva da guitarra barroca francesa, muito usada como primeira incursão no repertório barroco.',
@@ -665,6 +673,13 @@ export const OBRAS = [
 ];
 
 export const obraPorId = (id) => OBRAS.find((o) => o.id === id) || null;
+
+// Como escrever o ano da morte numa frase. De três compositores do século XVI
+// e XVII não se sabe o ano: o que existe é a última vez que apareceram num
+// documento. Dizer "faleceu em 1550" seria inventar uma precisão que não
+// existe, então nesses casos a frase sai com "por volta de". Para o domínio
+// público não muda nada: qualquer um deles morreu há séculos.
+export const anoDaMorte = (obra) => (obra.morteAprox ? 'por volta de ' : '') + obra.morte;
 export const COMPOSITORES = [...new Set(OBRAS.map((o) => o.compositor))].sort();
 export const NIVEIS_REP = [...new Set(OBRAS.map((o) => o.nivel))].sort((a, b) => a - b);
 export const nomePeriodo = (id) => (PERIODOS.find((p) => p.id === id) || { nome: id }).nome;

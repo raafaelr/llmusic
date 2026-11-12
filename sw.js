@@ -8,7 +8,7 @@
 // e o celular troca o cache velho pelo novo sozinho.
 //
 // Arquivos no cache: 128
-const VERSAO = 'llmusic-33a3ace94aba';
+const VERSAO = 'llmusic-0bb1c7e72bec';
 
 const ARQUIVOS = [
   './',

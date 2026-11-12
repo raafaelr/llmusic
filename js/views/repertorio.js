@@ -1,9 +1,9 @@
 // Biblioteca de Repertório: lista filtrável de obras em domínio público,
 // com ficha de estudo de cada uma e registro do seu estágio.
 // Rota #/repertorio ou #/repertorio/<id>.
-import { OBRAS, PERIODOS, TECNICAS_REP, COMPOSITORES, NIVEIS_REP, obraPorId, nomePeriodo, nomeTecnicaRep } from '../curso/repertorio.js';
+import { OBRAS, PERIODOS, TECNICAS_REP, COMPOSITORES, NIVEIS_REP, obraPorId, nomePeriodo, nomeTecnicaRep, anoDaMorte } from '../curso/repertorio.js';
 import { Config } from '../db.js';
-import { partituraDaObra, ligar, desligar, buscaIMSLP, vinculos } from '../obrapartitura.js';
+import { partituraDaObra, ligar, desligar, buscaIMSLP, buscaMusicXML, buscaMuseScore, buscaClasstab, vinculos } from '../obrapartitura.js';
 import { todasAsPecas } from '../biblioteca.js';
 import { acharAula } from '../curso/curriculo.js';
 import { icone, botaoIcone } from '../icones.js';
@@ -145,7 +145,7 @@ export function montar(raiz, ir, arg) {
     tela.append(topo);
 
     const cab = el('div', 'aula-cab');
-    cab.append(el('p', 'aula-trilha', o.compositor + ' (falecido em ' + o.morte + ') · ' + nomePeriodo(o.periodo)));
+    cab.append(el('p', 'aula-trilha', o.compositor + ' (falecido em ' + anoDaMorte(o) + ') · ' + nomePeriodo(o.periodo)));
     const selos = el('div', 'aula-selos');
     selos.append(el('span', 'selo-aula', 'Nível ' + o.nivel));
     selos.append(el('span', 'selo-aula disc', o.tom));
@@ -154,7 +154,7 @@ export function montar(raiz, ir, arg) {
     cab.append(selos);
     const dp = el('p', 'aula-prereq');
     dp.append(el('strong', '', 'Domínio público. '));
-    dp.append(document.createTextNode('O autor faleceu em ' + o.morte + ', portanto a partitura pode ser procurada, copiada, tocada e gravada livremente. '
+    dp.append(document.createTextNode('O autor faleceu em ' + anoDaMorte(o) + ', portanto a partitura pode ser procurada, copiada, tocada e gravada livremente. '
       + 'Atenção: uma edição moderna específica pode ter direitos próprios sobre o trabalho editorial.'));
     cab.append(dp);
     tela.append(cab);
@@ -221,19 +221,35 @@ export function montar(raiz, ir, arg) {
         + 'decorar é pior do que partitura nenhuma.'));
 
       const passos = el('ol', 'passos-bloco');
-      ['Baixe a partitura em PDF ou MusicXML (o IMSLP tem quase todas, de graça).',
+      ['Procure a obra em MusicXML (.xml .musicxml .mxl) ou Guitar Pro (.gp .gp5).',
        'Volte aqui e toque em “Importar a partitura desta obra”.',
        'Depois de importada, ela fica colada nesta obra: cursor, tablatura e metrônomo.']
         .forEach((t) => passos.append(el('li', '', t)));
       corpoPart.append(passos);
 
+      // O formato importa mais do que parece, e descobrir isso só depois de
+      // baixar um PDF de 8 páginas é frustrante. Então está dito antes.
+      const aviso = el('p', 'texto-bloco aviso-formato');
+      aviso.append(el('strong', '', 'Sobre o formato: '));
+      aviso.append(document.createTextNode(
+        'em MusicXML ou Guitar Pro o app lê a peça inteira, com o ritmo exato. '
+        + 'Já o PDF de partitura digitalizada — que é o que mais se encontra no IMSLP — '
+        + 'o app não consegue ler: ele reconhece tablatura, e numa partitura as notas são '
+        + 'desenho, não texto. Nesse caso ele mostra a imagem ao lado de um editor para '
+        + 'você copiar à mão, o que funciona, mas dá trabalho. O Classtab publica muita coisa em tablatura de texto, que o app também lê inteira — dá para copiar da página e colar.'));
+      corpoPart.append(aviso);
+
       const acoes = el('div', 'bloco-botoes');
-      const bImslp = (() => { const a = el('a', 'botao-sec'); a.append(icone('link-externo'), document.createTextNode(' Procurar no IMSLP')); return a; })();
-      bImslp.href = buscaIMSLP(o);
-      bImslp.target = '_blank'; bImslp.rel = 'noopener noreferrer';
+      const link = (rotulo, href) => {
+        const a = el('a', 'botao-sec');
+        a.append(icone('link-externo'), document.createTextNode(' ' + rotulo));
+        a.href = href; a.target = '_blank'; a.rel = 'noopener noreferrer';
+        return a;
+      };
       const bImp = el('button', 'botao-principal', 'Importar a partitura desta obra');
       bImp.onclick = () => ir('importar/' + o.id);
-      acoes.append(bImp, bImslp);
+      // Na ordem de quanto o app aproveita cada formato.
+      acoes.append(bImp, link('MusicXML e Guitar Pro', buscaMusicXML(o)), link('MuseScore', buscaMuseScore(o)), link('Classtab (texto)', buscaClasstab(o)), link('IMSLP (PDF)', buscaIMSLP(o)));
       corpoPart.append(acoes);
 
       // Se a peça já estiver na biblioteca, dá para ligar sem reimportar.
