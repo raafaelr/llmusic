@@ -48,28 +48,50 @@ export async function compartilharArquivo(nomeArquivo, texto) {
   return uri;
 }
 
+// LEMBRETES DIÁRIOS
+//
+// Antes era uma notificação só, repetindo todo dia o mesmo texto. Agora cada
+// dia tem o seu, com o exercício que o rodízio escolheu, e tocar nela abre
+// aquele exercício — a rota viaja no "extra" da notificação e quem a lê é o
+// ouvinte em js/main.js.
+//
+// O preço disso é que não dá mais para usar uma notificação que se repete:
+// o texto muda a cada dia, então são N notificações, uma por data. O app
+// reagenda as próximas toda vez que abre. Se ficar muito tempo fechado, as
+// últimas chegam com o exercício que era o próximo na época de agendar —
+// está dito na tela de Hábitos, não escondido.
 export const Lembretes = {
-  ID: 1,
+  DIAS: 14,            // quantos dias à frente ficam agendados
   disponivel() { return nativo() && !!plugin('LocalNotifications'); },
-  // Agenda uma notificação que se repete todo dia, na hora e minuto escolhidos.
-  async ativar(hora, minuto) {
+
+  ids() { return Array.from({ length: this.DIAS }, (_, i) => ({ id: i + 1 })); },
+
+  // dias: [{ data: Date, titulo, corpo, rota }], já com a hora certa.
+  async ativar(dias) {
     const ln = plugin('LocalNotifications');
     if (!ln) throw new Error('indisponível');
     const p = await ln.requestPermissions();
     if (p.display !== 'granted') throw new Error('permissão negada');
-    await ln.cancel({ notifications: [{ id: this.ID }] });
-    await ln.schedule({
-      notifications: [{
-        id: this.ID,
-        title: 'Hora de tocar! 🎸',
-        body: 'Alguns minutinhos de violão hoje mantêm a sequência viva.',
-        schedule: { on: { hour: hora, minute: minuto }, allowWhileIdle: true }
-      }]
-    });
+    await ln.cancel({ notifications: this.ids() });
+    const agora = Date.now();
+    const notifications = dias
+      .filter((d) => d.data.getTime() > agora)      // o Android ignora data no passado
+      .slice(0, this.DIAS)
+      .map((d, i) => ({
+        id: i + 1,
+        title: d.titulo,
+        body: d.corpo,
+        extra: { rota: d.rota },
+        schedule: { at: d.data, allowWhileIdle: true }
+      }));
+    if (!notifications.length) return 0;
+    await ln.schedule({ notifications });
+    return notifications.length;
   },
+
   async desativar() {
     const ln = plugin('LocalNotifications');
-    if (ln) await ln.cancel({ notifications: [{ id: this.ID }] });
+    if (ln) await ln.cancel({ notifications: this.ids() });
   }
 };
 

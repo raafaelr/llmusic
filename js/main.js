@@ -31,6 +31,7 @@ import { criarMenu } from './menu.js';
 import { iniciarTema } from './tema.js';
 import { criarEstudo } from './estudo.js';
 import { nativo } from './nativo.js';
+import { reagendarLembretes } from './pratica.js';
 import { sincronizarSePuder } from './sinc.js';
 
 const TELAS = {
@@ -126,6 +127,27 @@ if (nativo()) {
   const app = window.Capacitor.Plugins && window.Capacitor.Plugins.App;
   if (app && app.addListener) app.addListener('backButton', () => voltar());
 }
+
+// ---- Toque numa notificação de lembrete ----
+//
+// A notificação carrega a rota no "extra" (ver Lembretes, em js/nativo.js).
+// Aqui ela vira navegação: o roteador é por hash, então basta trocar o hash
+// e a tela certa aparece. Sem isto, tocar no lembrete só abria o app na tela
+// onde ele estava, que era o que acontecia antes.
+if (nativo()) {
+  const ln = window.Capacitor.Plugins && window.Capacitor.Plugins.LocalNotifications;
+  if (ln && ln.addListener) {
+    ln.addListener('localNotificationActionPerformed', (ev) => {
+      const rota = ev && ev.notification && ev.notification.extra && ev.notification.extra.rota;
+      if (rota) ir(rota);
+    });
+  }
+}
+
+// Reagenda os lembretes dos próximos dias a cada abertura, para o texto
+// continuar combinando com o rodízio de exercícios. Silencioso: se não der,
+// o app abre do mesmo jeito.
+reagendarLembretes().catch(() => {});
 
 // Sincronização entre aparelhos, quando configurada.
 //

@@ -2,6 +2,7 @@
 import { Config, Pratica, Backup } from '../db.js';
 import { hojeISO, minutosTexto } from '../pratica.js';
 import { nativo, compartilharArquivo, Lembretes, lerHora, CAMINHO_HUMANO } from '../nativo.js';
+import { reagendarLembretes } from '../pratica.js';
 import { sequenciaAtual, melhorSequencia, diasDoMes, semana, totalSegundos, nivelDoDia, dataDe } from '../habitos.js';
 import { botaoIcone } from '../icones.js';
 
@@ -51,7 +52,12 @@ export function montar(raiz, ir) {
   linhaLem.append(chipLem, hora);
   const msgLem = el('p', 'dica', '');
   msgLem.setAttribute('aria-live', 'polite');
-  gLem.append(linhaLem, msgLem);
+  // O limite dos 14 dias precisa estar dito, não escondido: ele é a razão de
+  // o app ter de ser aberto de vez em quando para o lembrete continuar certo.
+  const notaLem = el('p', 'dica', 'O lembrete traz o exercício daquele dia e, ao ser tocado, abre o exercício. '
+    + 'Ficam agendados os próximos 14 dias — o app reagenda a cada vez que você o abre. '
+    + 'Se ficar semanas fechado, os últimos lembretes chegam com o exercício que era o próximo na época.');
+  gLem.append(linhaLem, msgLem, notaLem);
   const gBk = el('div', 'grupo'); gBk.append(el('h2', 'rotulo-grupo', 'Backup dos seus dados'));
   const linhaBk = el('div', 'acoes');
   const exp = el('button', 'botao-sec', 'Exportar');
@@ -149,9 +155,15 @@ export function montar(raiz, ir) {
     const h = lerHora(hora.value);
     if (!h) { msgLem.textContent = 'Escolha um horário válido.'; return; }
     try {
-      if (lembreteAtivo) { await Lembretes.ativar(h[0], h[1]); msgLem.textContent = 'Todo dia às ' + hora.value + '.'; }
-      else { await Lembretes.desativar(); msgLem.textContent = ''; }
+      // Guarda antes de agendar: quem monta os dias lê a configuração do
+      // banco, então ela precisa já estar lá.
       await Config.guardar('lembrete', { ativo: lembreteAtivo, hora: hora.value });
+      if (lembreteAtivo) {
+        const n = await reagendarLembretes();
+        msgLem.textContent = n
+          ? 'Todo dia às ' + hora.value + ', com o exercício daquele dia. Tocar na notificação abre o exercício.'
+          : 'Não consegui agendar. Confira a permissão de notificações.';
+      } else { await Lembretes.desativar(); msgLem.textContent = ''; }
     } catch (e) {
       lembreteAtivo = false; pintarLembrete();
       msgLem.textContent = e.message === 'permissão negada' ? 'Permita as notificações nas configurações do Android.' : 'Lembretes não estão disponíveis aqui.';

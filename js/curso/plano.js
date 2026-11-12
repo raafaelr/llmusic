@@ -106,6 +106,37 @@ export function exercicioDoDia(bloco, { registro = {}, diaISO = '', excluir = []
 export const DIAS = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
 export const DIAS_CURTO = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
 
+// O que o lembrete daquele dia deve dizer.
+//
+// Função pura de propósito: recebe o dia, o plano semanal e o registro de
+// exercícios, e devolve o texto. Quem lê o banco é quem chama — assim dá para
+// calcular o lembrete de um dia que ainda não chegou, que é justamente o que
+// uma notificação agendada precisa.
+//
+// O diaISO vem de fora em vez de ser calculado aqui para não importar
+// js/pratica.js, que vai importar este arquivo de volta.
+export function lembreteDoDia(diaSemana, diaISO, semana, registro = {}) {
+  const d = (semana && semana[diaSemana]) || SEMANA_PADRAO[diaSemana];
+  const r = rotinaPorId(d.rotina);
+  // O primeiro bloco com rodízio é o exercício principal do dia. Os outros
+  // entram em "excluir" na tela do plano; aqui basta o primeiro, que é o que
+  // cabe numa notificação.
+  let ex = null;
+  for (const b of (r.blocos || [])) {
+    if (!b.tipos) continue;
+    ex = exercicioDoDia(b, { registro, diaISO });
+    if (ex) break;
+  }
+  if (ex) {
+    return {
+      titulo: 'Hoje: ' + ex.nome,
+      corpo: ex.minutos + ' min · ' + r.nome.split('—')[0].trim() + ' · ' + d.foco,
+      rota: 'exercicios/' + ex.id
+    };
+  }
+  return { titulo: 'Hora de tocar 🎸', corpo: r.nome + ' · ' + d.foco, rota: 'plano' };
+}
+
 export const SEMANA_PADRAO = [
   { rotina: 'r20', foco: 'Descanso ativo: tocar por prazer, ouvir gravações.' },
   { rotina: 'r60', foco: 'Escalas e leitura. Repertório: peça principal.' },
