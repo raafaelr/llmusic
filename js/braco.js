@@ -34,9 +34,35 @@ export function sortearPosicao(cordasPermitidas, maxCasa, anterior, aleatorio = 
   return { corda: cordasPermitidas[0], casa: 0 };
 }
 
+// Todas as posições {corda, casa} que soam exatamente este MIDI, até "maxCasa".
+// A mesma altura aparece em mais de uma corda: Mi4 é a 1ª solta e também a 2ª
+// na 5ª casa. O microfone ouve a altura, não a corda — então quando o aluno
+// toca uma nota, o app não tem como saber em qual corda ele tocou.
+export function posicoesDoMidi(midi, maxCasa, cordas = CORDAS_PADRAO) {
+  const r = [];
+  cordas.forEach((m, corda) => {
+    const casa = midi - m;
+    if (casa >= 0 && casa <= maxCasa) r.push({ corda, casa });
+  });
+  return r;
+}
+
+// Os MIDIs que valem como resposta para a classe de nota pc, dentro do alcance
+// e das cordas permitidas. É o que torna possível pedir só "toque Fá": vale
+// qualquer Fá que caiba nas opções escolhidas, em qualquer oitava.
+export function midisAceitos(pc, maxCasa, cordasPermitidas, cordas = CORDAS_PADRAO) {
+  const set = new Set();
+  posicoesDaNota(pc, maxCasa, cordas).forEach((p) => {
+    if (cordasPermitidas.includes(p.corda)) set.add(midiNaCasa(p.corda, p.casa, cordas));
+  });
+  return [...set].sort((a, b) => a - b);
+}
+
 // Julga o que foi tocado. Devolve 'certo' | 'quase' | 'errado'.
 // 'quase' = nota certa, mas desafinada entre 25 e 50 cents.
-export function julgar(midiAlvo, midiOuvido, centsOuvido) {
-  if (midiOuvido !== midiAlvo) return 'errado';
+// O alvo pode ser um MIDI só ou uma lista deles (ver midisAceitos).
+export function julgar(alvo, midiOuvido, centsOuvido) {
+  const aceitos = Array.isArray(alvo) ? alvo : [alvo];
+  if (!aceitos.includes(midiOuvido)) return 'errado';
   return Math.abs(centsOuvido) <= 25 ? 'certo' : 'quase';
 }

@@ -1,12 +1,22 @@
-// Braço virtual: dois exercícios com feedback em cores.
-//  - "Achar": o app diz uma nota e você toca na tela onde ela está.
-//  - "Tocar": o app marca uma casa no braço e você toca a nota no violão (usa o microfone).
-// Cores: verde = certo, vermelho = errado, amarelo = quase (nota certa, mas desafinada).
+// Braço virtual: quatro exercícios para mapear as notas no braço.
+//
+//  - "Achar"   — o app diz a nota, você toca na tela onde ela está.
+//  - "Nomear"  — o app marca uma casa, você diz que nota é. É o inverso do
+//                "Achar", e é o que falta para a memória funcionar nos dois
+//                sentidos: saber onde fica Fá não é o mesmo que olhar para a
+//                1ª casa da 1ª corda e saber que ali é Fá.
+//  - "Tocar"   — o app diz a nota e você a toca no violão (microfone). O app
+//                NÃO mostra onde ela fica: achar é parte do exercício.
+//  - "Oitavas" — o app diz a nota e você toca na tela TODAS as casas onde ela
+//                aparece. É o exercício que transforma notas soltas em mapa.
+//
+// Cores: verde = certo, vermelho = errado, amarelo = quase (nota certa, mas
+// desafinada) ou, quando se erra, onde a resposta certa estava.
 import { Config } from '../db.js';
 import { comecarPratica, pararPratica } from '../pratica.js';
 import { Afinador } from '../tuner.js';
-import { notaMaisProxima, nomeDoMidi } from '../pitch.js';
-import { CORDAS_PADRAO, midiNaCasa, nomeDaClasse, posicoesDaNota, sortearPosicao, julgar } from '../braco.js';
+import { notaMaisProxima, nomeDoMidi, NOMES_PT } from '../pitch.js';
+import { CORDAS_PADRAO, midiNaCasa, nomeDaClasse, posicoesDaNota, posicoesDoMidi, midisAceitos, sortearPosicao, julgar } from '../braco.js';
 import { botaoIcone } from '../icones.js';
 
 const NS = 'http://www.w3.org/2000/svg';
@@ -32,6 +42,9 @@ export function montar(raiz, ir) {
   let alcance = 5;             // maior casa usada: 0, 5 ou 12
   let cordaSel = -1;           // -1 = todas
   let alvo = null;             // {corda, casa}
+  let aceitos = [];            // no "Tocar": os MIDIs que valem como resposta
+  let faltam = [];             // nas "Oitavas": as posições que ainda não foram achadas
+  let erroNaRodada = false;    // nas "Oitavas": a rodada só conta como acerto se for limpa
   let acertos = 0, tentativas = 0, sequencia = 0;
   let travado = false;         // durante o feedback
   let bloqueioMidi = -1, bloqueioAte = 0;  // ignora a nota anterior enquanto ela ainda ressoa
@@ -56,7 +69,17 @@ export function montar(raiz, ir) {
   const caixaBraco = document.createElement('div');
   caixaBraco.className = 'rola-h';
   caixaBraco.append(svg);
-  area.append(pergunta, caixaBraco, feedback, placar);
+  // Teclado de nomes do "Nomear": só aparece nesse exercício. Fica logo abaixo
+  // do braço, perto de onde o olho está, e não lá embaixo com as opções.
+  const nomes = el('div', 'nomes-nota');
+  nomes.hidden = true;
+  NOMES_PT.forEach((nome, pc) => {
+    const b = el('button', 'chip sm', nome);
+    b.onclick = () => aoNome(pc);
+    nomes.append(b);
+  });
+
+  area.append(pergunta, caixaBraco, nomes, feedback, placar);
 
   const opcoes = el('section', 'braco-opcoes');
   const gModo = el('div', 'grupo');   gModo.append(el('h2', 'rotulo-grupo', 'Exercício'));
@@ -119,31 +142,113 @@ export function montar(raiz, ir) {
   }
 
   // ---------- exercício ----------
+  const cordasAtivas = () => (cordaSel < 0 ? [0, 1, 2, 3, 4, 5] : [cordaSel]);
+  const naCorda = () => (cordaSel >= 0 ? ' na corda ' + (cordaSel + 1) : '');
+
   function novoAlvo() {
-    const cordas = cordaSel < 0 ? [0, 1, 2, 3, 4, 5] : [cordaSel];
+    const cordas = cordasAtivas();
     alvo = sortearPosicao(cordas, alcance, alvo);
     travado = false;
+    erroNaRodada = false;
     limparPontos();
     feedback.textContent = '';
     feedback.className = 'feedback';
-    const nomeAlvo = nomeDaClasse(midiNaCasa(alvo.corda, alvo.casa));
+    nomes.hidden = modo !== 'nomear';
+    const pc = ((midiNaCasa(alvo.corda, alvo.casa) % 12) + 12) % 12;
+    const nomeAlvo = nomeDaClasse(pc);
+
     if (modo === 'achar') {
       pergunta.textContent = 'Onde está ' + nomeAlvo + '?' + (cordaSel >= 0 ? ' (corda ' + (cordaSel + 1) + ')' : '');
+    } else if (modo === 'nomear') {
+      // A casa é marcada com "?" — quem responde é o teclado de nomes.
+      pintar(alvo, 'alvo', '?');
+      pergunta.textContent = 'Que nota é esta?';
+    } else if (modo === 'tocar') {
+      // Nada é pintado e a posição não é dita: achar a nota no braço é o
+      // exercício. Vale qualquer posição daquela nota dentro das opções
+      // escolhidas — o microfone ouve a altura, não a corda.
+      aceitos = midisAceitos(pc, alcance, cordas);
+      pergunta.textContent = 'Toque ' + nomeAlvo + naCorda();
     } else {
-      pintar(alvo, 'alvo', nomeAlvo);
-      pergunta.textContent = 'Toque ' + nomeAlvo + ' (corda ' + (alvo.corda + 1) + ', ' + (alvo.casa === 0 ? 'solta' : 'casa ' + alvo.casa) + ')';
+      faltam = posicoesDaNota(pc, alcance).filter((p) => cordas.includes(p.corda));
+      pergunta.textContent = 'Toque todas as casas onde está ' + nomeAlvo + naCorda();
     }
-    placar.textContent = acertos + ' de ' + tentativas + ' · sequência ' + sequencia;
+    atualizarPlacar();
     pergunta.dataset.alvo = nomeAlvo;
+  }
+
+  function atualizarPlacar() {
+    const base = acertos + ' de ' + tentativas + ' · sequência ' + sequencia;
+    placar.textContent = modo === 'oitavas' && alvo
+      ? base + ' · faltam ' + faltam.length
+      : base;
   }
   function resultado(certo) {
     tentativas++;
     if (certo) { acertos++; sequencia++; } else sequencia = 0;
-    placar.textContent = acertos + ' de ' + tentativas + ' · sequência ' + sequencia;
+    atualizarPlacar();
+  }
+
+  // Resposta do teclado de nomes, no "Nomear".
+  function aoNome(pc) {
+    if (modo !== 'nomear' || travado || !alvo) return;
+    const certa = ((midiNaCasa(alvo.corda, alvo.casa) % 12) + 12) % 12;
+    travado = true;
+    if (pc === certa) {
+      pintar(alvo, 'certo', nomeDaClasse(certa));
+      feedback.textContent = '✓ Isso mesmo!';
+      feedback.className = 'feedback certo';
+      resultado(true);
+      setTimeout(() => { if (!encerrada) novoAlvo(); }, 900);
+    } else {
+      pintar(alvo, 'errado', nomeDaClasse(certa));
+      feedback.textContent = 'Era ' + nomeDaClasse(certa) + ', não ' + nomeDaClasse(pc) + '.';
+      feedback.className = 'feedback errado';
+      resultado(false);
+      setTimeout(() => { if (!encerrada) novoAlvo(); }, 2000);
+    }
+  }
+
+  // Toque na tela, nas "Oitavas": vai marcando as casas achadas até completar.
+  function aoToqueOitavas(corda, casa) {
+    const pc = ((midiNaCasa(alvo.corda, alvo.casa) % 12) + 12) % 12;
+    const clicada = ((midiNaCasa(corda, casa) % 12) + 12) % 12;
+    const i = faltam.findIndex((p) => p.corda === corda && p.casa === casa);
+    if (i >= 0) {
+      faltam.splice(i, 1);
+      pintar({ corda, casa }, 'certo', nomeDaClasse(pc));
+      if (!faltam.length) {
+        travado = true;
+        feedback.textContent = erroNaRodada ? 'Completou — mas com tropeços.' : '✓ Todas! O mapa de ' + nomeDaClasse(pc) + ' é esse.';
+        feedback.className = 'feedback ' + (erroNaRodada ? 'quase' : 'certo');
+        resultado(!erroNaRodada);
+        setTimeout(() => { if (!encerrada) novoAlvo(); }, 1600);
+        return;
+      }
+      feedback.textContent = '';
+      feedback.className = 'feedback';
+      atualizarPlacar();
+      return;
+    }
+    // Já marcada antes não conta como erro; casa errada, sim.
+    if (clicada === pc) return;
+    erroNaRodada = true;
+    pintar({ corda, casa }, 'errado', nomeDaClasse(clicada));
+    feedback.textContent = 'Aqui é ' + nomeDaClasse(clicada) + '. Procure ' + nomeDaClasse(pc) + '.';
+    feedback.className = 'feedback errado';
+    atualizarPlacar();
+    setTimeout(() => {
+      if (encerrada || travado) return;
+      const c = celulas[corda + ',' + casa];
+      if (c) { c.setAttribute('class', 'ponto'); c.parentNode.__t.textContent = ''; }
+      if (feedback.classList.contains('errado')) { feedback.textContent = ''; feedback.className = 'feedback'; }
+    }, 1400);
   }
 
   function aoToque(corda, casa) {
-    if (modo !== 'achar' || travado || casa > alcance || (cordaSel >= 0 && corda !== cordaSel)) return;
+    if (travado || !alvo || casa > alcance || (cordaSel >= 0 && corda !== cordaSel)) return;
+    if (modo === 'oitavas') { aoToqueOitavas(corda, casa); return; }
+    if (modo !== 'achar') return;
     const pc = ((midiNaCasa(alvo.corda, alvo.casa) % 12) + 12) % 12;
     const clicada = ((midiNaCasa(corda, casa) % 12) + 12) % 12;
     travado = true;
@@ -169,25 +274,34 @@ export function montar(raiz, ir) {
     if (!freq || travado) return;
     if (motor.ctx && motor.ctx.currentTime < motor.mudoAte) return;
     const r = notaMaisProxima(freq);
-    const alvoMidi = midiNaCasa(alvo.corda, alvo.casa);
+    const pcAlvo = ((midiNaCasa(alvo.corda, alvo.casa) % 12) + 12) % 12;
     if (r.midi === bloqueioMidi && performance.now() < bloqueioAte) return;
-    const v = julgar(alvoMidi, r.midi, r.cents);
+    // Vale qualquer posição da nota pedida dentro das opções escolhidas, em
+    // qualquer oitava: o aluno é quem decide onde tocá-la.
+    const v = julgar(aceitos, r.midi, r.cents);
     const n = nomeDoMidi(r.midi);
+    const ondeToquei = posicoesDoMidi(r.midi, alcance).filter((p) => cordaSel < 0 || p.corda === cordaSel);
     if (v === 'certo') {
       travado = true;
-      bloqueioMidi = alvoMidi; bloqueioAte = performance.now() + 3000;
-      pintar(alvo, 'certo', n.pt);
-      feedback.textContent = '✓ ' + n.pt + n.oitava + ' certinho!';
+      bloqueioMidi = r.midi; bloqueioAte = performance.now() + 3000;
+      // Só agora o braço revela onde a nota estava. Como a mesma altura cabe
+      // em mais de uma corda, acendem todas as casas que soam esse som.
+      ondeToquei.forEach((p) => pintar(p, 'certo', n.pt));
+      feedback.textContent = '✓ ' + n.pt + n.oitava + ' certinho!'
+        + (ondeToquei.length > 1 ? ' (acende em mais de uma corda porque soam igual)' : '');
       feedback.className = 'feedback certo';
       resultado(true);
-      setTimeout(() => { if (!encerrada) novoAlvo(); }, 1200);
+      setTimeout(() => { if (!encerrada) novoAlvo(); }, 1400);
     } else if (v === 'quase') {
-      pintar(alvo, 'quase', n.pt);
+      ondeToquei.forEach((p) => pintar(p, 'quase', n.pt));
       feedback.textContent = 'Quase! ' + (r.cents > 0 ? 'Um pouco aguda' : 'Um pouco grave') + ' — ajuste.';
       feedback.className = 'feedback quase';
     } else {
-      pintar(alvo, 'errado', n.pt);
-      feedback.textContent = 'Você tocou ' + n.pt + n.oitava + '. Procure ' + nomeDaClasse(alvoMidi) + '.';
+      // Errou: mostra onde ele tocou e, em amarelo, onde a nota pedida está.
+      ondeToquei.forEach((p) => pintar(p, 'errado', n.pt));
+      posicoesDaNota(pcAlvo, alcance).filter((p) => cordaSel < 0 || p.corda === cordaSel)
+        .forEach((p) => pintar(p, 'quase', nomeDaClasse(pcAlvo)));
+      feedback.textContent = 'Você tocou ' + n.pt + n.oitava + '. ' + nomeDaClasse(pcAlvo) + ' está em amarelo.';
       feedback.className = 'feedback errado';
     }
   }
@@ -195,7 +309,8 @@ export function montar(raiz, ir) {
   // ---------- controles ----------
   function chips() {
     chipsModo.innerHTML = '';
-    [['achar', 'Achar a nota'], ['tocar', 'Tocar a nota']].forEach(([id, nome]) => {
+    [['achar', 'Achar a nota'], ['nomear', 'Nomear a casa'],
+     ['tocar', 'Tocar a nota'], ['oitavas', 'Todas as posições']].forEach(([id, nome]) => {
       const b = el('button', 'chip', nome);
       b.setAttribute('aria-pressed', String(id === modo));
       b.onclick = async () => {
@@ -247,7 +362,7 @@ export function montar(raiz, ir) {
     const m = await Config.obter('braco.modo', 'achar');
     const a = await Config.obter('braco.alcance', 5);
     if (encerrada) return;
-    modo = m === 'tocar' ? 'tocar' : 'achar';
+    modo = ['achar', 'nomear', 'tocar', 'oitavas'].includes(m) ? m : 'achar';
     alcance = [0, 5, 12].includes(a) ? a : 5;
     botMic.hidden = modo !== 'tocar';
     chips(); desenhar(); novoAlvo();
