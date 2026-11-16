@@ -1,0 +1,33 @@
+MIT License
+
+Copyright (c) 2026 Rafael (github.com/raafaelr)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR OTHER DEALINGS IN THE SOFTWARE.
+
+---
+
+ESTA LICENÇA COBRE SÓ O CÓDIGO DESTE REPOSITÓRIO.
+
+Bibliotecas de terceiros em js/vendor/ têm licença própria e continuam valendo:
+pdf.js (Apache-2.0) e AlphaTab (MPL-2.0). Os ícones da interface são Tabler
+Icons, © Paweł Kuna, MIT (veja js/icones.js).
+
+O conteúdo do curso (textos das aulas, exercícios, diagramas) também é coberto
+por esta licença, porque é código deste repositório. O repertório aponta para
+obras em domínio público e para edições licenciadas de terceiros: nenhuma
+partitura ou gravação protegida está aqui, e nada disso é licenciado por mim.

@@ -33,6 +33,17 @@ const EXTENSOES = new Set(['.html', '.css', '.js', '.mjs', '.woff2', '.svg', '.p
 // Arquivos soltos que não fazem parte do app.
 const ARQUIVOS_FORA = new Set(['sw.js', 'package.json', 'package-lock.json', 'capacitor.config.json']);
 
+// PESADOS E POUCO USADOS: ficam no cache SOB DEMANDA, não na instalação.
+//
+// js/vendor tem 2,6 MB — metade do app — e serve a uma tela só, a de importar
+// partitura. Quem nunca importa nada baixava isso à toa na primeira abertura.
+// Agora o service worker guarda esses arquivos na primeira vez que a tela de
+// importar os pede; da segunda em diante funcionam offline como todo o resto.
+// O preço é honesto e está dito na própria tela: a PRIMEIRA importação precisa
+// de internet. Eles continuam entrando no cálculo da versão — mudou a
+// biblioteca, muda a versão do app.
+const SOB_DEMANDA = (rel) => rel.startsWith('js/vendor/');
+
 function varrer(dir, achados = []) {
   for (const nome of readdirSync(dir).sort()) {
     const caminho = join(dir, nome);
@@ -72,7 +83,8 @@ const versao = 'llmusic-' + impressaoDigital(arquivos);
 
 // index.html é o que o navegador pede quando você abre o app pela raiz,
 // por isso './' entra na lista além do próprio arquivo.
-const lista = ['./', ...arquivos.map((r) => './' + r)];
+const lista = ['./', ...arquivos.filter((r) => !SOB_DEMANDA(r)).map((r) => './' + r)];
+const listaDemanda = arquivos.filter(SOB_DEMANDA).map((r) => './' + r);
 
 const conteudo = `// Service worker: é o que faz o app funcionar sem internet.
 // Na primeira visita ele guarda todos os arquivos abaixo no celular (o "cache").
@@ -83,12 +95,20 @@ const conteudo = `// Service worker: é o que faz o app funcionar sem internet.
 // A versão abaixo é a impressão digital do conteúdo: mudou um byte, muda ela,
 // e o celular troca o cache velho pelo novo sozinho.
 //
-// Arquivos no cache: ${lista.length}
+// Arquivos no cache: ${lista.length} na instalação + ${listaDemanda.length} sob demanda
 const VERSAO = '${versao}';
 
 const ARQUIVOS = [
 ${lista.map((a) => "  '" + a + "'").join(',\n')}
 ];
+
+// Estes NÃO são baixados na instalação: são pesados e servem só à tela de
+// importar partitura. O service worker guarda cada um na primeira vez que ele
+// é pedido de verdade. Por isso a primeira importação precisa de internet.
+const SOB_DEMANDA = [
+${listaDemanda.map((a) => "  '" + a + "'").join(',\n')}
+];
+const ehSobDemanda = (url) => SOB_DEMANDA.some((a) => url.endsWith(a.slice(1)));
 
 self.addEventListener('install', (evento) => {
   evento.waitUntil(
@@ -112,7 +132,16 @@ self.addEventListener('fetch', (evento) => {
   evento.respondWith(
     caches.match(evento.request, { ignoreSearch: true }).then((guardado) => {
       if (guardado) return guardado;
-      return fetch(evento.request).catch(() => {
+      return fetch(evento.request).then((resposta) => {
+        // Guarda os pesados na primeira vez que forem realmente usados, para
+        // a segunda importação já funcionar offline. Só o que veio inteiro e
+        // sem erro: meia biblioteca no cache é pior do que nenhuma.
+        if (resposta && resposta.ok && ehSobDemanda(evento.request.url)) {
+          const copia = resposta.clone();
+          caches.open(VERSAO).then((cache) => cache.put(evento.request, copia)).catch(() => {});
+        }
+        return resposta;
+      }).catch(() => {
         if (evento.request.mode === 'navigate') return caches.match('./index.html');
         return Response.error();
       });

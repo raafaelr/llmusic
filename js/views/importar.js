@@ -83,7 +83,28 @@ export function montar(raiz, ir, arg) {
       faixa.append(busca);
       intro.append(faixa);
     }
-    intro.append(el('p', 'dica', 'Escolha um arquivo e o app converte para a tela Partituras, onde você ouve e toca junto. Tudo é feito no seu celular, sem internet.'));
+    intro.append(el('p', 'dica', 'Escolha um arquivo e o app converte para a tela Partituras, onde você ouve e toca junto. A conversão é feita no seu celular: o arquivo não sai daqui.'));
+    // As bibliotecas que leem PDF e Guitar Pro pesam 2,5 MB e só servem a esta
+    // tela — por isso não vêm na instalação do app. Dizer isso aqui é o preço
+    // honesto da economia: quem está no modo avião precisa saber ANTES de
+    // tentar, e não descobrir com um erro.
+    const avisoRede = el('p', 'dica', '');
+    avisoRede.setAttribute('aria-live', 'polite');
+    intro.append(avisoRede);
+    (async () => {
+      // Pergunto ao cache, não ao acaso: se as bibliotecas já estão guardadas,
+      // não há aviso nenhum a dar.
+      let guardadas = false;
+      try {
+        const c = await caches.match('./js/vendor/pdf.min.js', { ignoreSearch: true });
+        guardadas = !!c;
+      } catch { guardadas = false; }
+      if (encerrada || guardadas) return;
+      avisoRede.textContent = navigator.onLine
+        ? 'A primeira leitura de PDF ou Guitar Pro baixa 2,5 MB de bibliotecas. Depois disso funciona offline.'
+        : 'Você está sem internet e as bibliotecas de PDF e Guitar Pro ainda não foram baixadas. Texto colado e .txt funcionam; PDF e Guitar Pro só na próxima vez que houver rede.';
+      avisoRede.className = 'dica ' + (navigator.onLine ? '' : 'status-ruim');
+    })().catch(() => {});
     const lista = el('ul', 'lista-bloco');
     [
       // Na ordem do que funciona melhor. O caso que mais frustra — PDF de

@@ -7,8 +7,8 @@
 // A versão abaixo é a impressão digital do conteúdo: mudou um byte, muda ela,
 // e o celular troca o cache velho pelo novo sozinho.
 //
-// Arquivos no cache: 128
-const VERSAO = 'llmusic-398954df8c46';
+// Arquivos no cache: 125 na instalação + 3 sob demanda
+const VERSAO = 'llmusic-1c2b4049fa73';
 
 const ARQUIVOS = [
   './',
@@ -104,9 +104,6 @@ const ARQUIVOS = [
   './js/tema.js',
   './js/teoria.js',
   './js/tuner.js',
-  './js/vendor/alphaTab.core.min.mjs',
-  './js/vendor/pdf.min.js',
-  './js/vendor/pdf.worker.min.js',
   './js/versao.js',
   './js/views/afinador.js',
   './js/views/atualizar.js',
@@ -141,6 +138,16 @@ const ARQUIVOS = [
   './versao.json'
 ];
 
+// Estes NÃO são baixados na instalação: são pesados e servem só à tela de
+// importar partitura. O service worker guarda cada um na primeira vez que ele
+// é pedido de verdade. Por isso a primeira importação precisa de internet.
+const SOB_DEMANDA = [
+  './js/vendor/alphaTab.core.min.mjs',
+  './js/vendor/pdf.min.js',
+  './js/vendor/pdf.worker.min.js'
+];
+const ehSobDemanda = (url) => SOB_DEMANDA.some((a) => url.endsWith(a.slice(1)));
+
 self.addEventListener('install', (evento) => {
   evento.waitUntil(
     caches.open(VERSAO)
@@ -163,7 +170,16 @@ self.addEventListener('fetch', (evento) => {
   evento.respondWith(
     caches.match(evento.request, { ignoreSearch: true }).then((guardado) => {
       if (guardado) return guardado;
-      return fetch(evento.request).catch(() => {
+      return fetch(evento.request).then((resposta) => {
+        // Guarda os pesados na primeira vez que forem realmente usados, para
+        // a segunda importação já funcionar offline. Só o que veio inteiro e
+        // sem erro: meia biblioteca no cache é pior do que nenhuma.
+        if (resposta && resposta.ok && ehSobDemanda(evento.request.url)) {
+          const copia = resposta.clone();
+          caches.open(VERSAO).then((cache) => cache.put(evento.request, copia)).catch(() => {});
+        }
+        return resposta;
+      }).catch(() => {
         if (evento.request.mode === 'navigate') return caches.match('./index.html');
         return Response.error();
       });

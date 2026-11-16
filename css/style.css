@@ -493,11 +493,17 @@ input[type=range] { width: 100%; height: 44px; accent-color: var(--destaque); ba
 .nota-g.atual .cabeca { fill: var(--destaque); stroke: var(--destaque); stroke-width: 6; }
 .nota-g.atual .haste { stroke: var(--destaque); }
 .nome-nota { font-size: 22px; font-weight: 700; fill: var(--suave); }
-.notas-botoes { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+/* Sete notas numa fila só não cabem num celular: medido, davam 42px a 360px de
+   largura e 31px a 320px, contra os 44px mínimos que o resto do app respeita.
+   Sete colunas de 44 com os vãos pedem 344px, e só há 328 úteis. Então duas
+   linhas: 4 + 3. A ordem Dó–Si continua a mesma, só quebra no meio. */
+.notas-botoes { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
 .acidente { font-size: 34px; font-weight: 700; fill: var(--texto); font-family: Georgia, serif; }
 .nota-g.ok .acidente { fill: var(--ok); } .nota-g.erro .acidente { fill: var(--ruim); } .nota-g.atual .acidente { fill: var(--destaque); }
 .nota-btn.acid { display: none; font-size: 22px; }
-.notas-botoes.com-acid { grid-template-columns: repeat(7, 1fr) 0.8fr 0.8fr; }
+/* Com sustenido e bemol são nove botões: cinco colunas dão 5 + 4, ainda acima
+   dos 44px, e evitam uma terceira linha quase vazia. */
+.notas-botoes.com-acid { grid-template-columns: repeat(5, 1fr); }
 .notas-botoes.com-acid .acid { display: block; }
 .nota-btn.acid[aria-pressed="true"] { background: var(--destaque); color: var(--sobre-destaque); border-color: var(--destaque); }
 .nota-btn { min-height: 60px; font-family: var(--fonte); font-size: 18px; font-weight: 700; }
