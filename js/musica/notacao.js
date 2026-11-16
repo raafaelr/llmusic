@@ -152,11 +152,11 @@ function ganchos(g, x, yFim, paraCima, fig) {
 //     nota  = { midi, fig, ponto, acc, dedo, texto, classe, ligar }
 //     pausa = { pausa: 'seminima', ponto }
 //     acorde (várias notas juntas) = { midis: [60,64,67], fig, ... }
-//   clave, armadura, formula, nomes, largura, rotulo, oitavaAbaixo, aoClicar(i)
+//   clave, armadura, formula, nomes, largura, rotulo, oitavaAbaixo, aoClicar(i), rotuloClique(n, i)
 export function desenharPauta(svg, opcoes = {}) {
   const {
     compassos = [], armadura = 0, formula = [4, 4], nomes = false, dedos = false,
-    largura = 1000, oitavaAbaixo = false, numerar = false, aoClicar = null,
+    largura = 1000, oitavaAbaixo = false, numerar = false, aoClicar = null, rotuloClique = null,
     semClave = false, quebrar = 0
   } = opcoes;
 
@@ -209,7 +209,7 @@ export function desenharPauta(svg, opcoes = {}) {
     let cx = x0;
     grupo.forEach((comp, ci) => {
       const larg = (xFim - x0) * (pesos[ci] / total);
-      desenharCompasso(g, comp, cx, larg, { armadura, nomes, dedos, numerar, numero, aoClicar, yNomes, desenhadas });
+      desenharCompasso(g, comp, cx, larg, { armadura, nomes, dedos, numerar, numero, aoClicar, rotuloClique, yNomes, desenhadas });
       numero++;
       cx += larg;
       const ultimo = li === linhas.length - 1 && ci === grupo.length - 1;
@@ -309,6 +309,21 @@ function desenharCompasso(pai, comp, x0, largura, cfg) {
     direcao.set(e.i, media < 4);
   });
 
+  // Os alvos de toque das notas, quando existem, são ladrilhados: cada um vai
+  // até o meio do caminho para a nota vizinha. Medindo numa aula real, duas
+  // notas vizinhas chegam a ficar a 12px uma da outra na tela do celular, e um
+  // alvo de largura fixa SE SOBREPÕE ao do vizinho — tocar numa nota abria a
+  // outra. Assim nenhum toque se perde e nenhum vai para a nota errada.
+  // O limite de 34 evita que uma nota sozinha fique com um alvo enorme.
+  const limiteAlvo = (i) => {
+    const x = evs[i].x;
+    const ant = i > 0 ? evs[i - 1].x : null;
+    const prox = i < evs.length - 1 ? evs[i + 1].x : null;
+    const esq = ant === null ? 34 : Math.min(34, (x - ant) / 2);
+    const dir = prox === null ? 34 : Math.min(34, (prox - x) / 2);
+    return { esq, dir };
+  };
+
   // ---- 3ª passada: desenhar ----
   evs.forEach((e) => {
     const { n, i, x } = e;
@@ -363,8 +378,22 @@ function desenharCompasso(pai, comp, x0, largura, cfg) {
     }
     if (n.texto) rotulo(g, x, n.texto, cfg.yNomes + (cfg.nomes ? 20 : 0));
     if (cfg.aoClicar) {
-      const r = sv('rect', { x: x - 22, y: Y_TOPO - 24, width: 32, height: (Y_BASE - Y_TOPO) + 48, class: 'toque' }, g);
+      // Alvo invisível em cima da nota. Largura 32 e não 44: as notas de um
+      // compasso ficam perto umas das outras, e alvo grande demais faria uma
+      // roubar o toque da outra — o que é pior do que um alvo justo.
+      const lim = limiteAlvo(i);
+      const r = sv('rect', {
+        x: x - lim.esq, y: Y_TOPO - 24,
+        width: lim.esq + lim.dir, height: (Y_BASE - Y_TOPO) + 48, class: 'toque'
+      }, g);
+      // Clicável também pelo teclado, senão só quem usa o dedo alcança.
+      r.setAttribute('tabindex', '0');
+      r.setAttribute('role', 'button');
+      if (cfg.rotuloClique) r.setAttribute('aria-label', cfg.rotuloClique(n, i));
       r.onclick = () => cfg.aoClicar(i, n);
+      r.onkeydown = (ev) => {
+        if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); cfg.aoClicar(i, n); }
+      };
     }
   });
 

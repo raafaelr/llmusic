@@ -159,14 +159,12 @@ recursos corporativos e infraestrutura de escala.
 
 ## O que falta, em ordem de valor
 
-1. **Clicar numa nota e ver a posição dela no braço.** O braço já existe e já
-   é reutilizável; é ligar os dois.
-2. **Anotações pessoais na partitura.** Combina com os trechos difíceis, que
+1. **Anotações pessoais na partitura.** Combina com os trechos difíceis, que
    já são guardados por peça.
-3. **Conquistas e certificados por nível.** As provas já guardam resultado.
-4. **Zoom e volume na tela de partituras.**
-5. **Dedilhado da mão direita nos dados das peças.**
-6. **Explicação de símbolo ao tocar nele na partitura.**
+2. **Conquistas e certificados por nível.** As provas já guardam resultado.
+3. **Zoom e volume na tela de partituras.**
+4. **Dedilhado da mão direita nos dados das peças.**
+5. **Explicação de símbolo ao tocar nele na partitura.**
 
 ## O que nunca vai existir, e por quê
 

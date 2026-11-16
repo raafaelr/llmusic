@@ -18,6 +18,7 @@ import { criarBraco } from '../bracosvg.js';
 import { Metronomo, andamento } from '../metronome.js';
 import { Afinador } from '../tuner.js';
 import { notaMaisProxima, nomeDoMidi } from '../pitch.js';
+import { posicoesDoMidi } from '../braco.js';
 import { comecarPratica, pararPratica } from '../pratica.js';
 import { botaoIcone } from '../icones.js';
 
@@ -59,6 +60,10 @@ export function criarRenderizador(ctx = {}) {
   let mic = null;
   let aoOuvir = null;
   let contando = false;
+  // A dica "toque numa nota" só aparece na primeira pauta da tela. Repetida em
+  // cada uma das cinco ou seis pautas de uma aula, ela vira ruído e some da
+  // vista justamente por estar em todo lugar.
+  let pistaDada = false;
 
   function contarTempo() { if (!contando) { contando = true; comecarPratica(); } }
 
@@ -106,6 +111,55 @@ export function criarRenderizador(ctx = {}) {
       nomes: !!b.nomes, dedos: !!b.dedos, oitavaAbaixo: b.oitavaAbaixo !== false,
       numerar: !!b.numerar, quebrar: b.quebrar || 0, semClave: !!b.semClave
     };
+    // Tocar numa nota da pauta mostra ONDE ela fica no braço. É a ponte que
+    // faltava entre ler e tocar: quem está começando sabe o nome da nota e
+    // ainda assim não sabe onde pôr o dedo, e essa dúvida trava a leitura
+    // inteira. O braço é o mesmo componente das outras telas.
+    const ondeFica = el('div', 'pauta-onde');
+    ondeFica.hidden = true;
+    const legendaOnde = el('p', 'dica pauta-onde-txt', '');
+    legendaOnde.setAttribute('aria-live', 'polite');
+    const svgBraco = svgNovo('braco-svg', 'Onde a nota fica no braço');
+    // O braço de 12 casas tem 620px de largura mínima e não cabe num celular.
+    // Dentro da própria figura ele já rolaria, mas junto com a pauta: para ver
+    // a casa 10 você perderia a nota de vista. Numa caixa própria, cada um rola
+    // por si. E a posição mais grave fica à esquerda, que é onde a rolagem
+    // começa — justamente a que quase sempre se quer.
+    const rolaBraco = el('div', 'rola-h');
+    rolaBraco.append(svgBraco);
+    ondeFica.append(legendaOnde, rolaBraco);
+    let abertaEm = -1;
+
+    const soando = (n) => (n.midis || [n.midi]).filter((m) => m !== undefined).map(soaComoEscrito);
+
+    opc.rotuloClique = (n) => (n.pausa ? 'Pausa' : 'Ver no braço: '
+      + soando(n).map((m) => nomeDaNota(m + 12, opc.armadura)).join(' com '));
+
+    opc.aoClicar = (i, n) => {
+      svg.querySelectorAll('.nota-g.tocada').forEach((g) => g.classList.remove('tocada'));
+      // Tocar de novo na mesma nota fecha: sem isso não há como desfazer.
+      if (abertaEm === i || n.pausa) { ondeFica.hidden = true; abertaEm = -1; return; }
+      abertaEm = i;
+      const midis = soando(n);
+      if (!midis.length) { ondeFica.hidden = true; abertaEm = -1; return; }
+      const alvo = svg.querySelector('.nota-g[data-i="' + i + '"]');
+      if (alvo) alvo.classList.add('tocada');
+      svgBraco.innerHTML = '';
+      const br = criarBraco(svgBraco, { casas: 12 });
+      const partes = midis.map((m) => {
+        // O nome vem da pauta (midi escrito), as posições do som real.
+        const nome = nomeDaNota(m + 12, opc.armadura);
+        const pos = posicoesDoMidi(m, 12);
+        pos.forEach((p) => br.ponto(p.corda + 1, p.casa, 'raiz', nome));
+        if (!pos.length) return nome + ': fora das 12 primeiras casas';
+        return nome + ': ' + pos.map((p) => (p.casa === 0
+          ? (p.corda + 1) + 'ª corda solta'
+          : (p.corda + 1) + 'ª corda, casa ' + p.casa)).join(' · ');
+      });
+      legendaOnde.textContent = partes.join(' | ');
+      ondeFica.hidden = false;
+    };
+
     desenharPauta(svg, opc);
     let botoes = null;
     if (b.tocar !== false) {
@@ -135,7 +189,14 @@ export function criarRenderizador(ctx = {}) {
       botoes.append(bt);
       if (b.bpm) botoes.append(el('span', 'bloco-bpm', b.bpm + ' BPM'));
     }
-    return figura(svg, b.legenda, botoes);
+    const extra = el('div', 'pauta-extra');
+    if (botoes) extra.append(botoes);
+    if (!pistaDada) {
+      extra.append(el('p', 'dica pauta-pista', 'Toque numa nota para ver onde ela fica no braço.'));
+      pistaDada = true;
+    }
+    extra.append(ondeFica);
+    return figura(svg, b.legenda, extra);
   }
 
   // -------------------------------------------------------------------------

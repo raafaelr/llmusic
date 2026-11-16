@@ -807,6 +807,21 @@ input[type=range] { width: 100%; height: 44px; accent-color: var(--destaque); ba
 .pauta-svg .nota-g.ok .cabeca { fill: var(--ok); }
 .pauta-svg .nota-g.erro .cabeca { fill: var(--ruim); }
 .pauta-svg .toque { fill: transparent; cursor: pointer; }
+/* O alvo é invisível, então o foco do teclado precisa aparecer de algum jeito:
+   sem isto, quem navega por Tab não faz ideia de onde está. */
+.toque:focus-visible { fill: var(--destaque); fill-opacity: 0.18; outline: 2px solid var(--destaque); }
+/* A nota aberta fica marcada, senão não dá para saber qual delas o braço está
+   mostrando — principalmente depois de rolar a tela. */
+.nota-g.tocada .cabeca { fill: var(--destaque); stroke: var(--destaque); }
+.nota-g.tocada .haste { stroke: var(--destaque); }
+.pauta-extra { display: flex; flex-direction: column; gap: 8px; }
+.pauta-pista { margin: 0; font-style: italic; }
+.pauta-onde { display: flex; flex-direction: column; gap: 6px; }
+/* A caixa do braço tem de respeitar a largura da tela, e não a da figura, que
+   é larga porque a pauta rola dentro dela. */
+.pauta-onde .rola-h { max-width: 100vw; }
+.pauta-onde .braco-svg { min-width: 620px; }
+.pauta-onde-txt { margin: 0; font-weight: 700; color: var(--texto); }
 
 /* ---------- Diagramas didáticos (js/musica/diagramas.js) ---------- */
 .diag-acorde, .diag-violao, .diag-mao, .diag-postura, .diag-figuras, .diag-compasso, .diag-regua {
@@ -984,7 +999,11 @@ input[type=range] { width: 100%; height: 44px; accent-color: var(--destaque); ba
 .selo-aula.planejado { background: transparent; border: 1px dashed var(--linha); }
 .aula-objetivo { font-size: 14.5px; line-height: 1.5; background: var(--superficie-2); padding: 10px 12px; border-radius: var(--r-sm); }
 .aula-prereq { font-size: 13.5px; color: var(--suave); margin-top: 8px; }
-.link-aula { background: none; border: 0; padding: 0; color: var(--destaque); text-decoration: underline; font: inherit; }
+/* padding-inline em vez de padding: o link vive no meio de uma frase, então
+   alargar só na horizontal leva o alvo de 36px para acima de 44 sem empurrar
+   as linhas do texto. A margem negativa devolve o espaço visual, para a frase
+   continuar com o espaçamento normal entre as palavras. */
+.link-aula { background: none; border: 0; padding: 0 7px; margin: 0 -7px; color: var(--destaque); text-decoration: underline; font: inherit; }
 .aula-corpo > * { margin-bottom: 16px; }
 .texto-bloco { font-size: 16px; line-height: 1.6; }
 /* Título de seção dentro de uma aula: Cormorant, caixa normal, com um filete
