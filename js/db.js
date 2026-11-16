@@ -102,6 +102,11 @@ async function lerTudo(loja) {
 export const CHAVES_PRIVADAS = ['sinc.token', 'sinc.carimbos', 'sinc.sha', 'sinc.em'];
 const C_CARIMBOS = 'sinc.carimbos';
 
+// Onde a rede de erro (js/main.js) guarda os cinco últimos erros, para a tela
+// "Atualizar e backup" mostrar. A chave mora aqui, e não em main.js, porque
+// main.js importa as telas: a tela importar de volta de main.js faria ciclo.
+export const C_ERROS = 'erros.recentes';
+
 export const Config = {
   async obter(chave, padrao) {
     const v = await ler('config', chave);

@@ -9,7 +9,7 @@
 // instalação passa por cima. Mas a lição fica: o backup vem ANTES da
 // atualização nesta tela, e não depois.
 import { VERSAO_APP, ARQUIVOS_APP } from '../versao.js';
-import { Backup, Config } from '../db.js';
+import { Backup, Config, C_ERROS } from '../db.js';
 import { icone, botaoIcone } from '../icones.js';
 import { nativo, salvarNoCelular, compartilharArquivo, PASTA, CAMINHO_HUMANO } from '../nativo.js';
 import { conectar, sincronizar, desconectar as desconectarSinc, estado as estadoSinc } from '../sinc.js';
@@ -371,6 +371,35 @@ export function montar(raiz, ir) {
   secI.append(tab);
   tela.append(secI);
 
+  // ================================================ 4. erros recentes do app
+  //
+  // A barra vermelha avisa na hora, mas quem está estudando fecha o aviso e
+  // esquece. Aqui ficam os cinco últimos, com data, para dar o que contar
+  // quando alguma tela der problema. Só aparece se houver algo.
+  const secE = el('section', 'grupo');
+  secE.hidden = true;
+  secE.append(el('h2', 'rotulo-grupo titulo-bloco', 'Erros recentes do app'));
+  const listaE = el('div', 'tabela-simples');
+  const btLimparE = el('button', 'botao-sec', 'Limpar a lista');
+  secE.append(listaE, btLimparE);
+  tela.append(secE);
+
+  async function mostrarErros() {
+    const erros = await Config.obter(C_ERROS, []);
+    if (encerrada) return;
+    secE.hidden = !erros.length;
+    listaE.innerHTML = '';
+    erros.forEach((e) => {
+      const l = el('div', 'tabela-linha');
+      const d = Date.parse(e.em);
+      l.append(el('span', '', Number.isNaN(d) ? '—' : new Date(d).toLocaleString('pt-BR')));
+      l.append(el('strong', 'perigo', e.texto));
+      listaE.append(l);
+    });
+  }
+  btLimparE.onclick = async () => { await Config.guardar(C_ERROS, []); mostrarErros(); };
+
+  mostrarErros().catch(() => {});
   mostrarEstadoBackup().catch(() => {});
   talvezProcurar().catch(() => {});
 

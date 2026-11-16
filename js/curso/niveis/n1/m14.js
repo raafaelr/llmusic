@@ -66,6 +66,16 @@ export const M14 = {
         { t: 'h', x: 'O teste do volume parelho' },
         { t: 'p', x: 'Grave-se tocando as seis cordas, uma de cada vez, com a mesma intenção. Escute depois. É quase certo que a 1ª corda saiu fraca e a 6ª saiu estourada. Isso acontece com todo mundo no começo: a corda grave tem mais massa e responde mais.' },
         { t: 'p', x: 'A correção é simples e leva tempo: toque *mais forte na 1ª e mais leve na 6ª*, até o volume ficar igual. Treinar isso agora evita um problema que atrapalha muito quando você começar a tocar melodia e acompanhamento ao mesmo tempo.' },
+        // Aqui a fixação é por sintoma, não por definição: na prática o que
+        // acontece é você ouvir um som ruim e precisar descobrir a causa.
+        { t: 'exercicio', tipo: 'perguntas', titulo: 'Fixação: diagnosticar o som', rodadas: 6, perguntas: [
+          { texto: 'A nota sai com um zumbido metálico, como se a corda batesse em algo. Causa mais provável?', opcoes: ['A corda foi puxada para cima, afastando do tampo', 'A unha está comprida', 'A mão esquerda apertou pouco', 'O violão está desafinado'], correta: 0, explicacao: 'Puxada para cima, a corda vibra batendo nos trastes. Empurre levemente para dentro.' },
+          { texto: 'Cada ataque vem com um clique seco antes do som. O que investigar?', opcoes: ['A unha sem lixar ou o ângulo do dedo', 'A pressão da mão esquerda', 'A altura da cadeira', 'O andamento do metrônomo'], correta: 0, explicacao: 'A unha engancha em vez de deixar a corda escapar.' },
+          { texto: 'O som sai fino e de raspão. O que costuma estar errado?', opcoes: ['O dedo está esticado, em vez de curvado', 'O dedo está curvado demais', 'A corda está nova', 'O punho está alto'], correta: 0, explicacao: 'A corda precisa encontrar a polpa antes da unha, e para isso o dedo tem de estar em arco.' },
+          { texto: 'A nota morre pouco depois de soar, sem você querer. Por quê?', opcoes: ['Algum dedo encostou na corda depois do toque', 'O violão é pequeno', 'A corda está afinada baixo', 'O volume foi fraco'], correta: 0, explicacao: 'Qualquer contato com a corda vibrando abafa. O dedo deve recolher para dentro da mão, longe dela.' },
+          { texto: 'Em que direção o dedo empurra a corda?', opcoes: ['Levemente para dentro, na direção do tampo', 'Para cima, afastando do tampo', 'Para o lado, na direção da corda vizinha', 'Na direção da pestana'], correta: 0, explicacao: 'Assim a corda vibra paralela ao tampo e o som sai cheio e redondo.' },
+          { texto: 'Gravando as seis cordas, a 1ª saiu fraca e a 6ª estourada. O que fazer?', opcoes: ['Tocar mais forte na 1ª e mais leve na 6ª', 'Trocar as cordas', 'Afinar o violão mais alto', 'Aceitar: é característica do instrumento'], correta: 0, explicacao: 'A corda grave tem mais massa e responde mais. Igualar o volume é trabalho de quem toca.' }
+        ] },
         {
           t: 'erros', itens: [
             { erro: 'Tocar com o dedo esticado.', certo: 'Dedo curvado. A corda precisa encontrar a polpa antes da unha.' },
@@ -163,6 +173,14 @@ export const M14 = {
           rotulo: 'Tocar p-i-m-a',
           x: 'Um baixo e três agudas, uma de cada vez, devagar.'
         },
+        { t: 'exercicio', tipo: 'perguntas', titulo: 'Fixação: o polegar', rodadas: 6, perguntas: [
+          { texto: 'O polegar se move a partir de onde?', opcoes: ['Da junta da base, no meio da mão', 'Da ponta do dedo', 'Do punho', 'Do ombro'], correta: 0, explicacao: 'Ele não se dobra como os outros dedos: por isso o movimento vem de tão longe.' },
+          { texto: 'Que parte do polegar encosta na corda?', opcoes: ['A lateral, do lado da unha', 'A ponta', 'A polpa inteira, de frente', 'A articulação'], correta: 0, explicacao: 'A lateral dá mais som com menos esforço.' },
+          { texto: 'No toque com apoio, o polegar termina...', opcoes: ['Pousado na corda seguinte', 'No ar, acima das cordas', 'Encostado no tampo', 'De volta na mesma corda'], correta: 0, explicacao: 'Esse apoio é o que dá o som cheio do baixo. Sem apoio, ele passa por cima.' },
+          { texto: 'Enquanto o polegar toca, os dedos i, m e a devem...', opcoes: ['Ficar parados e prontos sobre as cordas', 'Fechar junto, acompanhando', 'Apoiar no tampo', 'Se afastar das cordas'], correta: 0, explicacao: 'Essa independência é justamente o que o exercício treina.' },
+          { texto: 'Toda vez que você toca o baixo, a mão inteira se desloca. O que corrigir?', opcoes: ['Isolar o movimento no polegar e manter a mão como plataforma parada', 'Apertar mais com o polegar', 'Mudar o ângulo do violão', 'Tocar mais devagar e aceitar o movimento'], correta: 0, explicacao: 'Se a mão vai junto, os outros dedos perdem a referência da corda e o arpejo falha.' },
+          { texto: 'O baixo está tão forte que cobre a melodia. Qual é o critério?', opcoes: ['O baixo sustenta, não domina: procure equilíbrio', 'O baixo deve sempre ser o mais forte', 'Nunca se deve ouvir o baixo', 'Depende só do volume do ambiente'], correta: 0, explicacao: 'Quem tem mais força de mão costuma errar para esse lado, porque o polegar é o dedo mais forte.' }
+        ] },
         {
           t: 'erros', itens: [
             { erro: 'Mover a mão inteira junto com o polegar.', certo: 'Só o polegar se move. A mão fica parada, como uma plataforma.' },
@@ -249,6 +267,14 @@ export const M14 = {
           rotulo: 'Seis toques alternados na 1ª corda',
           x: 'Alterne i e m na 1ª corda solta. O app conta os ataques; você cuida de manter o volume igual.'
         },
+        { t: 'exercicio', tipo: 'perguntas', titulo: 'Fixação: alternância i–m', rodadas: 6, perguntas: [
+          { texto: 'Por que alternar dois dedos deixa a execução mais rápida?', opcoes: ['Enquanto um dedo toca, o outro já está voltando à corda', 'Porque dois dedos têm mais força', 'Porque o movimento fica menor', 'Porque cansa menos o punho'], correta: 0, explicacao: 'Com um dedo só, a velocidade máxima é a velocidade do retorno dele.' },
+          { texto: 'A melodia tem Si, Si, Dó. Que dedos usar nas duas primeiras notas?', opcoes: ['i e depois m', 'i nas duas', 'm nas duas', 'p e depois i'], correta: 0, explicacao: 'A alternância vale também quando a nota se repete. É aí que quase todo mundo escorrega.' },
+          { texto: 'Sua escala sai com um "TUM-tum-TUM-tum" involuntário. O que está acontecendo?', opcoes: ['Um dedo está tocando mais forte que o outro, quase sempre o i', 'O metrônomo está desregulado', 'A mão esquerda está atrasando', 'As cordas estão velhas'], correta: 0, explicacao: 'O indicador é mais forte e mais acostumado. Grave-se e toque o i mais leve até igualar.' },
+          { texto: 'A 50 BPM a alternância está perfeita. Quando subir para 56?', opcoes: ['Depois de um minuto inteiro sem erro e com volume parelho', 'Depois de acertar uma vez', 'No dia seguinte, de qualquer jeito', 'Assim que parecer fácil'], correta: 0, explicacao: 'É a escada de velocidade: se errar no degrau novo, volte um.' },
+          { texto: 'No toque apoiado (apoyando), o dedo termina...', opcoes: ['Descansando na corda vizinha mais grave', 'No ar, recolhido para a palma', 'Na mesma corda que tocou', 'Encostado no cavalete'], correta: 0, explicacao: 'Esse apoio dá um som mais forte e mais cheio: é o toque das melodias e das escalas.' },
+          { texto: 'Ao alternar, seu punho balança junto com os dedos. Isso é...', opcoes: ['Um problema: só os dedos devem se mover', 'Normal e desejável', 'Sinal de relaxamento', 'Indiferente, se o som sair bom'], correta: 0, explicacao: 'O punho em movimento rouba precisão e limita a velocidade. A mão fica estável.' }
+        ] },
         {
           t: 'erros', itens: [
             { erro: 'Repetir o mesmo dedo quando a nota se repete.', certo: 'Alterne sempre, mesmo que a nota seja a mesma.' },
@@ -348,6 +374,14 @@ export const M14 = {
           rotulo: 'Tocar 1-2-3-4 na 1ª corda',
           x: 'Dedos 1, 2, 3 e 4 nas casas 1 a 4 da 1ª corda. O app confere se cada nota sai limpa e afinada.'
         },
+        { t: 'exercicio', tipo: 'perguntas', titulo: 'Fixação: as duas mãos juntas', rodadas: 6, perguntas: [
+          { texto: 'Qual mão chega primeiro?', opcoes: ['A esquerda: o dedo já aperta quando a direita toca', 'A direita', 'As duas no mesmo instante', 'Depende de a nota ser aguda ou grave'], correta: 0, explicacao: 'Se as duas chegam juntas, sai som sujo; se a esquerda chega depois, sai um "pluim" e a nota não soa.' },
+          { texto: 'No cromático, que dedo vai na casa 4?', opcoes: ['O dedo 4 (mindinho)', 'O dedo 3', 'O dedo 1, deslizando', 'O polegar'], correta: 0, explicacao: 'Um dedo por casa, a mão parada: 1 na 1, 2 na 2, 3 na 3, 4 na 4.' },
+          { texto: 'Depois de tocar com o dedo 1, o que fazer com ele?', opcoes: ['Deixá-lo apoiado na corda enquanto o 2 cai', 'Levantá-lo na hora', 'Movê-lo para a casa seguinte', 'Afastá-lo da corda'], correta: 0, explicacao: 'No fim os quatro dedos estão na corda ao mesmo tempo. Isso treina independência e economiza movimento.' },
+          { texto: 'A nota sai abafada, com som "de pano". O que verificar primeiro?', opcoes: ['Se o dedo está longe do traste ou deitado', 'Se a corda está velha', 'Se a mão direita está fraca', 'Se o metrônomo está rápido'], correta: 0, explicacao: 'Aproxime do traste e ponha o dedo em arco, apoiado na ponta.' },
+          { texto: 'A nota chia. Além da falta de pressão, qual é a outra causa comum?', opcoes: ['O dedo deitado está tocando de raspão a corda vizinha', 'A corda está afinada alto', 'O polegar da direita está no lugar errado', 'A sala tem eco'], correta: 0, explicacao: 'Dedo em pé resolve os dois problemas de uma vez.' },
+          { texto: 'O mindinho não alcança a casa 4. O que checar antes de tudo?', opcoes: ['O polegar atrás e o ângulo do braço do violão', 'O tamanho da sua mão', 'A marca das cordas', 'A altura do banco'], correta: 0, explicacao: 'Com o braço a 45° e o polegar bem apoiado atrás, o alcance melhora muito. É normal não alcançar no começo.' }
+        ] },
         { t: 'h', x: 'Os três problemas clássicos' },
         {
           t: 'erros', itens: [
@@ -474,6 +508,18 @@ export const M14 = {
         {
           t: 'dica', x: 'Toque cantando o nome das notas em voz alta. Isso liga, de uma vez só, o olho (partitura), a voz (solfejo), o ouvido e a mão. É o método mais eficiente que existe para memorizar uma melodia.'
         },
+        // O que mais trava na primeira melodia não é a técnica: é hesitar onde
+        // fica a nota. Por isso a fixação aqui é o mapa das oito notas.
+        { t: 'exercicio', tipo: 'perguntas', titulo: 'Fixação: onde fica cada nota', rodadas: 8, perguntas: [
+          { texto: 'Onde fica o Dó da primeira posição?', opcoes: ['2ª corda, casa 1', '1ª corda, casa 1', '2ª corda, casa 3', '3ª corda, casa 2'], correta: 0, explicacao: 'Dedo 1 na 2ª corda. É a nota logo acima do Si da corda solta.' },
+          { texto: 'E o Ré?', opcoes: ['2ª corda, casa 3', '2ª corda, casa 1', '1ª corda, casa 3', '3ª corda solta'], correta: 0, explicacao: 'Dedo 3 na 2ª corda.' },
+          { texto: 'E o Lá?', opcoes: ['3ª corda, casa 2', '2ª corda, casa 2', '1ª corda, casa 2', '3ª corda solta'], correta: 0, explicacao: 'Dedo 2 na 3ª corda.' },
+          { texto: 'E o Fá?', opcoes: ['1ª corda, casa 1', '1ª corda, casa 3', '2ª corda, casa 1', '1ª corda solta'], correta: 0, explicacao: 'Dedo 1 na 1ª corda, logo acima do Mi solto.' },
+          { texto: 'Qual nota é a 1ª corda na casa 3?', opcoes: ['Sol', 'Fá', 'Lá', 'Mi'], correta: 0, explicacao: 'Dedo 3. É o Sol agudo, acima da 5ª linha da pauta.' },
+          { texto: 'Quais notas da primeira posição são de corda solta?', opcoes: ['Mi (1ª), Si (2ª) e Sol (3ª)', 'Fá, Dó e Sol', 'Mi, Fá e Sol', 'Só o Mi'], correta: 0, explicacao: 'Por isso elas são as mais rápidas de alcançar: não dependem da mão esquerda.' },
+          { texto: 'Você erra sempre nos compassos 3 e 4. Qual é o melhor caminho?', opcoes: ['Isolar esses dois compassos e repetir só eles, devagar', 'Tocar a peça inteira mais vezes', 'Tocar mais rápido para "soltar" o trecho', 'Pular o trecho e seguir'], correta: 0, explicacao: 'Repetir a peça inteira treina o acerto e o erro junto, na mesma proporção.' },
+          { texto: 'Você errou no meio da melodia. O que fazer?', opcoes: ['Seguir em frente e depois trabalhar o trecho separado', 'Voltar ao começo e recomeçar', 'Parar o estudo do dia', 'Tocar mais devagar desde o início'], correta: 0, explicacao: 'Recomeçar do início toda vez faz você estudar dez vezes o começo e uma vez o fim.' }
+        ] },
         { t: 'ir', rota: 'partituras', titulo: 'Abrir Partituras', x: 'Na tela de Partituras você encontra estas e outras peças com cursor que acompanha o tempo.' },
         {
           t: 'erros', itens: [
@@ -553,6 +599,15 @@ export const M14 = {
         { t: 'h', x: 'Aplicando numa melodia' },
         { t: 'p', x: 'Agora o mesmo ritmo do padrão 4, mas com notas diferentes. Primeiro fale o ritmo em sílabas, depois toque.' },
         { t: 'pauta', txt: 'g4/b a4/c b4/c c5 | b4 a4/c g4/c g4/b', formula: [4, 4], nomes: true, tocar: true, bpm: 72, legenda: 'Melodia original do LLMusic para treinar o padrão 4.' },
+        { t: 'exercicio', tipo: 'perguntas', titulo: 'Fixação: contar o ritmo', rodadas: 7, perguntas: [
+          { texto: 'Em 4/4, quantas notas você toca no padrão de colcheias?', opcoes: ['Oito', 'Quatro', 'Duas', 'Dezesseis'], correta: 0, explicacao: 'Duas por tempo: conte "um e, dois e, três e, quatro e".' },
+          { texto: 'No padrão de mínimas em 4/4, em que tempos você toca?', opcoes: ['No 1 e no 3', 'Em todos os quatro', 'Só no 1', 'No 2 e no 4'], correta: 0, explicacao: 'Conte os quatro tempos, mas toque a cada dois.' },
+          { texto: 'Quantos tempos vale uma semínima pontuada?', opcoes: ['Um tempo e meio', 'Dois tempos', 'Um tempo', 'Meio tempo'], correta: 0, explicacao: '1 + metade de 1. A colcheia seguinte entra no "e" do segundo tempo.' },
+          { texto: 'Antes de começar a tocar com o metrônomo, você deve...', opcoes: ['Contar um compasso inteiro vazio', 'Tocar uma nota de teste', 'Começar na primeira batida que ouvir', 'Acertar o andamento pelo ouvido'], correta: 0, explicacao: 'Assim você entra num tempo já estabelecido, em vez de estabelecê-lo tocando.' },
+          { texto: 'Que sílabas usar para falar duas colcheias?', opcoes: ['"ti-ti"', '"tá"', '"táa-ti"', '"tá-tá-tá"'], correta: 0, explicacao: '"tá" é a semínima e "táa-ti" é a semínima pontuada com colcheia. Falar o ritmo antes resolve metade dos problemas.' },
+          { texto: 'Por que treinar ritmo numa corda solta?', opcoes: ['Com a altura resolvida, toda a atenção vai para o tempo', 'Porque a corda solta soa mais forte', 'Para poupar a mão esquerda', 'Porque o metrônomo só funciona assim'], correta: 0, explicacao: 'Um problema de cada vez. Depois que o ritmo está firme, você aplica em qualquer melodia.' },
+          { texto: 'O ritmo E as notas estão difíceis na mesma passagem. O que fazer?', opcoes: ['Separar: ritmo na corda solta, depois notas devagar, depois juntar', 'Repetir a passagem inteira até sair', 'Tocar só as notas e ignorar o ritmo', 'Subir o andamento para "soltar"'], correta: 0, explicacao: 'Dois problemas juntos viram um problema insolúvel.' }
+        ] },
         { t: 'ir', rota: 'ritmo', titulo: 'Abrir a tela de Ritmo', x: 'Lá o app sorteia ritmos e corrige a sua execução em tempo real.' },
         {
           t: 'erros', itens: [

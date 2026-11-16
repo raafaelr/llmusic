@@ -16,6 +16,7 @@ import { carregarFichas, proximaAula, proximaPratica, pedeViolao, estadoDaFicha,
 import { capaNivel } from './curso.js';
 import { rotinaPorId, SEMANA_PADRAO, DIAS } from '../curso/plano.js';
 import { roseta, clave, ramo, marcaDagua } from '../grafismos.js';
+import { estado as estadoSinc } from '../sinc.js';
 
 function el(tag, classe, texto) {
   const e = document.createElement(tag);
@@ -151,6 +152,37 @@ export function montar(raiz, ir) {
     const bp = el('button', 'botao-principal', 'Começar a praticar');
     bp.onclick = () => ir('plano');
     rotinaCorpo.append(bp);
+  })().catch(() => {});
+
+  // Backup velho e sincronização parada: o app já guardava as duas datas, mas
+  // só a tela "Atualizar e backup" as mostrava — e ninguém abre uma tela de
+  // manutenção por iniciativa própria. O aviso tem de vir procurar a pessoa.
+  // Os prazos são os mesmos usados lá: 14 dias para o backup, 7 para a sinc.
+  (async () => {
+    const dias = (iso) => {
+      const t = iso ? Date.parse(iso) : NaN;
+      return Number.isNaN(t) ? null : Math.floor((Date.now() - t) / 86400000);
+    };
+    const avisar = (texto) => {
+      const b = el('button', 'botao-texto aviso-revisao', texto);
+      b.onclick = () => ir('atualizar');
+      faixa.after(b);
+    };
+
+    const sinc = await estadoSinc();
+    if (encerrada) return;
+    if (sinc.repo && sinc.temToken) {
+      const d = dias(sinc.em);
+      if (d === null || d > 7) {
+        avisar('⚠ A sincronização entre aparelhos parou'
+          + (d === null ? '' : ' há ' + d + ' dias') + ' — toque para ver');
+      }
+    }
+
+    const dBk = dias(await Config.obter('backup.ultimo', null));
+    if (encerrada) return;
+    if (dBk === null) avisar('⚠ Você ainda não salvou nenhum backup — toque para salvar');
+    else if (dBk > 14) avisar('⚠ Seu último backup foi há ' + dBk + ' dias — toque para salvar outro');
   })().catch(() => {});
 
   (async () => {

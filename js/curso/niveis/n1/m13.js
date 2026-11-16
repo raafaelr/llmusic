@@ -35,6 +35,16 @@ export const M13 = {
         {
           t: 'dica', x: 'Quando estiver estudando uma peça e ela soar "atropelada", procure as pausas: quase sempre elas estão sendo comidas. Tocar o silêncio é tão importante quanto tocar a nota.'
         },
+        // Fixação da aula conceitual. O risco de uma aula só de texto é a pessoa
+        // concordar com tudo e não guardar nada; a pergunta obriga a decidir.
+        { t: 'exercicio', tipo: 'perguntas', titulo: 'Fixação: som, ruído e silêncio', rodadas: 6, perguntas: [
+          { texto: 'Música é...', opcoes: ['Som e silêncio organizados no tempo', 'Qualquer som agradável ao ouvido', 'Uma sequência de notas sem pausas', 'Som produzido por um instrumento'], correta: 0, explicacao: 'Sem organização é ruído; sem tempo não há música; sem silêncio é barulho contínuo.' },
+          { texto: 'Em que unidade se mede a frequência de um som?', opcoes: ['Hertz (Hz)', 'Decibéis (dB)', 'Batidas por minuto (BPM)', 'Tempos'], correta: 0, explicacao: 'Hertz é o número de vibrações por segundo. A 5ª corda solta vibra 110 vezes por segundo.' },
+          { texto: 'Uma corda que vibra mais vezes por segundo produz um som...', opcoes: ['Mais agudo', 'Mais grave', 'Mais forte', 'Mais longo'], correta: 0, explicacao: 'A 1ª corda vibra quatro vezes mais que a 6ª e soa duas oitavas acima.' },
+          { texto: 'Bater na madeira do violão produz...', opcoes: ['Ruído, sem altura definida', 'Uma nota grave', 'Uma nota aguda', 'Silêncio'], correta: 0, explicacao: 'A vibração é caótica, não periódica: o ouvido não reconhece altura. Isso não impede de usar o efeito na música.' },
+          { texto: 'O que faz uma vibração ser ouvida como nota, e não como ruído?', opcoes: ['Ser regular e periódica', 'Ser forte', 'Ser curta', 'Vir de um instrumento de cordas'], correta: 0, explicacao: 'Regularidade é o que dá altura definida ao som.' },
+          { texto: 'Numa partitura, o silêncio é...', opcoes: ['Escrito com precisão, por pausas de duração definida', 'Deixado em branco', 'Decidido por quem toca', 'Indicado só no fim da peça'], correta: 0, explicacao: 'Para cada figura de nota existe uma pausa de duração igual. O silêncio é uma ordem, não uma falta.' }
+        ] },
         {
           t: 'resumo', itens: [
             'Música é som e silêncio organizados no tempo.',
@@ -505,6 +515,14 @@ export const M13 = {
         },
         { t: 'h', x: 'A pausa de compasso inteiro' },
         { t: 'p', x: 'Quando um compasso inteiro é de silêncio, usa-se sempre a pausa de semibreve, *qualquer que seja a fórmula de compasso*. Num compasso 3/4, por exemplo, a pausa de semibreve ali não vale 4 tempos: vale o compasso inteiro, 3 tempos.' },
+        { t: 'exercicio', tipo: 'perguntas', titulo: 'Fixação: pausas e abafamento', rodadas: 6, perguntas: [
+          { texto: 'Quantos tempos vale a pausa de mínima?', opcoes: ['2', '1', '4', 'Meio'], correta: 0, explicacao: 'Cada pausa vale o mesmo que a nota de mesmo nome.' },
+          { texto: 'A pausa que PENDURA abaixo da linha é a de...', opcoes: ['Semibreve (4 tempos)', 'Mínima (2 tempos)', 'Semínima (1 tempo)', 'Colcheia (meio tempo)'], correta: 0, explicacao: 'Pendura = 4, senta = 2. É o jeito de não confundir as duas.' },
+          { texto: 'Por que no violão fazer silêncio exige uma ação a mais?', opcoes: ['Porque a corda continua vibrando depois do toque', 'Porque o violão tem pouco volume', 'Porque as cordas são de nylon', 'Não exige: o som para sozinho'], correta: 0, explicacao: 'No piano basta soltar a tecla. No violão é preciso abafar.' },
+          { texto: 'Qual é o jeito mais limpo de abafar uma nota presa pela mão esquerda?', opcoes: ['Aliviar a pressão do dedo sem tirá-lo da corda', 'Tirar o dedo bem rápido', 'Encostar o polegar direito na corda', 'Apoiar a mão no tampo'], correta: 0, explicacao: 'Tirar o dedo de uma vez costuma produzir um estalo. Aliviar mata a nota em silêncio.' },
+          { texto: 'Num compasso 3/4, um compasso inteiro de silêncio é escrito com...', opcoes: ['A pausa de semibreve', 'Três pausas de semínima', 'A pausa de mínima pontuada', 'Nada: deixa-se vazio'], correta: 0, explicacao: 'A pausa de semibreve vale o compasso inteiro, qualquer que seja a fórmula. Ali ela vale 3 tempos, não 4.' },
+          { texto: 'Uma nota de corda solta precisa ficar em silêncio. O que fazer?', opcoes: ['Encostar a polpa de um dedo da mão direita na corda', 'Aliviar a mão esquerda', 'Baixar o volume do toque seguinte', 'Esperar a corda parar'], correta: 0, explicacao: 'Não há dedo da esquerda na corda para aliviar: quem abafa é a mão direita.' }
+        ] },
         {
           t: 'erros', itens: [
             { erro: 'Ignorar as pausas e tocar tudo ligado.', certo: 'Conte a pausa em voz alta, como se fosse uma nota muda.' },
@@ -605,6 +623,15 @@ export const M13 = {
         { t: 'p', x: 'O jeito mais eficiente de aprender ritmo é *contar em voz alta enquanto toca*. Em 4/4, conte "um, dois, três, quatro". Quando aparecerem colcheias, conte "um e, dois e, três e, quatro e": o "e" é a metade do tempo.' },
         { t: 'pauta', txt: 'g4/c g4/c a4/c a4/c | b4/c b4/c c5/b', formula: [4, 4], legenda: 'Conte: "um e, dois e, três e, quatro". Toque junto com o áudio e, depois, com o metrônomo.', tocar: true, bpm: 80 },
         { t: 'metronomo', titulo: 'Tocar no tempo', bpm: 60, compasso: '4/4', x: 'Toque a 1ª corda solta exatamente em cada clique, contando em voz alta. Depois toque duas notas por clique (colcheias).' },
+        { t: 'exercicio', tipo: 'perguntas', titulo: 'Fixação: ler a fórmula de compasso', rodadas: 7, perguntas: [
+          { texto: 'Na fórmula de compasso, o número DE BAIXO diz...', opcoes: ['Qual figura vale um tempo', 'Quantos tempos cabem no compasso', 'O andamento em BPM', 'Quantos compassos tem a peça'], correta: 0, explicacao: '2 = mínima, 4 = semínima, 8 = colcheia, 16 = semicolcheia.' },
+          { texto: 'E o número DE CIMA diz...', opcoes: ['Quantos tempos cabem em cada compasso', 'Qual figura vale um tempo', 'A velocidade do pulso', 'Quantas vozes a peça tem'], correta: 0, explicacao: 'Por isso 3/4 é "três semínimas por compasso".' },
+          { texto: 'Quantas semínimas cabem num compasso 2/4?', opcoes: ['Duas', 'Quatro', 'Uma', 'Oito'], correta: 0, explicacao: 'É o compasso do andar: forte e fraco.' },
+          { texto: 'Em 6/8, qual figura vale um tempo?', opcoes: ['A colcheia', 'A semínima', 'A mínima', 'A semicolcheia'], correta: 0, explicacao: 'O 8 de baixo indica a colcheia. São seis colcheias por compasso.' },
+          { texto: '120 BPM quer dizer...', opcoes: ['Dois pulsos por segundo', 'Um pulso por segundo', 'Cento e vinte compassos por minuto', 'Cento e vinte notas por compasso'], correta: 0, explicacao: '120 batidas em 60 segundos. 60 BPM é um pulso por segundo.' },
+          { texto: 'Onde a pulsação está escrita na partitura?', opcoes: ['Em lugar nenhum: ela é sentida', 'Na fórmula de compasso', 'Nas barras de compasso', 'No formato das figuras'], correta: 0, explicacao: 'Tudo na notação é medido em relação a ela, mas o pulso em si é o que você sente.' },
+          { texto: 'Uma passagem difícil sai errada a 100 BPM. O que fazer?', opcoes: ['Baixar o andamento até sair certa', 'Repetir no mesmo andamento até acertar', 'Pular essa parte', 'Tocar sem metrônomo'], correta: 0, explicacao: 'Tocar errado rápido constrói o erro. Velocidade é consequência de precisão.' }
+        ] },
         {
           t: 'erros', itens: [
             { erro: 'Ler a fórmula de compasso como fração.', certo: '4/4 não é "quatro quartos": é "quatro semínimas por compasso".' },

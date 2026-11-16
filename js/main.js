@@ -27,6 +27,7 @@ import * as materiais from './views/materiais.js';
 import * as config from './views/config.js';
 import * as habilidades from './views/habilidades.js';
 import * as atualizar from './views/atualizar.js';
+import { Config, C_ERROS } from './db.js';
 import { criarMenu } from './menu.js';
 import { iniciarTema } from './tema.js';
 import { criarEstudo } from './estudo.js';
@@ -79,6 +80,80 @@ function registrarRota(rota) {
   else if (pilha[n - 1] !== rota) { pilha.push(rota); if (pilha.length > 60) pilha.shift(); }
 }
 
+// ---- Rede de erro: nada pode falhar em silêncio ----
+//
+// Até aqui, um erro de JavaScript deixava a tela BRANCA: sem mensagem, sem
+// registro, sem nada para contar depois. Quem está estudando perde a sessão e
+// não tem o que dizer além de "parou de funcionar". Agora todo erro aparece
+// numa barra, com um botão que copia o texto, e os cinco últimos ficam
+// guardados para a tela "Atualizar e backup" mostrar.
+function guardarErro(texto) {
+  // Se o próprio banco for o que está quebrado, resta a barra na tela.
+  Config.obter(C_ERROS, [])
+    .then((antes) => Config.guardar(C_ERROS, [{ em: new Date().toISOString(), texto }, ...antes].slice(0, 5)))
+    .catch(() => {});
+}
+
+function mostrarErro(texto) {
+  let barra = document.getElementById('barra-erro');
+  if (!barra) {
+    barra = document.createElement('div');
+    barra.id = 'barra-erro'; barra.className = 'barra-erro';
+    barra.setAttribute('role', 'alert');
+    const corpo = document.createElement('p');
+    corpo.className = 'barra-erro-texto';
+    const btCopiar = document.createElement('button');
+    btCopiar.className = 'botao-sec'; btCopiar.textContent = 'Copiar';
+    btCopiar.onclick = () => {
+      const t = corpo.textContent;
+      // O WebView pode negar a área de transferência; aí seleciona o texto,
+      // que dá para copiar à mão. Nunca dizer "copiado" sem ter copiado.
+      const ok = () => { btCopiar.textContent = 'Copiado'; };
+      const naoDeu = () => { selecionar(corpo); btCopiar.textContent = 'Selecionei: copie à mão'; };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(t).then(ok).catch(naoDeu);
+      } else naoDeu();
+    };
+    const btFechar = document.createElement('button');
+    btFechar.className = 'botao-texto'; btFechar.textContent = 'Fechar';
+    btFechar.setAttribute('aria-label', 'Fechar o aviso de erro');
+    btFechar.onclick = () => { barra.remove(); document.body.style.paddingTop = ''; };
+    const acoes = document.createElement('div');
+    acoes.className = 'barra-erro-acoes';
+    acoes.append(btCopiar, btFechar);
+    barra.append(corpo, acoes);
+    document.body.append(barra);
+  }
+  barra.querySelector('.barra-erro-texto').textContent = texto;
+  // A barra é fixa no topo e tapava o cabeçalho da tela — inclusive o botão
+  // "Voltar". Em vez de chutar uma altura (ela muda com o tamanho da
+  // mensagem), empurro a página pela altura medida da própria barra.
+  document.body.style.paddingTop = barra.offsetHeight + 'px';
+}
+
+function selecionar(no) {
+  const sel = window.getSelection();
+  const r = document.createRange();
+  r.selectNodeContents(no);
+  sel.removeAllRanges(); sel.addRange(r);
+}
+
+function anotar(texto) {
+  mostrarErro(texto);
+  guardarErro(texto);
+}
+
+window.addEventListener('error', (ev) => {
+  const onde = ev.filename ? ' (' + String(ev.filename).split('/').pop() + ':' + ev.lineno + ')' : '';
+  anotar((ev.message || 'Erro') + onde);
+});
+// Promessa rejeitada sem catch: é o caso mais comum neste app, porque quase
+// tudo que lê o banco é assíncrono.
+window.addEventListener('unhandledrejection', (ev) => {
+  const r = ev.reason;
+  anotar('Falha não tratada: ' + (r && r.message ? r.message : String(r)));
+});
+
 function mostrar() {
   // A rota pode ter um argumento depois da barra: #/aula/n1.1.1 abre a aula n1.1.1.
   const inteira = location.hash.replace(/^#\/?/, '');
@@ -89,7 +164,26 @@ function mostrar() {
   registrarRota(TELAS[rota] ? inteira : '');
   if (limpar) limpar();
   raiz.innerHTML = '';
-  limpar = tela.montar(raiz, ir, arg);
+  // Uma tela que estoura ao montar não pode levar o app com ela: sem este
+  // try, raiz fica vazia e a pessoa olha uma página branca.
+  try {
+    limpar = tela.montar(raiz, ir, arg);
+  } catch (e) {
+    limpar = null;
+    anotar('A tela "' + (rota || 'Início') + '" não abriu: ' + (e && e.message ? e.message : e));
+    raiz.innerHTML = '';
+    const aviso = document.createElement('main');
+    aviso.className = 'tela';
+    const p = document.createElement('p');
+    p.className = 'texto-bloco';
+    p.textContent = 'Esta tela não conseguiu abrir. O erro está na barra vermelha — '
+      + 'use "Copiar" para guardar o texto. O resto do app continua funcionando.';
+    const b = document.createElement('button');
+    b.className = 'botao-principal'; b.textContent = 'Voltar ao início';
+    b.onclick = () => ir('');
+    aviso.append(p, b);
+    raiz.append(aviso);
+  }
   // O Modo Estudo não é uma tela: é uma camada que aparece nas telas de prática.
   if (estudo) estudo.aplicar(TELAS[rota] ? rota : '', arg);
   window.scrollTo(0, 0);
