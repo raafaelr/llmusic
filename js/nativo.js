@@ -92,6 +92,45 @@ export const Lembretes = {
   async desativar() {
     const ln = plugin('LocalNotifications');
     if (ln) await ln.cancel({ notifications: this.ids() });
+  },
+
+  // O que o Android realmente tem na fila. Perguntar ao sistema é a única
+  // forma de saber: agendar pode dar certo e o lembrete nunca chegar, porque
+  // quem decide a hora de verdade é o Android, não o app.
+  async pendentes() {
+    const ln = plugin('LocalNotifications');
+    if (!ln || !ln.getPending) return null;
+    try {
+      const r = await ln.getPending();
+      return (r && r.notifications) || [];
+    } catch { return null; }
+  },
+
+  // Em Android 12 ou mais novo, alarme exato é uma permissão à parte, que o
+  // pedido de notificação NÃO cobre: é a chave "Alarmes e lembretes" nas
+  // configurações do app. Sem ela, o agendamento falha ou o lembrete atrasa.
+  //
+  // O plugin devolve texto ('granted', 'denied', 'prompt'), não booleano.
+  // Devolvo o texto cru, e null quando não dá para saber — em Android 11 ou
+  // mais antigo a permissão nem existe, e aí não há nada a conferir.
+  async alarmeExato() {
+    const ln = plugin('LocalNotifications');
+    if (!ln || !ln.checkExactNotificationSetting) return null;
+    try {
+      const r = await ln.checkExactNotificationSetting();
+      return (r && r.exact_alarm) || null;
+    } catch { return null; }
+  },
+
+  // Abre a tela de "Alarmes e lembretes" do Android, já no LLMusic. Melhor do
+  // que mandar a pessoa procurar em configurações.
+  async pedirAlarmeExato() {
+    const ln = plugin('LocalNotifications');
+    if (!ln || !ln.changeExactNotificationSetting) return null;
+    try {
+      const r = await ln.changeExactNotificationSetting();
+      return (r && r.exact_alarm) || null;
+    } catch { return null; }
   }
 };
 

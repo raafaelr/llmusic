@@ -1882,3 +1882,7 @@ button .ic-t, a .ic-t { margin-right: 0.1em; }
   margin: var(--e-3) 0;
 }
 .nomes-nota .chip { width: 100%; justify-content: center; }
+
+/* Estado da fila de lembretes: verde quando há lembrete agendado, vermelho
+   quando está ligado e a fila está vazia — que é a falha silenciosa. */
+.status-ruim { color: var(--ruim); font-weight: 600; }

@@ -51,13 +51,26 @@ export function montar(raiz, ir) {
   hora.setAttribute('aria-label', 'Horário do lembrete');
   linhaLem.append(chipLem, hora);
   const msgLem = el('p', 'dica', '');
+  // Estado real da fila do Android, relido toda vez que a tela abre.
+  const filaLem = el('p', 'dica', '');
+  filaLem.setAttribute('aria-live', 'polite');
+  // Só aparece quando falta a permissão de alarme exato: leva direto à
+  // tela certa do Android, em vez de mandar procurar em configurações.
+  const btAlarme = el('button', 'botao-sec', 'Permitir alarmes e lembretes');
+  btAlarme.hidden = true;
+  btAlarme.onclick = async () => {
+    const r = await Lembretes.pedirAlarmeExato();
+    // Conceder a permissão não agenda nada por si: o que falhou antes
+    // continua não existindo. Então reagenda agora.
+    if (r === 'granted' && lembreteAtivo) await aplicarLembrete(); else await mostrarFila();
+  };
   msgLem.setAttribute('aria-live', 'polite');
   // O limite dos 14 dias precisa estar dito, não escondido: ele é a razão de
   // o app ter de ser aberto de vez em quando para o lembrete continuar certo.
   const notaLem = el('p', 'dica', 'O lembrete traz o exercício daquele dia e, ao ser tocado, abre o exercício. '
     + 'Ficam agendados os próximos 14 dias — o app reagenda a cada vez que você o abre. '
     + 'Se ficar semanas fechado, os últimos lembretes chegam com o exercício que era o próximo na época.');
-  gLem.append(linhaLem, msgLem, notaLem);
+  gLem.append(linhaLem, msgLem, filaLem, btAlarme, notaLem);
   const gBk = el('div', 'grupo'); gBk.append(el('h2', 'rotulo-grupo', 'Backup dos seus dados'));
   const linhaBk = el('div', 'acoes');
   const exp = el('button', 'botao-sec', 'Exportar');
@@ -145,6 +158,7 @@ export function montar(raiz, ir) {
     arq.value = '';
   };
 
+  const DIAS_SEM = ['domingo', 'segunda', 'terça', 'quarta', 'quinta', 'sexta', 'sábado'];
   let lembreteAtivo = false;
   function pintarLembrete() {
     chipLem.setAttribute('aria-pressed', String(lembreteAtivo));
@@ -164,11 +178,47 @@ export function montar(raiz, ir) {
           ? 'Todo dia às ' + hora.value + ', com o exercício daquele dia. Tocar na notificação abre o exercício.'
           : 'Não consegui agendar. Confira a permissão de notificações.';
       } else { await Lembretes.desativar(); msgLem.textContent = ''; }
+      mostrarFila();
     } catch (e) {
       lembreteAtivo = false; pintarLembrete();
       msgLem.textContent = e.message === 'permissão negada' ? 'Permita as notificações nas configurações do Android.' : 'Lembretes não estão disponíveis aqui.';
     }
   }
+  // ---- O que o Android tem na fila, de verdade ----
+  //
+  // Antes, a única notícia sobre o lembrete era a frase que aparecia no
+  // instante em que se ligava o botão. Reabrindo a tela, nada. Então um
+  // lembrete que nunca chegava era indistinguível de um que ia chegar: a
+  // tela dizia a mesma coisa nos dois casos.
+  //
+  // Agora a tela pergunta ao próprio Android quantas notificações estão na
+  // fila e quando é a próxima. Se estiver ligado e a fila estiver vazia, isso
+  // aparece como problema, com o que conferir.
+  async function mostrarFila() {
+    if (encerrada || !Lembretes.disponivel()) return;
+    const [fila, exato] = await Promise.all([Lembretes.pendentes(), Lembretes.alarmeExato()]);
+    if (encerrada) return;
+    const semExato = exato === 'denied' || exato === 'prompt';
+    btAlarme.hidden = !(lembreteAtivo && semExato);
+    if (!lembreteAtivo) { filaLem.textContent = ''; filaLem.className = 'dica'; return; }
+    if (fila === null) { filaLem.textContent = 'Não consegui consultar a fila de lembretes deste aparelho.'; filaLem.className = 'dica'; return; }
+    if (!fila.length) {
+      filaLem.className = 'dica status-ruim';
+      filaLem.textContent = semExato
+        ? 'Nenhum lembrete na fila: falta a permissão de alarme exato deste aparelho.'
+        : 'Nenhum lembrete na fila, embora o lembrete esteja ligado. Desligue e ligue de novo; se continuar, confira a permissão de notificações do LLMusic.';
+      return;
+    }
+    const proxima = fila
+      .map((n) => (n.schedule && n.schedule.at ? new Date(n.schedule.at) : null))
+      .filter((d) => d && !isNaN(d))
+      .sort((a, b) => a - b)[0];
+    filaLem.className = 'dica ' + (semExato ? 'status-ruim' : 'status-ok');
+    filaLem.textContent = fila.length + ' na fila'
+      + (proxima ? ' · o próximo é ' + DIAS_SEM[proxima.getDay()] + ', ' + String(proxima.getHours()).padStart(2, '0') + ':' + String(proxima.getMinutes()).padStart(2, '0') : '')
+      + (semExato ? ' · sem permissão de alarme exato, podem não chegar na hora' : '');
+  }
+
   chipLem.onclick = () => {
     if (!Lembretes.disponivel()) { pintarLembrete(); return; }
     lembreteAtivo = !lembreteAtivo; pintarLembrete(); aplicarLembrete();
@@ -177,7 +227,7 @@ export function montar(raiz, ir) {
 
   (async () => {
     const lem = await Config.obter('lembrete', { ativo: false, hora: '19:00' });
-    if (!encerrada) { hora.value = lem.hora || '19:00'; lembreteAtivo = !!lem.ativo && Lembretes.disponivel(); pintarLembrete(); }
+    if (!encerrada) { hora.value = lem.hora || '19:00'; lembreteAtivo = !!lem.ativo && Lembretes.disponivel(); pintarLembrete(); mostrarFila(); }
     pratica = await Pratica.todos();
     const m = await Config.obter('habitos.meta', 10);
     if (encerrada) return;
