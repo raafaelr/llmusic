@@ -79,10 +79,18 @@ for (const [id, { a, m, nv }] of porId) {
       if (!EX_OK.has(b.tipo)) erro(q + ': tipo de exercício desconhecido: ' + b.tipo);
       if (b.tipo === 'perguntas') {
         if (!Array.isArray(b.perguntas) || !b.perguntas.length) erro(q + ': sem perguntas');
+        // O bloco percorre as perguntas em ordem e dá a volta: pedir mais
+        // rodadas do que há perguntas faz a mesma pergunta aparecer duas vezes.
+        const nq = (b.perguntas || []).length;
+        if ((b.rodadas || 8) > nq) erro(q + ': ' + (b.rodadas || 8) + ' rodadas para ' + nq + ' perguntas (vão se repetir)');
         (b.perguntas || []).forEach((p, k) => {
           if (!Array.isArray(p.opcoes) || p.opcoes.length < 3) erro(q + ' pergunta ' + k + ': menos de 3 opções');
+          // O bloco embaralha e mostra só as 6 primeiras: com mais de 6, a
+          // resposta certa pode simplesmente não aparecer na tela.
+          if ((p.opcoes || []).length > 6) erro(q + ' pergunta ' + k + ': ' + p.opcoes.length + ' opções, e só 6 são mostradas');
           if (new Set(p.opcoes).size !== p.opcoes.length) erro(q + ' pergunta ' + k + ': opções repetidas');
           if (!(p.correta >= 0 && p.correta < p.opcoes.length)) erro(q + ' pergunta ' + k + ': correta inválida');
+          if (!p.explicacao) aviso(q + ' pergunta ' + k + ': sem explicação');
         });
       }
     }

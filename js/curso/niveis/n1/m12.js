@@ -44,6 +44,16 @@ export const M12 = {
           t: 'dica', x: 'Teste simples: depois de montar a postura, *tire as duas mãos do violão por três segundos*. Se o instrumento escorregar ou cair, ele estava sendo segurado pelos braços. Ajuste até ele ficar parado sozinho.'
         },
         {
+          t: 'exercicio', tipo: 'perguntas', titulo: 'Montando a postura', rodadas: 5,
+          perguntas: [
+            { texto: 'Sobre qual parte da bacia o peso do corpo deve cair?', opcoes: ['Sobre os ísquios, os dois ossinhos da bacia', 'Sobre o cóccix', 'Sobre as coxas inteiras', 'Sobre a base da coluna'], correta: 0, explicacao: 'Sentar no cóccix joga a bacia para trás e a coluna desaba.' },
+            { texto: 'Em que parte do assento você senta?', opcoes: ['Na metade da frente', 'Encostado no fundo', 'Bem no centro', 'Na beirada lateral'], correta: 0, explicacao: 'Encostar no fundo inclina a bacia e tira o alongamento da coluna.' },
+            { texto: 'O que os ombros devem fazer?', opcoes: ['Soltar para baixo e para trás', 'Subir em direção às orelhas', 'Ir para a frente, fechando o peito', 'Forçar o peito para fora'], correta: 0, explicacao: 'Ombro levantado quase sempre quer dizer que o violão está baixo demais.' },
+            { texto: 'Como fica o queixo?', opcoes: ['Paralelo ao chão, olhando com os olhos', 'Abaixado sobre o peito', 'Esticado para a frente', 'Virado para a esquerda'], correta: 0, explicacao: 'Quem torce o pescoço para ver as cordas paga em dor depois.' },
+            { texto: 'Por que não cruzar as pernas?', opcoes: ['Porque torcem a bacia e a coluna', 'Porque deixam o violão mais baixo', 'Porque abafam o som', 'Porque cansam o pé'], correta: 0, explicacao: 'Os dois pés no chão, ou um deles no apoio.' }
+          ]
+        },
+        {
           t: 'erros', itens: [
             { erro: 'Curvar as costas para ver as cordas.', certo: 'Incline o violão para trás, trazendo o tampo um pouco para cima, em vez de dobrar a coluna.' },
             { erro: 'Levantar o ombro direito.', certo: 'O ombro fica solto, caído. Se ele sobe, o violão está baixo demais.' },
@@ -106,6 +116,16 @@ export const M12 = {
           ]
         },
         { t: 'postura', tipo: 'classica', legenda: 'Postura clássica: pé esquerdo no apoio, violão na coxa esquerda, braço do instrumento subindo a uns 45°.' },
+        {
+          t: 'exercicio', tipo: 'perguntas', titulo: 'Os quatro pontos', rodadas: 5,
+          perguntas: [
+            { texto: 'Qual destes NÃO é um dos quatro pontos de contato?', opcoes: ['O queixo apoiado no braço do violão', 'A cintura do violão na coxa esquerda', 'O fundo encostado no peito', 'O antebraço direito na borda do tampo'], correta: 0, explicacao: 'Os quatro são: coxa esquerda, coxa direita, peito e antebraço direito.' },
+            { texto: 'Quantos centímetros o apoio levanta o pé esquerdo?', opcoes: ['De 15 a 20 cm', 'De 2 a 3 cm', 'De 35 a 40 cm', 'Meio metro'], correta: 0, explicacao: 'O que importa é a altura, não o objeto: livros grossos resolvem.' },
+            { texto: 'Em que ângulo o braço do violão deve subir?', opcoes: ['Cerca de 45 graus', 'Cerca de 10 graus', 'Na horizontal', 'Na vertical'], correta: 0, explicacao: 'É essa diagonal que dá alcance à mão esquerda nas casas baixas.' },
+            { texto: 'Qual é a desvantagem do suporte ergonômico?', opcoes: ['Precisa de ventosa limpa para não cair', 'Torce a bacia', 'Abaixa o braço do violão', 'Obriga a cruzar as pernas'], correta: 0, explicacao: 'Em troca, ele deixa os dois pés no chão e a coluna neutra.' },
+            { texto: 'Com que força o fundo do violão encosta no peito?', opcoes: ['Contato leve', 'Bem apertado contra o corpo', 'Sem encostar', 'Só na hora de tocar forte'], correta: 0, explicacao: 'Abafar o fundo tira volume: o instrumento precisa vibrar.' }
+          ]
+        },
         { t: 'h', x: 'O apoio para o pé' },
         { t: 'p', x: 'É um banquinho pequeno e regulável que levanta o pé esquerdo uns 15 a 20 cm. Ele existe por um motivo prático: levantando a coxa esquerda, o violão sobe e o braço do instrumento fica mais alto, numa diagonal de cerca de *45 graus*. Essa diagonal é o que permite à mão esquerda alcançar as casas baixas sem torcer o punho.' },
         {
@@ -207,6 +227,17 @@ export const M12 = {
         { t: 'h', x: 'Unha, polpa ou os dois' },
         { t: 'p', x: 'No violão clássico, o som mais usado nasce do encontro dos dois: a corda entra primeiro na *polpa* do dedo, desliza e sai pela *unha*. A polpa dá corpo, a unha dá definição. Para isso a unha precisa estar lixada, lisa e com apenas 1 a 2 mm além da ponta do dedo.' },
         {
+          t: 'exercicio', tipo: 'perguntas', titulo: 'Mão direita por dentro', rodadas: 6,
+          perguntas: [
+            { texto: 'Como se chama o toque perto do braço do violão?', opcoes: ['Tasto, ou dolce', 'Ponticello', 'Natural', 'Apoyando'], correta: 0, explicacao: 'Som doce e aveludado. Perto do cavalete seria ponticello.' },
+            { texto: 'E o toque sobre a boca, como se chama?', opcoes: ['Natural', 'Tasto', 'Ponticello', 'Tirando'], correta: 0, explicacao: 'É o ponto padrão: som cheio e equilibrado.' },
+            { texto: 'Os dedos i, m e a apontam mais ou menos para onde?', opcoes: ['Para o cavalete', 'Para a pestana', 'Para o próprio punho', 'Para cima, longe das cordas'], correta: 0, explicacao: 'Curvados e apontando ao cavalete, com o punho em cúpula.' },
+            { texto: 'Quanto de unha deve passar da ponta do dedo?', opcoes: ['De 1 a 2 mm, lixada e lisa', 'Meio centímetro', 'Nada: rente', 'O quanto crescer'], correta: 0, explicacao: 'Unha comprida e sem lixar engancha e faz clique.' },
+            { texto: 'No apoyando, onde o dedo para depois de atravessar a corda?', opcoes: ['Descansando na corda vizinha mais grave', 'No ar, acima das cordas', 'No tampo do violão', 'Na mesma corda'], correta: 0, explicacao: 'No tirando ele sai para cima, sem encostar em nada.' },
+            { texto: 'Como fica o punho direito?', opcoes: ['Arredondado, formando uma cúpula', 'Dobrado para dentro', 'Reto e rígido', 'Apoiado no cavalete'], correta: 0, explicacao: 'Arredondado não é o mesmo que dobrado: a mão flutua.' }
+          ]
+        },
+        {
           t: 'dica', x: 'Se as suas unhas são curtas ou quebradiças, não tem problema: muita gente toca só com polpa e consegue um som bonito, mais suave. O que não funciona é unha comprida e sem lixar: ela engancha e faz um clique desagradável.'
         },
         { t: 'h', x: 'Os dois toques básicos' },
@@ -296,6 +327,17 @@ export const M12 = {
         { t: 'h', x: 'Por que perto do traste' },
         { t: 'p', x: 'Quem decide a nota é o *traste*, não o seu dedo: a corda vibra do traste até o cavalete. O seu dedo só serve para prender a corda contra o traste. Quanto mais perto dele você põe o dedo, menos força é preciso e mais limpa a nota sai. No meio da casa, você precisa apertar muito mais; encostado no metal, a nota morre.' },
         { t: 'braco', casas: 5, notas: [{ corda: 1, casa: 1, rotulo: '1', classe: 'raiz' }, { corda: 2, casa: 2, rotulo: '2', classe: 'raiz' }, { corda: 3, casa: 3, rotulo: '3', classe: 'raiz' }], legenda: 'Um dedo por casa: esta é a posição básica da mão esquerda. Dedo 1 na casa 1, dedo 2 na casa 2 e assim por diante.' },
+        {
+          t: 'exercicio', tipo: 'perguntas', titulo: 'Mão esquerda por dentro', rodadas: 6,
+          perguntas: [
+            { texto: 'Entre quais dedos o polegar costuma ficar, por trás do braço?', opcoes: ['Entre o 1 e o 2', 'Entre o 3 e o 4', 'Atrás do 4', 'Na frente do 1'], correta: 0, explicacao: 'Muito atrás torce o punho; muito à frente tira o alcance do mindinho.' },
+            { texto: 'Para onde o polegar esquerdo aponta?', opcoes: ['Para cima, na direção do teto', 'Para o chão', 'Para a cabeça do violão', 'Para o seu próprio corpo'], correta: 0, explicacao: 'Ele é o lado oposto de uma pinça, e não aparece por cima da escala.' },
+            { texto: 'Como os dedos caem sobre a escala?', opcoes: ['Perpendiculares, como pequenos martelos', 'Deitados ao longo da corda', 'Inclinados para a cabeça do violão', 'Esticados e paralelos à escala'], correta: 0, explicacao: 'E tocam com a ponta, nunca com a polpa deitada.' },
+            { texto: 'No teste da pressão mínima, o que se ouve ao só encostar o dedo?', opcoes: ['Um som abafado, de pano', 'A nota limpa', 'Nenhum som', 'Um assobio agudo'], correta: 0, explicacao: 'A pressão certa é a primeira que faz a nota sair limpa — e para por aí.' },
+            { texto: 'Na posição básica, em que casa fica o dedo 3?', opcoes: ['Na casa 3', 'Na casa 1', 'Na casa 4', 'Depende da corda'], correta: 0, explicacao: 'Um dedo por casa: 1 na 1, 2 na 2, 3 na 3, 4 na 4.' },
+            { texto: 'O que acontece se o dedo ficar em cima do traste?', opcoes: ['A nota morre', 'A nota sobe meio tom', 'Não muda nada', 'A corda arrebenta'], correta: 0, explicacao: 'O lugar é logo atrás do traste da frente, dentro da casa.' }
+          ]
+        },
         { t: 'h', x: 'O teste da pressão mínima' },
         {
           t: 'passos', itens: [
@@ -397,6 +439,17 @@ export const M12 = {
           ]
         },
         { t: 'metronomo', titulo: 'Metrônomo lento para aquecer', bpm: 50, compasso: '4/4', x: 'Toque uma corda solta por clique, bem devagar, só prestando atenção na soltura da mão. Dois minutos bastam.' },
+        {
+          t: 'exercicio', tipo: 'perguntas', titulo: 'A rotina de proteção', rodadas: 6,
+          perguntas: [
+            { texto: 'Qual destes NÃO faz parte da varredura de tensão?', opcoes: ['A altura do banquinho', 'A mandíbula', 'Os ombros', 'A respiração'], correta: 0, explicacao: 'A varredura é: mandíbula, ombros, pescoço, punho esquerdo e respiração.' },
+            { texto: 'Quantas vezes abrir e fechar as mãos antes de tocar?', opcoes: ['10 vezes, devagar', '3 vezes', '50 vezes', 'Até cansar'], correta: 0, explicacao: 'Depois, girar os punhos 10 vezes para cada lado.' },
+            { texto: 'Quanto tempo segurar cada alongamento depois de tocar?', opcoes: ['20 segundos em cada braço', '3 segundos', '2 minutos', 'Até doer'], correta: 0, explicacao: 'Palma para cima e depois para baixo, puxando os dedos.' },
+            { texto: 'Quanto tempo dura a pausa recomendada?', opcoes: ['De 2 a 3 minutos', '15 segundos', '15 minutos', 'Meia hora'], correta: 0, explicacao: 'Curta e frequente: a cada 20 a 25 minutos de estudo.' },
+            { texto: 'O que a aula também considera parte do estudo?', opcoes: ['Dormir', 'Ouvir música clássica', 'Trocar as cordas', 'Estudar teoria'], correta: 0, explicacao: 'Boa parte do que você treinou se consolida no sono.' },
+            { texto: 'Qual é a única dor esperada no começo?', opcoes: ['Nas pontas dos dedos da mão esquerda', 'No punho esquerdo', 'No ombro direito', 'No antebraço'], correta: 0, explicacao: 'Passa quando a pele engrossa. Dor em punho, braço ou ombro nunca é normal.' }
+          ]
+        },
         { t: 'h', x: 'Sinais de alerta: pare agora' },
         {
           t: 'aviso', titulo: 'Procure um médico se: ',

@@ -47,6 +47,17 @@ export const M11 = {
           legenda: 'Oitocentos anos em seis linhas. Cada etapa deixou alguma coisa no instrumento que você tem hoje.'
         },
         {
+          t: 'exercicio', tipo: 'perguntas', titulo: 'A linhagem do violão', rodadas: 6,
+          perguntas: [
+            { texto: 'Qual destes tinha a caixa arredondada e chegou com os árabes à Península Ibérica?', opcoes: ['A guitarra morisca', 'A guitarra latina', 'A vihuela', 'O alaúde'], correta: 0, explicacao: 'A latina é a de caixa com cintura, parecida com a de hoje.' },
+            { texto: 'Em que século a vihuela era usada na Espanha?', opcoes: ['No século XVI', 'No século XIII', 'No século XVIII', 'No século XX'], correta: 0, explicacao: 'Seis ordens de cordas, afinação parecida com a de hoje e repertório em tablatura.' },
+            { texto: 'O alaúde tinha a caixa em que formato?', opcoes: ['De meia pera', 'Quadrada', 'Redonda e rasa', 'Igual à do violão atual'], correta: 0, explicacao: 'Era o instrumento que, fora da Espanha, fazia o papel da vihuela.' },
+            { texto: 'O que Torres inventou dentro do tampo?', opcoes: ['O leque de varetas coladas por dentro', 'Um captador magnético', 'Um segundo braço', 'Um reforço de metal'], correta: 0, explicacao: 'Mais o corpo aumentado e o tampo afinado em espessura.' },
+            { texto: 'Quem organizou a técnica moderna da mão direita?', opcoes: ['Francisco Tárrega', 'Antonio de Torres', 'Andrés Segovia', 'Fernando Sor'], correta: 0, explicacao: 'Dele também é Recuerdos de la Alhambra.' },
+            { texto: 'Quem levou o violão às grandes salas de concerto no século XX?', opcoes: ['Andrés Segovia', 'Mauro Giuliani', 'João Pernambuco', 'Matteo Carcassi'], correta: 0, explicacao: 'E convenceu compositores do mundo inteiro a escrever para o instrumento.' }
+          ]
+        },
+        {
           t: 'resumo', itens: [
             'O violão vem de uma longa linhagem: guitarra latina, vihuela, alaúde e guitarra barroca.',
             'Antonio de Torres, por volta de 1850, criou o formato do violão clássico moderno.',
@@ -132,6 +143,17 @@ export const M11 = {
         { t: 'p', x: 'O *traste* é a barrinha de metal. A *casa* é o espaço entre duas barrinhas. Quando alguém diz "casa 3", quer dizer o terceiro espaço, contando a partir da pestana. O dedo vai *dentro* da casa, encostado no traste da frente, nunca em cima do metal.' },
         { t: 'braco', casas: 5, notas: [{ corda: 1, casa: 1, rotulo: '1', classe: 'raiz' }, { corda: 1, casa: 2, rotulo: '2', classe: 'raiz' }, { corda: 1, casa: 3, rotulo: '3', classe: 'raiz' }], legenda: 'As três primeiras casas na 1ª corda. Repare que o número da casa é o espaço, não a barrinha.' },
         {
+          t: 'exercicio', tipo: 'perguntas', titulo: 'Nome por nome', rodadas: 6,
+          perguntas: [
+            { texto: 'De que madeira costuma ser feito o tampo?', opcoes: ['Abeto ou cedro, fina e leve', 'Jacarandá maciço', 'Compensado grosso', 'Mogno pesado'], correta: 0, explicacao: 'Ele precisa vibrar: quanto melhor o tampo, melhor o violão.' },
+            { texto: 'Como se chama a madeira escura colada sobre o braço?', opcoes: ['Escala', 'Pestana', 'Rastilho', 'Tampo'], correta: 0, explicacao: 'É a superfície onde você aperta as cordas.' },
+            { texto: 'E a peça clara no fim do braço, junto à cabeça?', opcoes: ['Pestana', 'Cavalete', 'Rastilho', 'Traste'], correta: 0, explicacao: 'Ela marca onde começa a parte vibrante da corda.' },
+            { texto: 'Quanto vale cada casa?', opcoes: ['Um semitom', 'Um tom', 'Uma oitava', 'Depende da corda'], correta: 0, explicacao: 'Casa é o espaço entre dois trastes.' },
+            { texto: 'Que partes do violão importam menos para o som?', opcoes: ['As laterais e o fundo', 'O tampo', 'O cavalete', 'A boca'], correta: 0, explicacao: 'Quase todo o som nasce do tampo vibrando.' },
+            { texto: 'Como se chama o pedacinho branco em cima do cavalete?', opcoes: ['Rastilho', 'Pestana', 'Boca', 'Tarraxa'], correta: 0, explicacao: 'Confundir cavalete com "ponte" atrapalha na hora de ler em português.' }
+          ]
+        },
+        {
           t: 'erros', itens: [
             { erro: 'Chamar o cavalete de "ponte" e se perder lendo partituras em português.', certo: 'Em português, a peça colada no tampo é o cavalete; o pedacinho branco em cima dela é o rastilho.' },
             { erro: 'Pôr o dedo em cima do traste de metal.', certo: 'O dedo vai dentro da casa, bem perto do traste da frente. Assim a nota sai limpa com pouca força.' },
@@ -207,6 +229,17 @@ export const M11 = {
           ]
         },
         { t: 'p', x: 'Se você tem um violão de aço, pode fazer o curso inteiro. Duas recomendações: use cordas de tensão leve, e espere uns dois meses até os dedos criarem calo. Se puder escolher, comece no clássico: o braço largo ensina a mão esquerda a se posicionar direito, e a corda macia deixa você estudar mais tempo por dia.' },
+        {
+          t: 'exercicio', tipo: 'perguntas', titulo: 'Qual é o seu violão', rodadas: 6,
+          perguntas: [
+            { texto: 'Quanto mede o braço de um violão clássico na pestana?', opcoes: ['Cerca de 52 mm', 'Cerca de 43 mm', 'Cerca de 30 mm', 'Cerca de 70 mm'], correta: 0, explicacao: 'O acústico tem uns 43 mm e a elétrica uns 42.' },
+            { texto: 'As três cordas graves de um violão clássico são de quê?', opcoes: ['Náilon com fio metálico enrolado', 'Aço puro', 'Náilon puro', 'Tripa'], correta: 0, explicacao: 'As três agudas é que são de náilon puro.' },
+            { texto: 'O que o violão de aço tem dentro do braço?', opcoes: ['Um tirante de aço', 'Um leque de varetas', 'Um captador', 'Nada'], correta: 0, explicacao: 'Ele resiste à tração muito maior das cordas de aço.' },
+            { texto: 'Pôr cordas de náilon num violão de aço...', opcoes: ['Não quebra nada, mas soa frouxo e desafinado', 'Quebra o braço', 'Melhora o som', 'É o recomendado'], correta: 0, explicacao: 'O perigoso é o contrário: aço num violão de náilon arrebenta o instrumento.' },
+            { texto: 'Quanto tempo até os dedos criarem calo num violão de aço?', opcoes: ['Uns dois meses', 'Uns dois dias', 'Um ano', 'Nunca criam'], correta: 0, explicacao: 'Por isso a recomendação de cordas de tensão leve no começo.' },
+            { texto: 'Por que a guitarra elétrica quase não soa sozinha?', opcoes: ['Porque o corpo é maciço, sem caixa de ressonância', 'Porque as cordas são de náilon', 'Porque não tem trastes', 'Porque o braço é fino'], correta: 0, explicacao: 'Captadores magnéticos transformam a vibração em sinal elétrico.' }
+          ]
+        },
         {
           t: 'resumo', itens: [
             'Clássico = náilon, braço largo, dedos. É o instrumento de referência do curso.',
@@ -361,6 +394,17 @@ export const M11 = {
           x: 'Apoie o polegar na 6ª corda e toque, em ordem: 3ª corda com o indicador, 2ª com o médio, 1ª com o anelar e, por fim, a 6ª com o polegar.'
         },
         {
+          t: 'exercicio', tipo: 'perguntas', titulo: 'A linguagem do dedilhado', rodadas: 6,
+          perguntas: [
+            { texto: 'De que língua vêm as letras p, i, m e a?', opcoes: ['Do espanhol', 'Do italiano', 'Do latim', 'Do português'], correta: 0, explicacao: 'Pulgar, índice, medio e anular: a língua do repertório clássico.' },
+            { texto: 'Quando o mindinho da mão direita aparece, que letra recebe?', opcoes: ['c ou e', 'd', 'p', 'x'], correta: 0, explicacao: 'É raríssimo: ele quase não é usado.' },
+            { texto: 'Qual dedo da mão esquerda é o número 4?', opcoes: ['O mindinho', 'O anelar', 'O polegar', 'O indicador'], correta: 0, explicacao: 'Na esquerda: 1 indicador, 2 médio, 3 anelar, 4 mindinho.' },
+            { texto: 'Na partitura, onde fica o número do dedo da mão esquerda?', opcoes: ['Acima da nota', 'Abaixo da nota', 'Dentro da cabeça da nota', 'No fim do compasso'], correta: 0, explicacao: 'A letra da mão direita é que vai abaixo.' },
+            { texto: 'O dedo "m" costuma tocar qual corda?', opcoes: ['A 2ª', 'A 1ª', 'A 3ª', 'A 6ª'], correta: 0, explicacao: 'i na 3ª, m na 2ª, a na 1ª.' },
+            { texto: 'Por que o polegar da mão esquerda não recebe número?', opcoes: ['Porque ele não aperta corda nenhuma', 'Porque é o número zero', 'Porque não se usa', 'Porque varia de pessoa para pessoa'], correta: 0, explicacao: 'Ele fica atrás do braço, servindo de apoio.' }
+          ]
+        },
+        {
           t: 'erros', itens: [
             { erro: 'Usar o polegar para tocar as cordas agudas.', certo: 'O polegar cuida da 6ª, 5ª e 4ª. As agudas são de i, m e a.' },
             { erro: 'Tocar tudo com o indicador.', certo: 'Alternar i e m é o que permite tocar rápido mais tarde. Comece certo.' },
@@ -448,6 +492,17 @@ export const M11 = {
         { t: 'braco', casas: 7, notas: [{ corda: 6, casa: 5, rotulo: 'Lá', classe: 'raiz' }, { corda: 5, casa: 0, rotulo: 'Lá', classe: 'neutro' }, { corda: 5, casa: 5, rotulo: 'Ré', classe: 'raiz' }, { corda: 4, casa: 0, rotulo: 'Ré', classe: 'neutro' }, { corda: 4, casa: 5, rotulo: 'Sol', classe: 'raiz' }, { corda: 3, casa: 0, rotulo: 'Sol', classe: 'neutro' }, { corda: 3, casa: 4, rotulo: 'Si', classe: 'raiz' }, { corda: 2, casa: 0, rotulo: 'Si', classe: 'neutro' }, { corda: 2, casa: 5, rotulo: 'Mi', classe: 'raiz' }, { corda: 1, casa: 0, rotulo: 'Mi', classe: 'neutro' }], legenda: 'Os cinco pares da afinação de ouvido. Cada par de bolinhas com o mesmo nome deve soar idêntico.' },
         { t: 'p', x: 'Toque as duas notas do par uma depois da outra e preste atenção numa oscilação, um "uou-uou-uou" que aparece quando elas estão quase iguais. Quanto mais lenta a oscilação, mais perto você está. Quando ela some, está afinado.' },
         {
+          t: 'exercicio', tipo: 'perguntas', titulo: 'Afinação na prática', rodadas: 6,
+          perguntas: [
+            { texto: 'Qual é a frequência da 6ª corda solta?', opcoes: ['82,41 Hz', '110,00 Hz', '329,63 Hz', '440 Hz'], correta: 0, explicacao: 'A 1ª corda, o outro Mi, fica em 329,63 Hz.' },
+            { texto: 'A 4ª corda presa na casa 5 deve soar igual a...', opcoes: ['3ª corda solta (Sol)', '5ª corda solta (Lá)', '2ª corda solta (Si)', '1ª corda solta (Mi)'], correta: 0, explicacao: 'Cada corda na casa 5 dá a nota da corda seguinte solta.' },
+            { texto: 'Na afinação de ouvido, o que significa a oscilação ficar mais lenta?', opcoes: ['Que as duas notas estão mais perto uma da outra', 'Que uma corda está arrebentando', 'Que você afinou a corda errada', 'Que o violão está muito grave'], correta: 0, explicacao: 'Quando a oscilação some, está afinado.' },
+            { texto: 'Antes de girar a tarraxa, como ter certeza de que é a certa?', opcoes: ['Puxar a corda e ver qual tarraxa se mexe junto', 'Contar da esquerda para a direita', 'Olhar a cor da tarraxa', 'Tentar e ver o que acontece'], correta: 0, explicacao: 'Afinar a corda errada é como se arrebenta corda.' },
+            { texto: 'Por que afinar num lugar silencioso?', opcoes: ['Porque o microfone escuta tudo, não só o violão', 'Porque o som fica mais grave', 'Porque a corda vibra menos', 'Porque o app desliga no barulho'], correta: 0, explicacao: 'Se não der, toque mais perto do telefone.' },
+            { texto: 'Com que força e velocidade se gira a tarraxa?', opcoes: ['Pouquinho por vez, uns poucos graus, sempre ouvindo', 'Uma volta inteira de cada vez', 'O mais rápido possível', 'Com força, para a corda assentar'], correta: 0, explicacao: 'Corda arrebenta quando se gira no escuro.' }
+          ]
+        },
+        {
           t: 'tocar', titulo: 'Confira a afinação da 5ª corda',
           seq: [{ corda: 6, casa: 5, rotulo: '6ª/5' }, { corda: 5, casa: 0, rotulo: '5ª solta' }],
           rotulo: 'Tocar o primeiro par',
@@ -531,6 +586,17 @@ export const M11 = {
         { t: 'p', x: 'Cordas de náilon perdem brilho e param de afinar bem. Sinais de que chegou a hora: a corda fica opaca, desafina sozinha, soa surda ou tem marcas dos trastes. Para quem estuda todo dia, três a quatro meses é um intervalo razoável.' },
         {
           t: 'dica', x: 'Troque uma corda por vez, nunca as seis de uma vez. Assim o braço nunca fica sem tensão e você não força o instrumento. Depois de pôr cordas novas, elas vão desafinar por dois ou três dias: é normal, é a corda acomodando.'
+        },
+        {
+          t: 'exercicio', tipo: 'perguntas', titulo: 'Cuidados que fazem diferença', rodadas: 6,
+          perguntas: [
+            { texto: 'Por que o suor das mãos estraga a corda?', opcoes: ['Porque é ácido e come a corda', 'Porque molha a madeira', 'Porque deixa a corda escorregadia', 'Porque aumenta a tensão'], correta: 0, explicacao: 'Lavar as mãos antes de tocar dobra a vida das cordas.' },
+            { texto: 'Estudando todo dia, de quanto em quanto tempo trocar as cordas?', opcoes: ['A cada 3 ou 4 meses', 'A cada semana', 'A cada 2 anos', 'Só quando arrebentam'], correta: 0, explicacao: 'Ou antes, se ficarem opacas, surdas ou desafinando sozinhas.' },
+            { texto: 'O que fazer antes de viajar de avião com o violão?', opcoes: ['Afrouxar um pouco as cordas e levar em case rígido', 'Tirar todas as cordas', 'Molhar o tampo', 'Apertar mais as cordas'], correta: 0, explicacao: 'A pressão e a temperatura do porão castigam o instrumento.' },
+            { texto: 'Para meses sem tocar, quanto afrouxar as cordas?', opcoes: ['Cerca de meio tom', 'Até ficarem soltas', 'Uma oitava', 'Não se afrouxa nunca'], correta: 0, explicacao: 'No dia a dia não é preciso afrouxar nada.' },
+            { texto: 'Qual destes NÃO é sinal de corda velha?', opcoes: ['A corda ficou mais grossa', 'A corda está opaca', 'Desafina sozinha', 'Tem marcas dos trastes'], correta: 0, explicacao: 'Corda não engrossa: ela perde brilho, afunda nos trastes e para de afinar.' },
+            { texto: 'Pode usar álcool no verniz?', opcoes: ['Não: só pano seco e macio', 'Sim, uma vez por mês', 'Sim, se for diluído', 'Sim, mas só no braço'], correta: 0, explicacao: 'Solventes deixam o verniz opaco para sempre.' }
+          ]
         },
         { t: 'h', x: 'Como guardar' },
         {
