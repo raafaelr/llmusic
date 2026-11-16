@@ -466,6 +466,15 @@ export const M12 = {
           itens: ['Aqueci antes de tocar', 'Fiz varredura de tensão pelo menos duas vezes', 'Fiz pausa a cada 20-25 minutos', 'Alonguei depois de tocar', 'Não senti dor em punho, braço ou ombro']
         },
         {
+          t: 'erros', itens: [
+            { erro: 'Confundir dor com cansaço e seguir tocando.', certo: 'Cansaço passa com a pausa; dor é sinal de parar. Dor nunca é parte do aprendizado de violão.' },
+            { erro: 'Ignorar formigamento ou dormência nos dedos.', certo: 'É sinal de alerta. Pare o dia, e se repetir, procure um profissional.' },
+            { erro: 'Só perceber a tensão quando já dói.', certo: 'Faça a varredura a cada poucos minutos: mandíbula, ombros, pescoço, punho, respiração.' },
+            { erro: 'Tocar horas seguidas achando que rende mais.', certo: 'Sessões curtas com pausas rendem mais e não machucam. É a repetição com tensão que lesiona, não o esforço.' },
+            { erro: 'Insistir com as pontas dos dedos em carne viva.', certo: 'Ardência no começo é normal e passa quando a pele engrossa — mas se arder muito, pare o dia.' },
+          ]
+        },
+        {
           t: 'resumo', itens: [
             'Lesão de músico vem da repetição com tensão, não do esforço grande.',
             'Faça varredura de tensão: mandíbula, ombros, pescoço, punho, respiração.',

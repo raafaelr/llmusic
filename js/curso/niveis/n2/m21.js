@@ -553,6 +553,14 @@ export const M21 = {
           { texto: 'Quantos semitons há entre Dó e Mi?', opcoes: ['4', '3', '2', '5'], correta: 0, explicacao: 'Dó–Ré é um tom, Ré–Mi é outro: 4 semitons.' }
         ] },
         {
+          t: 'erros', itens: [
+            { erro: 'Achar que entre todas as notas vizinhas há um tom.', certo: 'Entre Mi–Fá e Si–Dó a distância é de só um semitom. Por isso não há casa no meio.' },
+            { erro: 'Contar semitom como “duas casas”.', certo: 'Semitom é uma casa. Tom são duas.' },
+            { erro: 'Procurar tônica ou caráter na escala cromática.', certo: 'Ela não tem nem um nem outro: é só a lista completa dos doze sons disponíveis.' },
+            { erro: 'Tratar o cromático como exercício chato e dispensável.', certo: 'É o exercício técnico mais útil que existe, porque obriga os quatro dedos a trabalhar em sequência.' },
+          ]
+        },
+        {
           t: 'resumo', itens: [
             'Semitom = uma casa. Tom = duas casas.',
             'Mi–Fá e Si–Dó são os dois semitons naturais; todas as outras vizinhas naturais estão a um tom.',

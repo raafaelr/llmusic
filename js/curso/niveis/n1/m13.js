@@ -46,6 +46,14 @@ export const M13 = {
           { texto: 'Numa partitura, o silêncio é...', opcoes: ['Escrito com precisão, por pausas de duração definida', 'Deixado em branco', 'Decidido por quem toca', 'Indicado só no fim da peça'], correta: 0, explicacao: 'Para cada figura de nota existe uma pausa de duração igual. O silêncio é uma ordem, não uma falta.' }
         ] },
         {
+          t: 'erros', itens: [
+            { erro: 'Achar que silêncio é ausência de música.', certo: 'O silêncio é escrito com precisão, por pausas de duração definida. É uma ordem, não uma falta.' },
+            { erro: 'Chamar qualquer som de nota.', certo: 'Só a vibração regular e periódica tem altura definida. Bater na madeira é ruído — útil como efeito, mas não é nota.' },
+            { erro: 'Confundir frequência com volume.', certo: 'Hertz mede quantas vezes a corda vibra por segundo, e isso é a altura. Volume é outra coisa.' },
+            { erro: 'Tocar as pausas como se fossem apenas “espaço vazio”.', certo: 'Conte a pausa como conta uma nota. Peça atropelada quase sempre é pausa comida.' },
+          ]
+        },
+        {
           t: 'resumo', itens: [
             'Música é som e silêncio organizados no tempo.',
             'Som é vibração do ar; a frequência (Hz) determina se é grave ou agudo.',
@@ -110,6 +118,14 @@ export const M13 = {
           ]
         },
         { t: 'exercicio', tipo: 'ouvido', titulo: 'Treine a altura', rodadas: 8, saltos: [2, 4, 5, 7, 12], x: 'O app toca duas notas. Diga se a segunda subiu ou desceu.' },
+        {
+          t: 'erros', itens: [
+            { erro: 'Misturar altura com intensidade.', certo: '“Mais alto” na linguagem comum quer dizer mais forte; em música quer dizer mais agudo. São qualidades independentes.' },
+            { erro: 'Achar que timbre é questão de instrumento, e pronto.', certo: 'No violão você controla o timbre com a mão direita: perto do cavalete sai metálico, perto do braço sai doce.' },
+            { erro: 'Mudar a altura girando a tarraxa durante a música.', certo: 'Altura se muda escolhendo outra corda ou outra casa. Girar a tarraxa é desafinar.' },
+            { erro: 'Tratar as quatro qualidades como uma coisa só.', certo: 'Elas são independentes: dá para mudar uma sem mexer nas outras. É essa separação que permite falar de música com precisão.' },
+          ]
+        },
         {
           t: 'resumo', itens: [
             'Altura: grave ou agudo (frequência).',
@@ -254,6 +270,15 @@ export const M13 = {
           compassos: [{ notas: [{ midi: 52, fig: 'minima', texto: '6ª' }, { midi: 57, fig: 'minima', texto: '5ª' }] }, { notas: [{ midi: 62, fig: 'minima', texto: '4ª' }, { midi: 67, fig: 'minima', texto: '3ª' }] }, { notas: [{ midi: 71, fig: 'minima', texto: '2ª' }, { midi: 76, fig: 'minima', texto: '1ª' }] }],
           nomes: true, formula: null, tocar: true, bpm: 70,
           legenda: 'As seis cordas soltas escritas na pauta. Repare que a 6ª e a 5ª precisam de linhas suplementares embaixo: são graves demais para caber nas cinco linhas.'
+        },
+        {
+          t: 'erros', itens: [
+            { erro: 'Contar as linhas da pauta de cima para baixo.', certo: 'Contam-se de baixo para cima: a 1ª linha é a de baixo.' },
+            { erro: 'Achar que as cinco linhas já dizem qual é a nota.', certo: 'Sozinhas elas só mostram que uma nota é mais aguda que a outra. É a clave que fixa a identidade de uma linha.' },
+            { erro: 'Não saber onde a clave de sol “enrola”.', certo: 'A espiral envolve a segunda linha de baixo para cima: essa linha é o Sol. Sabendo uma, você descobre todas.' },
+            { erro: 'Ignorar o 8 pendurado embaixo da clave.', certo: 'Ele avisa que o violão soa uma oitava abaixo do escrito. Existe para a música caber nas cinco linhas.' },
+            { erro: 'Estudar clave de fá e de dó agora.', certo: 'O violão usa só a clave de sol. As outras não fazem falta neste curso.' },
+          ]
         },
         {
           t: 'resumo', itens: [

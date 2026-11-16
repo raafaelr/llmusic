@@ -58,6 +58,14 @@ export const M11 = {
           ]
         },
         {
+          t: 'erros', itens: [
+            { erro: 'Achar que o violão de seis cordas é muito antigo.', certo: 'Ele só aparece no fim do século XVIII. O que vem antes são parentes: alaúde, vihuela, guitarra barroca.' },
+            { erro: 'Imaginar que as cordas sempre foram de náilon.', certo: 'Até a Segunda Guerra as agudas eram de tripa. O náilon chegou por volta de 1946 e mudou o som do instrumento.' },
+            { erro: 'Usar “violão” e “guitarra” como se fossem a mesma palavra em toda parte.', certo: '“Violão” é nosso, aumentativo de viola. Em espanhol e inglês o mesmo instrumento é “guitarra” / “guitar”.' },
+            { erro: 'Pensar que o violão entrou no Brasil pelos conservatórios.', certo: 'Entrou pela rua: choro, modinha e seresta vieram antes do reconhecimento erudito.' },
+          ]
+        },
+        {
           t: 'resumo', itens: [
             'O violão vem de uma longa linhagem: guitarra latina, vihuela, alaúde e guitarra barroca.',
             'Antonio de Torres, por volta de 1850, criou o formato do violão clássico moderno.',
@@ -238,6 +246,14 @@ export const M11 = {
             { texto: 'Pôr cordas de náilon num violão de aço...', opcoes: ['Não quebra nada, mas soa frouxo e desafinado', 'Quebra o braço', 'Melhora o som', 'É o recomendado'], correta: 0, explicacao: 'O perigoso é o contrário: aço num violão de náilon arrebenta o instrumento.' },
             { texto: 'Quanto tempo até os dedos criarem calo num violão de aço?', opcoes: ['Uns dois meses', 'Uns dois dias', 'Um ano', 'Nunca criam'], correta: 0, explicacao: 'Por isso a recomendação de cordas de tensão leve no começo.' },
             { texto: 'Por que a guitarra elétrica quase não soa sozinha?', opcoes: ['Porque o corpo é maciço, sem caixa de ressonância', 'Porque as cordas são de náilon', 'Porque não tem trastes', 'Porque o braço é fino'], correta: 0, explicacao: 'Captadores magnéticos transformam a vibração em sinal elétrico.' }
+          ]
+        },
+        {
+          t: 'erros', itens: [
+            { erro: 'Pôr cordas de aço num violão clássico.', certo: 'O braço e o tampo não são feitos para essa tensão. É o jeito mais rápido de destruir o instrumento.' },
+            { erro: 'Achar que a diferença é só o tipo de corda.', certo: 'Braço, largura do espelho, tensão e técnica são diferentes nos três.' },
+            { erro: 'Começar no instrumento errado e culpar a própria falta de jeito.', certo: 'Este curso é de violão clássico, de náilon. Num aço, a mesma mão sofre muito mais no início.' },
+            { erro: 'Chamar a guitarra elétrica de “violão com fio”.', certo: 'Ela depende de captadores e amplificação: o corpo não projeta som sozinho.' },
           ]
         },
         {

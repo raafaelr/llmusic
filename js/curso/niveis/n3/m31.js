@@ -178,6 +178,14 @@ export const M31 = {
           { texto: 'Dó maior e Lá menor usam as mesmas notas. O que muda?', opcoes: ['Qual nota funciona como centro', 'As notas da escala', 'A armadura', 'O compasso'], correta: 0, explicacao: 'Mesmo material, centro tonal diferente.' }
         ] },
         {
+          t: 'erros', itens: [
+            { erro: 'Decorar cada armadura separadamente.', certo: 'Sustenidos entram sempre na ordem Fá Dó Sol Ré Lá Mi Si, e bemóis na ordem inversa. São duas listas, não quinze armaduras.' },
+            { erro: 'Confundir a armadura de um tom maior com a da relativa menor.', certo: 'Elas são idênticas: Dó maior e Lá menor não têm alteração nenhuma. O que muda é o centro, não a armadura.' },
+            { erro: 'Escrever o acidente da menor harmônica na armadura.', certo: 'Ele é escrito como acidente, nota por nota. A armadura continua a da menor natural.' },
+            { erro: 'Aplicar a armadura só na oitava em que ela está escrita.', certo: 'Ela vale para a nota em todas as oitavas, do começo ao fim da peça.' },
+          ]
+        },
+        {
           t: 'resumo', itens: [
             'Subir uma quinta acrescenta um sustenido; descer uma quinta acrescenta um bemol.',
             'Ordem dos sustenidos: Fá Dó Sol Ré Lá Mi Si. Dos bemóis: o inverso.',
@@ -376,6 +384,14 @@ export const M31 = {
           { texto: 'Por que o trítono é importante na harmonia?', opcoes: ['Porque está dentro do acorde dominante e pede resolução', 'Porque é consonante', 'Porque é o maior intervalo', 'Porque é fácil de tocar'], correta: 0, explicacao: 'A instabilidade dele é o motor da harmonia tonal.' }
         ] },
         {
+          t: 'erros', itens: [
+            { erro: 'Contar o intervalo sem incluir a nota de partida.', certo: 'De Dó a Ré são duas letras: segunda. Sempre se conta a nota inicial.' },
+            { erro: 'Usar “maior” e “menor” com quartas, quintas e oitavas.', certo: 'Essas são justas, diminutas ou aumentadas. Maior e menor valem para 2ª, 3ª, 6ª e 7ª.' },
+            { erro: 'Achar que 9ª, 11ª e 13ª são intervalos de outro tipo.', certo: 'São compostos: basta somar 7 ao simples. A 9ª é a 2ª uma oitava acima.' },
+            { erro: 'Esquecer que a inversão troca a qualidade.', certo: 'Maior vira menor, aumentado vira diminuto, justo continua justo. E os números somam 9.' },
+          ]
+        },
+        {
           t: 'resumo', itens: [
             'Justo aplica-se a 4ª, 5ª e 8ª; maior/menor a 2ª, 3ª, 6ª e 7ª.',
             'Aumentado é um semitom acima; diminuto, um semitom abaixo.',
@@ -468,6 +484,14 @@ export const M31 = {
           { texto: 'O que dá estabilidade a uma tríade?', opcoes: ['A quinta justa', 'A terça', 'A oitava', 'A raiz no baixo'], correta: 0, explicacao: 'Com a quinta alterada, o acorde pede resolução.' },
           { texto: 'Qual é a única diferença entre maior e menor?', opcoes: ['A terça, um semitom mais baixa no menor', 'A quinta', 'A raiz', 'O número de notas'], correta: 0, explicacao: 'E é ela que define o caráter.' }
         ] },
+        {
+          t: 'erros', itens: [
+            { erro: 'Decidir a espécie da tríade só pela terça.', certo: 'A chave está na quinta: se ela é justa, o acorde tem chão e a terça só diz se é alegre ou triste.' },
+            { erro: 'Achar que a inversão muda o acorde.', certo: 'As notas são as mesmas. Muda o baixo, e com ele o som e a função.' },
+            { erro: 'Esperar que diminuto e aumentado sirvam de repouso.', certo: 'Os dois perdem o chão e pedem resolução. São acordes de passagem, não de chegada.' },
+            { erro: 'Chamar de primeira inversão o acorde com a quinta no baixo.', certo: 'Terça no baixo é a primeira inversão; quinta no baixo é a segunda.' },
+          ]
+        },
         {
           t: 'resumo', itens: [
             'Tríade = raiz + terça + quinta, duas terças empilhadas.',
@@ -679,6 +703,14 @@ export const M31 = {
           { texto: 'Qual é a função do grau ii?', opcoes: ['Subdominante', 'Tônica', 'Dominante', 'Nenhuma'], correta: 0, explicacao: 'Compartilha notas com o IV.' }
         ] },
         {
+          t: 'erros', itens: [
+            { erro: 'Decorar progressões em vez de pensar em funções.', certo: 'São três funções, não sete acordes: tônica, subdominante e dominante.' },
+            { erro: 'Esperar que a dominante sirva de repouso.', certo: 'Ela é tensão por definição: o trítono dentro dela pede resolução.' },
+            { erro: 'Trocar acordes de funções diferentes achando que dá no mesmo.', certo: 'A substituição só funciona dentro da mesma função, porque é ali que os acordes compartilham notas.' },
+            { erro: 'Achar que o ciclo T–S–D–T vale só para a peça inteira.', certo: 'Ele acontece em várias escalas de tempo ao mesmo tempo: no compasso, na frase e na peça.' },
+          ]
+        },
+        {
           t: 'resumo', itens: [
             'Três funções: tônica (repouso), subdominante (afastamento) e dominante (tensão).',
             'Tônica: I, vi, iii. Subdominante: IV, ii. Dominante: V, vii°.',
@@ -786,6 +818,14 @@ export const M31 = {
           { texto: 'Quais são os pilares da harmonia tonal?', opcoes: ['Centro tonal, funções e cadências', 'Melodia, harmonia e ritmo', 'Maior, menor e diminuto', 'Escala, acorde e arpejo'], correta: 0, explicacao: 'Casa, movimento e pontuação.' },
           { texto: 'Por que a cadência autêntica é tão forte?', opcoes: ['Porque o trítono do dominante resolve na tônica', 'Porque usa acordes maiores', 'Porque é mais rápida', 'Porque é mais antiga'], correta: 0, explicacao: 'Duas notas resolvem por semitom em direções opostas.' }
         ] },
+        {
+          t: 'erros', itens: [
+            { erro: 'Chamar de cadência qualquer mudança de acorde.', certo: 'Cadência é a fórmula que encerra uma frase. É pontuação, não movimento qualquer.' },
+            { erro: 'Confundir meia cadência com cadência autêntica.', certo: 'A meia cadência TERMINA em V: é vírgula, não ponto final.' },
+            { erro: 'Esperar ponto final na cadência interrompida.', certo: 'V → vi “quase” resolve, em menor e com surpresa. Serve para prolongar o que parecia que ia acabar.' },
+            { erro: 'Tratar a cadência plagal como equivalente à autêntica.', certo: 'IV → I conclui com menos força: é o “amém”, não o fecho definitivo.' },
+          ]
+        },
         {
           t: 'resumo', itens: [
             'Cadência é a pontuação da música: encerra frases.',
