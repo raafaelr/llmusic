@@ -184,9 +184,18 @@ export const M22 = {
           x: 'Use o toque apoiado em todas as notas. O som deve sair mais forte e mais cheio que o habitual.'
         },
         { t: 'metronomo', titulo: 'Escada de velocidade', bpm: 60, compasso: '4/4', x: 'Escala com apoyando, uma nota por clique. Meta do módulo: 100 BPM com som parelho.' },
+        { t: 'exercicio', tipo: 'perguntas', titulo: 'Fixação: escolher o toque', rodadas: 6, perguntas: [
+          { texto: 'Você vai tocar um arpejo em que as cordas devem soar juntas. Qual toque?', opcoes: ['Tirando', 'Apoyando', 'Tanto faz', 'Apoyando só no polegar'], correta: 0, explicacao: 'O apoyando pousaria na corda vizinha e mataria o som dela.' },
+          { texto: 'E uma melodia que precisa se destacar sobre o acompanhamento?', opcoes: ['Apoyando', 'Tirando', 'Tanto faz', 'Tirando com a unha mais comprida'], correta: 0, explicacao: 'O apoio desloca mais massa de corda: som mais cheio e mais volume.' },
+          { texto: 'No tirando, para onde o dedo recolhe?', opcoes: ['Na direção da palma, por cima da corda vizinha sem tocá-la', 'Para a corda vizinha, pousando nela', 'Para cima, afastando do tampo', 'Fica parado onde tocou'], correta: 0, explicacao: 'Se ele esbarra na corda de cima, o recolhimento está indo na direção errada.' },
+          { texto: 'Comparado ao tirando, no apoyando o dedo fica...', opcoes: ['Um pouco mais esticado, com movimento mais horizontal', 'Bem mais curvado', 'Rígido e travado', 'Exatamente igual'], correta: 0, explicacao: 'O movimento atravessa a corda em vez de recolher.' },
+          { texto: 'Seu apoyando está fraco. Qual é a saída errada?', opcoes: ['Fazer mais força com o dedo', 'Deslocar mais a corda antes de soltar', 'Deixar o dedo apoiado um instante na corda vizinha', 'Esticar um pouco mais o dedo'], correta: 0, explicacao: 'Força sobrando deixa o som duro. O volume vem da massa deslocada e do apoio.' },
+          { texto: 'Tocando a 1ª corda com apoyando, a 2ª que estava soando para. Isso é...', opcoes: ['O comportamento normal do apoyando', 'Erro de técnica', 'Problema do instrumento', 'Sinal de unha comprida'], correta: 0, explicacao: 'É justamente o preço do apoyando, e o motivo de ele não servir para arpejos.' }
+        ] },
         {
           t: 'erros', itens: [
             { erro: 'No apoyando, o dedo "bate" na corda vizinha com barulho.', certo: 'O dedo pousa, não bate. O movimento é contínuo e termina suave.' },
+            { erro: 'Começar a estudar só com apoyando porque soa melhor.', certo: 'Os dois são obrigatórios. Quem só faz apoyando trava no primeiro arpejo.' },
             { erro: 'Usar apoyando em arpejos.', certo: 'Apoyando abafa a corda vizinha. Em arpejo, use tirando.' },
             { erro: 'No tirando, o dedo esbarra na corda de cima.', certo: 'Recolha na direção da palma, não para cima.' },
             { erro: 'Apoyando com o dedo muito curvado.', certo: 'No apoyando o dedo fica um pouco mais esticado, e o movimento é mais horizontal.' },
@@ -290,6 +299,14 @@ export const M22 = {
           rotulo: 'Cromático na 6ª corda',
           x: 'Fá, Fá♯, Sol, Sol♯. Mantenha os dedos anteriores apoiados.'
         },
+        { t: 'exercicio', tipo: 'perguntas', titulo: 'Fixação: como estudar o cromático', rodadas: 6, perguntas: [
+          { texto: 'A regra que faz o cromático funcionar é...', opcoes: ['Não levantar o dedo anterior', 'Tocar o mais rápido possível', 'Levantar cada dedo logo depois de tocar', 'Usar só os dedos 1 e 2'], correta: 0, explicacao: 'No fim os quatro estão na corda. É a restrição que gera a independência.' },
+          { texto: 'Por que os dedos 3 e 4 custam tanto?', opcoes: ['Compartilham tendões e quase nunca se movem sozinhos', 'São mais curtos que os outros', 'Ficam mais longe da pestana', 'Têm menos força de nascença'], correta: 0, explicacao: 'É exatamente essa limitação que o exercício ataca.' },
+          { texto: 'Quanto tempo de cromático por dia?', opcoes: ['Cerca de 5 minutos, todo dia', '30 minutos de uma vez', 'Uma hora nos fins de semana', 'Só quando sobrar tempo'], correta: 0, explicacao: 'Pouco e sempre. O resto do tempo é para música.' },
+          { texto: 'Você está a 72 BPM e sai uma nota suja a cada quatro compassos. O que fazer?', opcoes: ['Voltar um degrau de velocidade', 'Continuar até sair limpo', 'Subir para 78 para "soltar" a mão', 'Trocar de exercício'], correta: 0, explicacao: 'Cromático sujo ensina a sujeira: você repete o erro com o metrônomo marcando.' },
+          { texto: 'No exercício de independência pura, o que se faz?', opcoes: ['Com os quatro dedos apertando, levantar um só e abaixar', 'Tocar as quatro casas o mais rápido possível', 'Apertar os quatro ao mesmo tempo e segurar', 'Tocar com os dedos 1 e 4 alternados'], correta: 0, explicacao: 'No máximo 2 minutos por dia, e pare na hora em que sentir qualquer dor.' },
+          { texto: 'O mindinho não chega na casa 4. Antes de culpar o tamanho da mão, cheque...', opcoes: ['O polegar e o ângulo do braço do violão', 'A marca das cordas', 'A afinação', 'O metrônomo'], correta: 0, explicacao: 'Quase sempre é postural, não anatômico.' }
+        ] },
         {
           t: 'erros', itens: [
             { erro: 'Levantar o dedo anterior a cada nota.', certo: 'Deixe apoiado. É essa restrição que cria a independência.' },
@@ -404,6 +421,14 @@ export const M22 = {
           tocar: true, bpm: 76
         },
         { t: 'metronomo', titulo: 'Arpejo no tempo', bpm: 66, compasso: '4/4', x: 'Duas notas por clique (colcheias). Procure fazer as quatro notas do arpejo soarem com o mesmo volume.' },
+        { t: 'exercicio', tipo: 'perguntas', titulo: 'Fixação: arpejo que soa parelho', rodadas: 6, perguntas: [
+          { texto: 'O que faz um arpejo soar regular?', opcoes: ['Preparar o próximo dedo na corda enquanto a nota anterior ainda soa', 'Tocar mais forte', 'Usar apoyando', 'Olhar a mão direita'], correta: 0, explicacao: 'Quem espera a nota acabar para preparar sempre chega atrasado.' },
+          { texto: 'Em arpejo, o toque é sempre...', opcoes: ['Tirando', 'Apoyando', 'Alternando os dois', 'Apoyando no polegar e tirando nos outros'], correta: 0, explicacao: 'Todas as cordas precisam continuar vibrando juntas.' },
+          { texto: 'No padrão p-i-m-a, que dedo toca o baixo?', opcoes: ['p, o polegar', 'i, o indicador', 'a, o anelar', 'm, o médio'], correta: 0, explicacao: 'p vem de "pulgar". Depois sobem i, m e a nas cordas agudas.' },
+          { texto: 'Por que p-a-m-i é mais difícil que p-i-m-a?', opcoes: ['Porque o anelar, o dedo mais fraco, ataca primeiro', 'Porque tem mais notas', 'Porque o polegar muda de corda', 'Porque é mais rápido'], correta: 0, explicacao: 'Descendo, o "a" abre o grupo e expõe a diferença de força.' },
+          { texto: 'O arpejo de seis notas p-i-m-a-m-i cabe exatamente em...', opcoes: ['Um compasso 3/4, em colcheias', 'Um compasso 4/4', 'Dois compassos 2/4', 'Meio compasso 3/4'], correta: 0, explicacao: 'Por isso é o padrão de valsa e de muitos estudos clássicos.' },
+          { texto: 'Na troca de acorde o arpejo trava. Como estudar isso?', opcoes: ['Treinar só a troca, sem tocar: montar o acorde seguinte no tempo', 'Repetir a música inteira até sair', 'Tocar mais devagar para sempre', 'Simplificar o arpejo'], correta: 0, explicacao: 'O problema é a mão esquerda, não o arpejo. Separe os dois.' }
+        ] },
         {
           t: 'erros', itens: [
             { erro: 'Esperar a nota acabar para preparar o próximo dedo.', certo: 'Prepare durante. O dedo seguinte já está na corda enquanto a anterior soa.' },
@@ -511,6 +536,17 @@ export const M22 = {
           legenda: 'Repare: cada nova escala acrescenta exatamente um sustenido. Isso não é coincidência — é o ciclo das quintas, que você estuda no Nível 3.'
         },
         {
+          t: 'exercicio', tipo: 'perguntas', titulo: 'Fixação: as quatro escalas', rodadas: 7, perguntas: [
+            { texto: 'Quantos sustenidos tem a escala de Ré maior?', opcoes: ['Dois: Fá♯ e Dó♯', 'Um: Fá♯', 'Três: Fá♯, Dó♯ e Sol♯', 'Nenhum'], correta: 0, explicacao: 'Sol tem um, Ré tem dois, Lá tem três. Cada quinta acima acrescenta um.' },
+            { texto: 'E a de Lá maior?', opcoes: ['Três: Fá♯, Dó♯ e Sol♯', 'Dois: Fá♯ e Dó♯', 'Um: Fá♯', 'Quatro'], correta: 0, explicacao: 'No braço: Dó♯ na 5ª/4, Fá♯ na 4ª/4 e Sol♯ na 3ª/1.' },
+            { texto: 'Qual é o primeiro passo para estudar uma escala nova?', opcoes: ['Só a mão esquerda, sem tocar, conferindo a posição dos dedos', 'Ligar o metrônomo', 'Tocar o mais rápido que conseguir', 'Decorar o nome das notas'], correta: 0, explicacao: 'O metrônomo é o ÚLTIMO passo, não o primeiro.' },
+            { texto: 'Escalas pedem qual toque de mão direita?', opcoes: ['Apoyando, alternando i e m', 'Tirando, alternando i e m', 'Apoyando só com o polegar', 'Tirando só com o indicador'], correta: 0, explicacao: 'É o apoyando que dá o som cantado à escala.' },
+            { texto: 'Por que descer a escala é mais difícil?', opcoes: ['É onde os erros aparecem, e quase ninguém treina esse sentido', 'Porque as notas são mais agudas', 'Porque exige outra digitação', 'Porque o metrônomo atrapalha'], correta: 0, explicacao: 'Faça sempre os dois sentidos.' },
+            { texto: 'Onde começa a escala de Dó maior na primeira posição?', opcoes: ['5ª corda, casa 3', '6ª corda, casa 3', '4ª corda solta', '2ª corda, casa 1'], correta: 0, explicacao: 'Dedo 3 na 5ª corda. A de Sol começa na 6ª/3.' },
+            { texto: 'Para que servem as escalas, na prática?', opcoes: ['São o vocabulário: quase toda melodia é feita de pedaços de escala', 'Para aquecer os dedos antes de tocar', 'Para testar a afinação', 'Para ganhar velocidade e nada mais'], correta: 0, explicacao: 'Quem treina escalas lê mais rápido, erra menos e toca mais afinado.' }
+          ]
+        },
+        {
           t: 'erros', itens: [
             { erro: 'Tocar a escala só subindo.', certo: 'Descer é mais difícil e é onde os erros aparecem. Sempre faça os dois sentidos.' },
             { erro: 'Esquecer os sustenidos da armadura.', certo: 'Antes de tocar, diga em voz alta quais notas são alteradas nessa escala.' },
@@ -607,6 +643,16 @@ export const M22 = {
           seq: [{ corda: 1, casa: 1 }, { corda: 1, casa: 5 }, { corda: 1, casa: 1 }, { corda: 1, casa: 5 }],
           rotulo: 'Casa 1 e casa 5, alternando',
           x: 'Deslize o dedo 1 entre as casas 1 e 5, aliviando a pressão durante o movimento.'
+        },
+        {
+          t: 'exercicio', tipo: 'perguntas', titulo: 'Fixação: mudar de posição', rodadas: 6, perguntas: [
+            { texto: 'O que define em que posição a mão está?', opcoes: ['A casa em que o dedo 1 trabalha', 'A casa do polegar', 'A corda que está sendo tocada', 'A casa do dedo 4'], correta: 0, explicacao: 'Dedo 1 na casa 5 = quinta posição.' },
+            { texto: 'Numa mudança de posição, o polegar...', opcoes: ['Vai junto, e de preferência inicia o movimento', 'Fica onde está, como âncora', 'Sai do braço durante o deslocamento', 'Vai depois dos dedos'], correta: 0, explicacao: 'Polegar atrasado torce o punho e a mão não chega.' },
+            { texto: 'Quando a mudança deve acontecer?', opcoes: ['Durante o valor da nota anterior', 'Depois que a nota anterior termina', 'Junto com o ataque da nota nova', 'No silêncio entre os compassos'], correta: 0, explicacao: 'Esperar a nota acabar é o que produz o atraso audível.' },
+            { texto: 'Para deslizar sem chiado forte, o dedo deve...', opcoes: ['Parar de apertar, mas continuar encostado na corda', 'Sair completamente da corda', 'Apertar mais para não perder o ponto', 'Ser trocado por outro dedo'], correta: 0, explicacao: 'Um chiado leve faz parte do som do violão; um chiado forte é pressão demais.' },
+            { texto: 'O que é o dedo-guia?', opcoes: ['Um dedo já na corda certa que simplesmente desliza até a nova casa', 'O dedo 1, sempre', 'O polegar', 'O dedo que toca a primeira nota da nova posição'], correta: 0, explicacao: 'Ache esse dedo antes de treinar a passagem: ele faz quase todo o trabalho.' },
+            { texto: 'A nota sai arranhada na mudança. Qual é a causa?', opcoes: ['A mão direita tocou antes de a esquerda chegar', 'A corda está velha', 'O apoyando foi fraco', 'O dedo deslizou devagar demais'], correta: 0, explicacao: 'A esquerda chega primeiro. Sempre.' }
+          ]
         },
         {
           t: 'erros', itens: [
@@ -718,6 +764,16 @@ export const M22 = {
         },
         { t: 'metronomo', titulo: 'Ligados no tempo', bpm: 54, compasso: '4/4', x: 'Toque no clique 1 e martele no clique 2. Depois faça duas por clique.' },
         {
+          t: 'exercicio', tipo: 'perguntas', titulo: 'Fixação: martelo e arrancado', rodadas: 6, perguntas: [
+            { texto: 'De onde vem a força do martelo?', opcoes: ['Da velocidade da queda do dedo', 'Da pressão depois que o dedo chega', 'Da mão direita', 'Do polegar atrás do braço'], correta: 0, explicacao: 'Levante mais o dedo antes de bater, em vez de apertar depois.' },
+            { texto: 'Seu arrancado não produz som nenhum. O que está faltando?', opcoes: ['Puxar a corda de lado ao sair, em vez de só levantar o dedo', 'Apertar mais antes de sair', 'Tocar a nota anterior mais forte', 'Usar o dedo 4 em vez do 3'], correta: 0, explicacao: 'Levantar não move a corda. O dedo toca com a mão esquerda.' },
+            { texto: 'Depois do arrancado sai a corda solta em vez da nota certa. Por quê?', opcoes: ['O dedo de destino não estava preparado na corda', 'O arrancado foi forte demais', 'A mão direita tocou junto', 'O dedo saiu rápido demais'], correta: 0, explicacao: 'Prepare os dois dedos juntos ANTES: isso resolve 90% dos arrancados.' },
+            { texto: 'Para que serve o ligado, além do som mais ligado?', opcoes: ['Tocar passagens rápidas demais para a mão direita e economizar movimento', 'Aumentar o volume', 'Afinar melhor', 'Facilitar a leitura'], correta: 0, explicacao: 'Oito notas num único ataque da direita: esse é o poder do ligado.' },
+            { texto: 'O ligado sai mais fraco que a nota tocada. O que NÃO fazer?', opcoes: ['Compensar tocando a primeira nota mais forte', 'Treinar devagar até o volume igualar', 'Levantar mais o dedo antes do martelo', 'Aceitar que no começo é assim'], correta: 0, explicacao: 'Compensar esconde o problema e estraga a dinâmica do trecho.' },
+            { texto: 'Quanto tempo de ligado por dia?', opcoes: ['3 a 4 minutos', '15 minutos', 'Meia hora', 'O quanto aguentar'], correta: 0, explicacao: 'Cansa muito a mão esquerda, e mão cansada ensina tensão.' }
+          ]
+        },
+        {
           t: 'erros', itens: [
             { erro: 'O martelo sai fraco.', certo: 'A força vem da velocidade da queda, não da pressão. Levante mais o dedo antes de bater.' },
             { erro: 'O arrancado não soa.', certo: 'Você está só levantando. Puxe a corda de lado ao sair.' },
@@ -825,6 +881,16 @@ export const M22 = {
           seq: [{ corda: 1, casa: 0 }, { corda: 1, casa: 3 }, { corda: 1, casa: 1 }, { corda: 1, casa: 0 }],
           rotulo: 'Só a melodia: Mi, Sol, Fá, Mi',
           x: 'Antes de juntar com o arpejo, toque só a melodia para gravar o som dela na cabeça.'
+        },
+        {
+          t: 'exercicio', tipo: 'perguntas', titulo: 'Fixação: dinâmica', rodadas: 6, perguntas: [
+            { texto: 'De onde vem o volume no violão?', opcoes: ['Da velocidade do dedo da mão direita', 'Da pressão da mão esquerda', 'Da força estática do dedo', 'Do tamanho do violão'], correta: 0, explicacao: 'A mão esquerda não controla volume nenhum.' },
+            { texto: 'Quantos níveis de dinâmica basta ter sob controle?', opcoes: ['Cinco: pp, p, mf, f, ff', 'Dois: forte e fraco', 'Infinitos', 'Três: fraco, médio, forte'], correta: 0, explicacao: 'Cinco níveis bem definidos e reproduzíveis valem mais que uma escala contínua imprecisa.' },
+            { texto: 'O que é pp, na prática?', opcoes: ['O mais fraco que ainda soa limpo', 'Silêncio', 'Um volume médio-baixo', 'Metade do volume normal'], correta: 0, explicacao: 'E ff é o mais forte sem o som distorcer. Os extremos são limites reais, não ideias.' },
+            { texto: 'Seu crescendo sai em degraus. Como corrigir?', opcoes: ['Distribuir o aumento por todas as notas do trecho', 'Começar mais forte', 'Fazer o aumento só na última nota', 'Tocar mais devagar'], correta: 0, explicacao: 'Pense na passagem inteira como uma rampa, não como escadas.' },
+            { texto: 'Melodia e acompanhamento no mesmo volume produzem...', opcoes: ['Uma massa confusa, em que não se ouve a música', 'Um som equilibrado', 'Mais volume total', 'Um efeito expressivo'], correta: 0, explicacao: 'A melodia precisa estar claramente acima. É a diferença entre confuso e musical.' },
+            { texto: 'Você toca forte e o som sai duro e a mão cansa. O que está errado?', opcoes: ['Está usando força estática em vez de velocidade de dedo', 'Está tocando perto demais da boca', 'A unha está curta', 'O violão não projeta'], correta: 0, explicacao: 'Tensão não vira volume: vira som duro e mão cansada.' }
+          ]
         },
         {
           t: 'erros', itens: [

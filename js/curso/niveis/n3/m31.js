@@ -257,6 +257,17 @@ export const M31 = {
           { corda: 3, casa: 1, rotulo: '7' }, { corda: 3, casa: 2, rotulo: '8', classe: 'raiz' }
         ], tocar: true, bpm: 96, legenda: 'Lá menor harmônica na primeira posição. O 7º grau (Sol♯) fica na 3ª corda, casa 1.' },
         {
+          t: 'exercicio', tipo: 'perguntas', titulo: 'Fixação: as três menores', rodadas: 7, perguntas: [
+            { texto: 'Quais são as notas de Lá menor natural?', opcoes: ['Lá Si Dó Ré Mi Fá Sol', 'Lá Si Dó Ré Mi Fá Sol♯', 'Lá Si Dó Ré Mi Fá♯ Sol♯', 'Lá Si Dó♯ Ré Mi Fá Sol'], correta: 0, explicacao: 'As mesmas notas de Dó maior, começando no sexto grau.' },
+            { texto: 'Qual é o problema da menor natural?', opcoes: ['O sétimo grau fica um tom abaixo da tônica e não puxa para ela', 'Ela tem notas demais', 'Ela não tem terça menor', 'Ela é difícil de cantar'], correta: 0, explicacao: 'Essa atração do sétimo grau é essencial na harmonia tonal.' },
+            { texto: 'O que a menor harmônica faz?', opcoes: ['Sobe o sétimo grau um semitom', 'Sobe o sexto grau', 'Desce o terceiro grau', 'Sobe o sexto e o sétimo'], correta: 0, explicacao: 'Em Lá menor harmônica o sétimo vira Sol♯, a um semitom do Lá.' },
+            { texto: 'Por que ela se chama HARMÔNICA?', opcoes: ['Porque existe por causa da harmonia: o Sol♯ permite o V maior resolver', 'Porque soa harmoniosa', 'Porque é usada em harmônicos naturais', 'Porque combina com a maior'], correta: 0, explicacao: 'Sem o Sol♯, o quinto grau seria Mi menor e não resolveria com a mesma força.' },
+            { texto: 'Que problema a menor harmônica cria?', opcoes: ['Um salto de tom e meio entre o sexto e o sétimo grau', 'Perde a terça menor', 'Fica igual à maior', 'Não tem sétimo grau'], correta: 0, explicacao: 'Três semitons: difícil de cantar e com sabor "oriental".' },
+            { texto: 'Como a menor melódica resolve isso?', opcoes: ['Sobe também o sexto grau', 'Desce o sétimo de volta', 'Sobe o quinto grau', 'Elimina o sexto grau'], correta: 0, explicacao: 'Em Lá: Fá♯ e Sol♯ subindo. Os últimos passos viram tom, tom, semitom.' },
+            { texto: 'E na descida, a melódica clássica faz o quê?', opcoes: ['Desce na forma natural, sem as alterações', 'Desce igual à subida', 'Desce na forma harmônica', 'Desce pela escala maior'], correta: 0, explicacao: 'A atração para a tônica só importa subindo. É a única escala que muda conforme a direção.' }
+          ]
+        },
+        {
           t: 'erros', itens: [
             { erro: 'Achar que existe "a" escala menor.', certo: 'São três, e cada uma resolve um problema diferente.' },
             { erro: 'Escrever a armadura com o Sol♯ da harmônica.', certo: 'A armadura de Lá menor é a mesma de Dó maior: nenhuma alteração. O Sol♯ é escrito como acidente, nota por nota.' },
@@ -547,6 +558,17 @@ export const M31 = {
         { t: 'p', x: 'Partindo da menor *harmônica* (com o sétimo grau elevado), o padrão fica: *i – ii° – III+ – iv – V – VI – vii°*. Em Lá menor: Am, Bdim, Caug, Dm, E, F, G♯dim. Repare que o V é *maior* — e é exatamente para isso que o sétimo grau foi elevado.' },
         { t: 'ir', rota: 'caged', titulo: 'Abrir a ferramenta CAGED', x: 'Lá você vê o mesmo acorde em cinco lugares do braço, o que é a aplicação prática direta desta aula.' },
         { t: 'ir', rota: 'teoria', titulo: 'Lição de campo harmônico', x: 'Com quiz e braço interativo em todas as tonalidades.' },
+        {
+          t: 'exercicio', tipo: 'perguntas', titulo: 'Fixação: campo harmônico', rodadas: 7, perguntas: [
+            { texto: 'Qual é o padrão de qualidades do campo harmônico maior?', opcoes: ['I ii iii IV V vi vii°', 'I II III IV V VI VII', 'i ii III iv v VI VII', 'I ii III IV v vi VII'], correta: 0, explicacao: 'Maiúsculo é maior, minúsculo é menor, o círculo é diminuto. O padrão nunca muda de tonalidade para tonalidade.' },
+            { texto: 'Em Dó maior, qual acorde é o grau vi?', opcoes: ['Am', 'F', 'G', 'Em'], correta: 0, explicacao: 'Sexto grau, acorde menor. É o relativo menor de Dó.' },
+            { texto: 'E o grau V em Sol maior?', opcoes: ['Ré maior', 'Dó maior', 'Mi menor', 'Lá menor'], correta: 0, explicacao: 'A quinta de Sol é Ré, e o quinto grau é sempre maior no campo maior.' },
+            { texto: 'Como se monta cada acorde do campo harmônico?', opcoes: ['Tríade sobre cada nota, usando só notas da escala', 'Tríade maior sobre cada nota', 'Tríade a partir da tônica, transposta', 'Qualquer acorde que soe bem'], correta: 0, explicacao: 'A restrição "só notas da escala" é o que gera o padrão de qualidades.' },
+            { texto: 'A progressão I – V – vi – IV em Dó é...', opcoes: ['C – G – Am – F', 'C – F – G – Am', 'C – Am – F – G', 'C – G – F – Am'], correta: 0, explicacao: 'Em Sol seria G – D – Em – C. É a progressão mais usada da música popular.' },
+            { texto: 'Para que servem os números romanos?', opcoes: ['Falar de uma progressão independentemente da tonalidade', 'Indicar o dedilhado', 'Marcar a posição no braço', 'Numerar os compassos'], correta: 0, explicacao: 'É a linguagem universal da harmonia.' },
+            { texto: 'No campo harmônico menor (vindo da harmônica), o grau V é...', opcoes: ['Maior — e foi para isso que o sétimo grau subiu', 'Menor', 'Diminuto', 'Aumentado'], correta: 0, explicacao: 'Em Lá menor: E maior. Sem o Sol♯ ele seria Em e não resolveria.' }
+          ]
+        },
         {
           t: 'erros', itens: [
             { erro: 'Achar que o padrão muda de tonalidade para tonalidade.', certo: 'A qualidade de cada grau é sempre a mesma: I ii iii IV V vi vii°.' },

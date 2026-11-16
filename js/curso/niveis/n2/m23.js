@@ -115,6 +115,16 @@ export const M23 = {
           itens: ['Dias 1-3: Cantiga da Liz, por frases', 'Dia 4: Cantiga completa, com metrônomo', 'Dias 5-7: Acalanto para a Lívia', 'Dia 8: Acalanto completo', 'Dias 9-11: Estudo da ponte', 'Dia 12: as três seguidas, de memória ou lendo']
         },
         {
+          t: 'exercicio', tipo: 'perguntas', titulo: 'Fixação: como estudar uma peça', rodadas: 6, perguntas: [
+            { texto: 'Por que tocar a peça inteira muitas vezes não resolve o trecho difícil?', opcoes: ['Você repete o fácil tantas vezes quanto o difícil', 'Porque cansa a mão', 'Porque desafina o violão', 'Porque o andamento fica irregular'], correta: 0, explicacao: 'O difícil precisa de dez repetições a mais, não das mesmas dez.' },
+            { texto: 'Você errou no meio da peça. O que fazer?', opcoes: ['Seguir em frente e depois voltar ao trecho', 'Recomeçar do início', 'Parar o estudo', 'Tocar o trecho mais rápido'], correta: 0, explicacao: 'Recomeçar sempre do início faz você estudar dez vezes o começo e uma vez o fim.' },
+            { texto: 'Quanto do seu tempo de estudo deve ser repertório, a partir daqui?', opcoes: ['Cerca de metade', 'Dez por cento', 'Só o que sobrar do exercício técnico', 'Todo o tempo'], correta: 0, explicacao: 'Exercício constrói a mão; música constrói o músico.' },
+            { texto: 'O Estudo da ponte está em Sol maior. O que dizer em voz alta antes de tocar?', opcoes: ['"Tem Fá sustenido"', '"Tem Dó sustenido"', '"Não tem acidente"', '"É em 3/4"'], correta: 0, explicacao: 'Sol maior tem um sustenido, e ele é o Fá. Dizer em voz alta evita o erro mais comum de armadura.' },
+            { texto: 'O Acalanto para a Lívia está em 3/4 e bem devagar. O que ele treina principalmente?', opcoes: ['Som sustentado e contagem de notas longas', 'Velocidade', 'Mudança de posição', 'Ligados'], correta: 0, explicacao: 'Tem ligadura de prolongamento no fim de cada frase: é contar o silêncio e o som longo.' },
+            { texto: 'Melodia pede qual toque de mão direita?', opcoes: ['Apoyando', 'Tirando', 'Só polegar', 'Tanto faz'], correta: 0, explicacao: 'O apoyando é o que faz a melodia cantar em vez de soar dedilhada.' }
+          ]
+        },
+        {
           t: 'erros', itens: [
             { erro: 'Tocar a peça inteira repetidas vezes.', certo: 'Isole o trecho difícil e repita só ele.' },
             { erro: 'Parar e recomeçar do início ao errar.', certo: 'Siga em frente. Depois volte ao trecho.' },
@@ -236,6 +246,16 @@ export const M23 = {
         },
         { t: 'metronomo', titulo: 'Metrônomo', bpm: 54, compasso: '3/4', x: 'Para a Valsinha. Mude para 4/4 na Canção de ninar.' },
         {
+          t: 'exercicio', tipo: 'perguntas', titulo: 'Fixação: tocar duas vozes', rodadas: 6, perguntas: [
+            { texto: 'Para duas notas soarem como um acorde, e não como um erro...', opcoes: ['Prepare os dois dedos na corda antes e solte ao mesmo tempo', 'Toque uma logo depois da outra, bem rápido', 'Toque a de cima mais forte', 'Use apoyando nas duas'], correta: 0, explicacao: 'Se um dedo sai antes do outro, o ouvido escuta um tropeço.' },
+            { texto: 'O arpejo para toda vez que a mão esquerda troca de acorde. Como estudar?', opcoes: ['Treinar a troca sozinha, sem a mão direita, até ficar automática', 'Tocar a peça inteira mais devagar', 'Simplificar o arpejo', 'Trocar o acorde mais cedo'], correta: 0, explicacao: 'O problema é da esquerda: resolver pela direita só esconde.' },
+            { texto: 'O baixo some na Canção de ninar. O que fazer?', opcoes: ['Dar volume próprio ao polegar, tocando-o com apoio', 'Tocar as outras notas mais fraco', 'Mudar o acorde', 'Afinar a 6ª corda mais alto'], correta: 0, explicacao: 'O polegar é o dedo mais forte, mas precisa ser usado com intenção.' },
+            { texto: 'Numa peça a duas vozes, onde costuma estar a melodia?', opcoes: ['Na nota mais aguda', 'No baixo', 'Na voz do meio', 'Alternando entre as duas'], correta: 0, explicacao: 'E ela precisa soar mais forte que o resto, ou a peça vira massa confusa.' },
+            { texto: 'A Valsinha da Lívia usa qual padrão de arpejo?', opcoes: ['p-i-m-a-m-i', 'p-i-m-a', 'p-a-m-i', 'p-m-i'], correta: 0, explicacao: 'Seis notas que cabem exatamente num compasso 3/4. Por isso é valsa.' },
+            { texto: 'Qual é o segredo da troca de acorde sem buraco no som?', opcoes: ['Montar o acorde seguinte durante o tempo da última nota do anterior', 'Tocar o acorde anterior mais curto', 'Soltar todos os dedos de uma vez', 'Deixar o arpejo mais lento na troca'], correta: 0, explicacao: 'A mudança acontece DURANTE, nunca depois.' }
+          ]
+        },
+        {
           t: 'erros', itens: [
             { erro: 'O arpejo para quando a mão esquerda troca de acorde.', certo: 'Treine a troca sozinha, sem a direita, até ficar automática.' },
             { erro: 'As duas notas do "p+m" não saem juntas.', certo: 'Prepare os dois dedos na corda antes e solte ao mesmo tempo.' },
@@ -356,6 +376,16 @@ export const M23 = {
             ['Mauro Giuliani', '120 arpejos Op. 1', 'Um catálogo de padrões de mão direita']
           ],
           legenda: 'Todos morreram há mais de cem anos, então as obras estão em domínio público. Você encontra as partituras gratuitamente em acervos como o IMSLP. No Nível 3 este repertório é estudado em detalhe.'
+        },
+        {
+          t: 'exercicio', tipo: 'perguntas', titulo: 'Fixação: o que é um estudo', rodadas: 6, perguntas: [
+            { texto: 'O que distingue um estudo de uma peça qualquer?', opcoes: ['Ele é música E resolve um problema técnico definido', 'Ele é mais curto', 'Ele é mais fácil', 'Ele não tem melodia'], correta: 0, explicacao: 'Sor, Carcassi, Carulli, Giuliani e Aguado escreveram centenas no século XIX.' },
+            { texto: 'Qual é a primeira coisa a fazer com um estudo novo?', opcoes: ['Descobrir qual é o problema técnico que ele treina', 'Tocá-lo inteiro uma vez', 'Decorá-lo', 'Ligar o metrônomo'], correta: 0, explicacao: 'Sem isso você toca as notas sem treinar nada.' },
+            { texto: 'Quando um estudo está pronto?', opcoes: ['Quando fica fácil', 'Quando sai certo uma vez', 'Quando você o decora', 'Quando chega ao andamento indicado'], correta: 0, explicacao: 'Sair uma vez é acaso; ficar fácil é domínio.' },
+            { texto: 'O que é um "exercício seco"?', opcoes: ['Tocar só uma camada da peça de cada vez: só os baixos, depois só os dedos', 'Tocar sem metrônomo', 'Tocar sem som, só com a mão esquerda', 'Repetir o trecho difícil dez vezes'], correta: 0, explicacao: 'São dois minutos que economizam duas semanas.' },
+            { texto: 'No Estudo nº 2, baixo caminhante, quem conta a história?', opcoes: ['O polegar: a linha dele é a melodia', 'A nota mais aguda', 'O acompanhamento fixo dos dedos', 'As duas vozes igualmente'], correta: 0, explicacao: 'Por isso um polegar fraco estraga esse estudo inteiro.' },
+            { texto: 'E qual é o problema do Estudo nº 1?', opcoes: ['Manter o arpejo regular enquanto a harmonia muda a cada compasso', 'Tocar rápido', 'Fazer ligados limpos', 'Mudar de posição'], correta: 0, explicacao: 'A regularidade da direita tem de sobreviver ao trabalho da esquerda.' }
+          ]
         },
         {
           t: 'erros', itens: [
@@ -486,6 +516,16 @@ export const M23 = {
         },
         { t: 'p', x: 'Todas essas obras estão em domínio público e podem ser baixadas gratuitamente em acervos como o IMSLP. O Nível 3 deste curso trabalha cada um desses compositores em detalhe.' },
         { t: 'ir', rota: 'importar', titulo: 'Importar uma partitura', x: 'Se você baixar uma partitura em PDF, Guitar Pro ou MusicXML, pode importá-la aqui e estudá-la com o cursor do app.' },
+        {
+          t: 'exercicio', tipo: 'perguntas', titulo: 'Fixação: da nota à música', rodadas: 6, perguntas: [
+            { texto: 'Quais são as quatro camadas de uma peça, em ordem?', opcoes: ['Notas, ritmo, técnica, música', 'Ritmo, notas, música, técnica', 'Técnica, notas, ritmo, música', 'Música, notas, ritmo, técnica'], correta: 0, explicacao: 'A quarta é a que transforma estudo em música, e é a que quase ninguém alcança.' },
+            { texto: 'O que é uma frase musical?', opcoes: ['Um trecho que faz sentido sozinho e termina numa nota de repouso', 'Um compasso', 'Uma linha da partitura', 'Tudo que cabe numa respiração'], correta: 0, explicacao: 'Geralmente 2 ou 4 compassos. Música tem pontuação, como um texto.' },
+            { texto: 'Quando marcar as frases?', opcoes: ['Antes de estudar as notas', 'Depois que a peça está pronta', 'Durante a primeira leitura', 'Só se a partitura não indicar'], correta: 0, explicacao: 'Marcadas antes, elas guiam o estudo inteiro em vez de serem um enfeite no fim.' },
+            { texto: 'Como tocar uma frase, segundo a aula?', opcoes: ['Como quem diz uma oração em voz alta: começa, cresce um pouco, relaxa no fim', 'Tudo no mesmo volume', 'Começando forte e terminando forte', 'Acelerando até o fim'], correta: 0, explicacao: 'O arco da frase é o que faz a música respirar.' },
+            { texto: 'Numa forma A–B–A, como tocar a volta da parte A?', opcoes: ['Mais suave: é um reencontro, não uma cópia', 'Exatamente igual à primeira vez', 'Mais forte, para concluir', 'Mais rápido'], correta: 0, explicacao: 'Repetir idêntico é a diferença entre tocar notas e fazer música.' },
+            { texto: 'As notas da peça já saem certas. E agora?', opcoes: ['Agora começa a parte musical: frases, dinâmica, timbre', 'A peça está pronta', 'Hora de subir o andamento até o máximo', 'Hora de decorar'], correta: 0, explicacao: 'Tocar as notas certas é o primeiro quarto do trabalho.' }
+          ]
+        },
         {
           t: 'erros', itens: [
             { erro: 'Parar de estudar a peça quando as notas saem.', certo: 'Aí começa a parte musical: frases, dinâmica, timbre.' },

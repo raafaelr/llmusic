@@ -72,6 +72,14 @@ export const M32 = {
           rotulo: 'Ré, Mi, Fá, Sol, Lá, Si, Dó',
           x: 'Inclui a mudança de posição do Sol para o Lá. Confira se as notas da 5ª posição saem afinadas.'
         },
+        { t: 'exercicio', tipo: 'perguntas', titulo: 'Fixação: escalas de duas oitavas', rodadas: 6, perguntas: [
+          { texto: 'Por que a digitação tem de ser decidida ANTES de treinar velocidade?', opcoes: ['Digitação diferente a cada repetição não constrói automatismo nenhum', 'Porque é mais rápido de ler', 'Porque o metrônomo exige', 'Porque a partitura manda'], correta: 0, explicacao: 'Você estaria treinando dez caminhos diferentes, um pouco cada.' },
+          { texto: 'Em Dó maior de duas oitavas, onde fica a mudança de posição?', opcoes: ['Do Sol (1ª corda, casa 3) para o Lá (casa 5)', 'Do Dó para o Ré, na quinta corda', 'No meio do segundo compasso, sempre', 'Não há mudança de posição'], correta: 0, explicacao: 'O dedo 1 pula para a casa 5 e a mão inteira vai junto: da 1ª para a 5ª posição.' },
+          { texto: 'A passagem toda sai bem, menos a mudança de posição. O que fazer?', opcoes: ['Isolar a mudança e repetir só ela, dez vezes', 'Tocar a escala inteira mais devagar', 'Mudar a digitação', 'Pular essa escala'], correta: 0, explicacao: 'É o mesmo princípio de sempre: repita o difícil, não o fácil.' },
+          { texto: 'As notas da segunda oitava saem desafinadas. O que conferir?', opcoes: ['A precisão do salto do dedo 1, usando as marcas do braço', 'A afinação das cordas', 'O apoyando da mão direita', 'O andamento'], correta: 0, explicacao: 'Na região aguda as casas são menores: um erro pequeno de posição já desafina.' },
+          { texto: 'Uma escala de duas oitavas obriga a mão a...', opcoes: ['Atravessar o braço, mudando de posição', 'Tocar mais rápido', 'Usar o dedo 4 em todas as cordas', 'Abandonar o apoyando'], correta: 0, explicacao: 'É nessa travessia que a técnica cresce de verdade.' },
+          { texto: 'Quantos sentidos treinar?', opcoes: ['Os dois: subindo e descendo', 'Só subindo', 'Só descendo', 'Subindo devagar e descendo rápido'], correta: 0, explicacao: 'Descer é mais difícil e quase ninguém treina.' }
+        ] },
         {
           t: 'erros', itens: [
             { erro: 'Digitação diferente a cada repetição.', certo: 'Decida e decore a digitação antes de treinar velocidade.' },
@@ -162,6 +170,14 @@ export const M32 = {
           itens: ['Semana 1: pestana solta na casa 5, corda por corda', 'Semana 2: casa 4 e casa 3', 'Semana 3: casa 2 e casa 1', 'Semana 4: acorde de Fá completo', 'Semana 5: troca Am → F → C → G no tempo']
         },
         { t: 'metronomo', titulo: 'Troca de acorde com pestana', bpm: 50, compasso: '4/4', x: 'Quatro tempos em cada acorde: Am, F, C, G. Monte o acorde seguinte no tempo 4.' },
+        { t: 'exercicio', tipo: 'perguntas', titulo: 'Fixação: pestana', rodadas: 6, perguntas: [
+          { texto: 'Que parte do dedo faz a pestana?', opcoes: ['A lateral, rolando o dedo', 'A polpa macia do meio', 'A ponta', 'A articulação'], correta: 0, explicacao: 'A lateral é mais dura e tem menos dobras. A polpa afunda e a corda chia.' },
+          { texto: 'Onde a pestana fica dentro da casa?', opcoes: ['Junto ao traste da frente', 'No meio da casa', 'Logo atrás do traste de trás', 'Em cima do traste'], correta: 0, explicacao: 'Junto do traste, a força necessária cai pela metade. Vale para qualquer dedo.' },
+          { texto: 'De onde vem a força da pestana?', opcoes: ['Do peso do braço', 'Do aperto do polegar', 'Dos músculos da mão', 'Do ombro, empurrando'], correta: 0, explicacao: 'Apertar com o polegar cansa, machuca e não resolve.' },
+          { texto: 'Em que ordem montar um acorde com pestana?', opcoes: ['Os outros dedos primeiro; a pestana fecha por último', 'A pestana primeiro, depois os outros', 'Todos ao mesmo tempo', 'Depende do acorde'], correta: 0, explicacao: 'Fechando a pestana antes, a mão chega tensa e os outros dedos não acham o lugar.' },
+          { texto: 'No teste diagnóstico, quais cordas costumam falhar?', opcoes: ['A 2ª ou a 3ª, por caírem sobre uma articulação', 'A 6ª e a 1ª', 'Sempre a 1ª', 'Todas igualmente'], correta: 0, explicacao: 'Role um pouco o dedo e teste de novo: em minutos você acha a sua posição.' },
+          { texto: 'Como construir pestana ao longo das semanas?', opcoes: ['Começar na casa 5 e descer uma casa por semana', 'Começar na casa 1, a mais difícil', 'Fazer 20 minutos seguidos por dia', 'Só tocar peças com pestana'], correta: 0, explicacao: 'Sessões de 3 minutos, várias vezes ao dia. Se dói, pare.' }
+        ] },
         {
           t: 'erros', itens: [
             { erro: 'Usar a polpa macia do meio do dedo.', certo: 'Role para a lateral.' },
@@ -271,6 +287,14 @@ export const M32 = {
           rotulo: 'p-m-i-a',
           x: 'O médio toca a 2ª corda antes de o indicador tocar a 3ª. Vá bem devagar.'
         },
+        { t: 'exercicio', tipo: 'perguntas', titulo: 'Fixação: famílias de arpejo', rodadas: 6, perguntas: [
+          { texto: 'O que Giuliani publicou no Op. 1, em 1812?', opcoes: ['120 fórmulas de arpejo', '24 estudos', 'Um método de leitura', '12 escalas'], correta: 0, explicacao: 'Até hoje é o catálogo definitivo da mão direita, e está em domínio público.' },
+          { texto: 'O que caracteriza a família do polegar intercalado?', opcoes: ['O polegar aparece entre cada nota aguda, criando uma linha de baixo contínua', 'O polegar toca duas cordas de cada vez', 'O polegar não toca', 'O polegar toca só no fim do compasso'], correta: 0, explicacao: 'É o padrão de muitos estudos de Carulli e de boa parte da música dedilhada.' },
+          { texto: 'O que é um arpejo de cruzamento?', opcoes: ['A ordem das cordas não acompanha a ordem dos dedos', 'Duas mãos cruzadas', 'Arpejo que troca de acorde no meio', 'Arpejo tocado com apoyando'], correta: 0, explicacao: 'O "a" pode tocar uma corda mais grave que o "m". São os mais difíceis e os que mais desenvolvem a mão.' },
+          { texto: 'Qual a ordem de estudo recomendada?', opcoes: ['Dominar as famílias 1 a 3 antes de ir aos cruzamentos', 'Começar pelos cruzamentos, que são os mais úteis', 'Escolher uma família e ficar nela', 'Fazer as cinco ao mesmo tempo'], correta: 0, explicacao: 'Cruzamento sem base vira movimento desorganizado.' },
+          { texto: 'Por que arpejo sem metrônomo não adianta?', opcoes: ['Regularidade é o objetivo inteiro do exercício', 'Porque o andamento fica lento', 'Porque não dá para contar as notas', 'Porque cansa mais'], correta: 0, explicacao: 'Um arpejo irregular não serve para nada, e sem metrônomo o ouvido se acostuma com ele.' },
+          { texto: 'A mão balança nos padrões de seis e oito notas. O que fazer?', opcoes: ['Reduzir a velocidade: só os dedos devem se mover', 'Apoiar o mindinho no tampo', 'Tocar mais forte', 'Mudar o padrão'], correta: 0, explicacao: 'Mão balançando é sinal de que a velocidade passou do que o controle alcança.' }
+        ] },
         {
           t: 'erros', itens: [
             { erro: 'Pular direto para os cruzamentos.', certo: 'Domine as famílias 1 a 3 antes.' },
@@ -372,6 +396,14 @@ export const M32 = {
           tocar: true, bpm: 54
         },
         { t: 'metronomo', titulo: 'Salto no tempo', bpm: 50, compasso: '4/4', x: 'Toque no 1, salte durante o 2, toque no 3. Depois reduza o tempo de preparo.' },
+        { t: 'exercicio', tipo: 'perguntas', titulo: 'Fixação: cadeias e saltos', rodadas: 6, perguntas: [
+          { texto: 'Numa cadeia de ligados, o que acontece com o volume?', opcoes: ['Cai a cada ligado, porque a corda vai perdendo amplitude', 'Aumenta a cada ligado', 'Fica igual', 'Depende do dedo usado'], correta: 0, explicacao: 'Compensar essa queda é justamente o trabalho da cadeia.' },
+          { texto: 'Como compensar essa queda?', opcoes: ['Aumentando a energia dos ligados seguintes', 'Tocando a primeira nota mais forte', 'Tocando mais devagar', 'Encurtando a cadeia'], correta: 0, explicacao: 'Tocar a primeira mais forte só disfarça e estraga a dinâmica do trecho.' },
+          { texto: 'Um salto grande em tempo curto deve ser executado...', opcoes: ['Sempre rápido; o que muda é o momento de sair', 'Devagar, para não errar', 'Deslizando pela corda', 'Com o olho na casa de destino durante o trajeto'], correta: 0, explicacao: 'O salto é rápido por definição; sair mais cedo é o que dá tempo.' },
+          { texto: 'Durante o salto, a pressão do dedo deve...', opcoes: ['Ser solta completamente antes de sair', 'Ser mantida até o último instante', 'Aumentar para firmar a saída', 'Alternar entre dedos'], correta: 0, explicacao: 'Pressão mantida atrasa a saída e arranha a corda.' },
+          { texto: 'Para onde olhar num salto?', opcoes: ['Para o destino, antes de sair', 'Para a mão, durante o trajeto', 'Para a partitura', 'Para a casa de origem'], correta: 0, explicacao: 'Procurar a casa depois de chegar é sempre tarde demais.' },
+          { texto: 'O que o salto exige, que o deslize não exige?', opcoes: ['Memória de distância, visual e muscular', 'Mais força', 'Dedo-guia', 'Pressão constante'], correta: 0, explicacao: 'Sem contato com a corda, só a memória diz onde a mão vai parar.' }
+        ] },
         {
           t: 'erros', itens: [
             { erro: 'Saltar devagar.', certo: 'O salto é sempre rápido; o que muda é o momento da saída.' },
@@ -477,6 +509,14 @@ export const M32 = {
           tocar: true, bpm: 72
         },
         { t: 'ir', rota: 'afinador', titulo: 'Abrir o afinador', x: 'Compare os seus harmônicos com o afinador para conferir a precisão.' },
+        { t: 'exercicio', tipo: 'perguntas', titulo: 'Fixação: harmônicos naturais', rodadas: 6, perguntas: [
+          { texto: 'Onde o dedo encosta para produzir um harmônico?', opcoes: ['Exatamente em cima do traste', 'No meio da casa', 'Logo atrás do traste', 'Na metade entre dois trastes'], correta: 0, explicacao: 'É o ponto de divisão da corda. Dentro da casa não sai harmônico nenhum.' },
+          { texto: 'Quanta pressão fazer?', opcoes: ['Nenhuma: só encostar', 'A mesma de uma nota normal', 'Mais que o normal', 'Pressão só no ataque'], correta: 0, explicacao: 'A ideia é cancelar a vibração principal, não prender a corda.' },
+          { texto: 'O que fazer com o dedo logo depois do ataque?', opcoes: ['Tirar imediatamente', 'Deixar encostado até o som acabar', 'Apertar para sustentar', 'Deslizar para a casa seguinte'], correta: 0, explicacao: 'Dedo na corda depois do ataque mata o harmônico.' },
+          { texto: 'Onde a mão direita deve tocar para o harmônico sair mais claro?', opcoes: ['Mais perto do cavalete', 'Mais perto do braço', 'Em cima da boca', 'Tanto faz'], correta: 0, explicacao: 'Perto do cavalete o som sai mais definido e brilhante.' },
+          { texto: 'Por que harmônicos servem para afinar?', opcoes: ['São sons puríssimos, sem as impurezas da nota pressionada', 'São mais altos', 'Duram mais', 'Soam sempre na mesma oitava'], correta: 0, explicacao: 'Sons puros deixam a batida de desafinação muito mais fácil de ouvir.' },
+          { texto: 'Qual corda não entra na regra simples de afinação por harmônicos?', opcoes: ['A 3ª, por causa do intervalo diferente para a 2ª', 'A 6ª', 'A 1ª', 'A 4ª'], correta: 0, explicacao: 'Para ela, use o afinador do app ou compare o harmônico da casa 12 com a casa 12 pressionada.' }
+        ] },
         {
           t: 'erros', itens: [
             { erro: 'Pôr o dedo dentro da casa.', certo: 'Exatamente em cima do traste.' },
@@ -581,6 +621,14 @@ export const M32 = {
           { corda: 2, casa: 1, rotulo: 'Dó', classe: 'raiz' }, { corda: 3, casa: 5, rotulo: 'Dó', classe: 'raiz' }, { corda: 4, casa: 10, rotulo: 'Dó' }
         ], legenda: 'A mesma nota Dó em três lugares diferentes. Escolher o lugar certo muitas vezes resolve um problema de sustentação.' },
         { t: 'metronomo', titulo: 'Exercício de duração', bpm: 50, compasso: '4/4', x: 'Toque uma nota no clique 1 e deixe soar até o clique 4. Preste atenção: ela dura mesmo os quatro tempos?' },
+        { t: 'exercicio', tipo: 'perguntas', titulo: 'Fixação: sustentação e legato', rodadas: 6, perguntas: [
+          { texto: 'Qual é a regra de ouro da digitação que sustenta?', opcoes: ['Deixe no lugar tudo o que puder ficar', 'Levante cada dedo logo depois de usar', 'Use sempre o dedo mais próximo', 'Prefira cordas soltas'], correta: 0, explicacao: 'Antes de levantar, pergunte: ele precisa mesmo sair agora? Quase sempre a resposta é não.' },
+          { texto: 'O problema da sustentação é...', opcoes: ['Invisível na partitura e muito audível na música', 'Visível na partitura e inaudível', 'Um defeito do instrumento', 'Exclusivo de peças rápidas'], correta: 0, explicacao: 'A nota morre antes do valor escrito porque o dedo saiu cedo.' },
+          { texto: 'Numa peça a duas vozes, qual é o teste do legato?', opcoes: ['A nota longa de uma voz continua soando enquanto a outra se move', 'As duas vozes começam juntas', 'O baixo é mais forte', 'Não há silêncio entre as notas da melodia'], correta: 0, explicacao: 'Se a nota longa some, não é polifonia: é arpejo.' },
+          { texto: 'Só um dedo precisava se mover e você deslocou a mão inteira. Isso...', opcoes: ['Derruba as notas que estavam soando', 'É indiferente', 'Melhora a afinação', 'Facilita o próximo acorde'], correta: 0, explicacao: 'Mantenha a mão e mova só o que for necessário.' },
+          { texto: 'Como ouvir se a nota realmente durou?', opcoes: ['Tocar bem devagar prestando atenção só na duração', 'Gravar e contar as notas', 'Usar metrônomo rápido', 'Olhar a mão esquerda'], correta: 0, explicacao: 'É o exercício de consciência: o ouvido só percebe quando a atenção está nisso e em nada mais.' },
+          { texto: 'A primeira digitação que funciona é a melhor?', opcoes: ['Não: procure a que sustenta', 'Sim, se as notas saem', 'Sim, se for a mais confortável', 'Só em peças lentas'], correta: 0, explicacao: 'Funcionar e sustentar são critérios diferentes.' }
+        ] },
         {
           t: 'erros', itens: [
             { erro: 'Levantar dedos sem necessidade.', certo: 'Antes de levantar, pergunte se ele precisa sair agora.' },
@@ -677,6 +725,14 @@ export const M32 = {
           t: 'check', chave: 'metronomo3', titulo: 'Rotina semanal',
           itens: ['Escolhi 3 exercícios para medir', 'Anotei o andamento máximo de cada um', 'Fiz a escada de velocidade em pelo menos um', 'Pratiquei com o clique só no tempo 1', 'Toquei uma peça sem metrônomo, musicalmente']
         },
+        { t: 'exercicio', tipo: 'perguntas', titulo: 'Fixação: usar o metrônomo', rodadas: 6, perguntas: [
+          { texto: 'Para que serve o metrônomo, além de marcar o tempo?', opcoes: ['Diagnosticar, construir velocidade e medir progresso', 'Deixar a execução mais bonita', 'Treinar a mão direita', 'Afinar o instrumento'], correta: 0, explicacao: 'Quem o usa assim progride muito mais rápido.' },
+          { texto: 'Por que sem metrônomo você não acha onde atrasa?', opcoes: ['O cérebro compensa automaticamente', 'Porque o ouvido não percebe tempo', 'Porque a peça é longa', 'Porque falta gravação'], correta: 0, explicacao: 'Os pontos onde você atrasa ou acelera são o mapa do que precisa ser trabalhado.' },
+          { texto: 'Qual é a condição para subir um degrau de velocidade?', opcoes: ['Um minuto inteiro sem nenhum erro', 'Acertar uma vez', 'Terminar a sessão do dia', 'Sentir que está fácil'], correta: 0, explicacao: 'Sem essa régua, a escada vira adivinhação.' },
+          { texto: 'Qual andamento inicial escolher?', opcoes: ['O da passagem mais difícil', 'O da passagem mais fácil', 'A média da peça', 'O andamento indicado na partitura'], correta: 0, explicacao: 'Começar rápido demais é o erro mais comum: você treina a passagem fácil e atropela a difícil.' },
+          { texto: 'Como medir progresso objetivamente?', opcoes: ['Anotar o andamento máximo de cada exercício por semana', 'Pela sensação de estar melhorando', 'Pelo número de horas estudadas', 'Pelo número de peças tocadas'], correta: 0, explicacao: 'A sensação engana; o número não.' },
+          { texto: 'Quando NÃO usar metrônomo?', opcoes: ['Ao tocar musicalmente, com rubato e respiração', 'Em exercícios técnicos', 'Em escalas', 'Em arpejos'], correta: 0, explicacao: 'Construa a base com ele e depois solte. Música expressiva precisa de liberdade.' }
+        ] },
         {
           t: 'erros', itens: [
             { erro: 'Subir a velocidade sem conseguir um minuto perfeito.', certo: 'Um minuto inteiro sem erro é a condição para subir.' },

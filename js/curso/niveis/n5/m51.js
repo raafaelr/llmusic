@@ -334,6 +334,15 @@ export const M51 = {
             'Encontrei, numa peça que estudo, onde ela modula e para onde.'
           ]
         },
+        { t: 'exercicio', tipo: 'perguntas', titulo: 'Fixação: as quatro modulações', rodadas: 7, perguntas: [
+          { texto: 'O que é modular?', opcoes: ['Mudar de centro tonal: a peça passa a ouvir outra nota como casa', 'Usar um acorde de fora do tom', 'Mudar a fórmula de compasso', 'Transpor a melodia uma oitava'], correta: 0, explicacao: 'Se a tônica continua a mesma, não houve modulação: foi empréstimo.' },
+          { texto: 'Como funciona a modulação por acorde pivô?', opcoes: ['Usa-se um acorde que existe nos dois tons e a partir dele lê-se tudo no tom novo', 'Toca-se o V7 do destino', 'Uma voz caminha por meio tom', 'Um acorde é renomeado'], correta: 0, explicacao: 'É a mais usada e a mais suave: o ouvinte entra no tom novo sem perceber a porta.' },
+          { texto: 'Qual modulação deixa a costura mais à mostra?', opcoes: ['A dominante direta: toca-se o V7 do destino e resolve', 'A por pivô', 'A cromática', 'A enarmônica'], correta: 0, explicacao: 'É o recurso dos finais de música popular que sobem meio tom.' },
+          { texto: 'O que caracteriza a modulação cromática?', opcoes: ['Uma ou mais vozes caminham por meio tom até o acorde novo', 'Um acorde comum aos dois tons', 'Um diminuto reinterpretado', 'Uma pausa entre os tons'], correta: 0, explicacao: 'Suave porque o ouvido segue a voz, surpreendente porque o acorde de chegada é inesperado. É a modulação de Chopin.' },
+          { texto: 'Na modulação por enarmonia, o que acontece?', opcoes: ['O mesmo som recebe outro nome e outra função', 'O acorde muda de inversão', 'A melodia troca de oitava', 'A armadura muda no meio do compasso'], correta: 0, explicacao: 'O caso clássico é o diminuto, que pode resolver em quatro tons diferentes.' },
+          { texto: 'Qual é a mais dramática, usada por Bach e Beethoven para ir longe depressa?', opcoes: ['A enarmônica', 'A por pivô', 'A dominante direta', 'A cromática'], correta: 0, explicacao: 'Reinterpretar um acorde permite saltos tonais que nenhuma outra técnica alcança.' },
+          { texto: 'O que o ouvido precisa para aceitar o tom novo?', opcoes: ['Pelo menos uma cadência no tom de destino', 'Um compasso de silêncio', 'Uma mudança de armadura', 'Uma mudança de andamento'], correta: 0, explicacao: 'Modular sem preparar a chegada soa como erro, não como modulação.' }
+        ] },
         {
           t: 'erros', itens: [
             { erro: 'Confundir empréstimo modal com modulação.', certo: 'Se a tônica continua a mesma, não houve modulação.' },

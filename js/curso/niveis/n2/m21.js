@@ -233,6 +233,14 @@ export const M21 = {
           rotulo: 'Mi, Fá, Sol com ligados',
           x: 'Toque a 1ª corda solta com a mão direita. Depois, sem tocar de novo, deixe o dedo 1 cair na casa 1 e, em seguida, o dedo 3 na casa 3. O som deve continuar.'
         },
+        { t: 'exercicio', tipo: 'perguntas', titulo: 'Fixação: qual arco é qual', rodadas: 6, perguntas: [
+          { texto: 'Um arco liga duas notas na MESMA linha da pauta. O que fazer?', opcoes: ['Tocar só a primeira e deixar soar pelas duas', 'Tocar as duas', 'Fazer um martelo', 'Tocar só a segunda'], correta: 0, explicacao: 'Mesma altura é prolongamento: um ataque, duração somada.' },
+          { texto: 'Um arco liga um Sol a um Lá. No violão, isso pede...', opcoes: ['Tocar o Sol com a direita e fazer o Lá com a esquerda', 'Tocar as duas notas com a direita', 'Não tocar nenhuma das duas', 'Tocar o Lá duas vezes'], correta: 0, explicacao: 'Alturas diferentes é ligadura de expressão, que no violão vira ligado.' },
+          { texto: 'Uma mínima ligada a uma semínima dura quantos tempos?', opcoes: ['3', '2', '4', '6'], correta: 0, explicacao: '2 + 1. A ligadura soma, não multiplica.' },
+          { texto: 'Por que escrever uma nota de 5 tempos com ligadura?', opcoes: ['Porque não existe figura única que valha 5 tempos', 'Para deixar a leitura mais bonita', 'Para indicar o dedilhado', 'Porque é regra em 4/4'], correta: 0, explicacao: 'Também serve para a nota atravessar a barra de compasso.' },
+          { texto: 'Do Lá para o Sol, com arco: que técnica é essa?', opcoes: ['Arrancado: o dedo puxa a corda de lado ao sair', 'Martelo: o dedo cai na casa', 'Glissando: desliza até a casa', 'Vibrato'], correta: 0, explicacao: 'Desce de altura, então é ligado descendente (pull-off).' },
+          { texto: 'Você vê uma barra reta ligando as hastes de duas colcheias. Isso é...', opcoes: ['Uma viga, que só agrupa as figuras', 'Uma ligadura de prolongamento', 'Uma ligadura de expressão', 'Um sinal de repetição'], correta: 0, explicacao: 'Viga liga HASTES e não muda o que se toca. Ligadura é arco e liga CABEÇAS.' }
+        ] },
         {
           t: 'erros', itens: [
             { erro: 'Tocar as duas notas de uma ligadura de prolongamento.', certo: 'Só a primeira é tocada; a segunda é a continuação do som.' },
@@ -438,6 +446,15 @@ export const M21 = {
           rotulo: 'Mi, Fá, Fá♯, Sol, Sol♯',
           x: 'Casa por casa na 1ª corda, com os dedos 1, 2, 3 e 4.'
         },
+        { t: 'exercicio', tipo: 'perguntas', titulo: 'Fixação: acidentes e até onde valem', rodadas: 7, perguntas: [
+          { texto: 'No violão, o sustenido manda você ir...', opcoes: ['Uma casa para a frente', 'Uma casa para trás', 'Uma corda acima', 'Duas casas para a frente'], correta: 0, explicacao: 'Uma casa é um semitom. O bemol vai uma casa para trás.' },
+          { texto: 'Um Fá♯ no 1º tempo de um compasso 4/4. O Fá do 3º tempo, na mesma altura e sem sinal nenhum, é...', opcoes: ['Fá♯ também', 'Fá natural', 'Depende do andamento', 'Fá♭'], correta: 0, explicacao: 'O acidente vale até o fim do compasso.' },
+          { texto: 'E o Fá do compasso SEGUINTE, sem sinal?', opcoes: ['Fá natural: a barra de compasso cancela', 'Fá♯ ainda', 'Depende da próxima nota', 'Fá♭'], correta: 0, explicacao: 'Tudo recomeça natural depois da barra.' },
+          { texto: 'Há um Fá♯ agudo no compasso. Um Fá grave aparece depois, sem sinal. Ele é...', opcoes: ['Natural: o acidente vale só naquela altura', 'Sustenido também', 'Bemol', 'Impossível de saber'], correta: 0, explicacao: 'É o erro mais comum: o acidente não atravessa oitavas.' },
+          { texto: 'O que faz o bequadro?', opcoes: ['Cancela o sustenido ou o bemol e devolve a nota natural', 'Sobe meio tom', 'Desce meio tom', 'Dobra a duração'], correta: 0, explicacao: 'No violão: volta à casa natural.' },
+          { texto: 'Fá♯ e Sol♭ no violão são...', opcoes: ['A mesma casa e o mesmo som, com dois nomes', 'Casas vizinhas', 'A mesma nota em oitavas diferentes', 'Sons diferentes por um quarto de tom'], correta: 0, explicacao: 'São notas enarmônicas. Qual nome usar depende da tonalidade.' },
+          { texto: 'Por que Mi♯ cai na mesma casa do Fá?', opcoes: ['Porque entre Mi e Fá não existe casa no meio', 'Porque Mi e Fá são a mesma nota', 'Porque o violão é afinado assim', 'Porque o sustenido às vezes não sobe nada'], correta: 0, explicacao: 'Mi–Fá e Si–Dó já são semitons. O mesmo vale para Fá♭, que é o Mi.' }
+        ] },
         {
           t: 'erros', itens: [
             { erro: 'Achar que o acidente vale só para aquela nota.', certo: 'Vale até o fim do compasso, para a mesma nota na mesma altura.' },
@@ -631,6 +648,17 @@ export const M21 = {
           seq: [{ corda: 5, casa: 3 }, { corda: 4, casa: 0 }, { corda: 4, casa: 2 }, { corda: 4, casa: 3 }, { corda: 3, casa: 0 }, { corda: 3, casa: 2 }, { corda: 2, casa: 0 }, { corda: 2, casa: 1 }],
           rotulo: 'Tocar Dó maior, uma oitava',
           x: 'Suba a escala nota por nota. O app confere cada uma.'
+        },
+        {
+          t: 'exercicio', tipo: 'perguntas', titulo: 'Fixação: construir escalas pela fórmula', rodadas: 7, perguntas: [
+            { texto: 'Qual é a fórmula da escala maior, em casas do violão?', opcoes: ['2–2–1–2–2–2–1', '2–1–2–2–1–2–2', '1–2–2–2–1–2–2', '2–2–2–1–2–2–1'], correta: 0, explicacao: 'Tom, tom, semitom, tom, tom, tom, semitom. É a única coisa a decorar.' },
+            { texto: 'Entre quais graus caem os semitons?', opcoes: ['3–4 e 7–8', '1–2 e 5–6', '2–3 e 6–7', '4–5 e 7–8'], correta: 0, explicacao: 'Em Dó: Mi–Fá e Si–Dó. É por isso que Dó maior usa só teclas brancas.' },
+            { texto: 'Partindo do Sol, qual é a sétima nota da escala?', opcoes: ['Fá♯', 'Fá', 'Sol♭', 'Mi♯'], correta: 0, explicacao: 'De Mi a Fá é só 1 casa, e a fórmula pede 2. Por isso Sol maior tem um sustenido.' },
+            { texto: 'Por que se escreve Fá♯ e não Sol♭ na escala de Sol?', opcoes: ['Cada letra aparece uma vez só, e já existe um Sol na escala', 'Porque soa diferente', 'Porque Sol♭ não existe', 'Porque o violão não tem Sol♭'], correta: 0, explicacao: 'A mesma casa, mas o nome certo é o que mantém uma letra por grau.' },
+            { texto: 'Para que serve a armadura de clave?', opcoes: ['Dizer os acidentes da tonalidade de uma vez, sem repetir em cada nota', 'Marcar o andamento', 'Indicar a fórmula de compasso', 'Mostrar o dedilhado'], correta: 0, explicacao: 'Em Sol maior, um sustenido na linha do Fá e pronto.' },
+            { texto: 'Como se chama o grau 1 da escala?', opcoes: ['Tônica', 'Dominante', 'Sensível', 'Subdominante'], correta: 0, explicacao: 'É a nota que dá nome à escala e para onde a música tende a voltar.' },
+            { texto: 'Mudando a nota de partida e mantendo a fórmula, você tem...', opcoes: ['A mesma escala maior em outra tonalidade', 'Uma escala menor', 'Uma escala cromática', 'Uma escala sem nome'], correta: 0, explicacao: 'O padrão de distâncias é o que define a sonoridade de "maior".' }
+          ]
         },
         {
           t: 'erros', itens: [

@@ -75,6 +75,14 @@ export const M33 = {
           t: 'dica', x: 'Comece pelo *Op. 60, nº 1*. São oito compassos. Parece simples demais, e é justamente por isso que funciona: toda a sua atenção pode ir para o som, o equilíbrio e o fraseado.'
         },
         { t: 'ir', rota: 'importar', titulo: 'Importar uma partitura', x: 'Baixe um Op. 60 em PDF ou MusicXML e importe aqui para estudar com o cursor do app.' },
+        { t: 'exercicio', tipo: 'perguntas', titulo: 'Fixação: Sor', rodadas: 6, perguntas: [
+          { texto: 'O que diferencia Sor dos outros compositores de estudos?', opcoes: ['Era compositor de formação clássica: as peças dele são música, não exercício disfarçado', 'Era o mais virtuose de todos', 'Escreveu o método mais usado', 'Foi o primeiro a usar unhas'], correta: 0, explicacao: 'Um estudo dele pode ser tocado num concerto sem constrangimento.' },
+          { texto: 'Qual é o problema técnico central da escrita de Sor?', opcoes: ['Equilíbrio de vozes: fazer a melodia cantar acima do acompanhamento', 'Velocidade', 'Pestana', 'Harmônicos'], correta: 0, explicacao: 'Quem resolve isso em Sor resolve em Bach depois.' },
+          { texto: 'Por onde começar em Sor?', opcoes: ['Op. 60 nº 1, de oito compassos', 'Op. 60 nº 25, o mais completo', 'Pelos estudos mais rápidos', 'Pelo método, do início ao fim'], correta: 0, explicacao: 'Parece simples demais, e é por isso que funciona: toda a atenção vai para som, equilíbrio e fraseado.' },
+          { texto: 'Além de violão, o que Sor escreveu?', opcoes: ['Óperas, sinfonias e balés', 'Só música para violão', 'Música sacra apenas', 'Métodos de piano'], correta: 0, explicacao: 'O balé Cendrillon foi um sucesso europeu.' },
+          { texto: 'No estudo em estilo de Sor desta aula, onde está a melodia?', opcoes: ['Na nota mais aguda, tocada com o anelar', 'No baixo, no polegar', 'Na voz do meio', 'Alternando entre as vozes'], correta: 0, explicacao: 'Em apoyando quando possível, para ela cantar acima do acompanhamento.' },
+          { texto: 'Tocar Sor como exercício é um erro porque...', opcoes: ['São peças musicais: pensar em frases, não em notas', 'São difíceis demais', 'Não treinam técnica nenhuma', 'A escrita é imprecisa'], correta: 0, explicacao: 'Há sempre uma ideia musical por trás do problema técnico.' }
+        ] },
         {
           t: 'erros', itens: [
             { erro: 'Tocar Sor como se fosse exercício.', certo: 'São peças musicais. Pense em frases, não em notas.' },
@@ -169,6 +177,14 @@ export const M33 = {
           ],
           legenda: 'Carcassi morreu em 1853: obra em domínio público. Os 25 Estudos Op. 60 são, provavelmente, a coleção mais estudada da história do violão.'
         },
+        { t: 'exercicio', tipo: 'perguntas', titulo: 'Fixação: Carcassi', rodadas: 6, perguntas: [
+          { texto: 'Como funciona, quase sempre, um estudo de Carcassi?', opcoes: ['Um padrão fixo de mão direita, repetido sobre uma harmonia que muda', 'Uma melodia livre sem padrão', 'Escalas em duas oitavas', 'Um estudo de pestana'], correta: 0, explicacao: 'A técnica se constrói pela repetição do padrão; a música acontece na harmonia.' },
+          { texto: 'Qual era a formação de Carcassi, comparado a Sor?', opcoes: ['Era antes de tudo professor e intérprete', 'Era compositor de óperas', 'Era luthier', 'Era regente'], correta: 0, explicacao: 'Por isso cada estudo ataca um problema técnico muito preciso.' },
+          { texto: 'Qual obra dele está em quase todo currículo de conservatório?', opcoes: ['Os 25 Estudos Op. 60', 'O Op. 1', 'Os 120 arpejos', 'O Op. 241'], correta: 0, explicacao: 'Desde 1840. O método é o Op. 59.' },
+          { texto: 'Como Carcassi mandaria estudar as trocas de acorde?', opcoes: ['Só o polegar, depois só i-m-a, depois juntar', 'Tocar o estudo inteiro mais devagar', 'Decorar a harmonia', 'Repetir a troca cem vezes'], correta: 0, explicacao: 'É o jeito mais rápido de resolver as trocas, e vale para qualquer peça com padrão fixo.' },
+          { texto: 'O padrão da direita hesita na troca de acorde. O problema está...', opcoes: ['Na mão esquerda, que não chegou a tempo', 'No padrão escolhido', 'No andamento', 'No apoyando'], correta: 0, explicacao: 'Por isso se treinam as duas mãos separadas antes de juntar.' },
+          { texto: 'Tocar os estudos sempre no mesmo andamento é um erro porque...', opcoes: ['Eles existem para a escada de velocidade', 'Fica monótono', 'A harmonia não aparece', 'O padrão muda com o andamento'], correta: 0, explicacao: 'Um padrão fixo é justamente o material ideal para subir degraus.' }
+        ] },
         {
           t: 'erros', itens: [
             { erro: 'O padrão de mão direita hesitar na troca de acorde.', certo: 'Treine o polegar sozinho e os dedos sozinhos antes de juntar.' },
@@ -276,6 +292,14 @@ export const M33 = {
         {
           t: 'dica', x: 'Carulli é o compositor ideal para *leitura à primeira vista*. As peças do Op. 241 são curtas, previsíveis e bem escritas: perfeitas para ler uma por dia.'
         },
+        { t: 'exercicio', tipo: 'perguntas', titulo: 'Fixação: Carulli', rodadas: 6, perguntas: [
+          { texto: 'Qual é o problema técnico central em Carulli?', opcoes: ['Fazer baixo e melodia soarem como linhas independentes', 'Pestana', 'Velocidade de escala', 'Ligados em cadeia'], correta: 0, explicacao: 'Se as duas vozes se fundem, vira acorde quebrado em vez de polifonia.' },
+          { texto: 'Como estudar essas duas vozes?', opcoes: ['Tocar cada uma sozinha primeiro', 'Tocar as duas devagar desde o início', 'Começar pela mais difícil', 'Decorar a peça antes'], correta: 0, explicacao: 'Separado você ouve o desenho de cada linha; junto você só ouve o resultado.' },
+          { texto: 'Por que Carulli é bom justamente agora?', opcoes: ['Dá para tocar música de verdade, em forma completa, sem a técnica atrapalhar', 'Porque é o mais difícil dos clássicos', 'Porque escreveu pouco e selecionado', 'Porque não exige leitura'], correta: 0, explicacao: 'A crítica de ser "fácil demais" é o que o torna perfeito neste momento.' },
+          { texto: 'Para que serve especialmente o Op. 241?', opcoes: ['Leitura à primeira vista: peças curtas, previsíveis e bem escritas', 'Treinar pestana', 'Estudar harmônicos', 'Velocidade máxima'], correta: 0, explicacao: 'Uma por dia é um ótimo hábito de leitura.' },
+          { texto: 'O baixo some na peça. O que fazer?', opcoes: ['Dar volume próprio ao polegar, usando apoio', 'Tocar a melodia mais fraco', 'Mudar a digitação da esquerda', 'Acelerar o trecho'], correta: 0, explicacao: 'O polegar é forte, mas precisa ser usado com intenção.' },
+          { texto: 'Quantas obras Carulli publicou, aproximadamente?', opcoes: ['Mais de 400', 'Cerca de 60', 'Cerca de 25', 'Mais de mil'], correta: 0, explicacao: 'Foi o mais prolífico dos clássicos do violão.' }
+        ] },
         {
           t: 'erros', itens: [
             { erro: 'Tocar baixo e melodia como um acorde quebrado.', certo: 'São duas linhas independentes. Toque cada uma sozinha primeiro.' },
@@ -369,6 +393,14 @@ export const M33 = {
           ],
           legenda: 'Aguado morreu em 1849: obra em domínio público.'
         },
+        { t: 'exercicio', tipo: 'perguntas', titulo: 'Fixação: Aguado', rodadas: 6, perguntas: [
+          { texto: 'Qual era a divergência entre Aguado e Sor?', opcoes: ['O uso das unhas na mão direita', 'A postura sentada', 'A afinação do instrumento', 'O repertório a ensinar'], correta: 0, explicacao: 'A história deu razão a Aguado — o violão clássico moderno usa unhas —, mas muitos violonistas excelentes tocam só com polpa.' },
+          { texto: 'O que é o tripodison?', opcoes: ['Um tripé que sustentava o violão para o corpo não tocá-lo', 'Um tipo de unha postiça', 'Um exercício de três dedos', 'Uma afinação alternativa'], correta: 0, explicacao: 'A ideia não pegou, mas mostra a obsessão dele com o som.' },
+          { texto: 'Qual é o problema técnico central nos exercícios de Aguado?', opcoes: ['Clareza: ataque definido, volume igual e duração exata em cada nota', 'Velocidade máxima', 'Equilíbrio de vozes', 'Mudança de posição'], correta: 0, explicacao: 'A escrita é transparente: qualquer irregularidade aparece.' },
+          { texto: 'Em Aguado, o que vem primeiro?', opcoes: ['Clareza; velocidade só depois', 'Velocidade; clareza vem com o tempo', 'Expressão', 'Memorização'], correta: 0, explicacao: 'Sempre. É a marca do método dele.' },
+          { texto: 'Um dedo soa diferente dos outros. O que fazer?', opcoes: ['Gravar-se e igualar o ataque dos quatro dedos', 'Evitar usar esse dedo', 'Tocar mais rápido para disfarçar', 'Trocar as cordas'], correta: 0, explicacao: 'O ouvido ao vivo acostuma com a diferença; a gravação não.' },
+          { texto: 'Como os exercícios do método de Aguado são organizados?', opcoes: ['Por problema técnico, não por peça', 'Por grau de dificuldade da peça', 'Por tonalidade', 'Cronologicamente'], correta: 0, explicacao: 'Ele analisa cada movimento da mão direita com precisão quase científica.' }
+        ] },
         {
           t: 'erros', itens: [
             { erro: 'Buscar velocidade antes de clareza.', certo: 'Em Aguado, clareza vem primeiro. Sempre.' },
@@ -477,6 +509,14 @@ export const M33 = {
           t: 'dica', x: '*Lágrima* é o portal de entrada em Tárrega. Tecnicamente é acessível, musicalmente é profunda, e cabe inteira dentro do que você já sabe. Quando o Nível 4 chegar, comece por ela.'
         },
         { t: 'ir', rota: 'tecnicas/timbre', titulo: 'Técnica: controle de timbre', x: 'A ferramenta central para tocar Tárrega.' },
+        { t: 'exercicio', tipo: 'perguntas', titulo: 'Fixação: Tárrega', rodadas: 6, perguntas: [
+          { texto: 'Por que Tárrega vem depois dos outros quatro?', opcoes: ['Com ele a técnica é pressuposta: o trabalho é de som e expressão', 'Porque é o mais difícil tecnicamente', 'Porque é o mais recente', 'Porque escreveu mais obras'], correta: 0, explicacao: 'Não é mais "conseguir tocar as notas": é que som, como a frase respira, que cor.' },
+          { texto: 'Por que Tárrega publicou tão pouco em vida?', opcoes: ['Seu ensino era oral; muito do que sabemos vem dos alunos', 'Porque morreu jovem', 'Porque não escrevia partituras', 'Porque suas obras se perderam'], correta: 0, explicacao: 'Emilio Pujol e Miguel Llobet são as principais fontes.' },
+          { texto: 'Por onde entrar em Tárrega?', opcoes: ['Lágrima', 'Recuerdos de la Alhambra', 'Capricho Árabe', 'Gran Vals'], correta: 0, explicacao: 'Tecnicamente acessível, musicalmente profunda, e cabe no que você já sabe.' },
+          { texto: 'No Prelúdio desta aula, como criar duas cores?', opcoes: ['Tasto na primeira metade, natural na segunda', 'Mudando o andamento', 'Trocando de afinação', 'Alternando apoyando e tirando'], correta: 0, explicacao: 'Mudar o ponto de ataque da mão direita é marca registrada dele.' },
+          { texto: 'Tocar a peça inteira no mesmo timbre é um erro porque...', opcoes: ['A mudança de cor entre seções é central no estilo dele', 'Cansa o ouvinte', 'Desafina o instrumento', 'Deixa a peça mais longa'], correta: 0, explicacao: 'Tasto, natural e ponticello são três cores diferentes na mesma corda.' },
+          { texto: 'O que Tárrega representa na história do violão?', opcoes: ['A ponte entre o violão do século XIX e o moderno', 'O início do violão clássico', 'O fim da era romântica', 'A invenção do violão de seis cordas'], correta: 0, explicacao: 'Postura, posição das mãos e produção de som passam, de algum modo, por ele.' }
+        ] },
         {
           t: 'erros', itens: [
             { erro: 'Tocar Tárrega como exercício.', certo: 'Aqui a técnica é pressuposta. O trabalho é de som e expressão.' },

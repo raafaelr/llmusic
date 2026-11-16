@@ -102,6 +102,14 @@ export const M52 = {
             'Anotei na partitura a posição escolhida para cada trecho.'
           ]
         },
+        { t: 'exercicio', tipo: 'perguntas', titulo: 'Fixação: escolher a posição', rodadas: 6, perguntas: [
+          { texto: 'Qual é o critério de ouro para escolher a posição?', opcoes: ['A que exige menos mudanças de mão', 'A mais grave possível', 'A que usa mais cordas soltas', 'A mais próxima da casa 12'], correta: 0, explicacao: 'Entre duas digitações possíveis, a melhor é quase sempre a que mantém a mão parada por mais tempo.' },
+          { texto: 'Por que decorar uma forma só de escala é um problema?', opcoes: ['Limita o repertório e a escolha de timbre', 'Faz perder velocidade', 'Desafina as notas agudas', 'Impede o uso do metrônomo'], correta: 0, explicacao: 'A mesma escala em outra região do braço tem outra cor e outra dificuldade.' },
+          { texto: 'Por que evitar cordas soltas em passagens rápidas e ligadas?', opcoes: ['A corda solta tem timbre diferente e quebra a uniformidade', 'Porque desafina', 'Porque é mais difícil', 'Porque soa baixo demais'], correta: 0, explicacao: 'Além disso, corda solta não se abafa nem se liga como uma nota pressionada.' },
+          { texto: 'Na rotina das cinco posições, qual é o penúltimo passo?', opcoes: ['Atravessar as posições: subir numa forma e descer em outra', 'Tocar a escala em uma corda só', 'Tocar na posição mais grave', 'Ligar o metrônomo'], correta: 0, explicacao: 'O último é tocar numa corda só, da casa 0 à 12, para ouvir a escala como linha.' },
+          { texto: 'Para que serve tocar a escala em uma única corda?', opcoes: ['Ouvir a escala como linha, e não como forma de mão', 'Treinar as cordas soltas', 'Ganhar velocidade', 'Treinar a pestana'], correta: 0, explicacao: 'Sem a forma para se apoiar, resta o intervalo — que é o que a escala realmente é.' },
+          { texto: 'Dó maior pode ser tocada em quantas posições, segundo a aula?', opcoes: ['Cinco: 1ª, 2ª, 5ª, 7ª e 9ª', 'Duas: 1ª e 5ª', 'Só na primeira', 'Em qualquer casa, sem padrão'], correta: 0, explicacao: 'Cada uma com um dedilhado, um timbre e uma dificuldade diferentes.' }
+        ] },
         {
           t: 'erros', itens: [
             { erro: 'Decorar apenas uma forma de escala.', certo: 'Uma forma só limita o repertório e a escolha de timbre.' },
