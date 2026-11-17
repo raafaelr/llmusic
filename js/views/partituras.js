@@ -5,10 +5,11 @@ import { Config } from '../db.js';
 import { comecarPratica, pararPratica } from '../pratica.js';
 import { Afinador } from '../tuner.js';
 import { notaMaisProxima } from '../pitch.js';
-import { PECAS, achatar, tempoPorCompasso, dedoDaCorda } from '../pecas.js';
+import { PECAS, achatar, tempoPorCompasso, dedilhado } from '../pecas.js';
 import { tocarNota } from '../violao.js';
 import { todasAsPecas } from '../biblioteca.js';
 import { icone, botaoIcone } from '../icones.js';
+import { GLOSSARIO } from '../curso/tutor.js';
 
 const NS = 'http://www.w3.org/2000/svg';
 function el(tag, classe, texto) {
@@ -24,13 +25,41 @@ function sv(tag, attrs, pai) {
   return e;
 }
 
-const LARG = 1000, ESQ = 56, DIR = 12, POR_LINHA = 2, ESP = 17, ALTURA_LINHA = 190;
+const LARG = 1000, ESQ = 56, DIR = 12, ESP = 17, ALTURA_LINHA = 190;
+
+// Tamanho da tablatura. Num celular de 360px os números da tab ficam com uns
+// 9px de altura: legível de perto, não legível com o violão no colo e o
+// aparelho na estante. Ampliar é esticar o SVG além da largura da caixa e
+// rolar na horizontal — e, a partir de 150%, pôr um compasso por linha, senão
+// a linha fica longa demais e a rolagem lateral não acaba nunca.
+// Que verbete do glossário cada símbolo da tablatura abre. Ler uma tablatura
+// é decifrar quatro ou cinco sinais, e até aqui o app desenhava todos sem
+// dizer o que são: quem não sabe o que é a viga embaixo da nota não tinha como
+// descobrir sem sair da tela. A chave é a classe do elemento no SVG.
+const SIMBOLOS = {
+  'num-tab': 'Número na tablatura',
+  'fundo-num': 'Número na tablatura',
+  // As linhas da tab não entram: uma linha de 1,5px de espessura é alvo que
+  // ninguém acerta. Quem explica a tablatura são as letras T A B na margem.
+  'rot-tab': 'Tablatura',
+  'haste-tab': 'Haste e viga',
+  'haste-tab-o': 'Haste e viga',
+  viga: 'Haste e viga',
+  dedo: 'p i m a',
+  acorde: 'Cifra do acorde',
+  'num-compasso': 'Número do compasso'
+};
+
+const ZOOMS = [[1, '100%'], [1.5, '150%'], [2, '200%']];
+const porLinhaDe = (z) => (z >= 1.5 ? 1 : 2);
 
 export function montar(raiz, ir) {
   let peca = PECAS[0];
   let pecas = PECAS;
   let eventos = [];
   let fator = 1;                   // 0.5, 0.75 ou 1 (velocidade)
+  let zoom = 1;                    // 1, 1.5 ou 2 (tamanho da tablatura)
+  let volume = 0.8;                // 0 a 1 (volume do violão)
   // Trecho em repetição: { de, ate } em índices de compasso, ou null para a
   // peça toda. É assim que se estuda violão clássico de verdade — isolando
   // os compassos 14 a 17 e repetindo devagar, não tocando do início ao fim.
@@ -65,6 +94,20 @@ export function montar(raiz, ir) {
   const svg = sv('svg', { class: 'tab-svg', role: 'img' });
   rolagem.append(svg);
 
+  // Painel de explicação de símbolo. Fica logo embaixo da tablatura, para a
+  // resposta aparecer perto de onde se tocou.
+  const explica = el('div', 'simbolo-explica');
+  explica.hidden = true;
+  const expTit = el('h2', 'rotulo-grupo', '');
+  const expTxt = el('p', 'dica', '');
+  const expAcoes = el('div', 'bloco-botoes');
+  const expAula = el('button', 'botao-sec', 'Abrir a aula');
+  const expFechar = el('button', 'botao-texto', 'Fechar');
+  expFechar.onclick = () => { explica.hidden = true; };
+  expAcoes.append(expAula, expFechar);
+  explica.append(expTit, expTxt, expAcoes);
+  explica.setAttribute('aria-live', 'polite');
+
   const barra = el('div', 'barra-player');
   const play = botaoIcone('botao-principal', 'tocar', 'Tocar');
   const gPeca = el('div', 'grupo'); gPeca.append(el('h2', 'rotulo-grupo', 'Peça'));
@@ -73,6 +116,17 @@ export function montar(raiz, ir) {
   const chipsVel = el('div', 'chips'); gVel.append(chipsVel);
   const gOpc = el('div', 'grupo'); gOpc.append(el('h2', 'rotulo-grupo', 'Modo'));
   const chipsOpc = el('div', 'chips'); gOpc.append(chipsOpc);
+  const gZoom = el('div', 'grupo'); gZoom.append(el('h2', 'rotulo-grupo', 'Tamanho'));
+  const chipsZoom = el('div', 'chips'); gZoom.append(chipsZoom);
+  // Volume num deslizante, e não em degraus: ajustar o violão do app para
+  // caber embaixo do violão de verdade é coisa de encontrar o ponto, não de
+  // escolher entre três opções.
+  const gVol = el('div', 'grupo grupo-volume');
+  const rotVol = el('h2', 'rotulo-grupo', 'Volume');
+  const desVol = document.createElement('input');
+  desVol.type = 'range'; desVol.min = 0; desVol.max = 100; desVol.step = 5;
+  desVol.setAttribute('aria-label', 'Volume do violão do app');
+  gVol.append(rotVol, desVol);
   const status = el('p', 'dica status-player', '');
   status.setAttribute('aria-live', 'polite');
   const voltasTxt = el('span', 'voltas-contador', '');
@@ -90,9 +144,26 @@ export function montar(raiz, ir) {
   const listaTrechos = el('div', 'trechos-lista');
   gTrechos.append(listaTrechos);
 
-  barra.append(linhaPlay, gVel, gOpc);
+  // ANOTAÇÕES. Uma caixa só, cujo DONO muda com o que está selecionado: sem
+  // trecho, a anotação é da peça; com um trecho selecionado, é daquele trecho.
+  // Anotar um trecho também o marca como difícil — escrever "aqui o mindinho
+  // não alcança" já é dizer que o trecho é difícil, e pedir dois toques para a
+  // mesma intenção só criaria um jeito de a anotação ficar órfã.
+  const gNotas = el('div', 'grupo');
+  gNotas.append(el('h2', 'rotulo-grupo', 'Minhas anotações'));
+  const alvoNota = el('p', 'dica', '');
+  alvoNota.setAttribute('aria-live', 'polite');
+  const taNota = document.createElement('textarea');
+  taNota.className = 'campo-texto'; taNota.rows = 3;
+  taNota.placeholder = 'Digitação escolhida, o que trava, andamento que já saiu limpo…';
+  const btNota = el('button', 'botao-sec', 'Salvar anotação');
+  const fbNota = el('p', 'feedback', '');
+  fbNota.setAttribute('aria-live', 'polite');
+  gNotas.append(alvoNota, taNota, btNota, fbNota);
 
-  tela.append(topo, gPeca, cab, rolagem, barra, status, gTrechos);
+  barra.append(linhaPlay, gVel, gOpc, gZoom, gVol);
+
+  tela.append(topo, gPeca, cab, rolagem, explica, barra, status, gTrechos, gNotas);
   raiz.append(tela);
 
   // ---------- desenho da tablatura ----------
@@ -101,10 +172,17 @@ export function montar(raiz, ir) {
     posicoes = [];
     marcasCompasso = [];
     const tpc = tempoPorCompasso(peca);
+    // O dedilhado é calculado sobre a peça inteira, porque a alternância i–m
+    // atravessa as barras de compasso (ver dedilhado() em js/pecas.js).
+    const dedos = dedilhado(peca);
+    const POR_LINHA = porLinhaDe(zoom);
     const nM = peca.compassos.length;
     const linhas = Math.ceil(nM / POR_LINHA);
     const mw = (LARG - ESQ - DIR) / POR_LINHA;
     svg.setAttribute('viewBox', `0 0 ${LARG} ${linhas * ALTURA_LINHA + 8}`);
+    // O viewBox não muda com o zoom: quem muda é a largura em pixels. Assim
+    // tudo cresce junto, números, hastes e cursor, sem recalcular nada.
+    svg.style.width = (zoom * 100) + '%';
     for (let r = 0; r < linhas; r++) {
       const y0 = r * ALTURA_LINHA + 44;       // linha da 1ª corda
       for (let s = 0; s < 6; s++) sv('line', { x1: ESQ, x2: LARG - DIR, y1: y0 + s * ESP, y2: y0 + s * ESP, class: 'linha-tab' }, svg);
@@ -144,21 +222,55 @@ export function montar(raiz, ir) {
           const ant = comp.eventos[i - 1];
           if (!(ant && ant.d === 0.5 && mesmo(ant, e))) sv('line', { x1: x, x2: x + 8, y1: yh + 22, y2: yh + 14, class: 'viga' }, svg);
         }
-        const dd = [...new Set(e.n.map(([c]) => dedoDaCorda(c)))];
         const dt = sv('text', { x, y: yh + 46, 'text-anchor': 'middle', class: 'dedo' }, svg);
-        dt.textContent = e.n.length === 1 ? dd[0] : [...e.n.map(([c]) => dedoDaCorda(c))].reverse().join('');
+        dt.textContent = dedos.get(m + ':' + i) || '';
       });
     });
     cursor = sv('rect', { class: 'cursor-tab', x: 0, y: 0, width: 26, height: 5 * ESP + 20, rx: 6, visibility: 'hidden' }, svg);
     // posição de cada evento achatado (para mover o cursor)
     eventos.forEach((ev) => {
-      const m = ev.compasso, r = Math.floor(m / POR_LINHA), k = m % POR_LINHA;
+      const m = ev.compasso;
+      const r = Math.floor(m / POR_LINHA), k = m % POR_LINHA;
       const y0 = r * ALTURA_LINHA + 44, x0 = ESQ + k * mw;
       const tl = ev.t - m * tpc;
       posicoes.push({ x: x0 + 22 + (tl / tpc) * (mw - 44), y: y0 - 10 });
     });
+    ligarSimbolos();
     marcarRepetir();
   }
+
+  // Liga a explicação a cada símbolo depois do desenho, numa passada só, em
+  // vez de espalhar o mesmo gancho por oito pontos do código de desenho.
+  function ligarSimbolos() {
+    Object.keys(SIMBOLOS).forEach((classe) => {
+      svg.querySelectorAll('.' + classe).forEach((n) => {
+        // A classe "dedo" serve a duas coisas no desenho: a letra do dedo e a
+        // palavra "pausa". O texto desfaz o empate.
+        const termo = (classe === 'dedo' && n.textContent.trim() === 'pausa') ? 'Pausa' : SIMBOLOS[classe];
+        n.classList.add('tem-explica');
+        n.setAttribute('tabindex', '0');
+        n.setAttribute('role', 'button');
+        n.setAttribute('aria-label', 'O que é isto: ' + termo);
+        n.onclick = (ev) => { ev.stopPropagation(); explicar(termo); };
+        n.onkeydown = (ev) => {
+          if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); explicar(termo); }
+        };
+      });
+    });
+  }
+  function explicar(termo) {
+    const v = GLOSSARIO.find((g) => g.termo === termo);
+    if (!v) { explica.hidden = true; return; }
+    expTit.textContent = v.termo;
+    expTxt.textContent = v.texto;
+    // Só oferece a aula se ela existir de verdade; botão sem função é pior do
+    // que botão nenhum.
+    const temAula = !!v.aula;
+    expAula.hidden = !temAula;
+    if (temAula) expAula.onclick = () => ir('aula/' + v.aula);
+    explica.hidden = false;
+  }
+
   function moverCursor(i) {
     idxAtual = i;
     if (i < 0 || !posicoes[i]) { cursor.setAttribute('visibility', 'hidden'); return; }
@@ -166,10 +278,18 @@ export function montar(raiz, ir) {
     cursor.setAttribute('x', p.x - 13);
     cursor.setAttribute('y', p.y);
     cursor.setAttribute('visibility', 'visible');
-    // mantém a linha atual visível na rolagem
-    const esc = rolagem.clientWidth / LARG;
+    // Mantém o cursor visível na rolagem. A escala vem da largura REAL do
+    // SVG, não da caixa: com zoom o SVG é mais largo que ela, e usar a caixa
+    // faria o cursor sumir justamente quando está ampliado.
+    const esc = (svg.clientWidth || rolagem.clientWidth) / LARG;
     const alvoY = (p.y - 40) * esc;
     if (alvoY < rolagem.scrollTop || alvoY + 120 > rolagem.scrollTop + rolagem.clientHeight) rolagem.scrollTop = Math.max(0, alvoY - 10);
+    // Com zoom há rolagem lateral também, senão o cursor passeia fora da tela.
+    const alvoX = p.x * esc;
+    const larg = rolagem.clientWidth;
+    if (alvoX < rolagem.scrollLeft + 40 || alvoX > rolagem.scrollLeft + larg - 40) {
+      rolagem.scrollLeft = Math.max(0, alvoX - larg / 2);
+    }
   }
   function marcarRepetir() {
     marcasCompasso.forEach((a, m) => {
@@ -178,6 +298,7 @@ export function montar(raiz, ir) {
       a.classList.toggle('dificil', ehDificil(m));
     });
     if (typeof desenharTrechos === 'function') desenharTrechos();
+    if (typeof mostrarNota === 'function') mostrarNota();
   }
 
   // Toque num compasso: ele vira o trecho. Toque em outro: o trecho se estica
@@ -218,7 +339,7 @@ export function montar(raiz, ir) {
     if (!ctx) {
       const AC = window.AudioContext || window.webkitAudioContext;
       ctx = new AC();
-      saida = ctx.createGain(); saida.gain.value = 0.8; saida.connect(ctx.destination);
+      saida = ctx.createGain(); saida.gain.value = volume; saida.connect(ctx.destination);
     }
     return ctx.state === 'suspended' ? ctx.resume() : Promise.resolve();
   }
@@ -354,7 +475,31 @@ export function montar(raiz, ir) {
       chips();
     };
     chipsOpc.append(e, micBtn);
+    chipsZoom.innerHTML = '';
+    ZOOMS.forEach(([z, n]) => {
+      const b = el('button', 'chip sm', n);
+      b.setAttribute('aria-pressed', String(z === zoom));
+      b.onclick = () => {
+        zoom = z;
+        Config.guardar('part.zoom', z);
+        // Redesenhar porque acima de 100% muda também o número de compassos
+        // por linha; o trecho e o cursor são recolocados em seguida.
+        desenhar(); marcarRepetir(); chips();
+        rolagem.scrollLeft = 0;
+        if (idxAtual >= 0) moverCursor(idxAtual);
+      };
+      chipsZoom.append(b);
+    });
+    desVol.value = String(Math.round(volume * 100));
+    rotVol.textContent = 'Volume · ' + Math.round(volume * 100) + '%';
   }
+  desVol.oninput = () => {
+    volume = Math.min(1, Math.max(0, (+desVol.value || 0) / 100));
+    rotVol.textContent = 'Volume · ' + Math.round(volume * 100) + '%';
+    // Vale já na nota seguinte, mesmo tocando: é assim que se acha o ponto.
+    if (saida) saida.gain.value = volume;
+    Config.guardar('part.volume', volume);
+  };
   function atualizarTitulo() {
     titulo.textContent = peca.titulo;
     dica.textContent = peca.nivel + ' · ' + Math.round(peca.bpm * fator) + ' BPM · ' + peca.dica;
@@ -376,12 +521,64 @@ export function montar(raiz, ir) {
   // amanhã. Por isso a marca fica guardada por peça e sobrevive ao app
   // fechar — ela é a lista do que ainda não está pronto.
   const C_TRECHOS = 'part.trechos';
+  const C_NOTAS = 'part.notas';
   let trechosDificeis = [];
+  let notaPeca = '';
+  // Desmarcar um trecho que tem anotação apagaria a anotação junto. Em vez de
+  // perder texto escrito à mão em silêncio, o primeiro toque avisa e o segundo
+  // confirma. Qualquer outra ação cancela o aviso.
+  let confirmarApagar = false;
 
   async function carregarTrechos() {
     const todos = await Config.obter(C_TRECHOS, {});
     trechosDificeis = todos[peca.id] || [];
+    const notas = await Config.obter(C_NOTAS, {});
+    notaPeca = notas[peca.id] || '';
   }
+
+  // O trecho marcado que corresponde exatamente ao que está selecionado.
+  function trechoMarcado() {
+    if (!trecho) return null;
+    return trechosDificeis.find((t) => t.de === trecho.de && t.ate === trecho.ate) || null;
+  }
+  function mostrarNota() {
+    confirmarApagar = false;
+    fbNota.textContent = ''; fbNota.className = 'feedback';
+    if (!trecho) {
+      alvoNota.textContent = 'Sobre a peça inteira. Selecione um trecho na partitura para anotar só aquele trecho.';
+      taNota.value = notaPeca;
+      return;
+    }
+    const m = trechoMarcado();
+    alvoNota.textContent = 'Sobre ' + rotuloTrecho(trecho).toLowerCase()
+      + (m ? '.' : '. Salvar a anotação também marca este trecho como difícil.');
+    taNota.value = (m && m.nota) || '';
+  }
+  btNota.onclick = async () => {
+    const txt = taNota.value.trim();
+    if (!trecho) {
+      notaPeca = txt;
+      const notas = await Config.obter(C_NOTAS, {});
+      if (txt) notas[peca.id] = txt; else delete notas[peca.id];
+      await Config.guardar(C_NOTAS, notas);
+      if (encerrada) return;
+      fbNota.textContent = txt ? '✓ Anotação da peça salva.' : '✓ Anotação da peça apagada.';
+      fbNota.className = 'feedback certo';
+      return;
+    }
+    const m = trechoMarcado();
+    if (m) m.nota = txt;
+    else if (txt) {
+      trechosDificeis = trechosDificeis
+        .filter((t) => t.ate < trecho.de || t.de > trecho.ate)
+        .concat([{ de: trecho.de, ate: trecho.ate, em: new Date().toISOString(), nota: txt }]);
+    } else { mostrarNota(); return; }     // nada escrito e trecho não marcado: nada a fazer
+    await guardarTrechos();
+    if (encerrada) return;
+    marcarRepetir();
+    fbNota.textContent = txt ? '✓ Anotação salva neste trecho.' : '✓ Anotação do trecho apagada.';
+    fbNota.className = 'feedback certo';
+  };
   async function guardarTrechos() {
     const todos = await Config.obter(C_TRECHOS, {});
     if (trechosDificeis.length) todos[peca.id] = trechosDificeis; else delete todos[peca.id];
@@ -409,7 +606,10 @@ export function montar(raiz, ir) {
     const grade = el('div', 'chips');
     trechosDificeis.slice().sort((a, b) => a.de - b.de).forEach((t) => {
       const b = botaoIcone('chip chip-trecho', 'estrela', rotuloTrecho(t));
-      b.title = 'Repetir este trecho';
+      // A anotação entra no title e no aria-label: a lista passa a dizer POR
+      // QUE o trecho está marcado, que é a informação que faltava nela.
+      b.title = t.nota ? t.nota : 'Repetir este trecho';
+      if (t.nota) b.setAttribute('aria-label', rotuloTrecho(t) + '. Anotação: ' + t.nota);
       b.onclick = () => {
         trecho = { de: t.de, ate: t.ate };
         primeiroToque = -1;
@@ -420,10 +620,23 @@ export function montar(raiz, ir) {
       grade.append(b);
     });
     listaTrechos.append(grade);
+    // E por escrito também, porque title não existe em celular.
+    trechosDificeis.slice().sort((a, b) => a.de - b.de).filter((t) => t.nota).forEach((t) => {
+      const p = el('p', 'dica trecho-nota');
+      p.append(el('strong', '', rotuloTrecho(t) + ': '), document.createTextNode(t.nota));
+      listaTrechos.append(p);
+    });
   }
   btMarcar.onclick = async () => {
     if (!trecho) return;
     const jaTem = trechosDificeis.findIndex((t) => t.de === trecho.de && t.ate === trecho.ate);
+    if (jaTem >= 0 && trechosDificeis[jaTem].nota && !confirmarApagar) {
+      confirmarApagar = true;
+      fbNota.textContent = 'Este trecho tem anotação. Toque em "Desmarcar" de novo para apagar as duas.';
+      fbNota.className = 'feedback errado';
+      return;
+    }
+    confirmarApagar = false;
     if (jaTem >= 0) trechosDificeis.splice(jaTem, 1);
     else trechosDificeis = trechosDificeis
       .filter((t) => t.ate < trecho.de || t.de > trecho.ate)   // sem trechos sobrepostos
@@ -439,7 +652,11 @@ export function montar(raiz, ir) {
   (async () => {
     const id = await Config.obter('part.peca', PECAS[0].id);
     const fv = await Config.obter('part.fator', 1);
+    const zv = await Config.obter('part.zoom', 1);
+    const vv = await Config.obter('part.volume', 0.8);
     if (encerrada) return;
+    zoom = ZOOMS.some(([z]) => z === zv) ? zv : 1;
+    volume = (typeof vv === 'number' && vv >= 0 && vv <= 1) ? vv : 0.8;
     pecas = await todasAsPecas();
     if (encerrada) return;
     peca = pecas.find((p) => p.id === id) || PECAS[0];

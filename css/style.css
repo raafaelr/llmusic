@@ -538,8 +538,33 @@ input[type=range] { width: 100%; height: 44px; accent-color: var(--destaque); ba
 .partituras { display: grid; gap: 8px; grid-template-columns: 1fr; }
 .peca-titulo { font-size: 20px; font-weight: 700; }
 .cab-peca { display: flex; flex-direction: column; gap: 2px; }
-.tab-rolagem { overflow-y: auto; max-height: 52vh; border: 1px solid var(--linha); border-radius: var(--r-md); background: var(--superficie); padding: 4px; }
-.tab-svg { width: 100%; height: auto; display: block; }
+/* Conquistas: uma grade que cabe a 320px sem apertar. O cartão não ganho fica
+   com a borda tracejada e o número do nível em vez da medalha — "ainda não"
+   tem de ser visível sem depender de cor. */
+.conquistas { display: grid; grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); gap: 8px; }
+.conquista { display: flex; flex-direction: column; align-items: center; gap: 2px;
+  min-height: 92px; padding: 10px 6px; text-align: center; font: inherit; cursor: pointer;
+  background: var(--superficie); color: var(--texto);
+  border: 1px dashed var(--suave); border-radius: var(--r-md); }
+.conquista.ganha { border: 1px solid var(--destaque); background: var(--superficie-2); }
+.conquista-med { font-size: 22px; line-height: 1.1; font-weight: 800; color: var(--suave); }
+.conquista.ganha .conquista-med { color: var(--destaque); }
+.conquista-nome { font-weight: 700; font-size: 13px; }
+.conquista-est { font-size: 11px; color: var(--suave); overflow-wrap: anywhere; }
+
+/* Símbolo da tablatura que tem explicação: o cursor avisa que dá para tocar,
+   e o foco do teclado precisa aparecer porque alguns deles são texto solto
+   sem fundo nenhum. */
+.tem-explica { cursor: help; }
+.tem-explica:focus-visible { outline: 2px solid var(--destaque); outline-offset: 2px; }
+.simbolo-explica { display: flex; flex-direction: column; gap: 6px;
+  border: 1px solid var(--linha); border-left: 4px solid var(--destaque);
+  border-radius: var(--r-sm); padding: 10px 12px; background: var(--superficie-2); }
+.simbolo-explica .dica { margin: 0; }
+
+/* overflow-x porque acima de 100% o SVG fica mais largo que a caixa. */
+.tab-rolagem { overflow-x: auto; overflow-y: auto; max-height: 52vh; border: 1px solid var(--linha); border-radius: var(--r-md); background: var(--superficie); padding: 4px; }
+.tab-svg { width: 100%; height: auto; display: block; flex: 0 0 auto; }
 .linha-tab { stroke: var(--suave); stroke-width: 1.5; }
 .barra-tab { stroke: var(--suave); stroke-width: 2.5; }
 .rot-tab { font-size: 18px; font-weight: 800; fill: var(--suave); font-family: var(--fonte); }
@@ -556,6 +581,10 @@ input[type=range] { width: 100%; height: 44px; accent-color: var(--destaque); ba
 .barra-player { display: flex; flex-wrap: wrap; gap: 8px 20px; align-items: end; }
 .barra-player .botao-principal { min-height: 52px; padding: 0 24px; font-size: 18px; }
 .status-player { min-height: 1.3em; }
+/* A barra do player é um flex que embrulha, e o grupo do volume encolhia até
+   o deslizante ficar com 133px. Deslizante curto é deslizante impreciso:
+   este ocupa a linha inteira. */
+.barra-player .grupo-volume { flex: 1 0 100%; min-width: 0; }
 @media (orientation: landscape) and (max-height: 460px) {
   .partituras { gap: 2px; }
   .partituras .topo, .partituras .botao-texto { min-height: 34px; }
@@ -1152,6 +1181,9 @@ input[type=range] { width: 100%; height: 44px; accent-color: var(--destaque); ba
 .campo-texto { width: 100%; padding: 10px 12px; border-radius: var(--r-sm); border: 1px solid var(--linha);
   background: var(--superficie-2); color: var(--texto); font: inherit; line-height: 1.5; resize: vertical; }
 .campo-texto:focus-visible { outline: 2px solid var(--destaque); outline-offset: 2px; }
+/* A anotação do trecho aparece por escrito na lista, e não só no title: em
+   celular não existe passar o mouse por cima. */
+.trecho-nota { margin: 4px 0 0; overflow-wrap: anywhere; }
 
 /* ---- Plano de Estudos ---- */
 /* Cada passo da rotina era um cartão com moldura e fundo próprio. Numa lista

@@ -26,6 +26,46 @@ const casaDe = (acorde, corda) => FORMAS[acorde][6 - corda];
 // Dedo da mão direita usual no fingerstyle: p (polegar) nas graves, i, m, a nas 3ª, 2ª, 1ª.
 export function dedoDaCorda(c) { return c >= 4 ? 'p' : c === 3 ? 'i' : c === 2 ? 'm' : 'a'; }
 
+// DEDILHADO DA MÃO DIREITA, peça por peça.
+//
+// Durante muito tempo o app deduzia o dedo só pela corda, com a regra acima.
+// Em arpejo isso acerta: as cordas vêm sempre na mesma ordem e o padrão sai
+// p-i-m-a naturalmente. Em MELODIA acerta errado. Uma melodia que passeia
+// entre a 1ª e a 2ª corda virava "a m a m", e uma que repete a mesma corda
+// virava "m m m m" — exatamente o que a aula 1.4.3 ensina a não fazer, porque
+// com um dedo só a velocidade máxima é a velocidade do retorno dele.
+//
+// Agora o dedilhado é calculado sobre a peça inteira, na ordem em que se toca:
+// nota única em corda aguda ALTERNA i–m de ponta a ponta, atravessando as
+// barras de compasso. Acorde continua pela corda, que é o certo: as notas
+// soam juntas e cada dedo tem a sua.
+//
+// Devolve um Map com a chave "compasso:evento", para o desenho usar direto.
+export function dedilhado(peca) {
+  const mapa = new Map();
+  let proximo = 'i';          // de quem é a vez na alternância
+  (peca.compassos || []).forEach((comp, m) => {
+    (comp.eventos || []).forEach((e, i) => {
+      const chave = m + ':' + i;
+      if (e.silencio || !e.n || !e.n.length) return;
+      // Separar baixo de agudo é o que faz a conta ficar certa. Uma nota de
+      // melodia acompanhada de baixo (p + uma aguda) continua sendo melodia:
+      // ela entra na alternância i–m como qualquer outra. Só quando DUAS ou
+      // mais agudas soam juntas é que cada dedo pega a sua corda, porque aí
+      // não há alternância possível — é acorde.
+      const cordas = e.n.map(([c]) => c).sort((a, b) => b - a);
+      const baixos = cordas.filter((c) => c >= 4);
+      const agudas = cordas.filter((c) => c < 4);
+      const pp = baixos.map(() => 'p').join('');
+      if (agudas.length > 1) { mapa.set(chave, pp + agudas.map(dedoDaCorda).join('')); return; }
+      if (!agudas.length) { mapa.set(chave, pp || 'p'); return; }
+      mapa.set(chave, pp + proximo);
+      proximo = proximo === 'i' ? 'm' : 'i';
+    });
+  });
+  return mapa;
+}
+
 // Arpejo em 3/4: p i m a m i (seis colcheias por compasso).
 function arpejo34(acorde, baixo) {
   const cordas = [baixo, 3, 2, 1, 2, 3];

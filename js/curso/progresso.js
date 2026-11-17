@@ -117,6 +117,40 @@ export function progressoDoNivel(nivel, fichas) {
   return { ...soma, pct: soma.total ? Math.round((soma.dominadas / soma.total) * 100) : 0 };
 }
 
+// CONQUISTA DE NÍVEL
+//
+// O nível está conquistado quando as três coisas acontecem: todas as aulas
+// dominadas, prova teórica aprovada e avaliação prática aprovada. Nenhuma das
+// três sozinha basta — e é de propósito. Dominar as aulas sem fazer a prova é
+// não ter verificado nada; passar na prova sem dominar as aulas é ter acertado
+// as perguntas sorteadas das poucas aulas que você viu.
+//
+// A regra mora aqui, e não na tela de Avaliações, porque quem pergunta "já
+// conquistei?" são duas telas (Avaliações e Meu progresso) e um certificado.
+// Duas cópias da mesma regra divergem no primeiro ajuste.
+export function conquistaDoNivel(nivel, fichas, prova, pratica) {
+  const p = progressoDoNivel(nivel, fichas);
+  const faltas = [];
+  if (p.dominadas < p.total) faltas.push((p.total - p.dominadas) + ' aula(s) para dominar');
+  if (!(prova && prova.aprovado)) faltas.push('prova teórica');
+  if (!(pratica && pratica.aprovado)) faltas.push('avaliação prática');
+  // A data da conquista é a da última das duas avaliações: é quando a terceira
+  // condição se fechou.
+  const datas = [prova && prova.em, pratica && pratica.em].filter(Boolean).sort();
+  return {
+    n: nivel.n,
+    titulo: nivel.titulo,
+    conquistado: faltas.length === 0,
+    faltas,
+    pct: p.pct,
+    dominadas: p.dominadas,
+    total: p.total,
+    em: faltas.length === 0 ? datas[datas.length - 1] : null,
+    teorica: prova ? Math.round((prova.acertos / prova.total) * 100) : null,
+    pratica: pratica && typeof pratica.media === 'number' ? Math.round(pratica.media * 100) : null
+  };
+}
+
 // Próxima aula recomendada: a primeira liberada que ainda não está dominada.
 export function proximaAula(niveis, fichas) {
   for (const n of niveis) {

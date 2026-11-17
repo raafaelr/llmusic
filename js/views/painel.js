@@ -1,6 +1,6 @@
 // Painel do aluno: onde você está, quanto andou e o que fazer agora.
 import { carregarTodos, nomeDisciplina, DISCIPLINAS } from '../curso/curriculo.js';
-import { carregarFichas, progressoDoNivel, progressoDoModulo, proximaAula, pontosFracos, porDisciplina, estadoDaFicha, ESTADOS } from '../curso/progresso.js';
+import { carregarFichas, progressoDoNivel, progressoDoModulo, proximaAula, pontosFracos, porDisciplina, estadoDaFicha, ESTADOS, conquistaDoNivel } from '../curso/progresso.js';
 import { Pratica, Config, Avaliacoes } from '../db.js';
 import { hojeISO, minutosTexto } from '../pratica.js';
 import { sequenciaAtual, melhorSequencia, totalSegundos, semana } from '../habitos.js';
@@ -92,6 +92,42 @@ export function montar(raiz, ir) {
       sec1.append(linha);
     });
     tela.append(sec1);
+
+    // ---------- conquistas ----------
+    //
+    // A barra de progresso acima responde "quanto falta". Esta seção responde
+    // outra coisa: "o que eu já fechei de verdade". São perguntas diferentes —
+    // um nível pode estar com 100% das aulas dominadas e ainda não estar
+    // conquistado, porque falta a prova. E quando falta, a seção DIZ o que
+    // falta, em vez de só mostrar um cadeado.
+    const provas = await Config.obter('avaliacoes.provas', {});
+    const praticas = await Config.obter('avaliacoes.pratica', {});
+    if (encerrada) return;
+    const conquistas = niveis.filter((n) => n.pronto)
+      .map((n) => conquistaDoNivel(n, fichas, provas[n.n], praticas[n.n]));
+    const feitas = conquistas.filter((c) => c.conquistado);
+    const sec15 = el('section', 'painel-sec');
+    sec15.append(el('h2', 'rotulo-grupo', 'Conquistas'));
+    sec15.append(el('p', 'legenda', feitas.length
+      ? feitas.length + ' de ' + conquistas.length + ' níveis conquistados. '
+        + 'O certificado de cada um fica na tela de Avaliações.'
+      : 'Um nível é conquistado quando todas as aulas estão dominadas, a prova teórica '
+        + 'está aprovada e a avaliação prática também. Nenhuma das três sozinha conta.'));
+    const medalhas = el('div', 'conquistas');
+    conquistas.forEach((c) => {
+      const b = el('button', 'conquista' + (c.conquistado ? ' ganha' : ''));
+      b.append(el('span', 'conquista-med', c.conquistado ? '🏅' : String(c.n)));
+      b.append(el('span', 'conquista-nome', 'Nível ' + c.n));
+      b.append(el('span', 'conquista-est', c.conquistado
+        ? (c.em ? new Date(c.em).toLocaleDateString('pt-BR') : 'conquistado')
+        : 'falta: ' + c.faltas.join(', ')));
+      b.setAttribute('aria-label', 'Nível ' + c.n + ' — ' + c.titulo + '. '
+        + (c.conquistado ? 'Conquistado.' : 'Falta ' + c.faltas.join(', ') + '.'));
+      b.onclick = () => ir('avaliacoes/' + c.n);
+      medalhas.append(b);
+    });
+    sec15.append(medalhas);
+    tela.append(sec15);
 
     // ---------- disciplinas ----------
     const mapa = porDisciplina(niveis, fichas);

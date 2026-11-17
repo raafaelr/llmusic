@@ -48,6 +48,37 @@ export async function compartilharArquivo(nomeArquivo, texto) {
   return uri;
 }
 
+// ENTREGAR UM ARQUIVO À PESSOA, no caminho que funciona em cada lugar.
+//
+// No APK: grava em Documentos/LLMusic; se a gravação falhar (permissão,
+// aparelho antigo), abre o compartilhamento, porque é melhor o arquivo sair
+// por ali do que não sair. No navegador: download por blob, que ali funciona.
+//
+// Devolve { modo, caminho }: 'arquivo' (gravado), 'compartilhado' ou
+// 'download'. Quem chama escreve a mensagem, que muda de caso para caso.
+//
+// A tela de backup (js/views/atualizar.js) faz esta mesma dança escrita à mão,
+// com mensagens próprias e contagem de KB. Não unifiquei agora de propósito:
+// aquele caminho é o do backup, já testado no aparelho, e trocá-lo por este
+// sem necessidade é arriscar a única função que não pode falhar.
+export async function entregarArquivo(nome, texto, mime = 'text/plain') {
+  if (nativo()) {
+    try {
+      const r = await salvarNoCelular(nome, texto);
+      return { modo: 'arquivo', caminho: r.caminho };
+    } catch (e) {
+      await compartilharArquivo(nome, texto);
+      return { modo: 'compartilhado', caminho: '', erro: e && e.message ? e.message : String(e) };
+    }
+  }
+  const url = URL.createObjectURL(new Blob([texto], { type: mime }));
+  const a = document.createElement('a');
+  a.href = url; a.download = nome;
+  document.body.append(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 10000);
+  return { modo: 'download', caminho: nome };
+}
+
 // LEMBRETES DIÁRIOS
 //
 // Antes era uma notificação só, repetindo todo dia o mesmo texto. Agora cada

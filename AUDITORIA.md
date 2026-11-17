@@ -159,12 +159,8 @@ recursos corporativos e infraestrutura de escala.
 
 ## O que falta, em ordem de valor
 
-1. **Anotações pessoais na partitura.** Combina com os trechos difíceis, que
-   já são guardados por peça.
-2. **Conquistas e certificados por nível.** As provas já guardam resultado.
-3. **Zoom e volume na tela de partituras.**
-4. **Dedilhado da mão direita nos dados das peças.**
-5. **Explicação de símbolo ao tocar nele na partitura.**
+Nada pendente desta lista: os cinco itens que estavam aqui foram feitos.
+O que vier agora é ideia nova, não dívida.
 
 ## O que nunca vai existir, e por quê
 

@@ -7,9 +7,11 @@
 // de critérios observáveis — que o aluno declara, porque o app não finge
 // ter escutado a execução.
 import { MAPA, carregarNivel } from '../curso/curriculo.js';
-import { carregarFichas, progressoDoNivel, progressoDoModulo, estadoDaFicha, NOTA_MINIMA } from '../curso/progresso.js';
+import { carregarFichas, progressoDoNivel, progressoDoModulo, estadoDaFicha, NOTA_MINIMA, conquistaDoNivel } from '../curso/progresso.js';
 import { Avaliacoes, Config } from '../db.js';
 import { botaoIcone } from '../icones.js';
+import { certificadoSVG } from '../grafismos.js';
+import { entregarArquivo } from '../nativo.js';
 
 function el(tag, classe, texto) {
   const e = document.createElement(tag);
@@ -83,8 +85,8 @@ export function montar(raiz, ir, arg) {
       const c = el('section', 'cartao aval-nivel');
       const cab = el('div', 'tec-cab');
       cab.append(el('h2', 'cartao-nome', 'Nível ' + meta.n + ' — ' + nivel.titulo));
-      const estado = (prova && prova.aprovado && pratica && pratica.aprovado) ? '✓ aprovado' : (p.pct + '%');
-      cab.append(el('span', 'tec-ok', estado));
+      const cq = conquistaDoNivel(nivel, fichas, prova, pratica);
+      cab.append(el('span', 'tec-ok', cq.conquistado ? '🏅 conquistado' : (p.pct + '%')));
       c.append(cab);
 
       const barra = el('div', 'plano-barra');
@@ -107,7 +109,32 @@ export function montar(raiz, ir, arg) {
       const b2 = el('button', 'botao-sec', 'Avaliação prática');
       b2.onclick = () => avaliacaoPratica(meta.n);
       bts.append(b1, b2);
-      c.append(bts);
+      // O certificado só aparece quando o nível está conquistado de verdade.
+      // Botão que existe antes disso seria botão sem função — e, pior, um
+      // certificado de algo que não aconteceu.
+      if (cq.conquistado) {
+        const b3 = el('button', 'botao-principal', 'Salvar o certificado');
+        const fb3 = el('p', 'feedback', '');
+        fb3.setAttribute('aria-live', 'polite');
+        b3.onclick = async () => {
+          fb3.textContent = 'Preparando…'; fb3.className = 'feedback';
+          try {
+            const nome = 'LLMusic-certificado-nivel-' + cq.n + '.svg';
+            const r = await entregarArquivo(nome, certificadoSVG(cq), 'image/svg+xml');
+            if (encerrada) return;
+            fb3.textContent = r.modo === 'arquivo' ? '✓ Salvo em: ' + r.caminho
+              : r.modo === 'compartilhado' ? '✓ Abri o compartilhamento: escolha onde guardar.'
+                : '✓ ' + nome + ' salvo em Downloads.';
+            fb3.className = 'feedback certo';
+          } catch (e) {
+            if (encerrada) return;
+            fb3.textContent = 'Não consegui salvar o certificado: ' + (e && e.message ? e.message : e);
+            fb3.className = 'feedback errado';
+          }
+        };
+        bts.append(b3);
+        c.append(bts, fb3);
+      } else c.append(bts);
       c.append(el('p', 'auto-criterio', nivel.criterio));
       tela.append(c);
     }

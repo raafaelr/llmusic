@@ -308,6 +308,16 @@ export const SINTOMAS = [
 // ---------------------------------------------------------------- glossário
 // Termos explicados de forma curta, com link para a aula que desenvolve.
 export const GLOSSARIO = [
+  // Os símbolos da tablatura. Entram aqui, e não numa lista só da tela de
+  // Partituras, porque glossário já existe e termo duplicado é termo que um dia
+  // vai divergir. A tela de Partituras lê estes verbetes por "termo".
+  { termo: 'Tablatura', texto: 'Seis linhas, uma por corda: a de cima é a 1ª corda (a mais fina) e a de baixo é a 6ª. O número diz em que casa apertar. Diferente da pauta, ela não mostra a altura do som — mostra onde pôr o dedo.', aula: 'n1.4.5' },
+  { termo: 'Número na tablatura', texto: 'A casa em que apertar aquela corda. 0 é corda solta, 1 é a primeira casa, e assim por diante. Números empilhados na mesma vertical soam juntos: é um acorde.', aula: 'n1.4.5' },
+  { termo: 'Haste e viga', texto: 'A haste embaixo da tablatura diz a duração da nota. Sem nada é semínima (um tempo); com uma barra ligando duas hastes (a viga) são colcheias, meio tempo cada. O pontinho marca nota de dois tempos ou mais.', aula: 'n1.3.6' },
+  { termo: 'p i m a', texto: 'Os dedos da mão direita: p é o polegar (dos baixos), i o indicador, m o médio e a o anelar. Numa melodia, i e m se alternam; num acorde, cada dedo pega a sua corda.', aula: 'n1.4.3' },
+  { termo: 'Cifra do acorde', texto: 'O nome do acorde que está soando naquele compasso. Letra maiúscula é a nota fundamental (C é Dó), "m" quer dizer menor, "7" quer dizer com sétima.', aula: 'n1.3.3' },
+  { termo: 'Número do compasso', texto: 'A contagem dos compassos, para você achar o trecho de que alguém está falando. Toque nele para isolar o compasso e repetir só ele.', aula: 'n1.3.8' },
+  { termo: 'Pausa', texto: 'Silêncio de duração medida. No violão não basta parar de tocar: a corda continua vibrando, então é preciso abafar.', aula: 'n1.3.7' },
   { termo: 'Apoyando', texto: 'Toque em que o dedo, depois de tocar a corda, descansa na corda vizinha. Produz som mais cheio e é usado em melodias.', aula: 'n1.4.2' },
   { termo: 'Tirando', texto: 'Toque em que o dedo recolhe para dentro da mão sem encostar na corda vizinha. É o toque dos arpejos.', aula: 'n1.4.1' },
   { termo: 'Pestana', texto: 'O dedo 1 pressiona várias cordas ao mesmo tempo, funcionando como uma pestana móvel.', aula: 'n3.2.4' },
