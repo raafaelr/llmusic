@@ -441,6 +441,16 @@ input[type=range] { width: 100%; height: 44px; accent-color: var(--destaque); ba
 .braco { display: grid; gap: 10px; grid-template-columns: 1fr; }
 .pergunta { font-size: 26px; font-weight: 800; text-align: center; min-height: 1.3em; }
 .braco-svg { width: 100%; height: auto; display: block; touch-action: manipulation; }
+/* O braço da tela "Braço virtual" tinha min-width nenhum, e o comentário no
+   js dizia que ele rolava "para manter o tamanho legível". Não rolava: a 360px
+   o braço inteiro era espremido em 328px, e aí a bolinha do alvo media 8x8px,
+   o nome dentro dela saía com uns 5px e a área de toque de cada casa ficava
+   com 25px — abaixo dos 44 que o resto do app respeita. Medido, não achado no
+   olho. Com 760px de largura mínima a bolinha vai a 18px, o nome a 11px e a
+   casa a 59px de alvo; o que não couber na tela rola dentro da caixa, que é o
+   que o comentário já prometia. Os outros usos de .braco-svg (blocos de aula,
+   painel da pauta) já têm o seu próprio min-width logo abaixo. */
+.braco .braco-svg { min-width: 760px; }
 .madeira { fill: var(--superficie); stroke: var(--linha); stroke-width: 2; }
 .traste { stroke: var(--linha); stroke-width: 2; }
 .pestana { stroke: var(--suave); stroke-width: 6; }

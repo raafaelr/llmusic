@@ -8,7 +8,7 @@
 // e o celular troca o cache velho pelo novo sozinho.
 //
 // Arquivos no cache: 125 na instalação + 3 sob demanda
-const VERSAO = 'llmusic-e38fe84a0e59';
+const VERSAO = 'llmusic-f3c8af22fc64';
 
 const ARQUIVOS = [
   './',
