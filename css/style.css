@@ -1965,3 +1965,47 @@ button .ic-t, a .ic-t { margin-right: 0.1em; }
 /* Estado da fila de lembretes: verde quando há lembrete agendado, vermelho
    quando está ligado e a fila está vazia — que é a falha silenciosa. */
 .status-ruim { color: var(--ruim); font-weight: 600; }
+
+/* ---------------------------------------------------------------- Dicionário
+   de acordes. A folha é uma grade que cabe a 320px com dois cartões por
+   linha: um cartão por linha desperdiçaria a tela e obrigaria a rolar doze
+   vezes para comparar duas formas, que é justamente o que a folha serve para
+   evitar. */
+.dic-abas { display: flex; gap: 4px; border-bottom: 1px solid var(--linha); margin-bottom: 4px; }
+.dic-aba { flex: 1 1 0; min-height: 44px; padding: 10px 8px; font: inherit; font-weight: 700;
+  background: none; border: 0; border-bottom: 3px solid transparent; color: var(--suave); cursor: pointer; }
+.dic-aba.ativa { color: var(--destaque); border-bottom-color: var(--destaque); }
+.dic-aba:focus-visible { outline: 2px solid var(--destaque); outline-offset: -2px; }
+
+.dic-folha { display: grid; grid-template-columns: repeat(auto-fill, minmax(136px, 1fr)); gap: 10px; }
+.dic-cartao { display: flex; flex-direction: column; align-items: center; gap: 2px;
+  padding: 8px 6px; text-align: center;
+  border: 1px solid var(--linha); border-radius: var(--r-md); background: var(--superficie); }
+.dic-cartao .diag-acorde { width: 100%; max-width: 150px; height: auto; }
+.dic-nome { margin: 0; font-size: 12px; font-weight: 700; color: var(--texto); line-height: 1.2; }
+.dic-cifra { margin: 0; font-size: 20px; font-weight: 800; color: var(--destaque); line-height: 1.1; }
+.dic-tipo { margin: 0; font-size: 11px; color: var(--suave); }
+.dic-tab { margin: 0; font-family: ui-monospace, monospace; font-size: 12px; color: var(--texto); }
+.dic-dedos { margin: 0; font-size: 11px; color: var(--suave); }
+.dic-variantes { display: flex; gap: 4px; justify-content: center; }
+
+/* Os chips de nota e de qualidade levam a cifra em cima e o nome por extenso
+   embaixo, como na folha do professor: quem está aprendendo ainda lê "Lá#"
+   mais rápido do que "A#". */
+.dic-chip-q, .dic-chip-n { display: flex; flex-direction: column; align-items: center; gap: 0;
+  line-height: 1.15; padding: 6px 10px; }
+.dic-chip-cifra { font-weight: 800; }
+.dic-chip-nome { font-size: 10px; opacity: 0.85; }
+.grupo-linha { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.grupo-linha .rotulo-grupo { margin: 0; }
+.dic-cab { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.dic-cab-cifra { font-size: 30px; font-weight: 800; color: var(--destaque); }
+.dic-cab-nome { font-size: 14px; color: var(--suave); }
+.dic-sobre .texto-bloco { margin: 0 0 10px; }
+
+/* Impressão: só a folha interessa no papel. Menu, abas e botões não. */
+@media print {
+  .barra-menu, .dic-abas, .topo, .bloco-botoes, .grupo, .feedback, .menu-lateral { display: none !important; }
+  .dic-folha { grid-template-columns: repeat(4, 1fr); }
+  .dic-cartao { border-color: #888; break-inside: avoid; }
+}

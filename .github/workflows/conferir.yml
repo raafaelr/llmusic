@@ -37,3 +37,8 @@ jobs:
 
       - name: Contraste em dia nos dois temas
         run: node scripts/conferir-contraste.mjs
+
+      # As formas do dicionário são geradas, não digitadas. Este passo toca
+      # cada uma no papel e compara as notas que soam com a fórmula do acorde.
+      - name: Acordes do dicionário soam o que dizem soar
+        run: node scripts/conferir-acordes.mjs

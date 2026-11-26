@@ -7,8 +7,8 @@
 // A versão abaixo é a impressão digital do conteúdo: mudou um byte, muda ela,
 // e o celular troca o cache velho pelo novo sozinho.
 //
-// Arquivos no cache: 125 na instalação + 3 sob demanda
-const VERSAO = 'llmusic-f3c8af22fc64';
+// Arquivos no cache: 126 na instalação + 3 sob demanda
+const VERSAO = 'llmusic-78fee87f541d';
 
 const ARQUIVOS = [
   './',
@@ -115,6 +115,7 @@ const ARQUIVOS = [
   './js/views/caged.js',
   './js/views/config.js',
   './js/views/curso.js',
+  './js/views/dicionario.js',
   './js/views/exercicios.js',
   './js/views/habilidades.js',
   './js/views/habitos.js',

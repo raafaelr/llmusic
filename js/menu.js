@@ -46,6 +46,7 @@ const GRUPOS = [
   ['Biblioteca', [
     ['repertorio', 'Repertório'], ['tecnicas', 'Biblioteca de Técnicas'],
     ['materiais', 'Biblioteca de Materiais'], ['teoria', 'Teoria'],
+    ['dicionario', 'Dicionário de acordes'],
     ['caged', 'CAGED (ferramenta)'], ['caged-aulas', 'CAGED (aulas)'],
     ['importar', 'Importar tablatura']
   ]],

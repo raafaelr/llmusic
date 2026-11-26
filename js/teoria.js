@@ -130,3 +130,244 @@ export function sequenciaExercicio(licaoId, t, variante) {
   if (licaoId === 'notas') return [t];
   return [];
 }
+
+
+// ============================================================================
+// DICIONÁRIO DE ACORDES
+//
+// Por que isto é gerado e não digitado: são 12 fundamentais × 22 qualidades ×
+// até 3 formas, quase 800 desenhos. Digitar isso à mão garante erro, e erro
+// num dicionário é pior do que não ter dicionário — quem consulta aprende
+// errado e não tem como desconfiar.
+//
+// Então a única coisa escrita à mão aqui são as FÓRMULAS: quais intervalos
+// cada qualidade tem. São 22 linhas curtas, do tamanho que dá para conferir
+// lendo. Todo o resto — inclusive as formas com pestana, que normalmente se
+// digitam como "moldes" — sai de uma busca no braço.
+//
+// Tentei antes com moldes digitados e errei: escrevi os intervalos em semitons
+// onde deviam ir casas do braço. O acorde "existia" e estava errado. A busca
+// não tem como cometer esse erro, porque ela calcula a nota que cada casa
+// produz em vez de confiar no que eu escrevi.
+//
+// E nada disso passa só pelo meu olho: scripts/conferir-acordes.mjs toca cada
+// forma no papel, lista as notas que soam e compara com a fórmula.
+
+// "f" é a fórmula em semitons a partir da fundamental.
+export const QUALIDADES = [
+  { id: 'maior', cifra: '', nome: 'Maior', f: [0, 4, 7] },
+  { id: 'm', cifra: 'm', nome: 'Menor', f: [0, 3, 7] },
+  { id: '7', cifra: '7', nome: 'Sétima (7)', f: [0, 4, 7, 10] },
+  { id: '7M', cifra: '7M', nome: 'Sétima maior', f: [0, 4, 7, 11] },
+  { id: 'm7', cifra: 'm7', nome: 'Menor com sétima', f: [0, 3, 7, 10] },
+  { id: 'dim', cifra: 'dim', nome: 'Diminuto', f: [0, 3, 6] },
+  { id: 'dim7', cifra: 'dim7', nome: 'Diminuto com sétima', f: [0, 3, 6, 9] },
+  { id: 'm7b5', cifra: 'm7♭5', nome: 'Meio-diminuto', f: [0, 3, 6, 10] },
+  { id: '7(9)', cifra: '7(9)', nome: 'Sétima com nona', f: [0, 4, 7, 10, 2] },
+  { id: 'm7(9)', cifra: 'm7(9)', nome: 'Menor com sétima e nona', f: [0, 3, 7, 10, 2] },
+  { id: '7M(9)', cifra: '7M(9)', nome: 'Sétima maior com nona', f: [0, 4, 7, 11, 2] },
+  { id: '7(13)', cifra: '7(13)', nome: 'Sétima com treze', f: [0, 4, 7, 10, 9] },
+  { id: '9', cifra: '9', nome: 'Maior com nona', f: [0, 4, 7, 2] },
+  { id: '6(9)', cifra: '6(9)', nome: 'Sexta com nona', f: [0, 4, 7, 9, 2] },
+  { id: '7(9-)', cifra: '7(9−)', nome: 'Sétima com nona menor', f: [0, 4, 7, 10, 1] },
+  { id: '7(9+)', cifra: '7(9+)', nome: 'Sétima com nona aumentada', f: [0, 4, 7, 10, 3] },
+  { id: 'm7(11)', cifra: 'm7(11)', nome: 'Menor com sétima e onze', f: [0, 3, 7, 10, 5] },
+  { id: 'sus4', cifra: 'sus4', nome: 'Sus4', f: [0, 5, 7] },
+  { id: 'sus2', cifra: 'sus2', nome: 'Sus2', f: [0, 2, 7] },
+  { id: '5+', cifra: '5+', nome: 'Aumentado', f: [0, 4, 8] },
+  { id: '6', cifra: '6', nome: 'Sexta', f: [0, 4, 7, 9] },
+  { id: 'm6', cifra: 'm6', nome: 'Menor com sexta', f: [0, 3, 7, 9] }
+];
+
+// Altura de cada corda solta, da 6ª para a 1ª — a mesma ordem do desenho
+// (js/musica/diagramas.js). Em js/braco.js a ordem é a inversa; é a confusão
+// mais fácil de cometer neste código, por isso está dito aqui.
+const SOLTAS_6A1 = [40, 45, 50, 55, 59, 64];
+const mod12n = (n) => ((n % 12) + 12) % 12;
+
+// As notas que uma forma realmente faz soar, em classes de altura (0 a 11).
+// É isto que o conferidor compara com a fórmula — e é também o que impede uma
+// forma inventada de passar despercebida.
+export function soaComo(cordas) {
+  const pcs = new Set();
+  cordas.forEach((casa, k) => { if (casa >= 0) pcs.add(mod12n(SOLTAS_6A1[k] + casa)); });
+  return [...pcs].sort((a, b) => a - b);
+}
+
+// Dedos: a casa mais baixa é o dedo 1, a seguinte o 2, e assim por diante.
+// Com pestana, o dedo 1 deita na casa mais baixa e os outros começam do 2.
+function dedilhar(cordas, pestana) {
+  const casas = [...new Set(cordas.filter((c) => c > 0))].sort((a, b) => a - b);
+  const mapa = new Map();
+  let n = pestana ? 1 : 0;
+  casas.forEach((c) => {
+    if (pestana && c === pestana.casa) { mapa.set(c, 1); return; }
+    mapa.set(c, Math.min(4, ++n));
+  });
+  return cordas.map((c) => (c <= 0 ? '' : String(mapa.get(c))));
+}
+
+// A BUSCA. Percorre as casas possíveis de cada corda dentro de uma janela de
+// quatro casas e devolve as formas que (a) soam exatamente as notas do acorde,
+// (b) têm a fundamental no baixo e (c) cabem numa mão.
+//
+// janela: primeira casa da janela (0 = posição aberta).
+// cordaRaiz: em que corda a fundamental tem de estar (null = qualquer uma).
+function buscar(formula, raizPc, janela, cordaRaiz) {
+  const obrig = new Set(formula.map((i) => mod12n(raizPc + i)));
+  // A QUINTA É OPCIONAL de quatro notas em diante. Não é atalho: é como se
+  // toca. O Dó com sétima que todo mundo faz é x32310, que não tem Sol
+  // nenhum, e o Dó com sexta é x32210, idem. A quinta justa é a nota que
+  // menos define o acorde — tirar a terça ou a sétima mudaria o acorde, tirar
+  // a quinta não. Exigindo-a, 18 dos 264 acordes ficavam sem forma alguma.
+  // Em tríade ela continua obrigatória, porque ali ela é metade do acorde.
+  // Acorde de quinta alterada (dim, m7♭5, 5+) não entra nisto: a fórmula
+  // deles não tem o 7, tem 6 ou 8, e essa nota é justamente a que os define.
+  const opcional = formula.length >= 4 ? mod12n(raizPc + 7) : null;
+  if (opcional !== null) obrig.delete(opcional);
+  const permitido = new Set(formula.map((i) => mod12n(raizPc + i)));
+
+  const opcoes = [];
+  for (let k = 0; k < 6; k++) {
+    const o = [-1];
+    // Corda solta só vale na posição aberta. Numa forma movível ela é o que
+    // justamente a impede de ser movível: a solta não anda com a mão, e foi
+    // por admiti-la que a busca propôs um "Dó" x35050 no lugar da pestana.
+    if (janela === 0) o.push(0);
+    for (let c = Math.max(janela, 1); c <= janela + 3; c++) o.push(c);
+    opcoes.push(o.filter((c) => c < 0 || permitido.has(mod12n(SOLTAS_6A1[k] + c))));
+  }
+
+  const achadas = [];
+  const atual = new Array(6);
+  (function anda(k) {
+    if (achadas.length > 400) return;
+    if (k === 6) {
+      const tocadas = [];
+      atual.forEach((c, i) => { if (c >= 0) tocadas.push(i); });
+      if (tocadas.length < 4) return;                       // menos de 4 cordas soa pobre
+      // Sem corda muda no meio: x32010 vale, x3x010 não. Mutar no meio é
+      // técnica de quem já toca, não de quem está consultando o acorde.
+      if (tocadas[tocadas.length - 1] - tocadas[0] + 1 !== tocadas.length) return;
+      if (cordaRaiz !== null && tocadas[0] !== cordaRaiz) return;
+      if (mod12n(SOLTAS_6A1[tocadas[0]] + atual[tocadas[0]]) !== mod12n(raizPc)) return;
+      const soando = new Set(soaComo(atual));
+      for (const p of obrig) if (!soando.has(p)) return;     // não pode faltar nota
+      const presas = atual.filter((c) => c > 0);
+      if (!presas.length) { achadas.push({ cordas: atual.slice(), dedosN: 0, pestana: null }); return; }
+      const min = Math.min(...presas), max = Math.max(...presas);
+      if (max - min > 3) return;                             // mão humana: 4 casas
+      // Pestana: a casa mais baixa repetida, sem corda solta entre as duas
+      // pontas — não dá para deitar o dedo e deixar uma solta soando embaixo.
+      const iMin = atual.indexOf(min), iMax = atual.lastIndexOf(min);
+      const temSoltaNoMeio = atual.slice(iMin, iMax + 1).some((c) => c === 0);
+      // A pestana é o dedo 1 DEITADO, e ele deita a partir da corda mais
+      // grave que se toca — não no meio do braço. Sem esta regra a busca
+      // propôs coisas como 10-7-7-7-7-10: pestana na casa 7 cobrindo as
+      // cordas do meio e dois dedos na casa 10 nas duas pontas, contornando
+      // o próprio indicador. Soa certo no papel e nenhuma mão faz.
+      const pestana = (presas.filter((c) => c === min).length >= 2 && !temSoltaNoMeio && iMin === tocadas[0])
+        ? { casa: min, de: 6 - iMax, ate: 6 - iMin } : null;
+      // Quantos dedos a forma pede. Dois dedos NÃO compartilham uma casa:
+      // ou há pestana, e aí um dedo deitado cobre todas as cordas daquela
+      // casa, ou cada corda presa precisa do seu. Contar casas distintas em
+      // vez de cordas presas foi o que fez a busca propor um Fá 1-0-3-2-1-1,
+      // que pede cinco dedos e nenhuma mão tem.
+      const dedos = pestana
+        ? 1 + presas.filter((c) => c > min).length
+        : presas.length;
+      if (dedos > 4) return;
+      achadas.push({ cordas: atual.slice(), dedosN: dedos, pestana });
+      return;
+    }
+    for (const v of opcoes[k]) { atual[k] = v; anda(k + 1); }
+  })(0);
+
+  // Melhor primeiro: MAIS cordas tocadas, depois menos dedos, depois mais
+  // cordas soltas. A ordem importa e eu tinha errado: pondo "menos dedos"
+  // na frente, a busca escolhia um Sol 3-2-0-0-0-x, que poupa um dedo mudando
+  // a 1ª corda, no lugar do Sol 3-2-0-0-0-3 que todo mundo toca. Acorde de
+  // dicionário é o acorde cheio; economizar dedo é escolha de quem toca.
+  const nCordas = (f) => f.cordas.filter((c) => c >= 0).length;
+  const nSoltas = (f) => f.cordas.filter((c) => c === 0).length;
+  // Corda solta ENTRE cordas presas é desempate contra, não a favor: ela
+  // impede a pestana e obriga a mão a passar por cima dela. Foi assim que a
+  // busca propôs um Lá# x-1-0-3-3-1 no lugar da pestana x-1-3-3-3-1 — mesmos
+  // quatro dedos, só que um deles tem de pular a 4ª corda solta no meio.
+  const soltaNoMeio = (f) => {
+    const presas = [], soltas = [];
+    f.cordas.forEach((c, i) => { if (c > 0) presas.push(i); else if (c === 0) soltas.push(i); });
+    if (!presas.length) return 0;
+    return soltas.some((i) => i > presas[0] && i < presas[presas.length - 1]) ? 1 : 0;
+  };
+  achadas.sort((a, b) => nCordas(b) - nCordas(a)
+    || a.dedosN - b.dedosN
+    || soltaNoMeio(a) - soltaNoMeio(b)
+    || nSoltas(b) - nSoltas(a));
+  return achadas;
+}
+
+function montar(f) {
+  const presas = f.cordas.filter((c) => c > 0);
+  const min = presas.length ? Math.min(...presas) : 0;
+  // Acorde com corda solta é de posição aberta: o desenho mostra a pestana do
+  // instrumento no alto, não um número de casa.
+  const aberto = f.cordas.some((c) => c === 0) || min <= 1;
+  return {
+    cordas: f.cordas,
+    casaInicial: aberto ? 0 : min,
+    pestana: f.pestana,
+    dedos: dedilhar(f.cordas, f.pestana),
+    tipo: f.pestana ? 'Com pestana' : 'Sem pestana',
+    casaBase: min
+  };
+}
+
+// As formas de um acorde, da mais fácil para a mais difícil, no máximo 3:
+// a de posição aberta (quando existe), a de fundamental na 5ª corda e a de
+// fundamental na 6ª — que são as duas formas movíveis tradicionais.
+export function formasDoAcorde(raizPc, qualidadeId) {
+  const q = QUALIDADES.find((x) => x.id === qualidadeId);
+  if (!q) return [];
+  const raiz = mod12n(raizPc);
+  const saida = [];
+  const vistas = new Set();
+  const juntar = (lista, quantas) => {
+    lista.slice(0, quantas).forEach((f) => {
+      const chave = f.cordas.join(',');
+      if (vistas.has(chave)) return;
+      vistas.add(chave);
+      saida.push(montar(f));
+    });
+  };
+  juntar(buscar(q.f, raiz, 0, null), 1);                       // posição aberta
+  [[1, 45], [0, 40]].forEach(([corda, solta]) => {             // 5ª corda, depois 6ª
+    let casa = mod12n(raiz - solta);
+    if (casa === 0) casa = 12;                                 // a casa 0 já é a aberta
+    if (casa <= 12) juntar(buscar(q.f, raiz, casa, corda), 1);
+  });
+  // Reserva. Dezessete acordes — quase todos de nona, sexta com nona e sétima
+  // maior com nona — não têm forma na posição aberta nem com a fundamental na
+  // 5ª ou na 6ª corda: as notas simplesmente não caem juntas em quatro casas.
+  // Em vez de mostrar a folha com buracos, procuro no braço inteiro. O que
+  // sai daqui não é uma das formas tradicionais, e por isso vem marcado
+  // "Posição alta" — quem consulta merece saber que está vendo outra coisa.
+  if (!saida.length) {
+    const todas = [];
+    for (let j = 0; j <= 11; j++) buscar(q.f, raiz, j, null).slice(0, 3).forEach((f) => todas.push(f));
+    todas.sort((a, b) => b.cordas.filter((c) => c >= 0).length - a.cordas.filter((c) => c >= 0).length
+      || a.dedosN - b.dedosN
+      || Math.min(...a.cordas.filter((c) => c > 0).concat([99])) - Math.min(...b.cordas.filter((c) => c > 0).concat([99])));
+    todas.slice(0, 6).forEach((f) => {
+      const chave = f.cordas.join(',');
+      if (vistas.has(chave) || saida.length >= 2) return;
+      vistas.add(chave);
+      const m = montar(f);
+      saida.push({ ...m, tipo: m.casaBase >= 5 ? 'Posição alta' : m.tipo });
+    });
+  }
+  saida.sort((a, b) => a.casaBase - b.casaBase);
+  const tres = saida.slice(0, 3);
+  if (tres.length) tres[0] = { ...tres[0], tipo: 'Principal' };
+  return tres;
+}

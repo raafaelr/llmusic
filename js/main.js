@@ -10,6 +10,7 @@ import * as habitos from './views/habitos.js';
 import * as pacotes from './views/pacotes.js';
 import * as caged from './views/caged.js';
 import * as teoria from './views/teoria.js';
+import * as dicionario from './views/dicionario.js';
 import * as ritmo from './views/ritmo.js';
 import * as cagedAulas from './views/caged-aulas.js';
 import * as importar from './views/importar.js';
@@ -46,6 +47,7 @@ const TELAS = {
   'pacotes': pacotes,
   'caged': caged,
   'teoria': teoria,
+  'dicionario': dicionario,
   'ritmo': ritmo,
   'caged-aulas': cagedAulas,
   'importar': importar,

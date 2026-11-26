@@ -18,7 +18,7 @@ const EX_OK = new Set(['identificar-nota', 'figura', 'nome-figura', 'corda', 'ou
 const FIG_OK = new Set(['semibreve', 'minima', 'seminima', 'colcheia', 'semicolcheia', 'fusa']);
 const ROTAS = new Set(['', 'metronomo', 'afinador', 'braco', 'leitura', 'partituras', 'habitos', 'pacotes', 'caged',
   'teoria', 'ritmo', 'caged-aulas', 'importar', 'curso', 'aula', 'painel', 'auditoria', 'tecnicas', 'exercicios',
-  'plano', 'repertorio', 'avaliacoes', 'tutor', 'materiais', 'jornada']);
+  'plano', 'repertorio', 'avaliacoes', 'tutor', 'materiais', 'jornada', 'dicionario']);
 
 const niveis = [];
 for (const meta of MAPA) niveis.push(await carregarNivel(meta.n));
